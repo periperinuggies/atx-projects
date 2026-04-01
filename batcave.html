@@ -165,20 +165,32 @@
   .btn.off .btn-icon::after{ content: ''; display: block; width: 6px; height: 6px; border-radius: 50%; background: var(--dim); margin: 2px auto 0; }
 
   /* ── Scene buttons ────────────────────────────────────── */
-  #scene-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-  .scene-btn {
-    background: #0a0a14; border: 1px solid var(--border);
-    color: var(--text); font-family: 'Share Tech Mono', monospace;
-    font-size: 0.72rem; letter-spacing: 0.08em;
-    padding: 10px 16px; cursor: pointer; border-radius: 3px;
-    transition: all 0.15s; text-transform: uppercase;
-  }
   .scene-btn:hover {
     border-color: var(--purple);
     box-shadow: 0 0 10px rgba(213,0,249,0.2);
     color: var(--purple);
   }
-  #scene-empty { color: var(--dim); font-size: 0.72rem; font-style: italic; }
+  .scene-btn:hover .s-icon { filter: drop-shadow(0 0 4px var(--purple)); }
+    #scene-empty { color: var(--dim); font-size: 0.72rem; font-style: italic; }
+  .scene-ctrl-btn {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--dim); font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.08em;
+    padding: 5px 10px; cursor: pointer; border-radius: 3px;
+    transition: all 0.15s;
+  }
+  .scene-ctrl-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .scene-btn {
+    background: #0a0a14; border: 1px solid var(--border);
+    color: var(--text); font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.06em;
+    padding: 14px 12px; cursor: pointer; border-radius: 3px;
+    transition: all 0.15s;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    min-height: 72px; justify-content: center; text-transform: uppercase;
+  }
+  .scene-btn .s-icon { font-size: 1.3rem; line-height: 1; }
+  .scene-btn .s-name { line-height: 1.3; text-align: center; }
 
   /* ── Status bar ───────────────────────────────────────── */
   #status-bar {
@@ -289,9 +301,16 @@
 
 <!-- CASAMBI SCENES -->
 <div class="panel">
-  <div class="panel-title"><span>//</span> CASAMBI SCENES <span style="margin-left:12px;cursor:pointer;color:var(--dim)" onclick="loadScenes()" title="Refresh scene list">↻</span></div>
-  <div id="scene-grid">
-    <span id="scene-empty">Wake Casambi app once to populate scenes, then tap ↻</span>
+  <div class="panel-title" style="display:flex;align-items:center;justify-content:space-between">
+    <span><span style="color:var(--accent)">//</span> CASAMBI SCENES</span>
+    <div style="display:flex;gap:10px;align-items:center">
+      <span id="scene-count" style="font-size:0.62rem;color:var(--dim)"></span>
+      <button class="scene-ctrl-btn" onclick="loadScenes()" title="Refresh scenes">↻ REFRESH</button>
+      <button class="scene-ctrl-btn" onclick="reconnect()" title="Reset BLE + reconnect" id="btn-reconnect">⟳ RECONNECT</button>
+    </div>
+  </div>
+  <div id="scene-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:4px">
+    <span id="scene-empty" style="color:var(--dim);font-size:0.72rem;font-style:italic;grid-column:1/-1">Loading scenes…</span>
   </div>
 </div>
 
@@ -326,6 +345,7 @@
 <div id="status-bar">
   <span>LIGHTS: <b id="s-online">—</b></span>
   <span>SCENES: <b id="s-scenes">—</b></span>
+  <span>BLE: <b id="s-ble">—</b></span>
   <span>LAST CMD: <b id="s-lastcmd">—</b></span>
   <span>UPDATED: <b id="s-ts">—</b></span>
 </div>
@@ -411,13 +431,25 @@ async function runEffect(mode, opts = {}) {
   else toast(`▶ ${mode.toUpperCase()}`);
 }
 
-async function activateScene(id, name) {
-  const el = event.currentTarget;
-  fire(el);
+async function activateScene(id, name, el) {
+  if (!el && event) el = event.currentTarget;
+  if (el) fire(el);
   document.getElementById('s-lastcmd').textContent = `SCENE: ${name}`;
   const d = await apiPost('/scene', {id});
   if (d.error) toast(`⚠ ${d.error}`);
-  else toast(`⚡ SCENE: ${name}`);
+  else toast(`⚡ ${name}`);
+}
+
+async function reconnect() {
+  const btn = document.getElementById('btn-reconnect');
+  if (btn) { btn.textContent = '⟳ RESETTING…'; btn.disabled = true; }
+  toast('⟳ BLE RESET…');
+  const d = await apiPost('/reconnect', {});
+  setTimeout(() => {
+    if (btn) { btn.textContent = '⟳ RECONNECT'; btn.disabled = false; }
+    pollStatus();
+    loadScenes();
+  }, 8000);
 }
 
 const tapoState = {honda: null, plug2: null, plug3: null};
@@ -466,14 +498,21 @@ async function pollStatus() {
   const d = await apiGet('/status');
   const dot = document.getElementById('conn-dot');
   const lbl = document.getElementById('conn-label');
-  if (d.connected) {
+  if (d.connected && d.online > 0) {
     dot.className = 'live';
     lbl.textContent = `${d.online} UNITS LIVE`;
-    document.getElementById('s-online').textContent = d.online;
+    document.getElementById('s-ble').textContent = 'CONNECTED';
+  } else if (d.connected && d.online === 0) {
+    dot.className = 'err';
+    lbl.textContent = 'BLE RECONNECTING…';
+    document.getElementById('s-ble').textContent = 'RECONNECTING';
   } else {
     dot.className = 'err';
     lbl.textContent = 'OFFLINE';
+    document.getElementById('s-ble').textContent = 'OFFLINE';
   }
+  document.getElementById('s-online').textContent = d.online || 0;
+  if (d.scenes_count !== undefined) document.getElementById('s-scenes').textContent = d.scenes_count;
   document.getElementById('s-ts').textContent = new Date().toLocaleTimeString();
 }
 
