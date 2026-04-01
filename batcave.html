@@ -171,6 +171,14 @@
     color: var(--purple);
   }
   .scene-btn:hover .s-icon { filter: drop-shadow(0 0 4px var(--purple)); }
+  .scene-btn.scene-active {
+    border-color: var(--purple);
+    background: linear-gradient(160deg, rgba(213,0,249,0.12) 0%, #080810 100%);
+    box-shadow: 0 0 16px rgba(213,0,249,0.35);
+    color: var(--purple);
+  }
+  .scene-btn.scene-active .s-state::before { content: '● ON'; font-size:0.55rem; color: var(--purple); letter-spacing:0.08em; }
+  .scene-btn:not(.scene-active) .s-state::before { content: '○ OFF'; font-size:0.55rem; color: var(--dim); letter-spacing:0.08em; }
     #scene-empty { color: var(--dim); font-size: 0.72rem; font-style: italic; }
   .scene-ctrl-btn {
     background: transparent; border: 1px solid var(--border);
@@ -425,19 +433,49 @@ async function apiGet(path) {
 async function runEffect(mode, opts = {}) {
   const el = event.currentTarget;
   fire(el);
+  // Clear active scene highlight when master commands fire
+  _activeSceneId = null;
+  setActiveSceneBtn(null);
   document.getElementById('s-lastcmd').textContent = mode.toUpperCase();
   const d = await apiPost('/run', {mode, ...opts});
   if (d.error) toast(`⚠ ${d.error}`);
   else toast(`▶ ${mode.toUpperCase()}`);
 }
 
+let _activeSceneId = null;
+
 async function activateScene(id, name, el) {
   if (!el && event) el = event.currentTarget;
   if (el) fire(el);
-  document.getElementById('s-lastcmd').textContent = `SCENE: ${name}`;
-  const d = await apiPost('/scene', {id});
-  if (d.error) toast(`⚠ ${d.error}`);
-  else toast(`⚡ ${name}`);
+
+  if (_activeSceneId === id) {
+    // Already active — deactivate (all off)
+    _activeSceneId = null;
+    setActiveSceneBtn(null);
+    document.getElementById('s-lastcmd').textContent = 'SCENE OFF';
+    const d = await apiPost('/run', {mode: 'all_off'});
+    if (d.error) toast(`⚠ ${d.error}`);
+    else toast(`🌑 ${name} OFF`);
+  } else {
+    // Activate scene
+    _activeSceneId = id;
+    setActiveSceneBtn(id);
+    document.getElementById('s-lastcmd').textContent = `SCENE: ${name}`;
+    const d = await apiPost('/scene', {id});
+    if (d.error) { _activeSceneId = null; setActiveSceneBtn(null); toast(`⚠ ${d.error}`); }
+    else toast(`⚡ ${name}`);
+  }
+}
+
+function setActiveSceneBtn(activeId) {
+  document.querySelectorAll('.scene-btn').forEach(btn => {
+    const bid = parseInt(btn.dataset.sceneId);
+    if (bid === activeId) {
+      btn.classList.add('scene-active');
+    } else {
+      btn.classList.remove('scene-active');
+    }
+  });
 }
 
 async function reconnect() {
