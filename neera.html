@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Vitals — Neera</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --bg:#080b0f;--card:#0e1318;--border:#1a2030;
+    --text:#f1f5f9;--muted:#cbd5e1;
+    --green:#22c55e;--yellow:#f59e0b;--red:#ef4444;
+    --blue:#3b82f6;--purple:#a855f7;--teal:#14b8a6;--orange:#f97316;
+    --pink:#ec4899;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;padding:20px;max-width:1100px;margin:0 auto;}
+  a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
+
+  /* Lock screen */
+  #lockScreen{position:fixed;inset:0;background:#080b0f;z-index:9999;display:flex;align-items:center;justify-content:center;}
+  .lockBox{background:#0e1318;border:1px solid #1a2030;border-radius:14px;padding:40px 36px;max-width:340px;width:100%;text-align:center;}
+  .lockBox h2{font-size:1.1rem;font-weight:700;margin-bottom:6px;color:#f1f5f9;}
+  .lockBox p{font-size:0.75rem;color:#e2e8f0;margin-bottom:24px;}
+  .lockBox input{width:100%;background:#080b0f;border:1px solid #1a2030;border-radius:8px;padding:10px 14px;color:#f1f5f9;font-size:0.9rem;text-align:center;outline:none;margin-bottom:12px;letter-spacing:0.1em;}
+  .lockBox input:focus{border-color:#a855f7;}
+  .lockBox button{width:100%;background:#a855f7;color:#fff;border:none;border-radius:8px;padding:10px;font-size:0.9rem;font-weight:600;cursor:pointer;}
+  .lockBox button:hover{background:#9333ea;}
+  .lockErr{font-size:0.72rem;color:#ef4444;margin-top:8px;display:none;}
+  .lockIcon{font-size:2rem;color:#a855f7;margin-bottom:16px;}
+
+  header{border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:22px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px;}
+  header h1{font-size:0.8rem;font-weight:600;color:var(--text);letter-spacing:0.04em;display:flex;align-items:center;gap:8px;}
+  .meta{font-size:0.67rem;color:var(--muted);}
+
+  .sec{font-size:0.59rem;font-weight:700;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin:26px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+  .sec i{font-size:0.75rem;}
+
+  .mGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:10px;}
+  .mCard{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 16px;position:relative;overflow:hidden;}
+  .mCard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+  .mCard.ok::before{background:var(--green);}
+  .mCard.warn::before{background:var(--yellow);}
+  .mCard.alert::before{background:var(--red);}
+  .mCard.info::before{background:var(--blue);}
+  .mCard.purple::before{background:var(--purple);}
+
+  .mIcon{font-size:1.35rem;margin-bottom:9px;}
+  .mIcon.ok{color:var(--green);}.mIcon.warn{color:var(--yellow);}.mIcon.alert{color:var(--red);}.mIcon.info{color:var(--blue);}.mIcon.purple{color:var(--purple);}
+
+  .mLabel{font-size:0.59rem;color:#e2e8f0;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:3px;}
+  .mVal{font-size:1.8rem;font-weight:700;line-height:1;margin-bottom:3px;}
+  .mVal.ok{color:var(--green);}.mVal.warn{color:var(--yellow);}.mVal.alert{color:var(--red);}.mVal.info{color:var(--blue);}.mVal.purple{color:var(--purple);}
+  .mUnit{font-size:0.61rem;color:#e2e8f0;margin-bottom:5px;}
+  .mTrend{font-size:0.63rem;display:flex;align-items:center;gap:4px;margin-bottom:3px;}
+  .mRef{font-size:0.57rem;color:#f1f5f9;line-height:1.4;}
+
+  /* Summary cards */
+  .sumGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:8px;}
+  .sumCard{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;}
+  .sumCard h3{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .sumLine{font-size:0.75rem;color:var(--text);margin-bottom:5px;display:flex;align-items:flex-start;gap:6px;}
+  .sumLine i{margin-top:2px;width:12px;flex-shrink:0;}
+
+  /* Medication table */
+  .medTable{width:100%;border-collapse:collapse;font-size:0.73rem;}
+  .medTable th{text-align:left;padding:8px 10px;font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);}
+  .medTable td{padding:9px 10px;border-bottom:1px solid #0f1520;vertical-align:top;}
+  .medTable tr:last-child td{border-bottom:none;}
+  .medTable tr:hover td{background:#0c1117;}
+  .pill{display:inline-block;font-size:0.6rem;font-weight:600;padding:2px 7px;border-radius:20px;letter-spacing:0.04em;}
+  .pill-purple{background:#1e1035;color:#a855f7;border:1px solid #3b1f6e;}
+  .pill-blue{background:#0f1e35;color:#3b82f6;border:1px solid #1e3a5f;}
+  .pill-teal{background:#0a1e1e;color:#14b8a6;border:1px solid #1a4040;}
+  .pill-orange{background:#1e1205;color:#f97316;border:1px solid #5f3010;}
+  .pill-green{background:#0a1e12;color:#22c55e;border:1px solid #1a4030;}
+
+  /* Advice cards */
+  .advGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
+  .advCard{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;}
+  .advCard h3{font-size:0.7rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+  .advCard ul{list-style:none;padding:0;}
+  .advCard li{font-size:0.73rem;color:var(--text);margin-bottom:7px;padding-left:14px;position:relative;line-height:1.5;}
+  .advCard li::before{content:'→';position:absolute;left:0;color:var(--muted);}
+
+  /* Flag banner */
+  .flagBanner{background:#1a0f05;border:1px solid #5f3010;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start;}
+  .flagBanner i{color:var(--yellow);margin-top:2px;flex-shrink:0;}
+  .flagBanner p{font-size:0.73rem;line-height:1.5;}
+  .flagBanner strong{color:var(--yellow);}
+
+  .infoBanner{background:#0a101a;border:1px solid #1e3a5f;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start;}
+  .infoBanner i{color:var(--blue);margin-top:2px;flex-shrink:0;}
+  .infoBanner p{font-size:0.73rem;line-height:1.5;color:var(--muted);}
+
+  .updated{font-size:0.62rem;color:var(--muted);}
+  .tag{display:inline-block;font-size:0.58rem;font-weight:600;padding:2px 6px;border-radius:4px;margin-right:4px;margin-top:3px;}
+  .tag-ok{background:#0a1e12;color:#22c55e;border:1px solid #1a4030;}
+  .tag-warn{background:#1a1205;color:#f59e0b;border:1px solid #5f3010;}
+  .tag-alert{background:#1a0505;color:#ef4444;border:1px solid #5f1010;}
+
+  @media(max-width:600px){.mGrid{grid-template-columns:repeat(2,1fr);}.sumGrid{grid-template-columns:1fr;}.advGrid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- Lock screen -->
+<div id="lockScreen">
+  <div class="lockBox">
+    <div class="lockIcon"><i class="fa-solid fa-lock"></i></div>
+    <h2>Project Vitals — Neera</h2>
+    <p>Private health dashboard. Enter your password to continue.</p>
+    <input type="password" id="pwInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+    <button onclick="checkPw()">Unlock</button>
+    <p class="lockErr" id="lockErr">Incorrect password.</p>
+  </div>
+</div>
+
+<script>
+function checkPw(){
+  const v=document.getElementById('pwInput').value;
+  if(v.toLowerCase()==='rafiki'){
+    document.getElementById('lockScreen').style.display='none';
+    document.getElementById('pwInput').value='';
+  } else {
+    document.getElementById('lockErr').style.display='block';
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').focus();
+  }
+}
+document.getElementById('pwInput').addEventListener('keyup',function(e){
+  if(e.key==='Enter')checkPw();
+});
+</script>
+
+<!-- Main content -->
+<header>
+  <h1><i class="fa-solid fa-heart-pulse" style="color:#ec4899"></i> &nbsp;PROJECT VITALS — NEERA</h1>
+  <div class="meta">Age 47 · Female · City Beach WA · Last updated March 2026</div>
+</header>
+
+<!-- Key flags -->
+<div class="flagBanner" style="border-color:#7f1d1d;background:#1a0505;">
+  <i class="fa-solid fa-circle-exclamation" style="color:#ef4444;"></i>
+  <p><strong>Formal diagnosis: Severe Eosinophilic Asthma</strong> — confirmed by Sir Charles Gairdner Hospital, Department of Respiratory Medicine (Dec 2025). FEV1 45% predicted. Clinician noted ongoing risk of severe exacerbation. Contact number on file: 08 6457 1756.</p>
+</div>
+
+<div class="flagBanner">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p><strong>Trimbow switched December 2025:</strong> Changed to Trimbow 200/6/10 (small particle triple therapy) based on FOT findings showing small airway inflammation. 2 puffs morning and evening with spacer. Ensure correct spacer technique.</p>
+</div>
+
+<div class="flagBanner">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p><strong>Vitamin D deficiency</strong> — 37 nmol/L (target &gt;50). With surgical menopause, this needs addressing — bone density is a priority. Supplement + daily sun exposure recommended. Mention to Dr Petterson at next visit.</p>
+</div>
+
+<div class="flagBanner">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p><strong>Elevated eosinophils</strong> — 1.4 × 10⁹/L (ref &lt;0.7). Formally diagnosed as Severe Eosinophilic Asthma. Being managed with Dupixent (dupilumab) + Trimbow.</p>
+</div>
+
+<div class="infoBanner">
+  <i class="fa-solid fa-circle-info"></i>
+  <p>HRT is working — oestradiol 397 pmol/L is in a healthy follicular range (100–550). Progesterone 2 nmol/L also appropriate. Both patch and Prometrium are doing their job.</p>
+</div>
+
+<!-- Overview -->
+<p class="sec"><i class="fa-solid fa-user"></i> Overview</p>
+<div class="sumGrid">
+  <div class="sumCard">
+    <h3>Physical</h3>
+    <div class="sumLine"><i class="fa-solid fa-ruler-vertical" style="color:#a855f7"></i> Height: 153 cm</div>
+    <div class="sumLine"><i class="fa-solid fa-weight-scale" style="color:#f97316"></i> Weight: 88 kg</div>
+    <div class="sumLine"><i class="fa-solid fa-calculator" style="color:#f59e0b"></i> BMI: 37.6 — working on it</div>
+    <div class="sumLine"><i class="fa-solid fa-birthday-cake" style="color:#3b82f6"></i> DOB: 08 Oct 1978 (47 years old)</div>
+  </div>
+  <div class="sumCard">
+    <h3>Surgical History</h3>
+    <div class="sumLine"><i class="fa-solid fa-circle-check" style="color:#22c55e"></i> Full hysterectomy + bilateral oophorectomy (surgical menopause)</div>
+    <div class="sumLine"><i class="fa-solid fa-head-side-mask" style="color:#a78bfa"></i> Bilateral FESS — complete dissection all 5 sinuses + septal resection of turbinates · Jul 2023</div>
+    <div class="sumLine"><i class="fa-solid fa-eye" style="color:#3b82f6"></i> Bilateral corneal grafts (keratoconus, first 1993)</div>
+  </div>
+  <div class="sumCard">
+    <h3>Conditions</h3>
+    <div class="sumLine"><i class="fa-solid fa-lungs" style="color:#ef4444"></i> <strong>Severe Eosinophilic Asthma</strong> — formally diagnosed SCGOPH Dec 2025</div>
+    <div class="sumLine"><i class="fa-solid fa-hand-dots" style="color:#f97316"></i> Eczema (managed with Dupixent)</div>
+    <div class="sumLine"><i class="fa-solid fa-eye-low-vision" style="color:#14b8a6"></i> Keratoconus + corneal grafts (Ikervis nightly)</div>
+    <div class="sumLine"><i class="fa-solid fa-head-side-mask" style="color:#a78bfa"></i> Rhinitis — sinuses currently well managed post-FESS (Jul 2023)</div>
+    <div class="sumLine"><i class="fa-solid fa-seedling" style="color:#f59e0b"></i> Allergies: dust, cats, dogs, grass pollen</div>
+    <div class="sumLine"><i class="fa-solid fa-venus" style="color:#ec4899"></i> Surgical menopause — on HRT</div>
+  </div>
+  <div class="sumCard">
+    <h3>GP & Specialists</h3>
+    <div class="sumLine"><i class="fa-solid fa-stethoscope" style="color:#a855f7"></i> GP: Dr Susan Petterson — Wembley Downs Family Practice</div>
+    <div class="sumLine"><i class="fa-solid fa-lungs" style="color:#ef4444"></i> Respiratory CNC: Asthma & Airways Clinic — SCGOPH · 08 6457 1756</div>
+    <div class="sumLine"><i class="fa-solid fa-user-doctor" style="color:#3b82f6"></i> Respiratory: Prof Blakey — SCGOPH</div>
+    <div class="sumLine"><i class="fa-solid fa-allergies" style="color:#3b82f6"></i> Allergy: Dr Richard Nolan — Perth Allergy, Wembley</div>
+  </div>
+</div>
+
+
+<!-- Health Reality Check -->
+<p class="sec" style="color:#ef4444;"><i class="fa-solid fa-circle-exclamation"></i> Health Reality Check <span class="updated" style="margin-left:8px">Based on current vitals — March 2026</span></p>
+
+<div class="infoBanner" style="border-color:#dc2626;background:#1a0505;">
+  <i class="fa-solid fa-circle-exclamation" style="color:#ef4444;"></i>
+  <p style="color:#fca5a5;"><strong>This section is intentionally blunt.</strong> These are evidence-based risk projections based on your current stats. The numbers are real. The good news: almost everything here is addressable, and even modest changes produce disproportionate improvements.</p>
+</div>
+
+<div class="mGrid" style="margin-bottom:20px;">
+  <div class="mCard alert">
+    <div class="mIcon alert"><i class="fa-solid fa-weight-scale"></i></div>
+    <div class="mLabel">BMI</div>
+    <div class="mVal alert">35.6</div>
+    <div class="mUnit">Class II Obesity · 156cm / 86.7kg</div>
+    <div class="mRef">Healthy range: 18.5–24.9. You are 21kg above the top of healthy range. Every 5 BMI units above 25 adds approximately 30% excess all-cause mortality risk (Lancet, 2009).</div>
+  </div>
+  <div class="mCard alert">
+    <div class="mIcon alert"><i class="fa-solid fa-heart-pulse"></i></div>
+    <div class="mLabel">Estimated Mortality Uplift</div>
+    <div class="mVal alert">~40–50%</div>
+    <div class="mUnit">excess all-cause mortality vs. healthy weight</div>
+    <div class="mRef">BMI 35.6 + severe asthma (FEV1 45%) + surgical menopause + Vitamin D deficiency is a compound risk stack. Each factor independently elevates risk; together they amplify each other.</div>
+  </div>
+  <div class="mCard alert">
+    <div class="mIcon alert"><i class="fa-solid fa-clock"></i></div>
+    <div class="mLabel">Healthy Life Years Lost</div>
+    <div class="mVal alert">7–12 yrs</div>
+    <div class="mUnit">projected reduction in disability-free life expectancy</div>
+    <div class="mRef">This is the more relevant number than total lifespan. Class II obesity at 47 with a chronic respiratory disease is associated with significant morbidity starting in the 50s — mobility loss, hospitalisation, dependency. Not just length of life but quality.</div>
+  </div>
+</div>
+
+<p style="font-size:0.62rem;color:var(--muted);margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">Risk Breakdown by System</p>
+
+<div class="mGrid" style="margin-bottom:20px;">
+
+  <div class="mCard alert">
+    <div class="mIcon alert"><i class="fa-solid fa-lungs"></i></div>
+    <div class="mLabel">Respiratory — Asthma + Obesity</div>
+    <div class="mVal alert">High Risk</div>
+    <div class="mUnit">FEV1 45% · ACQ up to 2.6 when unwell</div>
+    <div class="mRef"><strong>The direct link:</strong> adipose tissue produces IL-6, TNF-α, and leptin — all of which directly amplify eosinophilic airway inflammation. Obese asthmatics have 2× the hospitalisation rate and 3× the severe exacerbation rate vs healthy-weight asthmatics. FEV1 of 45% at age 47 is a serious independent predictor of mortality — comparable to COPD Stage III. Studies show 10% weight loss improves FEV1 by 5–10% predicted in obese asthmatics. That's the equivalent of a new medication.</div>
+  </div>
+
+  <div class="mCard alert">
+    <div class="mIcon alert"><i class="fa-solid fa-bone"></i></div>
+    <div class="mLabel">Bone Health — Fracture Risk</div>
+    <div class="mVal alert">Elevated</div>
+    <div class="mUnit">Surgical menopause + VitD 37 + limited mobility</div>
+    <div class="mRef"><strong>The silent accelerator:</strong> surgical menopause causes rapid bone mineral density loss of 2–3% per year without adequate HRT. Your oestradiol levels look okay on HRT, but Vitamin D at 37 nmol/L (target &gt;75 for bone health) impairs calcium absorption and bone mineralisation directly. Without a DEXA scan you don't know your actual bone density — but based on these factors, a meaningful osteoporosis risk is likely already present. A hip fracture at 65 is a life-changing event: 20–30% of women who suffer one never regain full independence. This is preventable now.</div>
+  </div>
+
+  <div class="mCard alert">
+    <div class="mIcon alert"><i class="fa-solid fa-heart"></i></div>
+    <div class="mLabel">Cardiovascular Risk</div>
+    <div class="mVal alert">Moderate–High</div>
+    <div class="mUnit">BMI 35.6 + surgical menopause + sedentary (limited exercise capacity)</div>
+    <div class="mRef">Surgical menopause significantly elevates cardiovascular risk — equivalent to accelerated ageing in the cardiovascular system. HRT partially offsets this, but obesity independently doubles CVD risk. Limited exercise capacity (can't walk uphill) means cardiorespiratory fitness (VO2max) is likely low — low VO2max is one of the strongest predictors of all-cause mortality, stronger than smoking or diabetes in several large studies.</div>
+  </div>
+
+  <div class="mCard warn">
+    <div class="mIcon warn"><i class="fa-solid fa-triangle-exclamation"></i></div>
+    <div class="mLabel">Type 2 Diabetes Risk</div>
+    <div class="mVal warn">Elevated</div>
+    <div class="mUnit">BMI 35.6 — not yet diabetic (fasting glucose/HbA1c not seen)</div>
+    <div class="mRef">Class II obesity carries ~7× higher T2DM risk vs healthy weight. Surgical menopause worsens insulin sensitivity further. HbA1c and fasting insulin are not in the current blood results — these should be checked annually if not already being monitored.</div>
+  </div>
+
+</div>
+
+<p style="font-size:0.62rem;color:var(--muted);margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">The Levers — Ranked by Impact</p>
+
+<div class="advCard" style="margin-bottom:20px;border-color:#16a34a;background:#0a1f0a;">
+  <h3><i class="fa-solid fa-ranking-star" style="color:#22c55e"></i> <span style="color:#f1f5f9;">If you change one thing, change this</span></h3>
+  <ol style="margin-left:1.2em;line-height:2;color:#f1f5f9;">
+    <li><strong style="color:#f1f5f9;">Lose 10kg.</strong> This is the highest-leverage intervention available. It directly improves FEV1, reduces asthma exacerbation frequency, lowers CV risk, reduces joint load, and improves insulin sensitivity. 10kg is 11.5% of body weight — clinically meaningful at every threshold. At your height, 10kg gets you to BMI 31.5 (still overweight but out of Class II). 20kg gets you to BMI 27.3 — near-healthy range. The evidence for each 5kg lost is measurable in lung function, inflammation markers, and quality of life.</li>
+    <li><strong style="color:#f1f5f9;">Fix Vitamin D.</strong> Supplement to 75+ nmol/L. This costs almost nothing, takes 8–12 weeks, and directly protects your bones (which are silently losing density right now) and helps your airways. Target: 1000–2000 IU/day with a calcium-containing meal. Retest in 3 months.</li>
+    <li><strong style="color:#f1f5f9;">Get a DEXA scan.</strong> You don't know your bone density. Given surgical menopause + VitD deficiency + age 47, you may already have osteopenia or early osteoporosis. Knowing the number gives you a baseline and may change the treatment conversation with Dr Petterson.</li>
+    <li><strong style="color:#f1f5f9;">Request HbA1c + fasting insulin</strong> at next blood panel. Catch insulin resistance before it becomes diabetes — especially important with surgical menopause-driven metabolic changes.</li>
+    <li><strong style="color:#f1f5f9;">Structured low-impact exercise.</strong> Swimming or cycling — both protect joints, build cardiorespiratory fitness (VO2max), and don't trigger exacerbations the way uphill walking does. Even 3× 20 minutes/week produces measurable mortality benefit within 3 months.</li>
+  </ol>
+</div>
+
+
+<!-- Historical bloods -->
+<p class="sec"><i class="fa-solid fa-chart-line"></i> Key Marker Trends <span class="updated" style="margin-left:8px">Feb 2024 → May 2024 → Jun 2025</span></p>
+
+<div class="infoBanner" style="border-color:#dc2626;background:#1a0505;">
+  <i class="fa-solid fa-circle-exclamation" style="color:#ef4444;"></i>
+  <p><strong>Eosinophil progression — the clearest signal in the data.</strong> May 2024: 0.2 (normal). June 2025: 1.4 (7× higher, flagged). This escalation over 13 months almost certainly reflects worsening eosinophilic airway inflammation — consistent with the formal Severe Eosinophilic Asthma diagnosis in Dec 2025. Dupixent is the right treatment. Watch for this number to fall on future panels.</p>
+</div>
+
+<div style="overflow-x:auto;margin-bottom:24px;">
+<table style="width:100%;border-collapse:collapse;font-size:0.78rem;">
+<thead>
+  <tr style="border-bottom:1px solid #1c2030;">
+    <th style="text-align:left;padding:8px 12px;color:var(--muted);font-weight:600;">Marker</th>
+    <th style="text-align:center;padding:8px 12px;color:var(--muted);font-weight:600;">Feb 2024</th>
+    <th style="text-align:center;padding:8px 12px;color:var(--muted);font-weight:600;">May 2024</th>
+    <th style="text-align:center;padding:8px 12px;color:var(--muted);font-weight:600;">Jun 2025</th>
+    <th style="text-align:left;padding:8px 12px;color:var(--muted);font-weight:600;">Ref</th>
+    <th style="text-align:left;padding:8px 12px;color:var(--muted);font-weight:600;">Note</th>
+  </tr>
+</thead>
+<tbody>
+  <tr style="border-bottom:1px solid #1c2030;background:#1a0505;">
+    <td style="padding:8px 12px;font-weight:600;color:#ef4444;">Eosinophils</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">0.2</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">0.2</td>
+    <td style="text-align:center;padding:8px 12px;color:#ef4444;font-weight:700;">1.4 ⚠️</td>
+    <td style="padding:8px 12px;color:var(--muted);">&lt;0.7 × 10⁹/L</td>
+    <td style="padding:8px 12px;color:#fca5a5;">7× increase in 13 months. Key disease marker — watch for improvement on Dupixent.</td>
+  </tr>
+  <tr style="border-bottom:1px solid #1c2030;">
+    <td style="padding:8px 12px;font-weight:600;color:#f1f5f9;">Ferritin</td>
+    <td style="text-align:center;padding:8px 12px;color:#f59e0b;">38 ⚠️</td>
+    <td style="text-align:center;padding:8px 12px;color:var(--muted);">—</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">60</td>
+    <td style="padding:8px 12px;color:var(--muted);">30–300 µg/L</td>
+    <td style="padding:8px 12px;color:var(--muted);">Borderline low Feb 2024 (lab flagged). Improved to 60 by Jun 2025. Good trend.</td>
+  </tr>
+  <tr style="border-bottom:1px solid #1c2030;">
+    <td style="padding:8px 12px;font-weight:600;color:#f1f5f9;">Haemoglobin</td>
+    <td style="text-align:center;padding:8px 12px;color:var(--muted);">—</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">133</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">131</td>
+    <td style="padding:8px 12px;color:var(--muted);">115–165 g/L</td>
+    <td style="padding:8px 12px;color:var(--muted);">Stable. Normal range throughout.</td>
+  </tr>
+  <tr style="border-bottom:1px solid #1c2030;">
+    <td style="padding:8px 12px;font-weight:600;color:#f1f5f9;">Creatinine</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">56</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">58</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">58</td>
+    <td style="padding:8px 12px;color:var(--muted);">45–85 µmol/L</td>
+    <td style="padding:8px 12px;color:var(--muted);">Excellent and stable. Kidney function unaffected by cyclosporin (Ikervis).</td>
+  </tr>
+  <tr style="border-bottom:1px solid #1c2030;">
+    <td style="padding:8px 12px;font-weight:600;color:#f1f5f9;">eGFR</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">&gt;90</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">&gt;90</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">&gt;90</td>
+    <td style="padding:8px 12px;color:var(--muted);">&gt;59</td>
+    <td style="padding:8px 12px;color:var(--muted);">Consistently excellent. Cyclosporin monitoring clear.</td>
+  </tr>
+  <tr style="border-bottom:1px solid #1c2030;">
+    <td style="padding:8px 12px;font-weight:600;color:#f1f5f9;">TSH</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">0.94</td>
+    <td style="text-align:center;padding:8px 12px;color:var(--muted);">—</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">1.8</td>
+    <td style="padding:8px 12px;color:var(--muted);">0.4–4.0 mU/L</td>
+    <td style="padding:8px 12px;color:var(--muted);">Euthyroid both dates. Thyroid functioning well.</td>
+  </tr>
+  <tr style="border-bottom:1px solid #1c2030;">
+    <td style="padding:8px 12px;font-weight:600;color:#f1f5f9;">ALT (liver)</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">12</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">10</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">14</td>
+    <td style="padding:8px 12px;color:var(--muted);">5–30 U/L</td>
+    <td style="padding:8px 12px;color:var(--muted);">Normal liver function throughout. Good given medication load.</td>
+  </tr>
+  <tr style="border-bottom:1px solid #1c2030;">
+    <td style="padding:8px 12px;font-weight:600;color:#f59e0b;">Total Bilirubin</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">15</td>
+    <td style="text-align:center;padding:8px 12px;color:#f59e0b;">22 ⬆</td>
+    <td style="text-align:center;padding:8px 12px;color:var(--muted);">—</td>
+    <td style="padding:8px 12px;color:var(--muted);">3–15 µmol/L</td>
+    <td style="padding:8px 12px;color:var(--muted);">Mildly elevated May 2024 with normal liver enzymes — pattern consistent with Gilbert's Syndrome (benign, hereditary, affects ~5% of people). Not clinically concerning unless enzymes also rise.</td>
+  </tr>
+  <tr style="border-bottom:1px solid #1c2030;">
+    <td style="padding:8px 12px;font-weight:600;color:#f59e0b;">Vitamin B12 (active)</td>
+    <td style="text-align:center;padding:8px 12px;color:#f59e0b;">126 ⬆</td>
+    <td style="text-align:center;padding:8px 12px;color:var(--muted);">—</td>
+    <td style="text-align:center;padding:8px 12px;color:var(--muted);">—</td>
+    <td style="padding:8px 12px;color:var(--muted);">23–100 pmol/L</td>
+    <td style="padding:8px 12px;color:var(--muted);">Above range Feb 2024. Usually benign (dietary/supplement), not clinically concerning unless very high.</td>
+  </tr>
+  <tr>
+    <td style="padding:8px 12px;font-weight:600;color:#f1f5f9;">Iron saturation</td>
+    <td style="text-align:center;padding:8px 12px;color:#22c55e;">18%</td>
+    <td style="text-align:center;padding:8px 12px;color:var(--muted);">—</td>
+    <td style="text-align:center;padding:8px 12px;color:var(--muted);">—</td>
+    <td style="padding:8px 12px;color:var(--muted);">10–45%</td>
+    <td style="padding:8px 12px;color:var(--muted);">Low-normal in Feb 2024 alongside borderline ferritin. Both resolved by Jun 2025.</td>
+  </tr>
+</tbody>
+</table>
+</div>
+
+<!-- Blood panel -->
+<p class="sec"><i class="fa-solid fa-droplet"></i> Blood Panel — June 2025 <span class="updated" style="margin-left:8px">Western Diagnostic Pathology · Collected 10/06/2025</span></p>
+
+<p style="font-size:0.62rem;color:var(--muted);margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">Haematology</p>
+<div class="mGrid" style="margin-bottom:20px;">
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="mLabel">Haemoglobin</div>
+    <div class="mVal ok">136</div>
+    <div class="mUnit">g/L</div>
+    <div class="mRef">Ref: 115–160 · Normal</div>
+  </div>
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="mLabel">White Cells</div>
+    <div class="mVal ok">8.2</div>
+    <div class="mUnit">× 10⁹/L</div>
+    <div class="mRef">Ref: 4.0–11.0 · Normal</div>
+  </div>
+  <div class="mCard warn">
+    <div class="mIcon warn"><i class="fa-solid fa-triangle-exclamation"></i></div>
+    <div class="mLabel">Eosinophils</div>
+    <div class="mVal warn">1.4</div>
+    <div class="mUnit">× 10⁹/L (17%)</div>
+    <div class="mRef">Ref: &lt;0.7 · Elevated — asthma/allergy related. Dupixent addressing this.</div>
+  </div>
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="mLabel">Platelets</div>
+    <div class="mVal ok">294</div>
+    <div class="mUnit">× 10⁹/L</div>
+    <div class="mRef">Ref: 150–450 · Normal</div>
+  </div>
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="mLabel">MCV</div>
+    <div class="mVal ok">93</div>
+    <div class="mUnit">fL</div>
+    <div class="mRef">Ref: 80–98 · Normal</div>
+  </div>
+</div>
+
+<p style="font-size:0.62rem;color:var(--muted);margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">Vitamins & Minerals</p>
+<div class="mGrid" style="margin-bottom:20px;">
+  <div class="mCard warn">
+    <div class="mIcon warn"><i class="fa-solid fa-sun"></i></div>
+    <div class="mLabel">Vitamin D (25-OH)</div>
+    <div class="mVal warn">37</div>
+    <div class="mUnit">nmol/L</div>
+    <div class="mRef">Ref: &gt;50 · Mild deficiency. Supplement + sunlight needed — especially important for bone density post-menopause.</div>
+  </div>
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="mLabel">Vitamin B12</div>
+    <div class="mVal ok">210</div>
+    <div class="mUnit">pmol/L</div>
+    <div class="mRef">Ref: 150–750 · Low-normal. Active B12 &gt;146 confirms no functional deficiency.</div>
+  </div>
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="mLabel">Folate</div>
+    <div class="mVal ok">18.4</div>
+    <div class="mUnit">nmol/L</div>
+    <div class="mRef">Ref: ≥5.0 · Normal</div>
+  </div>
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="mLabel">Ferritin</div>
+    <div class="mVal ok">113</div>
+    <div class="mUnit">µg/L</div>
+    <div class="mRef">Ref: 30–200 · Good iron stores</div>
+  </div>
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="mLabel">Calcium (corrected)</div>
+    <div class="mVal ok">2.25</div>
+    <div class="mUnit">mmol/L</div>
+    <div class="mRef">Ref: 2.10–2.60 · Normal</div>
+  </div>
+</div>
+
+<p style="font-size:0.62rem;color:var(--muted);margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">Thyroid & Iron</p>
+<div class="mGrid" style="margin-bottom:20px;">
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="mLabel">TSH</div>
+    <div class="mVal ok">1.52</div>
+    <div class="mUnit">mIU/L</div>
+    <div class="mRef">Ref: 0.40–4.00 · Normal thyroid function</div>
+  </div>
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="mLabel">Iron</div>
+    <div class="mVal ok">18</div>
+    <div class="mUnit">µmol/L</div>
+    <div class="mRef">Ref: 11–27 · Normal</div>
+  </div>
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="mLabel">Transferrin Sat.</div>
+    <div class="mVal ok">38</div>
+    <div class="mUnit">%</div>
+    <div class="mRef">Ref: 15–55 · Normal</div>
+  </div>
+</div>
+
+<!-- Hormones -->
+<p class="sec"><i class="fa-solid fa-venus"></i> Hormones — HRT Status <span class="updated" style="margin-left:8px">June 2025</span></p>
+<div class="mGrid">
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="mLabel">Oestradiol</div>
+    <div class="mVal ok">397</div>
+    <div class="mUnit">pmol/L</div>
+    <div class="mRef">On HRT (Estradiol patch 37.5mcg). Follicular ref: 100–550. Well within range — HRT is effective.</div>
+  </div>
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="mLabel">Progesterone</div>
+    <div class="mVal ok">2</div>
+    <div class="mUnit">nmol/L</div>
+    <div class="mRef">On Prometrium 100mg. Follicular ref: 1–3. Normal.</div>
+  </div>
+</div>
+<div class="infoBanner" style="margin-top:12px;">
+  <i class="fa-solid fa-circle-info"></i>
+  <p>Post-surgical menopause with bilateral oophorectomy means no natural oestrogen. HRT is not optional here — it protects bone, cardiovascular health, and cognitive function. Your current levels look well-managed. Keep HRT reviews regular with Dr Petterson.</p>
+</div>
+
+<!-- Medications -->
+<p class="sec"><i class="fa-solid fa-pills"></i> Current Medications <span class="updated" style="margin-left:8px">As of September 2025</span></p>
+<table class="medTable">
+  <thead>
+    <tr>
+      <th>Medication</th>
+      <th>Purpose</th>
+      <th>Dose & Frequency</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="font-weight:600;color:#f1f5f9;">Trimbow 200/6/10 <span style="font-size:0.6rem;color:#22c55e;font-weight:700;"> NEW Dec 2025</span></td>
+      <td style="color:var(--muted);">Asthma — small particle triple therapy (ICS/LABA/LAMA). Targets peripheral small airways.</td>
+      <td>2 puffs morning &amp; evening · With spacer</td>
+      <td><span class="pill pill-blue">Inhaler</span></td>
+    </tr>
+
+    <tr>
+      <td style="font-weight:600;color:#f1f5f9;">Dupixent</td>
+      <td style="color:var(--muted);">Eczema & asthma — biologic (IL-4/IL-13 blocker). Addresses eosinophilia.</td>
+      <td>300mg · Every 2 weeks</td>
+      <td><span class="pill pill-purple">Injection</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:600;color:#f1f5f9;">Ventolin</td>
+      <td style="color:var(--muted);">Asthma — reliever (as needed)</td>
+      <td>100mcg/dose · PRN</td>
+      <td><span class="pill pill-blue">Inhaler</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:600;color:#f1f5f9;">Dymista</td>
+      <td style="color:var(--muted);">Allergic rhinitis (fluticasone + azelastine)</td>
+      <td>125/50mcg · Daily nasal</td>
+      <td><span class="pill pill-teal">Nasal spray</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:600;color:#f1f5f9;">Estradiol patch</td>
+      <td style="color:var(--muted);">HRT — oestrogen replacement (surgical menopause)</td>
+      <td>37.5mcg/24hrs · Twice weekly</td>
+      <td><span class="pill pill-green">HRT</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:600;color:#f1f5f9;">Prometrium</td>
+      <td style="color:var(--muted);">HRT — progesterone (protects uterine lining / systemic benefit)</td>
+      <td>100mg · Daily capsule</td>
+      <td><span class="pill pill-green">HRT</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:600;color:#f1f5f9;">Ikervis 0.1%</td>
+      <td style="color:var(--muted);">Dry eye / corneal graft maintenance (ciclosporin)</td>
+      <td>1 drop each eye · Nightly</td>
+      <td><span class="pill pill-teal">Eye drops</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Fitness & Health Goals -->
+<p class="sec"><i class="fa-solid fa-dumbbell"></i> Fitness & Health Goals</p>
+
+<div class="infoBanner">
+  <i class="fa-solid fa-circle-info"></i>
+  <p>Tailored to your specific picture: surgical menopause, asthma, eczema, and starting from a low fitness base. The goal is building safely — not a crash programme.</p>
+</div>
+
+<div class="advGrid">
+  <div class="advCard">
+    <h3><i class="fa-solid fa-person-walking" style="color:#22c55e"></i> <span style="color:#f1f5f9;">Where to Start</span></h3>
+    <ul>
+      <li>Start with 20–30 minute walks daily. No gym required, easy on lungs. Build the habit first.</li>
+      <li>Swimming is ideal for your situation — low impact, full body, warm air helps asthma, no grip required.</li>
+      <li>Aim for 150 min/week moderate movement as your first milestone (WHO minimum for health benefit).</li>
+      <li>Always have Ventolin within reach during exercise. Warm up slowly — cold starts trigger asthma.</li>
+    </ul>
+  </div>
+  <div class="advCard">
+    <h3><i class="fa-solid fa-bone" style="color:#a855f7"></i> <span style="color:#f1f5f9;">Bone Density (Priority)</span></h3>
+    <ul>
+      <li>Surgical menopause + Vitamin D deficiency = elevated osteoporosis risk. This is your most important long-term health goal to address.</li>
+      <li>Weight-bearing exercise (walking, light resistance) is clinically proven to maintain bone density.</li>
+      <li>Ask Dr Petterson about a Vitamin D supplement dose and a baseline DEXA scan (bone density scan). Should be on record given your history.</li>
+      <li>Calcium intake matters too — aim for dairy, leafy greens, or a calcium supplement if diet is low.</li>
+    </ul>
+  </div>
+  <div class="advCard">
+    <h3><i class="fa-solid fa-apple-whole" style="color:#f97316"></i> <span style="color:#f1f5f9;">Weight & Metabolic Health</span></h3>
+    <ul>
+      <li>Surgical menopause shifts fat distribution to the abdomen — this is hormonal, not just lifestyle. Your HRT helps counteract this.</li>
+      <li>Focus on anti-inflammatory eating — reduces eosinophilia drivers and helps eczema. Less processed food, more whole foods, omega-3 rich fish, colourful vegetables.</li>
+      <li>Avoid crash dieting — preserving muscle mass is more important than rapid weight loss, especially post-menopause.</li>
+      <li>A modest 5–10% weight reduction (4–9kg) would meaningfully reduce joint load, improve asthma control, and lower cardiovascular risk.</li>
+    </ul>
+  </div>
+  <div class="advCard">
+    <h3><i class="fa-solid fa-lungs" style="color:#3b82f6"></i> <span style="color:#f1f5f9;">Asthma & Exercise</span></h3>
+    <ul>
+      <li>Dupixent is addressing the eosinophilic component — if asthma control improves over next 6 months, exercise tolerance should improve too.</li>
+      <li>Indoor swimming, cycling, or low-intensity walking are the most asthma-friendly options.</li>
+    </ul>
+  </div>
+  <div class="advCard">
+    <h3><i class="fa-solid fa-sun" style="color:#f59e0b"></i> <span style="color:#f1f5f9;">Vitamin D Action Plan</span></h3>
+    <ul>
+      <li>37 nmol/L is mild deficiency — easy to fix. Ask Dr Petterson for a loading dose recommendation.</li>
+      <li>10–15 min of direct sun on arms/legs daily (before 10am or after 3pm in Perth summer) will help.</li>
+      <li>Standard supplement: 1000–2000 IU Vitamin D3 daily is commonly recommended — confirm dose with GP.</li>
+      <li>Retest in 3 months to see if levels have improved to &gt;75 nmol/L (optimal, not just sufficient).</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Lung function -->
+<p class="sec"><i class="fa-solid fa-lungs"></i> Lung Function — Oscillometry (tremoflo) <span class="updated" style="margin-left:8px">Thorasys WA Health · 15/12/2025</span></p>
+
+<div class="infoBanner">
+  <i class="fa-solid fa-circle-info"></i>
+  <p>This is a <strong>Forced Oscillation Technique (FOT)</strong> test — more sensitive than spirometry for detecting <em>small airway disease</em>. Measures how air flows through the large and peripheral (small) airways separately. Height updated to 156cm / weight 86.7kg at time of test.</p>
+</div>
+
+<p style="font-size:0.62rem;color:var(--muted);margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">Spirometry & Symptom Control</p>
+<div class="mGrid" style="margin-bottom:20px;">
+  <div class="mCard alert">
+    <div class="mIcon alert"><i class="fa-solid fa-circle-exclamation"></i></div>
+    <div class="mLabel">FEV1 — Forced Exp. Volume</div>
+    <div class="mVal alert">45%</div>
+    <div class="mUnit">% predicted</div>
+    <div class="mRef">Severe obstruction territory. Improved from previous result. Target &gt;80%.</div>
+  </div>
+  <div class="mCard warn">
+    <div class="mIcon warn"><i class="fa-solid fa-triangle-exclamation"></i></div>
+    <div class="mLabel">FVC — Forced Vital Capacity</div>
+    <div class="mVal warn">73%</div>
+    <div class="mUnit">% predicted</div>
+    <div class="mRef">Mildly reduced. Improved from previous. Ref: &gt;80%.</div>
+  </div>
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="mLabel">ACQ — When Well</div>
+    <div class="mVal ok">0.4</div>
+    <div class="mUnit">Asthma Control Questionnaire</div>
+    <div class="mRef">Well-controlled when stable. Score &lt;0.75 = good control. ✅</div>
+  </div>
+  <div class="mCard warn">
+    <div class="mIcon warn"><i class="fa-solid fa-triangle-exclamation"></i></div>
+    <div class="mLabel">ACQ — When Unwell</div>
+    <div class="mVal warn">2.6</div>
+    <div class="mUnit">Asthma Control Questionnaire</div>
+    <div class="mRef">Poorly controlled during exacerbations. &gt;1.5 = poor control. Contact 08 6457 1756 promptly if unwell.</div>
+  </div>
+</div>
+
+<div class="flagBanner">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p><strong>Significant peripheral (small) airway disease detected.</strong> Xs and AX are both clearly abnormal — AX is 566% of predicted (Z: +2.5). This is the pattern seen in asthma with small airway involvement. Your large airway resistance (R5) is only mildly elevated, meaning the main problem is deeper in the lungs. This is what prompted the switch to Trimbow. Discuss with Prof Blakey or the CNC clinic.</p>
+</div>
+
+<div class="mGrid" style="margin-bottom:8px;">
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="mLabel">R5 — Total Airway Resistance</div>
+    <div class="mVal ok">5.01</div>
+    <div class="mUnit">cmH2O.s/L · Z: +0.3</div>
+    <div class="mRef">Ref: 4.58 · 109% predicted · Within normal limits. Large airways okay.</div>
+  </div>
+  <div class="mCard warn">
+    <div class="mIcon warn"><i class="fa-solid fa-triangle-exclamation"></i></div>
+    <div class="mLabel">Xs — Peripheral Reactance</div>
+    <div class="mVal warn">-3.00</div>
+    <div class="mUnit">cmH2O.s/L · Z: -2.2</div>
+    <div class="mRef">Ref: -1.86 · Abnormal (Z below -1.96). Indicates peripheral airway stiffness / dysfunction.</div>
+  </div>
+  <div class="mCard warn">
+    <div class="mIcon warn"><i class="fa-solid fa-triangle-exclamation"></i></div>
+    <div class="mLabel">R5-20 — Peripheral Resistance</div>
+    <div class="mVal warn">0.98</div>
+    <div class="mUnit">cmH2O.s/L · Z: +1.4</div>
+    <div class="mRef">Ref: 0.45 · Elevated frequency dependence — small airway disease pattern.</div>
+  </div>
+  <div class="mCard alert">
+    <div class="mIcon alert"><i class="fa-solid fa-circle-exclamation"></i></div>
+    <div class="mLabel">AX — Reactance Area</div>
+    <div class="mVal alert">41.4</div>
+    <div class="mUnit">cmH2O/L · Z: +2.5 · 566% predicted</div>
+    <div class="mRef">Ref: 7.32 · Markedly elevated — composite marker of small airway dysfunction. The most sensitive indicator here. Red zone.</div>
+  </div>
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="mLabel">Vt — Tidal Volume</div>
+    <div class="mVal ok">0.85</div>
+    <div class="mUnit">L · CV: 10.7</div>
+    <div class="mRef">Acceptable tidal volume. Test quality good (CV within range).</div>
+  </div>
+</div>
+
+<div class="advCard" style="margin-bottom:8px;max-width:600px;">
+  <h3><i class="fa-solid fa-stethoscope" style="color:#3b82f6"></i> <span style="color:#f1f5f9;">What This Means Practically</span></h3>
+  <ul>
+    <li>Your large airways (central) are only slightly impaired — so standard spirometry may appear near-normal. The real problem is in the <strong>small airways deeper in the lungs</strong>.</li>
+    <li><strong>Trimbow 200/6/10</strong> (small particle therapy) was initiated specifically because FOT findings showed small airways inflammation — smaller particles reach peripheral airways more effectively. Use it correctly with a spacer, both morning and evening.</li>
+    <li>Dupixent addresses the eosinophilic/IL-4/IL-13 driven inflammation that causes small airway remodelling. Effects build over months — stay consistent.</li>
+    <li>Functionally: flat terrain is manageable, but stopping every 30–40m uphill is a marker of severity. As Trimbow takes effect this should improve.</li>
+    <li>Contact the Asthma &amp; Airways CNC (08 6457 1756) promptly if symptoms worsen — the team has flagged ongoing exacerbation risk.</li>
+  </ul>
+</div>
+
+<!-- Immunology -->
+<p class="sec"><i class="fa-solid fa-shield-virus"></i> Immunology & Serology <span class="updated" style="margin-left:8px">Oct 2024 · SA Clinipath Pathology</span></p>
+<div class="mGrid" style="margin-bottom:12px;">
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-shield-halved"></i></div>
+    <div class="mLabel">Hepatitis A (IgG)</div>
+    <div class="mVal ok" style="font-size:1.2rem;">Immune</div>
+    <div class="mUnit">Antibody Detected</div>
+    <div class="mRef">Consistent with past infection or vaccination. Immune to Hep A.</div>
+  </div>
+  <div class="mCard warn">
+    <div class="mIcon warn"><i class="fa-solid fa-triangle-exclamation"></i></div>
+    <div class="mLabel">Hepatitis B Surface Ab</div>
+    <div class="mVal warn">&lt;10</div>
+    <div class="mUnit">IU/L (Oct 2024)</div>
+    <div class="mRef">Not immune at time of test. GP letter Sept 2025 notes "Hep B immune" — confirm vaccination course was completed and immunity verified with Dr Petterson.</div>
+  </div>
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="mLabel">Hepatitis B Surface Ag</div>
+    <div class="mVal ok" style="font-size:1.2rem;">Clear</div>
+    <div class="mUnit">Not Detected</div>
+    <div class="mRef">No active Hep B infection.</div>
+  </div>
+</div>
+
+<!-- Questions for next GP visit -->
+<p class="sec"><i class="fa-solid fa-notes-medical"></i> Questions for Next GP Visit</p>
+<div class="sumCard" style="max-width:600px;">
+  <div class="sumLine"><i class="fa-solid fa-circle-dot" style="color:#a855f7"></i> Vitamin D supplement — what dose do you recommend for my level?</div>
+  <div class="sumLine"><i class="fa-solid fa-circle-dot" style="color:#a855f7"></i> Has a DEXA scan (bone density) been done post-surgery? Should we schedule one?</div>
+  <div class="sumLine"><i class="fa-solid fa-circle-dot" style="color:#a855f7"></i> Eosinophils still elevated — is Dupixent bringing this down over time?</div>
+  <div class="sumLine"><i class="fa-solid fa-circle-dot" style="color:#a855f7"></i> HRT review — is my current oestradiol dose appropriate long-term given bone and cardiovascular protection goals?</div>
+  <div class="sumLine"><i class="fa-solid fa-circle-dot" style="color:#a855f7"></i> Hep B — Oct 2024 bloods showed no immunity. Has the vaccination course been completed and confirmed?</div>
+  <div class="sumLine"><i class="fa-solid fa-circle-dot" style="color:#a855f7"></i> Oscillometry (Dec 2025) — AX 566% of predicted. Trimbow initiated as result. Retest FOT in 3–6 months — is there improvement in Xs and AX on Trimbow?</div>
+</div>
+
+<footer style="margin-top:40px;padding-top:14px;border-top:1px solid var(--border);font-size:0.62rem;color:var(--muted);">
+  Private health dashboard · Chappie AI · chappie@larsenfamily.com.au · Password protected · For personal use only
+</footer>
+
+</body>
+</html>

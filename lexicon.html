@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Lexicon — Australian Court Intelligence</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root {
+    --bg: #0a0c10;
+    --card: #0f1218;
+    --border: #1a2030;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --accent: #6366f1;
+    --accent2: #38bdf8;
+    --green: #22c55e;
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; }
+
+  /* NAV */
+  nav { background: #070910; border-bottom: 1px solid var(--border); padding: 14px 32px; display: flex; align-items: center; gap: 20px; position: sticky; top: 0; z-index: 100; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.05em; transition: color 0.2s; }
+  nav a:hover { color: var(--text); }
+  nav .logo { font-weight: 700; font-size: 0.95rem; color: var(--text); margin-right: auto; }
+  nav .badge { background: rgba(99,102,241,0.15); color: var(--accent); font-size: 0.65rem; padding: 2px 8px; border-radius: 20px; border: 1px solid rgba(99,102,241,0.3); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* HERO */
+  .hero { padding: 72px 32px 48px; max-width: 1100px; margin: 0 auto; }
+  .hero-tag { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  .hero h1 { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; }
+  .hero h1 span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero p { font-size: 1.05rem; color: var(--muted); max-width: 680px; margin-bottom: 32px; }
+  .hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+  .hero-stat { }
+  .hero-stat .n { font-size: 2rem; font-weight: 800; color: var(--text); letter-spacing: -0.03em; }
+  .hero-stat .l { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* SECTIONS */
+  section { max-width: 1100px; margin: 0 auto; padding: 48px 32px; }
+  section + section { border-top: 1px solid var(--border); }
+  .sec-label { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .sec-title { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .sec-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 32px; max-width: 680px; }
+
+  /* STATUS CHIPS */
+  .chip { display: inline-block; font-size: 0.65rem; padding: 2px 8px; border-radius: 20px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+  .chip-free { background: rgba(34,197,94,0.12); color: var(--green); border: 1px solid rgba(34,197,94,0.25); }
+  .chip-paid { background: rgba(245,158,11,0.12); color: var(--amber); border: 1px solid rgba(245,158,11,0.25); }
+  .chip-bulk { background: rgba(99,102,241,0.12); color: var(--accent); border: 1px solid rgba(99,102,241,0.25); }
+  .chip-partial { background: rgba(168,85,247,0.12); color: var(--purple); border: 1px solid rgba(168,85,247,0.25); }
+  .chip-live { background: rgba(56,189,248,0.12); color: var(--accent2); border: 1px solid rgba(56,189,248,0.25); }
+  .chip-planned { background: rgba(100,116,139,0.12); color: var(--muted); border: 1px solid rgba(100,116,139,0.25); }
+
+  /* MAP */
+  #map { height: 480px; border-radius: 10px; border: 1px solid var(--border); overflow: hidden; }
+  .leaflet-popup-content-wrapper { background: #1a2035; border: 1px solid var(--border); border-radius: 8px; color: var(--text); }
+  .leaflet-popup-tip { background: #1a2035; }
+  .leaflet-popup-content { font-size: 0.8rem; line-height: 1.5; }
+  .leaflet-popup-content strong { color: var(--accent2); }
+  .map-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; }
+  .map-leg-item { display: flex; align-items: center; gap: 6px; font-size: 0.72rem; color: var(--muted); }
+  .map-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  /* DATA SOURCE GRID */
+  .source-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+  .source-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; transition: border-color 0.2s; }
+  .source-card:hover { border-color: rgba(99,102,241,0.4); }
+  .source-card h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; }
+  .source-card p { font-size: 0.78rem; color: var(--muted); margin-bottom: 10px; line-height: 1.5; }
+  .source-card .meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
+  .source-card a { font-size: 0.72rem; color: var(--accent2); text-decoration: none; display: block; margin-top: 4px; word-break: break-all; }
+  .source-card a:hover { text-decoration: underline; }
+  .source-card .freq { font-size: 0.68rem; color: var(--muted); margin-top: 6px; }
+
+  /* ARCHITECTURE */
+  .arch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .arch-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; position: relative; }
+  .arch-card .layer { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .arch-card h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; }
+  .arch-card p { font-size: 0.75rem; color: var(--muted); line-height: 1.5; }
+  .arch-card .tools { margin-top: 10px; display: flex; gap: 4px; flex-wrap: wrap; }
+  .tool-tag { background: rgba(99,102,241,0.1); color: var(--accent); font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(99,102,241,0.2); }
+
+  /* COURT TABLE */
+  .court-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  .court-table th { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--muted); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .court-table td { padding: 10px 14px; border-bottom: 1px solid rgba(30,40,60,0.5); vertical-align: top; }
+  .court-table tr:hover td { background: rgba(99,102,241,0.04); }
+  .court-table a { color: var(--accent2); text-decoration: none; }
+  .court-table a:hover { text-decoration: underline; }
+
+  /* NLP SECTION */
+  .nlp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .nlp-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 24px; }
+  .nlp-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
+  .nlp-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
+  .nlp-card ul { font-size: 0.78rem; color: var(--muted); padding-left: 16px; }
+  .nlp-card ul li { margin-bottom: 4px; }
+  .nlp-card .tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .tag-ex { background: rgba(56,189,248,0.08); color: var(--accent2); font-size: 0.68rem; padding: 3px 10px; border-radius: 20px; border: 1px solid rgba(56,189,248,0.2); cursor: pointer; transition: background 0.2s; }
+  .tag-ex:hover { background: rgba(56,189,248,0.18); }
+
+  /* ROADMAP */
+  .roadmap { display: flex; flex-direction: column; gap: 0; }
+  .roadmap-phase { display: flex; gap: 24px; padding: 24px 0; border-bottom: 1px solid var(--border); }
+  .roadmap-phase:last-child { border-bottom: none; }
+  .phase-label { min-width: 100px; }
+  .phase-label .ph { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+  .phase-label .ph-name { font-size: 0.85rem; font-weight: 700; margin-top: 4px; }
+  .phase-label .ph-time { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+  .phase-items { flex: 1; }
+  .phase-item { font-size: 0.82rem; color: var(--muted); padding: 4px 0; display: flex; align-items: flex-start; gap: 8px; }
+  .phase-item::before { content: '→'; color: var(--accent); flex-shrink: 0; margin-top: 1px; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); padding: 32px; text-align: center; color: var(--muted); font-size: 0.75rem; }
+  footer a { color: var(--accent2); text-decoration: none; }
+
+  @media (max-width: 640px) {
+    .hero { padding: 48px 20px 32px; }
+    section { padding: 32px 20px; }
+    .nlp-grid { grid-template-columns: 1fr; }
+    .roadmap-phase { flex-direction: column; gap: 12px; }
+    .phase-label { min-width: auto; }
+    nav { padding: 12px 20px; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">⚖️ Project Lexicon</span>
+  <a href="#sources">Data Sources</a>
+  <a href="#map">Court Map</a>
+  <a href="#architecture">Architecture</a>
+  <a href="#nlp">NLP Layer</a>
+  <a href="#roadmap">Roadmap</a>
+  <a href="index.html">← Chappie</a>
+  <span class="badge">Planned</span>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Project Lexicon</div>
+  <h1>Australian Court<br><span>Intelligence Network</span></h1>
+  <p>A living, growing database of Australian court data — scraped from federal, state, and territory courts across all jurisdictions — interlinked by entity, concept, and legal term into a navigable wiki-style knowledge graph.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="n">9</div><div class="l">Jurisdictions</div></div>
+    <div class="hero-stat"><div class="n">60+</div><div class="l">Court levels</div></div>
+    <div class="hero-stat"><div class="n">229K+</div><div class="l">Docs available</div></div>
+    <div class="hero-stat"><div class="n">1.4B+</div><div class="l">Tokens indexed</div></div>
+    <div class="hero-stat"><div class="n">∞</div><div class="l">Forward coverage</div></div>
+  </div>
+</div>
+
+<!-- MAP -->
+<section id="map">
+  <div class="sec-label">Geography</div>
+  <div class="sec-title">Court Network — Australia</div>
+  <div class="sec-sub">Every major court location across federal and state/territory jurisdictions. Click any marker for court details, data availability, and scraping status.</div>
+  <div id="map"></div>
+  <div class="map-legend">
+    <div class="map-leg-item"><div class="map-dot" style="background:#6366f1"></div>Federal courts</div>
+    <div class="map-leg-item"><div class="map-dot" style="background:#22c55e"></div>Supreme courts</div>
+    <div class="map-leg-item"><div class="map-dot" style="background:#38bdf8"></div>District / County courts</div>
+    <div class="map-leg-item"><div class="map-dot" style="background:#f59e0b"></div>Magistrates courts</div>
+    <div class="map-leg-item"><div class="map-dot" style="background:#a855f7"></div>Specialist / Tribunals</div>
+  </div>
+</section>
+
+<!-- DATA SOURCES -->
+<section id="sources">
+  <div class="sec-label">Data Sources</div>
+  <div class="sec-title">What We Can Ingest</div>
+  <div class="sec-sub">Mapped across all tiers — bulk historical corpora, live judgment feeds, daily court lists, and commercial databases. Sorted by priority and access model.</div>
+
+  <div class="source-grid">
+
+    <!-- TIER 1: FREE BULK -->
+    <div class="source-card">
+      <div class="meta"><span class="chip chip-free">Free</span><span class="chip chip-bulk">Bulk</span></div>
+      <h3>Open Australian Legal Corpus</h3>
+      <p>229,122 documents — legislation, regulations, and court/tribunal decisions across all jurisdictions. 1.4B tokens. The single best starting dataset for historical backfill. Maintained by Umar Butler / isaacus.</p>
+      <a href="https://huggingface.co/datasets/umarbutler/open-australian-legal-corpus" target="_blank">huggingface.co → open-australian-legal-corpus</a>
+      <a href="https://huggingface.co/datasets/isaacus/open-australian-legal-corpus" target="_blank">huggingface.co → isaacus fork (updated)</a>
+      <div class="freq">Updated continuously · pip install datasets</div>
+    </div>
+
+    <div class="source-card">
+      <div class="meta"><span class="chip chip-free">Free</span><span class="chip chip-bulk">Bulk</span></div>
+      <h3>AustLII — Australasian Legal Information Institute</h3>
+      <p>1,000+ databases covering every Australian court from 1977 onwards. Full-text judgments, legislation, law journals. Scraping permitted for non-commercial research with attribution. The canonical source for Australian case law.</p>
+      <a href="https://www.austlii.edu.au/databases.html" target="_blank">austlii.edu.au/databases.html</a>
+      <a href="https://www.austlii.edu.au/database-cases.html" target="_blank">austlii.edu.au → full cases database list</a>
+      <div class="freq">Daily updates · HTML scraping · robots.txt permits research use</div>
+    </div>
+
+    <div class="source-card">
+      <div class="meta"><span class="chip chip-free">Free</span><span class="chip chip-live">Live</span></div>
+      <h3>Federal Court of Australia — Daily Lists + Judgments</h3>
+      <p>Daily court lists published each morning for all 8 state/territory registries. Judgments published within 24 hours of delivery (within 1 hour for high-media cases). Covers all Federal Court divisions plus ITAT, AAT, and Norfolk Island SC.</p>
+      <a href="https://www.fedcourt.gov.au/court-calendar/daily-court-lists" target="_blank">fedcourt.gov.au → daily court lists</a>
+      <a href="https://www.fedcourt.gov.au/digital-law-library/judgments/latest" target="_blank">fedcourt.gov.au → latest judgments</a>
+      <div class="freq">Daily lists: 8am AEST · Judgments: rolling same-day</div>
+    </div>
+
+    <div class="source-card">
+      <div class="meta"><span class="chip chip-free">Free</span><span class="chip chip-live">Live</span></div>
+      <h3>High Court of Australia</h3>
+      <p>All High Court decisions from 1903 to present. Special leave applications, full bench decisions, and constitutional matters. The apex of the Australian judicial hierarchy — every decision here is a landmark.</p>
+      <a href="https://www.hcourt.gov.au/cases/recent-judgments" target="_blank">hcourt.gov.au → recent judgments</a>
+      <a href="https://www.austlii.edu.au/au/cases/cth/HCA/" target="_blank">austlii.edu.au → HCA full archive</a>
+      <div class="freq">Low volume (~100/year) · high signal · immediate publish</div>
+    </div>
+
+    <div class="source-card">
+      <div class="meta"><span class="chip chip-free">Free</span><span class="chip chip-live">Live</span></div>
+      <h3>WA Supreme Court — Case Inventory + Court Lists</h3>
+      <p>Criminal case inventory PDFs published regularly for counsel. Includes defendant names, charge types, trial dates, judge assignments. District Court daily lists also published publicly.</p>
+      <a href="https://supremecourt.wa.gov.au/_files/Supreme%20Court%20Criminal%20Case%20Inventory%20for%20Counsel.pdf" target="_blank">supremecourt.wa.gov.au → criminal inventory PDF</a>
+      <a href="https://www.districtcourt.wa.gov.au/_apps/courtlist/Default.aspx" target="_blank">districtcourt.wa.gov.au → live court list app</a>
+      <div class="freq">Case inventory: weekly · Daily lists: 4pm previous day</div>
+    </div>
+
+    <div class="source-card">
+      <div class="meta"><span class="chip chip-free">Free</span><span class="chip chip-live">Live</span></div>
+      <h3>NSW Courts — Judgments + Lists</h3>
+      <p>NSW Supreme Court, Court of Appeal, Court of Criminal Appeal. Judgments searchable via Caselaw NSW. Includes District Court and Local Court lists via the NSW Online Registry.</p>
+      <a href="https://www.caselaw.nsw.gov.au" target="_blank">caselaw.nsw.gov.au</a>
+      <a href="https://www.onlineregistry.lawlink.nsw.gov.au/litigant/courtlists.jsp" target="_blank">NSW Online Registry → court lists</a>
+      <div class="freq">Judgments: rolling daily · Lists: morning of hearing day</div>
+    </div>
+
+    <div class="source-card">
+      <div class="meta"><span class="chip chip-free">Free</span><span class="chip chip-live">Live</span></div>
+      <h3>Queensland Courts</h3>
+      <p>Supreme Court, Court of Appeal, District Court, and Magistrates Court listings via Queensland Courts portal. Judgments published on the Queensland Law Reporting system.</p>
+      <a href="https://www.courts.qld.gov.au/court-lists" target="_blank">courts.qld.gov.au → court lists</a>
+      <a href="https://www.austlii.edu.au/au/cases/qld/" target="_blank">austlii.edu.au → QLD full archive</a>
+      <div class="freq">Daily lists · judgments same-day to 48h</div>
+    </div>
+
+    <div class="source-card">
+      <div class="meta"><span class="chip chip-free">Free</span><span class="chip chip-live">Live</span></div>
+      <h3>Victorian Courts</h3>
+      <p>Supreme Court, Court of Appeal, County Court, and Magistrates' Court of Victoria. VIC Supreme Court publishes judgments via the court website and AustLII. County Court lists via daily bulletin.</p>
+      <a href="https://www.supremecourt.vic.gov.au/judgments" target="_blank">supremecourt.vic.gov.au → judgments</a>
+      <a href="https://www.countycourt.vic.gov.au/court-lists" target="_blank">countycourt.vic.gov.au → lists</a>
+      <div class="freq">Daily · judgment delay typically same-day to 72h</div>
+    </div>
+
+    <div class="source-card">
+      <div class="meta"><span class="chip chip-free">Free</span><span class="chip chip-live">Live</span></div>
+      <h3>Federal Circuit & Family Court (FCFCOA)</h3>
+      <p>Merged court handling family law, migration, bankruptcy, and general federal matters. 60+ locations nationally. Daily lists published per registry. Covers the highest volume of federal first-instance matters.</p>
+      <a href="https://www.fcfcoa.gov.au/fl/judgments" target="_blank">fcfcoa.gov.au → judgments</a>
+      <a href="https://www.fcfcoa.gov.au/node/1228" target="_blank">fcfcoa.gov.au → court locations map</a>
+      <div class="freq">High volume · daily lists · rolling judgments</div>
+    </div>
+
+    <div class="source-card">
+      <div class="meta"><span class="chip chip-free">Free</span><span class="chip chip-bulk">Bulk</span></div>
+      <h3>Federal Register of Legislation</h3>
+      <p>Machine-readable XML for all Commonwealth legislation, regulations, and instruments. Full history including repealed acts. Powers the Open Australian Legal Corpus legislative layer.</p>
+      <a href="https://www.legislation.gov.au" target="_blank">legislation.gov.au</a>
+      <a href="https://github.com/dylanhogg/legaldata" target="_blank">github.com → legaldata Python scraper</a>
+      <div class="freq">Updated same-day as Royal Assent</div>
+    </div>
+
+    <div class="source-card">
+      <div class="meta"><span class="chip chip-free">Free</span><span class="chip chip-live">Live</span></div>
+      <h3>LawCite — Cross-Jurisdiction Citator</h3>
+      <p>AustLII's citation network covering 75 countries. Every case that cites another case, automatically mined. Invaluable for building the inter-document link graph — the backbone of the wiki's connectivity layer.</p>
+      <a href="https://www.austlii.edu.au/cgi-bin/LawCite" target="_blank">austlii.edu.au → LawCite</a>
+      <div class="freq">Updated continuously as new judgments indexed</div>
+    </div>
+
+    <div class="source-card">
+      <div class="meta"><span class="chip chip-free">Free</span><span class="chip chip-live">Live</span></div>
+      <h3>SA, TAS, NT, ACT Courts</h3>
+      <p>South Australian Supreme and District Courts; Tasmanian Supreme Court; Northern Territory Supreme Court; ACT Supreme Court. All publish judgments via AustLII with varying delays. SA and ACT have direct portals.</p>
+      <a href="https://www.austlii.edu.au/au/cases/sa/" target="_blank">austlii → SA archive (1989–)</a>
+      <a href="https://www.austlii.edu.au/au/cases/nt/" target="_blank">austlii → NT archive (1986–)</a>
+      <a href="https://www.austlii.edu.au/au/cases/act/" target="_blank">austlii → ACT archive (1986–)</a>
+      <a href="https://www.austlii.edu.au/au/cases/tas/" target="_blank">austlii → TAS archive (1985–)</a>
+      <div class="freq">AustLII: 24–72h lag · direct portals: same-day</div>
+    </div>
+
+    <div class="source-card">
+      <div class="meta"><span class="chip chip-partial">Partial</span><span class="chip chip-free">Free tier</span></div>
+      <h3>Jade.io — Australian Case Law Search</h3>
+      <p>Commercial-grade case law search with good free-tier access. Better UI than AustLII for structured searches. Has an API for institutional subscribers. Good for validating scraped data and spot-checking citations.</p>
+      <a href="https://jade.io" target="_blank">jade.io</a>
+      <div class="freq">Real-time · free tier sufficient for validation</div>
+    </div>
+
+    <div class="source-card">
+      <div class="meta"><span class="chip chip-paid">Paid</span></div>
+      <h3>Westlaw AU / LexisNexis AU</h3>
+      <p>Commercial legal databases with editorial annotations, headnotes, and comprehensive coverage including unreported judgments. Expensive ($5K–$20K+/year) but most complete for unreported matters. Phase 2 consideration only if gaps appear.</p>
+      <a href="https://legal.thomsonreuters.com.au/westlaw" target="_blank">westlaw.com.au</a>
+      <a href="https://www.lexisnexis.com.au" target="_blank">lexisnexis.com.au</a>
+      <div class="freq">Not required for Phase 1 — AustLII + corpus covers 95%</div>
+    </div>
+
+    <div class="source-card">
+      <div class="meta"><span class="chip chip-paid">Paid</span></div>
+      <h3>CourtData.com.au</h3>
+      <p>Commercial search service for criminal and civil court attendance records across all states and territories. Useful as a cross-reference for defendant name lookup. Pay-per-search model.</p>
+      <a href="https://www.courtdata.com.au" target="_blank">courtdata.com.au</a>
+      <div class="freq">On-demand · useful for entity validation layer</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COURT HIERARCHY TABLE -->
+<section id="courts">
+  <div class="sec-label">Jurisdiction Map</div>
+  <div class="sec-title">Court Hierarchy by State & Territory</div>
+  <div class="sec-sub">Every court level across all 9 jurisdictions with data source links and availability status.</div>
+  <div style="overflow-x:auto;">
+  <table class="court-table">
+    <thead>
+      <tr>
+        <th>Jurisdiction</th>
+        <th>Court Level</th>
+        <th>Court Name</th>
+        <th>Judgments From</th>
+        <th>Daily Lists</th>
+        <th>Data Access</th>
+        <th>Links</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td rowspan="3"><strong>Commonwealth</strong></td><td>Apex</td><td>High Court of Australia</td><td>1903</td><td>✓</td><td><span class="chip chip-free">Free</span></td><td><a href="https://www.hcourt.gov.au" target="_blank">hcourt.gov.au</a></td></tr>
+      <tr><td>Superior</td><td>Federal Court of Australia</td><td>1977</td><td>✓ (all registries)</td><td><span class="chip chip-free">Free</span></td><td><a href="https://www.fedcourt.gov.au" target="_blank">fedcourt.gov.au</a></td></tr>
+      <tr><td>Inferior</td><td>Federal Circuit & Family Court</td><td>2013</td><td>✓ (60+ locations)</td><td><span class="chip chip-free">Free</span></td><td><a href="https://www.fcfcoa.gov.au" target="_blank">fcfcoa.gov.au</a></td></tr>
+      <tr><td rowspan="3"><strong>NSW</strong></td><td>Superior</td><td>Supreme Court of NSW</td><td>1993</td><td>✓</td><td><span class="chip chip-free">Free</span></td><td><a href="https://www.caselaw.nsw.gov.au" target="_blank">caselaw.nsw.gov.au</a></td></tr>
+      <tr><td>Intermediate</td><td>District Court of NSW</td><td>Partial</td><td>✓</td><td><span class="chip chip-partial">Partial</span></td><td><a href="https://www.dcj.nsw.gov.au" target="_blank">dcj.nsw.gov.au</a></td></tr>
+      <tr><td>Inferior</td><td>Local Court of NSW</td><td>Limited</td><td>✓</td><td><span class="chip chip-partial">Partial</span></td><td><a href="https://www.localcourt.nsw.gov.au" target="_blank">localcourt.nsw.gov.au</a></td></tr>
+      <tr><td rowspan="3"><strong>VIC</strong></td><td>Superior</td><td>Supreme Court of Victoria</td><td>1994</td><td>✓</td><td><span class="chip chip-free">Free</span></td><td><a href="https://www.supremecourt.vic.gov.au" target="_blank">supremecourt.vic.gov.au</a></td></tr>
+      <tr><td>Intermediate</td><td>County Court of Victoria</td><td>Limited</td><td>✓</td><td><span class="chip chip-partial">Partial</span></td><td><a href="https://www.countycourt.vic.gov.au" target="_blank">countycourt.vic.gov.au</a></td></tr>
+      <tr><td>Inferior</td><td>Magistrates' Court of Victoria</td><td>Very limited</td><td>✓</td><td><span class="chip chip-planned">Planned</span></td><td><a href="https://www.magistratescourt.vic.gov.au" target="_blank">magistratescourt.vic.gov.au</a></td></tr>
+      <tr><td rowspan="3"><strong>QLD</strong></td><td>Superior</td><td>Supreme Court of QLD</td><td>1994</td><td>✓</td><td><span class="chip chip-free">Free</span></td><td><a href="https://www.courts.qld.gov.au" target="_blank">courts.qld.gov.au</a></td></tr>
+      <tr><td>Intermediate</td><td>District Court of QLD</td><td>2001</td><td>✓</td><td><span class="chip chip-free">Free</span></td><td><a href="https://www.districtcourt.qld.gov.au" target="_blank">districtcourt.qld.gov.au</a></td></tr>
+      <tr><td>Inferior</td><td>Magistrates Court of QLD</td><td>Limited</td><td>✓</td><td><span class="chip chip-planned">Planned</span></td><td><a href="https://www.magistratescourt.qld.gov.au" target="_blank">magistratescourt.qld.gov.au</a></td></tr>
+      <tr><td rowspan="3"><strong>WA</strong></td><td>Superior</td><td>Supreme Court of WA</td><td>1996</td><td>✓ (weekly inventory)</td><td><span class="chip chip-free">Free</span></td><td><a href="https://supremecourt.wa.gov.au" target="_blank">supremecourt.wa.gov.au</a></td></tr>
+      <tr><td>Intermediate</td><td>District Court of WA</td><td>2000</td><td>✓ (live app)</td><td><span class="chip chip-free">Free</span></td><td><a href="https://www.districtcourt.wa.gov.au" target="_blank">districtcourt.wa.gov.au</a></td></tr>
+      <tr><td>Inferior</td><td>Magistrates Court of WA</td><td>Limited</td><td>✓</td><td><span class="chip chip-planned">Planned</span></td><td><a href="https://www.magistratescourt.wa.gov.au" target="_blank">magistratescourt.wa.gov.au</a></td></tr>
+      <tr><td rowspan="2"><strong>SA</strong></td><td>Superior</td><td>Supreme Court of SA</td><td>1989</td><td>✓</td><td><span class="chip chip-free">Free</span></td><td><a href="https://www.courts.sa.gov.au" target="_blank">courts.sa.gov.au</a></td></tr>
+      <tr><td>Intermediate</td><td>District Court of SA</td><td>2000</td><td>✓</td><td><span class="chip chip-free">Free</span></td><td><a href="https://www.courts.sa.gov.au" target="_blank">courts.sa.gov.au</a></td></tr>
+      <tr><td><strong>TAS</strong></td><td>Superior</td><td>Supreme Court of TAS</td><td>1985</td><td>✓</td><td><span class="chip chip-free">Free</span></td><td><a href="https://www.supremecourt.tas.gov.au" target="_blank">supremecourt.tas.gov.au</a></td></tr>
+      <tr><td><strong>NT</strong></td><td>Superior</td><td>Supreme Court of NT</td><td>1986</td><td>✓</td><td><span class="chip chip-free">Free</span></td><td><a href="https://www.courts.nt.gov.au" target="_blank">courts.nt.gov.au</a></td></tr>
+      <tr><td><strong>ACT</strong></td><td>Superior</td><td>Supreme Court of ACT</td><td>1986</td><td>✓</td><td><span class="chip chip-free">Free</span></td><td><a href="https://www.courts.act.gov.au" target="_blank">courts.act.gov.au</a></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section id="architecture">
+  <div class="sec-label">System Design</div>
+  <div class="sec-title">Technical Architecture</div>
+  <div class="sec-sub">Seven-layer pipeline from raw source ingestion to interactive wiki UI. Designed to run continuously on the existing Raspberry Pi / VM infrastructure.</div>
+
+  <div class="arch-grid">
+    <div class="arch-card">
+      <div class="layer">Layer 1</div>
+      <h4>Ingestion</h4>
+      <p>Scrapers per source type — PDF extraction, HTML parse, JSON feed, AustLII bulk download, Hugging Face dataset stream.</p>
+      <div class="tools"><span class="tool-tag">Python</span><span class="tool-tag">BeautifulSoup</span><span class="tool-tag">pdfplumber</span><span class="tool-tag">datasets</span><span class="tool-tag">aiohttp</span></div>
+    </div>
+    <div class="arch-card">
+      <div class="layer">Layer 2</div>
+      <h4>Normalisation</h4>
+      <p>Standardise case citation format, extract metadata (court, date, judge, case number, parties), deduplicate across sources.</p>
+      <div class="tools"><span class="tool-tag">regex</span><span class="tool-tag">spaCy</span><span class="tool-tag">pydantic</span></div>
+    </div>
+    <div class="arch-card">
+      <div class="layer">Layer 3</div>
+      <h4>NLP Extraction</h4>
+      <p>Named entity recognition (people, organisations, locations, legislation). Part-of-speech tagging for noun/verb/concept extraction. Legal term glossary linking.</p>
+      <div class="tools"><span class="tool-tag">spaCy</span><span class="tool-tag">Gemini Flash</span><span class="tool-tag">en_core_web_trf</span></div>
+    </div>
+    <div class="arch-card">
+      <div class="layer">Layer 4</div>
+      <h4>Storage</h4>
+      <p>SQLite or Postgres for structured metadata. Full-text search via FTS5 or Meilisearch. Vector embeddings (Gemini) for semantic search. Citation graph in a graph structure (networkx or SQLite adjacency).</p>
+      <div class="tools"><span class="tool-tag">SQLite FTS5</span><span class="tool-tag">Meilisearch</span><span class="tool-tag">Gemini embeddings</span></div>
+    </div>
+    <div class="arch-card">
+      <div class="layer">Layer 5</div>
+      <h4>Link Graph</h4>
+      <p>Every noun, named entity, legislation reference, and case citation becomes a node. Every document is an edge. Click any term → see every document it appears in across all courts.</p>
+      <div class="tools"><span class="tool-tag">networkx</span><span class="tool-tag">LawCite</span><span class="tool-tag">SQLite</span></div>
+    </div>
+    <div class="arch-card">
+      <div class="layer">Layer 6</div>
+      <h4>Scheduling</h4>
+      <p>Cron jobs via OpenClaw for continuous ingestion. Federal Court lists scraped daily at 8am. AustLII judgments polled hourly. WA court PDFs checked weekly.</p>
+      <div class="tools"><span class="tool-tag">OpenClaw cron</span><span class="tool-tag">Gemini Flash</span><span class="tool-tag">Raspberry Pi</span></div>
+    </div>
+    <div class="arch-card">
+      <div class="layer">Layer 7</div>
+      <h4>Wiki UI</h4>
+      <p>Static-generated or Streamlit wiki. Every page is a term, entity, court, or judge. Interlinked. Filterable by jurisdiction, date, charge type, outcome. Full-text and semantic search.</p>
+      <div class="tools"><span class="tool-tag">Streamlit</span><span class="tool-tag">OR Next.js</span><span class="tool-tag">Meilisearch</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- NLP LAYER -->
+<section id="nlp">
+  <div class="sec-label">Knowledge Graph</div>
+  <div class="sec-title">The Interlinking Layer</div>
+  <div class="sec-sub">Every document is decomposed into its constituent parts of speech and entities. Each becomes a clickable node linking to every other document it appears in.</div>
+  <div class="nlp-grid">
+    <div class="nlp-card">
+      <h4>Named Entities (NER)</h4>
+      <p>People, organisations, locations, legislation — automatically extracted and indexed. Click a person's name to see every case they appear in, across every court.</p>
+      <div class="tag-cloud">
+        <span class="tag-ex">Andrew Larsen</span>
+        <span class="tag-ex">Corruption and Crime Commission</span>
+        <span class="tag-ex">Perth</span>
+        <span class="tag-ex">Crimes Act 1914</span>
+        <span class="tag-ex">Australian Federal Police</span>
+        <span class="tag-ex">Wesfarmers Ltd</span>
+      </div>
+    </div>
+    <div class="nlp-card">
+      <h4>Legal Concepts (Nouns)</h4>
+      <p>Core legal nouns extracted and linked. Search for "conspiracy" and see every case where that concept features — across all courts and all time.</p>
+      <div class="tag-cloud">
+        <span class="tag-ex">conspiracy</span>
+        <span class="tag-ex">negligence</span>
+        <span class="tag-ex">res judicata</span>
+        <span class="tag-ex">mens rea</span>
+        <span class="tag-ex">estoppel</span>
+        <span class="tag-ex">habeas corpus</span>
+        <span class="tag-ex">injunction</span>
+        <span class="tag-ex">damages</span>
+      </div>
+    </div>
+    <div class="nlp-card">
+      <h4>Actions & Outcomes (Verbs)</h4>
+      <p>Judicial actions and rulings extracted and indexed. Filter all cases where a court "quashed", "dismissed", "upheld" — see patterns in outcomes across jurisdictions.</p>
+      <div class="tag-cloud">
+        <span class="tag-ex">convicted</span>
+        <span class="tag-ex">acquitted</span>
+        <span class="tag-ex">dismissed</span>
+        <span class="tag-ex">remanded</span>
+        <span class="tag-ex">sentenced</span>
+        <span class="tag-ex">quashed</span>
+        <span class="tag-ex">upheld</span>
+        <span class="tag-ex">referred</span>
+      </div>
+    </div>
+    <div class="nlp-card">
+      <h4>Citation Network</h4>
+      <p>Built on LawCite's cross-jurisdiction citation data. Every case cites others; every statute is cited by cases. The full citation graph is the backbone of the wiki's inter-document links.</p>
+      <ul>
+        <li>Forward citations: cases citing a given decision</li>
+        <li>Backward citations: what a case relied upon</li>
+        <li>Legislation ↔ case bidirectional links</li>
+        <li>Judge → all decisions made by that judge</li>
+        <li>Counsel → all matters they appeared in</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="sec-label">Execution Plan</div>
+  <div class="sec-title">Roadmap</div>
+  <div class="sec-sub">Four phases from backfill to live wiki. Designed to run on existing infrastructure — VM + Raspberry Pi + GitHub Pages.</div>
+  <div class="roadmap">
+    <div class="roadmap-phase">
+      <div class="phase-label">
+        <div class="ph">Phase 1</div>
+        <div class="ph-name">Foundation</div>
+        <div class="ph-time">Weeks 1–3</div>
+      </div>
+      <div class="phase-items">
+        <div class="phase-item">Download Open Australian Legal Corpus from Hugging Face — 229K documents, instant historical backfill</div>
+        <div class="phase-item">Parse and normalise into unified schema: case_id, court, date, jurisdiction, parties, full_text, url</div>
+        <div class="phase-item">Load into SQLite with FTS5 full-text search index</div>
+        <div class="phase-item">Build AustLII scraper for daily incremental updates (new judgments since last run)</div>
+        <div class="phase-item">Deploy scraper cron job via OpenClaw on Raspberry Pi</div>
+      </div>
+    </div>
+    <div class="roadmap-phase">
+      <div class="phase-label">
+        <div class="ph">Phase 2</div>
+        <div class="ph-name">NLP + Graph</div>
+        <div class="ph-time">Weeks 4–7</div>
+      </div>
+      <div class="phase-items">
+        <div class="phase-item">Run spaCy NER over full corpus — extract persons, orgs, locations, legislation, monetary amounts</div>
+        <div class="phase-item">Build entity index table linking every entity to every document it appears in</div>
+        <div class="phase-item">Parse LawCite citation data to build case-to-case citation graph</div>
+        <div class="phase-item">Add Gemini Flash embeddings for semantic search (most similar cases)</div>
+        <div class="phase-item">Extract legal concept nouns and outcome verbs for the clickable tag layer</div>
+      </div>
+    </div>
+    <div class="roadmap-phase">
+      <div class="phase-label">
+        <div class="ph">Phase 3</div>
+        <div class="ph-name">Live Sources</div>
+        <div class="ph-time">Weeks 8–12</div>
+      </div>
+      <div class="phase-items">
+        <div class="phase-item">Add per-court scrapers for daily lists: WA District Court, Federal Court (all registries), NSW Caselaw</div>
+        <div class="phase-item">PDF ingestion pipeline for WA Supreme Court case inventory and similar court-specific PDFs</div>
+        <div class="phase-item">QLD, VIC, SA, NT, ACT, TAS court scrapers (judgment feeds + daily lists where available)</div>
+        <div class="phase-item">Deduplication layer to reconcile same judgment from multiple sources (AustLII + court direct)</div>
+      </div>
+    </div>
+    <div class="roadmap-phase">
+      <div class="phase-label">
+        <div class="ph">Phase 4</div>
+        <div class="ph-name">Wiki UI</div>
+        <div class="ph-time">Weeks 12–16</div>
+      </div>
+      <div class="phase-items">
+        <div class="phase-item">Streamlit wiki UI with sidebar filters: jurisdiction, court level, date range, charge type, outcome</div>
+        <div class="phase-item">Entity pages: every person, org, legislation, and legal concept gets its own page with all linked documents</div>
+        <div class="phase-item">Case pages: full text, extracted entities, citations in/out, judge, parties, outcome chip</div>
+        <div class="phase-item">Map view: cases plotted by court location (Leaflet), filterable by date and type</div>
+        <div class="phase-item">Full-text + semantic search bar powered by Meilisearch + Gemini embeddings</div>
+        <div class="phase-item">Deploy to larsenfamily.com.au subdomain via Cloudflare tunnel</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COST SECTION -->
+<section id="cost">
+  <div class="sec-label">Investment</div>
+  <div class="sec-title">Estimated Cost to Build & Run</div>
+  <div class="sec-sub">Full project cost across infrastructure, compute, storage, and APIs. Designed to run on existing hardware — no new servers required for Phase 1–3.</div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-bottom:32px;">
+
+    <div class="source-card" style="border-color:rgba(34,197,94,0.3);">
+      <div class="meta"><span class="chip chip-free">One-time</span></div>
+      <h3>Phase 1 — Foundation</h3>
+      <p style="margin-bottom:12px;">Historical backfill + database setup. Runs on existing VM.</p>
+      <table style="width:100%;font-size:0.75rem;border-collapse:collapse;">
+        <tr><td style="padding:4px 0;color:var(--muted);">Open Australian Legal Corpus download</td><td style="text-align:right;color:var(--green);">$0</td></tr>
+        <tr><td style="padding:4px 0;color:var(--muted);">AustLII scraper (Python, polite rate)</td><td style="text-align:right;color:var(--green);">$0</td></tr>
+        <tr><td style="padding:4px 0;color:var(--muted);">SQLite + FTS5 index (runs on VM)</td><td style="text-align:right;color:var(--green);">$0</td></tr>
+        <tr><td style="padding:4px 0;color:var(--muted);">Dev time (Chappie-assisted)</td><td style="text-align:right;color:var(--green);">$0</td></tr>
+        <tr style="border-top:1px solid var(--border);"><td style="padding:6px 0;font-weight:700;">Phase 1 total</td><td style="text-align:right;font-weight:700;color:var(--green);">$0 AUD</td></tr>
+      </table>
+    </div>
+
+    <div class="source-card" style="border-color:rgba(99,102,241,0.3);">
+      <div class="meta"><span class="chip chip-bulk">One-time</span></div>
+      <h3>Phase 2 — NLP + Graph</h3>
+      <p style="margin-bottom:12px;">spaCy NER over 229K documents + Gemini embeddings for semantic search.</p>
+      <table style="width:100%;font-size:0.75rem;border-collapse:collapse;">
+        <tr><td style="padding:4px 0;color:var(--muted);">spaCy NER batch (CPU, VM)</td><td style="text-align:right;color:var(--green);">$0</td></tr>
+        <tr><td style="padding:4px 0;color:var(--muted);">Gemini embeddings — 229K docs × ~500 tokens avg<br><span style="font-size:0.68rem;color:#475569;">~114M tokens @ $0.00004/1K = ~$4.60 USD</span></td><td style="text-align:right;color:var(--amber);">~$7 AUD</td></tr>
+        <tr><td style="padding:4px 0;color:var(--muted);">LawCite citation data (AustLII, free)</td><td style="text-align:right;color:var(--green);">$0</td></tr>
+        <tr><td style="padding:4px 0;color:var(--muted);">Storage for vector index (~2–4 GB)</td><td style="text-align:right;color:var(--green);">$0 (VM disk)</td></tr>
+        <tr style="border-top:1px solid var(--border);"><td style="padding:6px 0;font-weight:700;">Phase 2 total</td><td style="text-align:right;font-weight:700;color:var(--amber);">~$7 AUD</td></tr>
+      </table>
+    </div>
+
+    <div class="source-card" style="border-color:rgba(56,189,248,0.3);">
+      <div class="meta"><span class="chip chip-live">Ongoing</span></div>
+      <h3>Phase 3–4 — Live Ingestion + Wiki</h3>
+      <p style="margin-bottom:12px;">Daily scrapers + forward ingestion + Streamlit wiki serving.</p>
+      <table style="width:100%;font-size:0.75rem;border-collapse:collapse;">
+        <tr><td style="padding:4px 0;color:var(--muted);">Daily scraping cron (OpenClaw Flash)</td><td style="text-align:right;color:var(--green);">~$1–3/month</td></tr>
+        <tr><td style="padding:4px 0;color:var(--muted);">Incremental Gemini embeddings (new docs only)<br><span style="font-size:0.68rem;color:#475569;">~500–1000 new docs/day × 500 tokens</span></td><td style="text-align:right;color:var(--green);">~$1–2/month</td></tr>
+        <tr><td style="padding:4px 0;color:var(--muted);">Meilisearch (self-hosted, free)</td><td style="text-align:right;color:var(--green);">$0</td></tr>
+        <tr><td style="padding:4px 0;color:var(--muted);">Streamlit wiki (existing VM/tunnel)</td><td style="text-align:right;color:var(--green);">$0</td></tr>
+        <tr><td style="padding:4px 0;color:var(--muted);">Disk growth (~1 GB/month raw + index)</td><td style="text-align:right;color:var(--green);">$0 (VM has headroom)</td></tr>
+        <tr style="border-top:1px solid var(--border);"><td style="padding:6px 0;font-weight:700;">Monthly running cost</td><td style="text-align:right;font-weight:700;color:var(--green);">~$2–5 AUD/month</td></tr>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- Cost summary bar -->
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:24px;text-align:center;">
+    <div>
+      <div style="font-size:1.8rem;font-weight:800;color:var(--green);letter-spacing:-0.03em;">$0</div>
+      <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px;">Phase 1 build cost</div>
+    </div>
+    <div>
+      <div style="font-size:1.8rem;font-weight:800;color:var(--amber);letter-spacing:-0.03em;">~$7</div>
+      <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px;">Phase 2 one-time (AUD)</div>
+    </div>
+    <div>
+      <div style="font-size:1.8rem;font-weight:800;color:var(--accent2);letter-spacing:-0.03em;">~$3–5</div>
+      <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px;">Per month ongoing (AUD)</div>
+    </div>
+    <div>
+      <div style="font-size:1.8rem;font-weight:800;color:var(--text);letter-spacing:-0.03em;">229K+</div>
+      <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px;">Docs at launch (free)</div>
+    </div>
+    <div>
+      <div style="font-size:1.8rem;font-weight:800;color:var(--text);letter-spacing:-0.03em;">$0</div>
+      <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px;">New infrastructure needed</div>
+    </div>
+  </div>
+
+  <p style="font-size:0.75rem;color:var(--muted);margin-top:16px;">* Costs assume use of existing VM (32GB RAM, M4 Pro) and Raspberry Pi. Gemini embedding costs use text-embedding-004 pricing at $0.00004/1K tokens. AUD conversion at 1.585. Commercial data sources (Westlaw, CourtData) excluded — not needed for Phase 1–3.</p>
+</section>
+
+<!-- LEGAL NOTE -->
+<section>
+  <div class="sec-label">Legal & Ethical</div>
+  <div class="sec-title">Scraping & Use Considerations</div>
+  <div class="sec-sub">Australian court data is generally public record, but some constraints apply.</div>
+  <div class="source-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+    <div class="source-card">
+      <h3>✓ Generally permitted</h3>
+      <p>AustLII explicitly allows scraping for non-commercial research with attribution. Federal Court, High Court, and FCFCOA publish judgments for public access. Court lists are public record.</p>
+    </div>
+    <div class="source-card">
+      <h3>⚠ Rate limiting required</h3>
+      <p>All scrapers must respect robots.txt and implement polite delays (1–2s between requests). AustLII in particular requests considerate access. Identify your scraper with a User-Agent.</p>
+    </div>
+    <div class="source-card">
+      <h3>⚠ Suppression orders</h3>
+      <p>Some matters have suppression or non-publication orders over names or details. Scrapers should not display suppressed content. AustLII and court sites typically redact these already.</p>
+    </div>
+    <div class="source-card">
+      <h3>⚠ Privacy considerations</h3>
+      <p>Victim names, juvenile defendants, and family law matters may be protected. Store and display only what courts have already made public. Do not cross-reference with commercial identity databases.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Project Lexicon — <a href="index.html">Chappie / Larsen Ventures</a> · Built with AustLII, Federal Court of Australia, Open Australian Legal Corpus · Not legal advice
+</footer>
+
+<script>
+// COURT MAP
+const map = L.map('map').setView([-27, 134], 4);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '© OpenStreetMap © CARTO',
+  subdomains: 'abcd', maxZoom: 19
+}).addTo(map);
+
+function mk(color) {
+  return L.divIcon({
+    className: '',
+    html: `<div style="width:12px;height:12px;border-radius:50%;background:${color};border:2px solid rgba(255,255,255,0.3);box-shadow:0 0 6px ${color}66"></div>`,
+    iconSize: [12, 12], iconAnchor: [6, 6]
+  });
+}
+
+const courts = [
+  // Federal
+  { lat:-35.28, lng:149.13, name:'High Court of Australia', city:'Canberra ACT', level:'Apex', from:'1903', url:'https://www.hcourt.gov.au', color:'#6366f1' },
+  { lat:-35.28, lng:149.12, name:'Federal Court — ACT Registry', city:'Canberra ACT', level:'Federal Superior', from:'1977', url:'https://www.fedcourt.gov.au', color:'#6366f1' },
+  { lat:-33.87, lng:151.21, name:'Federal Court — NSW Registry', city:'Sydney NSW', level:'Federal Superior', from:'1977', url:'https://www.fedcourt.gov.au', color:'#6366f1' },
+  { lat:-37.81, lng:144.96, name:'Federal Court — VIC Registry', city:'Melbourne VIC', level:'Federal Superior', from:'1977', url:'https://www.fedcourt.gov.au', color:'#6366f1' },
+  { lat:-27.47, lng:153.02, name:'Federal Court — QLD Registry', city:'Brisbane QLD', level:'Federal Superior', from:'1977', url:'https://www.fedcourt.gov.au', color:'#6366f1' },
+  { lat:-31.95, lng:115.86, name:'Federal Court — WA Registry', city:'Perth WA', level:'Federal Superior', from:'1977', url:'https://www.fedcourt.gov.au', color:'#6366f1' },
+  { lat:-34.93, lng:138.60, name:'Federal Court — SA Registry', city:'Adelaide SA', level:'Federal Superior', from:'1977', url:'https://www.fedcourt.gov.au', color:'#6366f1' },
+  { lat:-12.46, lng:130.84, name:'Federal Court — NT Registry', city:'Darwin NT', level:'Federal Superior', from:'1977', url:'https://www.fedcourt.gov.au', color:'#6366f1' },
+  { lat:-42.88, lng:147.33, name:'Federal Court — TAS Registry', city:'Hobart TAS', level:'Federal Superior', from:'1977', url:'https://www.fedcourt.gov.au', color:'#6366f1' },
+  // Supreme Courts
+  { lat:-33.87, lng:151.20, name:'Supreme Court of NSW', city:'Sydney NSW', level:'State Superior', from:'1993', url:'https://www.caselaw.nsw.gov.au', color:'#22c55e' },
+  { lat:-37.81, lng:144.97, name:'Supreme Court of Victoria', city:'Melbourne VIC', level:'State Superior', from:'1994', url:'https://www.supremecourt.vic.gov.au', color:'#22c55e' },
+  { lat:-27.47, lng:153.03, name:'Supreme Court of Queensland', city:'Brisbane QLD', level:'State Superior', from:'1994', url:'https://www.courts.qld.gov.au', color:'#22c55e' },
+  { lat:-31.95, lng:115.85, name:'Supreme Court of WA', city:'Perth WA', level:'State Superior', from:'1996', url:'https://supremecourt.wa.gov.au', color:'#22c55e' },
+  { lat:-34.93, lng:138.61, name:'Supreme Court of SA', city:'Adelaide SA', level:'State Superior', from:'1989', url:'https://www.courts.sa.gov.au', color:'#22c55e' },
+  { lat:-42.88, lng:147.32, name:'Supreme Court of Tasmania', city:'Hobart TAS', level:'State Superior', from:'1985', url:'https://www.supremecourt.tas.gov.au', color:'#22c55e' },
+  { lat:-12.47, lng:130.83, name:'Supreme Court of NT', city:'Darwin NT', level:'Territory Superior', from:'1986', url:'https://www.courts.nt.gov.au', color:'#22c55e' },
+  { lat:-35.29, lng:149.14, name:'Supreme Court of ACT', city:'Canberra ACT', level:'Territory Superior', from:'1986', url:'https://www.courts.act.gov.au', color:'#22c55e' },
+  // District/County
+  { lat:-31.96, lng:115.87, name:'District Court of WA', city:'Perth WA', level:'Intermediate', from:'2000', url:'https://www.districtcourt.wa.gov.au', color:'#38bdf8' },
+  { lat:-33.88, lng:151.21, name:'District Court of NSW', city:'Sydney NSW', level:'Intermediate', from:'Partial', url:'https://www.dcj.nsw.gov.au', color:'#38bdf8' },
+  { lat:-37.82, lng:144.95, name:'County Court of Victoria', city:'Melbourne VIC', level:'Intermediate', from:'Limited', url:'https://www.countycourt.vic.gov.au', color:'#38bdf8' },
+  { lat:-27.48, lng:153.01, name:'District Court of QLD', city:'Brisbane QLD', level:'Intermediate', from:'2001', url:'https://www.districtcourt.qld.gov.au', color:'#38bdf8' },
+  { lat:-34.94, lng:138.59, name:'District Court of SA', city:'Adelaide SA', level:'Intermediate', from:'2000', url:'https://www.courts.sa.gov.au', color:'#38bdf8' },
+  // Tribunals
+  { lat:-33.86, lng:151.22, name:'NSW Civil & Administrative Tribunal', city:'Sydney NSW', level:'Tribunal', from:'2014', url:'https://www.ncat.nsw.gov.au', color:'#a855f7' },
+  { lat:-27.46, lng:153.04, name:'Queensland Civil & Administrative Tribunal', city:'Brisbane QLD', level:'Tribunal', from:'2009', url:'https://www.qcat.qld.gov.au', color:'#a855f7' },
+  { lat:-37.80, lng:144.98, name:'Victorian Civil & Administrative Tribunal', city:'Melbourne VIC', level:'Tribunal', from:'1998', url:'https://www.vcat.vic.gov.au', color:'#a855f7' },
+  { lat:-34.92, lng:138.62, name:'South Australian Civil & Administrative Tribunal', city:'Adelaide SA', level:'Tribunal', from:'2015', url:'https://www.sacat.sa.gov.au', color:'#a855f7' },
+  { lat:-31.94, lng:115.88, name:'State Administrative Tribunal WA', city:'Perth WA', level:'Tribunal', from:'2005', url:'https://www.sat.justice.wa.gov.au', color:'#a855f7' },
+];
+
+courts.forEach(c => {
+  L.marker([c.lat, c.lng], { icon: mk(c.color) })
+    .addTo(map)
+    .bindPopup(`<strong>${c.name}</strong><br>${c.city}<br>Level: ${c.level}<br>Data from: ${c.from}<br><a href="${c.url}" target="_blank" style="color:#38bdf8">→ Visit court website</a>`);
+});
+</script>
+</body>
+</html>

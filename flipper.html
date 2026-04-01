@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flipper Zero × Kali Linux — Project Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #080810;
+  --bg2: #0e0e1a;
+  --bg3: #141424;
+  --bg4: #1a1a2e;
+  --border: #1e1e3a;
+  --border2: #252545;
+  --text: #e2e2f0;
+  --text2: #9090b0;
+  --text3: #5a5a80;
+  --accent: #6c63ff;
+  --accent2: #8b5cf6;
+  --accent3: #a78bfa;
+  --green: #10d98a;
+  --green2: #059669;
+  --red: #f43f5e;
+  --yellow: #fbbf24;
+  --orange: #f97316;
+  --cyan: #06b6d4;
+  --pink: #ec4899;
+  --flipper: #00d4ff;
+  --kali: #367bf0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(108,99,255,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0,212,255,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 20% 70%, rgba(139,92,246,0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(108,99,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(108,99,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(108,99,255,0.12);
+  border: 1px solid rgba(108,99,255,0.3);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent3);
+  margin-bottom: 32px;
+}
+
+.hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(108,99,255,0.5); } 50% { opacity:0.8; box-shadow:0 0 0 6px rgba(108,99,255,0); } }
+
+.hero h1 {
+  font-size: clamp(40px, 7vw, 88px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  margin-bottom: 24px;
+}
+
+.hero h1 .line1 { display: block; color: var(--text); }
+.hero h1 .line2 {
+  display: block;
+  background: linear-gradient(135deg, var(--flipper) 0%, var(--accent) 40%, var(--accent2) 70%, var(--pink) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 18px;
+  color: var(--text2);
+  max-width: 600px;
+  margin-bottom: 48px;
+  line-height: 1.7;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 60px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-num {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--text), var(--accent3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-label { font-size: 12px; color: var(--text3); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+
+.scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text3);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: scrollAnim 2s infinite;
+}
+
+@keyframes scrollAnim { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+/* ── SECTIONS ── */
+section { padding: 80px 24px; max-width: 1280px; margin: 0 auto; }
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent3);
+  margin-bottom: 12px;
+}
+
+.section-label::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
+
+.section-title {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+  line-height: 1.1;
+}
+
+.section-desc { color: var(--text2); font-size: 16px; max-width: 600px; margin-bottom: 56px; line-height: 1.7; }
+
+/* ── LANDSCAPE ── */
+.landscape-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.landscape-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.landscape-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+
+.lc-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.lc-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.lc-icon.kali { background: rgba(54,123,240,0.15); }
+.lc-icon.flipper { background: rgba(0,212,255,0.1); }
+
+.lc-name { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; }
+.lc-type { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+.lc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.lc-tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 100px;
+  border: 1px solid;
+}
+
+.tag-kali { color: var(--kali); border-color: rgba(54,123,240,0.3); background: rgba(54,123,240,0.08); }
+.tag-flipper { color: var(--flipper); border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.08); }
+.tag-gap { color: var(--red); border-color: rgba(244,63,94,0.3); background: rgba(244,63,94,0.08); }
+.tag-partial { color: var(--yellow); border-color: rgba(251,191,36,0.3); background: rgba(251,191,36,0.08); }
+
+.lc-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+/* ── COMPARISON TABLE ── */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  margin-bottom: 60px;
+}
+
+.compare-table th {
+  background: var(--bg3);
+  padding: 16px 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text2);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.compare-table th:not(:first-child) { text-align: center; }
+
+.compare-table td {
+  padding: 14px 20px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+.compare-table td:not(:first-child) { text-align: center; }
+
+.cat-label { font-weight: 600; font-size: 13px; }
+.tool-name { color: var(--text2); font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+
+.check-yes { color: var(--green); font-size: 16px; }
+.check-partial { color: var(--yellow); font-size: 16px; }
+.check-no { color: var(--text3); font-size: 16px; }
+.check-module { color: var(--cyan); font-size: 11px; font-weight: 600; }
+
+/* ── APP CARDS ── */
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 20px;
+}
+
+.app-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  cursor: default;
+}
+
+.app-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--card-accent, var(--accent)), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.app-card:hover::before { opacity: 1; }
+.app-card:hover { border-color: var(--border2); transform: translateY(-3px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+
+.app-card.priority-1 { --card-accent: #f43f5e; }
+.app-card.priority-2 { --card-accent: #f97316; }
+.app-card.priority-3 { --card-accent: #fbbf24; }
+.app-card.priority-4 { --card-accent: #6c63ff; }
+.app-card.priority-5 { --card-accent: #06b6d4; }
+
+.app-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.app-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+}
+
+.app-priority {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid;
+}
+
+.p1 { color: #f43f5e; border-color: rgba(244,63,94,0.35); background: rgba(244,63,94,0.1); }
+.p2 { color: #f97316; border-color: rgba(249,115,22,0.35); background: rgba(249,115,22,0.1); }
+.p3 { color: #fbbf24; border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.1); }
+.p4 { color: #6c63ff; border-color: rgba(108,99,255,0.35); background: rgba(108,99,255,0.1); }
+.p5 { color: #06b6d4; border-color: rgba(6,182,212,0.35); background: rgba(6,182,212,0.1); }
+
+.app-name {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.app-tagline { font-size: 13px; color: var(--text2); margin-bottom: 16px; }
+
+.app-desc { font-size: 14px; color: var(--text2); line-height: 1.65; margin-bottom: 20px; }
+
+.app-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.meta-chip {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  background: var(--bg3);
+}
+
+.kali-equiv {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.kali-equiv-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text3);
+  flex-shrink: 0;
+}
+
+.kali-equiv-tools {
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--kali);
+}
+
+.demand-bar {
+  margin-top: 16px;
+}
+
+.demand-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text3);
+  margin-bottom: 6px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.demand-track {
+  height: 4px;
+  background: var(--bg4);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.demand-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--bar-from, var(--accent)), var(--bar-to, var(--accent3)));
+  transition: width 0.8s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* ── FIRMWARE TABLE ── */
+.fw-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.fw-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  transition: border-color 0.2s;
+}
+
+.fw-card:hover { border-color: var(--border2); }
+
+.fw-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fw-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+}
+
+.fw-badge.active { background: rgba(16,217,138,0.15); color: var(--green); }
+.fw-badge.official { background: rgba(108,99,255,0.15); color: var(--accent3); }
+.fw-badge.dead { background: rgba(244,63,94,0.1); color: var(--text3); }
+
+.fw-desc { font-size: 13px; color: var(--text2); margin-bottom: 16px; line-height: 1.6; }
+
+.fw-features { display: flex; flex-direction: column; gap: 6px; }
+.fw-feature { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text2); }
+.fw-feature::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+/* ── ROADMAP ── */
+.roadmap {
+  position: relative;
+  padding-left: 32px;
+}
+
+.roadmap::before {
+  content: '';
+  position: absolute;
+  left: 8px; top: 8px; bottom: 8px;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+}
+
+.roadmap-item {
+  position: relative;
+  margin-bottom: 32px;
+}
+
+.roadmap-dot {
+  position: absolute;
+  left: -28px;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.roadmap-dot.done { background: var(--accent); border-color: var(--accent); }
+
+.roadmap-phase { font-size: 11px; font-weight: 700; color: var(--accent3); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+.roadmap-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+.roadmap-desc { font-size: 14px; color: var(--text2); line-height: 1.6; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 24px;
+  text-align: center;
+  color: var(--text3);
+  font-size: 13px;
+}
+
+footer a { color: var(--accent3); text-decoration: none; }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(8,8,16,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.nav-logo span { color: var(--accent3); }
+
+.nav-links {
+  display: flex;
+  gap: 4px;
+}
+
+.nav-link {
+  font-size: 13px;
+  color: var(--text3);
+  padding: 6px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s, background 0.2s;
+}
+
+.nav-link:hover { color: var(--text); background: var(--bg3); }
+
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .apps-grid { grid-template-columns: 1fr; }
+  .landscape-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 20px; }
+}
+
+/* ── DIVIDER ── */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 0 24px;
+}
+
+/* ── HIGHLIGHT BOX ── */
+.highlight-box {
+  background: linear-gradient(135deg, rgba(108,99,255,0.08), rgba(0,212,255,0.05));
+  border: 1px solid rgba(108,99,255,0.2);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 48px;
+}
+
+.highlight-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+.highlight-box p { font-size: 14px; color: var(--text2); line-height: 1.7; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">🐬 <span>Project Atlas</span> &nbsp;×&nbsp; Flipper Zero</div>
+  <div class="nav-links">
+    <a href="#landscape" class="nav-link">Landscape</a>
+    <a href="#firmware" class="nav-link">Firmware</a>
+    <a href="#gaps" class="nav-link">Gaps</a>
+    <a href="#apps" class="nav-link">App Ideas</a>
+    <a href="#roadmap" class="nav-link">Roadmap</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="grid-bg"></div>
+  <div class="hero-badge"><span></span> Active Research Project</div>
+  <h1>
+    <span class="line1">Flipper Zero</span>
+    <span class="line2">meets Kali Linux</span>
+  </h1>
+  <p class="hero-sub">A systematic analysis of Kali's vetted pentesting toolkit, mapped against the Flipper Zero hardware and software ecosystem — surfacing high-impact app opportunities where the gap is real.</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">600+</span><span class="stat-label">Kali Tools</span></div>
+    <div class="stat"><span class="stat-num">8</span><span class="stat-label">Radio Protocols</span></div>
+    <div class="stat"><span class="stat-num">9</span><span class="stat-label">App Opportunities</span></div>
+    <div class="stat"><span class="stat-num">4</span><span class="stat-label">Active Firmwares</span></div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    SCROLL
+  </div>
+</div>
+
+<!-- LANDSCAPE -->
+<section id="landscape">
+  <div class="section-label">Section 01 — Landscape</div>
+  <h2 class="section-title">The Two Ecosystems</h2>
+  <p class="section-desc">Kali Linux is a curated, battle-hardened distro with 600+ tools across every pentesting discipline. Flipper Zero is purpose-built portable hardware with radio, NFC, RFID, IR, BLE, and GPIO. They're complementary — not competing.</p>
+
+  <div class="landscape-grid">
+    <div class="landscape-card">
+      <div class="lc-header">
+        <div class="lc-icon kali">🐉</div>
+        <div>
+          <div class="lc-name">Kali Linux</div>
+          <div class="lc-type">Curated pentesting OS</div>
+        </div>
+      </div>
+      <div class="lc-tags"><span class="lc-tag tag-kali">Network Recon</span><span class="lc-tag tag-kali">Web App</span><span class="lc-tag tag-kali">Exploitation</span><span class="lc-tag tag-kali">Password Cracking</span><span class="lc-tag tag-kali">Wireless</span><span class="lc-tag tag-kali">Post-exploit</span></div>
+      <p class="lc-desc">Six major categories. Tools like Nmap, Metasploit, Aircrack-ng, Wireshark, Burp Suite, and Hashcat are industry-standard. Maintained by Offensive Security with a strict vetting process — if it's in Kali, it's trusted.</p>
+    </div>
+
+    <div class="landscape-card">
+      <div class="lc-header">
+        <div class="lc-icon flipper">🐬</div>
+        <div>
+          <div class="lc-name">Flipper Zero</div>
+          <div class="lc-type">Portable hardware multi-tool</div>
+        </div>
+      </div>
+      <div class="lc-tags"><span class="lc-tag tag-flipper">Sub-GHz RF</span><span class="lc-tag tag-flipper">NFC / RFID</span><span class="lc-tag tag-flipper">Infrared</span><span class="lc-tag tag-flipper">BLE</span><span class="lc-tag tag-flipper">BadUSB</span><span class="lc-tag tag-flipper">iButton</span></div>
+      <p class="lc-desc">STM32-based portable with radios Kali can't touch without external hardware. Native sub-GHz at 300–928 MHz, 125kHz RFID, 13.56MHz NFC, IR blaster/receiver, and Bluetooth — in a device that fits in a pocket.</p>
+    </div>
+
+    <div class="landscape-card">
+      <div class="lc-header">
+        <div class="lc-icon" style="background:rgba(0,212,255,0.08);">📡</div>
+        <div>
+          <div class="lc-name">WiFi Dev Board</div>
+          <div class="lc-type">ESP32 expansion module</div>
+        </div>
+      </div>
+      <div class="lc-tags"><span class="lc-tag tag-flipper">2.4GHz WiFi</span><span class="lc-tag tag-flipper">Marauder</span><span class="lc-tag tag-partial">Network Scan</span></div>
+      <p class="lc-desc">The ESP32 WiFi board unlocks Marauder firmware, enabling deauth attacks, PMKID capture, evil portal, and basic WiFi scanning. Closes the biggest gap between Flipper and a Kali laptop for wireless attacks.</p>
+    </div>
+
+    <div class="landscape-card">
+      <div class="lc-header">
+        <div class="lc-icon" style="background:rgba(244,63,94,0.08);">⚠️</div>
+        <div>
+          <div class="lc-name">The Gap</div>
+          <div class="lc-type">Where opportunity lives</div>
+        </div>
+      </div>
+      <div class="lc-tags"><span class="lc-tag tag-gap">No Passive Recon UI</span><span class="lc-tag tag-gap">No Protocol Analysis</span><span class="lc-tag tag-gap">No BT Fingerprint</span></div>
+      <p class="lc-desc">Kali's highest-value tools — Nmap, Wireshark, Kismet, BlueHydra — have no Flipper equivalent. The hardware could theoretically support many of these via modules, but the software layer doesn't exist yet.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- FIRMWARE -->
+<section id="firmware">
+  <div class="section-label">Section 02 — Firmware</div>
+  <h2 class="section-title">Custom Firmware Landscape</h2>
+  <p class="section-desc">The firmware you run determines what's possible. Active options in 2025:</p>
+
+  <div class="fw-grid">
+    <div class="fw-card">
+      <div class="fw-name">Official <span class="fw-badge official">STABLE</span></div>
+      <p class="fw-desc">Stock firmware from Flipper Devices. Stable, safe, limited to regional frequency restrictions. Good starting point, mandatory for understanding baseline capabilities.</p>
+      <div class="fw-features">
+        <div class="fw-feature">Full app store access (lab.flipper.net)</div>
+        <div class="fw-feature">Conservative sub-GHz frequency limits</div>
+        <div class="fw-feature">No BLE spam, limited protocol support</div>
+      </div>
+    </div>
+
+    <div class="fw-card">
+      <div class="fw-name">Unleashed <span class="fw-badge active">ACTIVE</span></div>
+      <p class="fw-desc">The pragmatist's choice. Based on Official firmware with regional restrictions removed, rolling code support, and functional improvements with minimal bloat.</p>
+      <div class="fw-features">
+        <div class="fw-feature">Full sub-GHz frequency range unlocked</div>
+        <div class="fw-feature">Rolling code support (KeeLoq, etc.)</div>
+        <div class="fw-feature">BLE spam included</div>
+        <div class="fw-feature">Subdriving (GPS coordinate logging)</div>
+      </div>
+    </div>
+
+    <div class="fw-card">
+      <div class="fw-name">Momentum <span class="fw-badge active">ACTIVE</span></div>
+      <p class="fw-desc">Direct continuation of Xtreme (which died Nov 2024). Feature-rich, highly customisable UI, same dev team. Best balance of features and stability for power users.</p>
+      <div class="fw-features">
+        <div class="fw-feature">All Unleashed features plus UI customisation</div>
+        <div class="fw-feature">Advanced security (lock on boot, bad PIN wipe)</div>
+        <div class="fw-feature">Bad BT (HID injection via Bluetooth)</div>
+        <div class="fw-feature">Asset packs, management app</div>
+      </div>
+    </div>
+
+    <div class="fw-card">
+      <div class="fw-name">RogueMaster <span class="fw-badge active">ACTIVE</span></div>
+      <p class="fw-desc">Kitchen-sink approach — every feature from every firmware, plus extra apps and animations bundled in. Largest app bundle but least stable. Best for experimentation.</p>
+      <div class="fw-features">
+        <div class="fw-feature">Largest bundled app collection</div>
+        <div class="fw-feature">Unleashed + Xtreme features merged</div>
+        <div class="fw-feature">Most animations and cosmetics</div>
+        <div class="fw-feature">Trade-off: stability vs breadth</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <h3>Recommendation for pentesting</h3>
+    <p>Momentum on the device itself (stable, full feature set), with Marauder on the WiFi dev board for wireless attacks. If you're building and testing your own apps, Official firmware gives the cleanest base — no unexpected interactions with CFW patches. RogueMaster is useful for evaluating what's already been built before reinventing anything.</p>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- GAPS / COMPARISON -->
+<section id="gaps">
+  <div class="section-label">Section 03 — Gap Analysis</div>
+  <h2 class="section-title">Kali vs Flipper — Coverage Map</h2>
+  <p class="section-desc">Mapping Kali's top tools against Flipper Zero's current capabilities. ✅ = covered &nbsp; ⚡ = via module/partial &nbsp; ✗ = gap</p>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th style="width:30%">Category / Kali Tool</th>
+        <th>Kali Linux</th>
+        <th>Flipper (Stock)</th>
+        <th>Flipper + CFW</th>
+        <th>Flipper + Module</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><div class="cat-label">Network Discovery</div><div class="tool-name">nmap, masscan, arp-scan</div></td>
+        <td><span class="check-yes">✅</span></td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-module">ESP32 partial</span></td>
+      </tr>
+      <tr>
+        <td><div class="cat-label">WiFi Deauth / Capture</div><div class="tool-name">aircrack-ng, wifite, reaver</div></td>
+        <td><span class="check-yes">✅</span></td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-yes">✅ Marauder</span></td>
+      </tr>
+      <tr>
+        <td><div class="cat-label">RF Spectrum Analysis</div><div class="tool-name">gqrx, gnuradio, rtl_sdr</div></td>
+        <td><span class="check-yes">✅</span></td>
+        <td><span class="check-partial">⚡ Basic</span></td>
+        <td><span class="check-partial">⚡ Spectrum app</span></td>
+        <td><span class="check-partial">⚡ Limited</span></td>
+      </tr>
+      <tr>
+        <td><div class="cat-label">Sub-GHz Replay / Brute Force</div><div class="tool-name">no Kali equivalent</div></td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-yes">✅</span></td>
+        <td><span class="check-yes">✅ Enhanced</span></td>
+        <td><span class="check-yes">✅</span></td>
+      </tr>
+      <tr>
+        <td><div class="cat-label">NFC / RFID Attack</div><div class="tool-name">libnfc, mfoc, mfterm</div></td>
+        <td><span class="check-partial">⚡ With hardware</span></td>
+        <td><span class="check-yes">✅</span></td>
+        <td><span class="check-yes">✅ Picopass+</span></td>
+        <td><span class="check-yes">✅</span></td>
+      </tr>
+      <tr>
+        <td><div class="cat-label">Bluetooth BLE Recon</div><div class="tool-name">btlejack, bluehydra, bettercap</div></td>
+        <td><span class="check-yes">✅</span></td>
+        <td><span class="check-partial">⚡ BLE spam only</span></td>
+        <td><span class="check-partial">⚡ Basic scan</span></td>
+        <td><span class="check-module">ESP32 Wendigo</span></td>
+      </tr>
+      <tr>
+        <td><div class="cat-label">HID / BadUSB Injection</div><div class="tool-name">set, rubber ducky equiv</div></td>
+        <td><span class="check-yes">✅</span></td>
+        <td><span class="check-yes">✅ BadUSB</span></td>
+        <td><span class="check-yes">✅ Bad BT too</span></td>
+        <td><span class="check-yes">✅</span></td>
+      </tr>
+      <tr>
+        <td><div class="cat-label">Password Cracking</div><div class="tool-name">hashcat, john, hydra</div></td>
+        <td><span class="check-yes">✅</span></td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-no">✗ CPU-limited</span></td>
+      </tr>
+      <tr>
+        <td><div class="cat-label">Packet Capture / MITM</div><div class="tool-name">wireshark, bettercap, ettercap</div></td>
+        <td><span class="check-yes">✅</span></td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-module">ESP32 limited</span></td>
+      </tr>
+      <tr>
+        <td><div class="cat-label">Evil Portal / Phishing</div><div class="tool-name">set, gophish, evilginx</div></td>
+        <td><span class="check-yes">✅</span></td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-module">Marauder basic</span></td>
+      </tr>
+      <tr>
+        <td><div class="cat-label">Infrared Signal Analysis</div><div class="tool-name">no clean Kali equivalent</div></td>
+        <td><span class="check-partial">⚡ With hardware</span></td>
+        <td><span class="check-yes">✅ Native</span></td>
+        <td><span class="check-yes">✅ XRemote</span></td>
+        <td><span class="check-yes">✅</span></td>
+      </tr>
+      <tr>
+        <td><div class="cat-label">Physical Access / iButton</div><div class="tool-name">no Kali equivalent</div></td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-yes">✅ Native</span></td>
+        <td><span class="check-yes">✅</span></td>
+        <td><span class="check-yes">✅</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- APP IDEAS -->
+<section id="apps">
+  <div class="section-label">Section 04 — Opportunities</div>
+  <h2 class="section-title">9 Apps Worth Building</h2>
+  <p class="section-desc">Ranked by community demand, technical feasibility, and gap size. Priority 1 apps have the highest combination of all three — most popular, most achievable, biggest gap in the current ecosystem.</p>
+
+  <div class="apps-grid">
+
+    <!-- P1: Passive Network Mapper -->
+    <div class="app-card priority-1">
+      <div class="app-header">
+        <div class="app-icon">🗺️</div>
+        <div class="app-priority p1">⬆ PRIORITY 1</div>
+      </div>
+      <div class="app-name">FlipMap</div>
+      <div class="app-tagline">Passive LAN host discovery via ESP32</div>
+      <p class="app-desc">A clean Nmap-lite for the Flipper. Uses the WiFi dev board to perform ARP sweeps and passive traffic sniffing on connected networks. Displays discovered hosts, open ports, and device fingerprints on the Flipper's screen. Export to SD for later analysis. This is the single most-requested capability that doesn't cleanly exist yet — Marauder can deauth but has no host discovery UI.</p>
+      <div class="app-meta">
+        <span class="meta-chip">ESP32 Required</span>
+        <span class="meta-chip">WiFi</span>
+        <span class="meta-chip">C / FAP</span>
+        <span class="meta-chip">Serial Protocol</span>
+      </div>
+      <div class="kali-equiv">
+        <span class="kali-equiv-label">Kali Equiv</span>
+        <span class="kali-equiv-tools">nmap · arp-scan · masscan · netdiscover</span>
+      </div>
+      <div class="demand-bar">
+        <div class="demand-label"><span>Community Demand</span><span>97%</span></div>
+        <div class="demand-track"><div class="demand-fill" style="width:97%;--bar-from:#f43f5e;--bar-to:#f97316;"></div></div>
+      </div>
+    </div>
+
+    <!-- P1: BLE Device Fingerprinter -->
+    <div class="app-card priority-1">
+      <div class="app-header">
+        <div class="app-icon">📶</div>
+        <div class="app-priority p1">⬆ PRIORITY 1</div>
+      </div>
+      <div class="app-name">BLEprint</div>
+      <div class="app-tagline">BLE passive OSINT scanner & fingerprinter</div>
+      <p class="app-desc">Passively scans BLE advertisements and fingerprints nearby devices by manufacturer data, UUID, and advertising patterns. Classifies devices (Apple Watch, AirPods, Samsung Galaxy, Tile tracker, medical device, smart lock) and tracks RSSI over time. Useful for OSINT walkthroughs and physical security assessments. BlueHydra does this on Kali; nothing comparable exists for Flipper.</p>
+      <div class="app-meta">
+        <span class="meta-chip">Native BLE</span>
+        <span class="meta-chip">No Module Needed</span>
+        <span class="meta-chip">C / FAP</span>
+        <span class="meta-chip">Offline DB</span>
+      </div>
+      <div class="kali-equiv">
+        <span class="kali-equiv-label">Kali Equiv</span>
+        <span class="kali-equiv-tools">btlejack · bluehydra · bettercap (ble.recon)</span>
+      </div>
+      <div class="demand-bar">
+        <div class="demand-label"><span>Community Demand</span><span>94%</span></div>
+        <div class="demand-track"><div class="demand-fill" style="width:94%;--bar-from:#f43f5e;--bar-to:#f97316;"></div></div>
+      </div>
+    </div>
+
+    <!-- P2: RF Protocol Classifier -->
+    <div class="app-card priority-2">
+      <div class="app-header">
+        <div class="app-icon">📻</div>
+        <div class="app-priority p2">▲ PRIORITY 2</div>
+      </div>
+      <div class="app-name">RFClassify</div>
+      <div class="app-tagline">Intelligent sub-GHz signal classification</div>
+      <p class="app-desc">Extends the built-in spectrum analyser with protocol identification. Captured signals are analysed against a known-protocol database — OOK, FSK, ASK, Z-Wave, LoRa, 433MHz garage systems, car key fobs — and labelled with confidence percentage, modulation type, and known vulnerabilities. Currently the Flipper shows a signal exists; this tells you what it is and what you can do with it.</p>
+      <div class="app-meta">
+        <span class="meta-chip">Sub-GHz Native</span>
+        <span class="meta-chip">No Module Needed</span>
+        <span class="meta-chip">Protocol DB</span>
+        <span class="meta-chip">SD Export</span>
+      </div>
+      <div class="kali-equiv">
+        <span class="kali-equiv-label">Kali Equiv</span>
+        <span class="kali-equiv-tools">gqrx · gnuradio · rtl_433 · universal radio hacker</span>
+      </div>
+      <div class="demand-bar">
+        <div class="demand-label"><span>Community Demand</span><span>88%</span></div>
+        <div class="demand-track"><div class="demand-fill" style="width:88%;--bar-from:#f97316;--bar-to:#fbbf24;"></div></div>
+      </div>
+    </div>
+
+    <!-- P2: Evil Portal Kit -->
+    <div class="app-card priority-2">
+      <div class="app-header">
+        <div class="app-icon">🕸️</div>
+        <div class="app-priority p2">▲ PRIORITY 2</div>
+      </div>
+      <div class="app-name">PortalKit</div>
+      <div class="app-tagline">Polished evil portal with credential capture UI</div>
+      <p class="app-desc">Marauder includes a basic evil portal, but it's raw. PortalKit adds a curated template library (WiFi reconnect, corporate login, bank auth, hotel captive portal), one-tap deployment via the Flipper UI, and a live credential log displayed on screen. Captured creds stored to SD. No laptop needed for a complete captive portal engagement.</p>
+      <div class="app-meta">
+        <span class="meta-chip">ESP32 Required</span>
+        <span class="meta-chip">WiFi</span>
+        <span class="meta-chip">Template Engine</span>
+        <span class="meta-chip">Builds on Marauder</span>
+      </div>
+      <div class="kali-equiv">
+        <span class="kali-equiv-label">Kali Equiv</span>
+        <span class="kali-equiv-tools">SET · gophish · wifiphisher · evilginx</span>
+      </div>
+      <div class="demand-bar">
+        <div class="demand-label"><span>Community Demand</span><span>85%</span></div>
+        <div class="demand-track"><div class="demand-fill" style="width:85%;--bar-from:#f97316;--bar-to:#fbbf24;"></div></div>
+      </div>
+    </div>
+
+    <!-- P3: NFC Card Auditor -->
+    <div class="app-card priority-3">
+      <div class="app-header">
+        <div class="app-icon">💳</div>
+        <div class="app-priority p3">◆ PRIORITY 3</div>
+      </div>
+      <div class="app-name">CardAudit</div>
+      <div class="app-tagline">NFC/RFID security vulnerability scanner</div>
+      <p class="app-desc">Goes beyond read-and-replay. Scans detected NFC/RFID cards against a CVE database of known weaknesses — Mifare Classic default keys, Mifare Ultralight without authentication, RFID cloneable sectors, EM4100 replay vulnerabilities. Returns a structured report: card type, detected vulnerabilities, exploitation risk level, and remediation notes. Useful for physical pen tests and access control audits.</p>
+      <div class="app-meta">
+        <span class="meta-chip">Native NFC + RFID</span>
+        <span class="meta-chip">Offline CVE DB</span>
+        <span class="meta-chip">No Module Needed</span>
+        <span class="meta-chip">PDF-like Report</span>
+      </div>
+      <div class="kali-equiv">
+        <span class="kali-equiv-label">Kali Equiv</span>
+        <span class="kali-equiv-tools">mfoc · libnfc · mfterm · nfc-tools</span>
+      </div>
+      <div class="demand-bar">
+        <div class="demand-label"><span>Community Demand</span><span>79%</span></div>
+        <div class="demand-track"><div class="demand-fill" style="width:79%;--bar-from:#fbbf24;--bar-to:#10d98a;"></div></div>
+      </div>
+    </div>
+
+    <!-- P3: Handshake Capture UI -->
+    <div class="app-card priority-3">
+      <div class="app-header">
+        <div class="app-icon">🤝</div>
+        <div class="app-priority p3">◆ PRIORITY 3</div>
+      </div>
+      <div class="app-name">HandShake</div>
+      <div class="app-tagline">Guided WPA2 capture workflow</div>
+      <p class="app-desc">A clean UI wrapper around Marauder's deauth + PMKID/EAPOL handshake capture — the hardest-to-use part of the WiFi dev board workflow. Target selection with signal strength display, deauth burst with progress indicator, handshake detection with audio/visual confirmation, and one-tap save to SD in hashcat-ready .cap format. Makes this standard recon step accessible without typing commands.</p>
+      <div class="app-meta">
+        <span class="meta-chip">ESP32 Required</span>
+        <span class="meta-chip">WiFi</span>
+        <span class="meta-chip">Marauder Backend</span>
+        <span class="meta-chip">.cap Export</span>
+      </div>
+      <div class="kali-equiv">
+        <span class="kali-equiv-label">Kali Equiv</span>
+        <span class="kali-equiv-tools">aircrack-ng · wifite · hcxdumptool · bettercap</span>
+      </div>
+      <div class="demand-bar">
+        <div class="demand-label"><span>Community Demand</span><span>76%</span></div>
+        <div class="demand-track"><div class="demand-fill" style="width:76%;--bar-from:#fbbf24;--bar-to:#10d98a;"></div></div>
+      </div>
+    </div>
+
+    <!-- P4: BadUSB Payload Manager -->
+    <div class="app-card priority-4">
+      <div class="app-header">
+        <div class="app-icon">⌨️</div>
+        <div class="app-priority p4">● PRIORITY 4</div>
+      </div>
+      <div class="app-name">DuckyVault</div>
+      <div class="app-tagline">BadUSB payload library with results capture</div>
+      <p class="app-desc">Curated, categorised library of audited BadUSB payloads with on-device management — browse by category (recon, persistence, credential dump, exfil), preview payload before launch, capture output from powershell/cmd over a serial channel back to Flipper screen, and save results to SD. Bridges the gap between launching a payload and actually receiving its output — currently payloads run blind.</p>
+      <div class="app-meta">
+        <span class="meta-chip">Native BadUSB</span>
+        <span class="meta-chip">No Module Needed</span>
+        <span class="meta-chip">Payload Library</span>
+        <span class="meta-chip">Serial Capture</span>
+      </div>
+      <div class="kali-equiv">
+        <span class="kali-equiv-label">Kali Equiv</span>
+        <span class="kali-equiv-tools">SET · powershell-empire · covenant · ducky encoder</span>
+      </div>
+      <div class="demand-bar">
+        <div class="demand-label"><span>Community Demand</span><span>70%</span></div>
+        <div class="demand-track"><div class="demand-fill" style="width:70%;--bar-from:#6c63ff;--bar-to:#a78bfa;"></div></div>
+      </div>
+    </div>
+
+    <!-- P4: Attack Sequencer -->
+    <div class="app-card priority-4">
+      <div class="app-header">
+        <div class="app-icon">🎯</div>
+        <div class="app-priority p4">● PRIORITY 4</div>
+      </div>
+      <div class="app-name">Playbook</div>
+      <div class="app-tagline">Multi-stage attack orchestration</div>
+      <p class="app-desc">Chains Flipper capabilities into repeatable engagement playbooks. Define a sequence: BLE spam → wait 10s → BadUSB payload → Sub-GHz replay → IR jam. Run from SD-card .yaml files. Each step has configurable delays, success conditions, and fallback actions. Think of it as a programmable macro system for physical pen tests — no equivalent exists in the ecosystem.</p>
+      <div class="app-meta">
+        <span class="meta-chip">All Radios</span>
+        <span class="meta-chip">YAML Playbooks</span>
+        <span class="meta-chip">SD Required</span>
+        <span class="meta-chip">High Complexity</span>
+      </div>
+      <div class="kali-equiv">
+        <span class="kali-equiv-label">Kali Equiv</span>
+        <span class="kali-equiv-tools">metasploit (multi/handler) · ansible-playbook for attacks</span>
+      </div>
+      <div class="demand-bar">
+        <div class="demand-label"><span>Community Demand</span><span>65%</span></div>
+        <div class="demand-track"><div class="demand-fill" style="width:65%;--bar-from:#6c63ff;--bar-to:#a78bfa;"></div></div>
+      </div>
+    </div>
+
+    <!-- P5: Flipper Radar -->
+    <div class="app-card priority-5">
+      <div class="app-header">
+        <div class="app-icon">🔭</div>
+        <div class="app-priority p5">○ PRIORITY 5</div>
+      </div>
+      <div class="app-name">FlipperRadar</div>
+      <div class="app-tagline">Nearby Flipper Zero detector with directional RSSI</div>
+      <p class="app-desc">Detect other Flipper Zeros via BLE advertisement fingerprinting. Displays RSSI signal strength as a directional radar sweep on screen — walk toward the signal to find physical location. Useful for CTF scenarios and fun social discovery. Community has been requesting this for years; technically straightforward since Flippers advertise a known BLE signature.</p>
+      <div class="app-meta">
+        <span class="meta-chip">Native BLE</span>
+        <span class="meta-chip">No Module Needed</span>
+        <span class="meta-chip">RSSI Ranging</span>
+        <span class="meta-chip">CTF / Community</span>
+      </div>
+      <div class="kali-equiv">
+        <span class="kali-equiv-label">Kali Equiv</span>
+        <span class="kali-equiv-tools">kismet · wireshark (BLE) · btlejack</span>
+      </div>
+      <div class="demand-bar">
+        <div class="demand-label"><span>Community Demand</span><span>58%</span></div>
+        <div class="demand-track"><div class="demand-fill" style="width:58%;--bar-from:#06b6d4;--bar-to:#6c63ff;"></div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="section-label">Section 05 — Roadmap</div>
+  <h2 class="section-title">Suggested Build Order</h2>
+  <p class="section-desc">Sequenced for maximum impact and learning curve. Each phase builds on the last.</p>
+
+  <div class="roadmap">
+    <div class="roadmap-item">
+      <div class="roadmap-dot"></div>
+      <div class="roadmap-phase">Phase 1 — Foundation</div>
+      <div class="roadmap-title">BLEprint — BLE Device Fingerprinter</div>
+      <p class="roadmap-desc">Start here. No external module required. Pure C FAP development against Flipper's native BLE stack. Builds skills in FAP framework, UI rendering, and SD card storage. The deliverable is immediately useful and community-friendly enough to get early traction on GitHub.</p>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-dot"></div>
+      <div class="roadmap-phase">Phase 2 — RF Layer</div>
+      <div class="roadmap-title">RFClassify — Signal Protocol Classifier</div>
+      <p class="roadmap-desc">Still no module needed. Extends Phase 1 skills into sub-GHz. Build the protocol database in JSON on SD card — community can contribute entries via GitHub PRs. This becomes a living, crowd-sourced intelligence layer.</p>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-dot"></div>
+      <div class="roadmap-phase">Phase 3 — WiFi Layer</div>
+      <div class="roadmap-title">FlipMap + HandShake — Network Recon Suite</div>
+      <p class="roadmap-desc">First module-dependent apps. Requires establishing a reliable serial communication protocol with ESP32/Marauder. Build FlipMap first (simpler read-only), then HandShake (read + write). At this point you have a genuinely useful field pentesting toolkit.</p>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-dot"></div>
+      <div class="roadmap-phase">Phase 4 — Physical Access</div>
+      <div class="roadmap-title">CardAudit — NFC/RFID Vulnerability Scanner</div>
+      <p class="roadmap-desc">Leverages native NFC/RFID hardware. Build the CVE database from existing public research (Proxmark documentation, NFC research papers). This is the highest-value tool for physical security professionals and a clear differentiator from anything currently in the app store.</p>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-dot"></div>
+      <div class="roadmap-phase">Phase 5 — Orchestration</div>
+      <div class="roadmap-title">Playbook — Attack Sequencer</div>
+      <p class="roadmap-desc">The capstone. Requires all previous phases working. Design the YAML schema first, share it publicly for community feedback before writing a line of code. This is the app that makes the Flipper genuinely dangerous as a standalone engagement tool — and the one most likely to generate media attention.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p style="margin-bottom:8px;">Project Atlas — Larsen Ventures Internal Research</p>
+  <p>Flipper Zero × Kali Linux Gap Analysis &nbsp;·&nbsp; March 2026 &nbsp;·&nbsp; <a href="https://chappie.larsenfamily.com.au">chappie.larsenfamily.com.au</a></p>
+  <p style="margin-top:16px;font-size:11px;color:#333;">For authorised security research and educational purposes only.</p>
+</footer>
+
+<script>
+// Animate demand bars on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.width = entry.target.getAttribute('data-width');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.demand-fill').forEach(bar => {
+  const w = bar.style.width;
+  bar.setAttribute('data-width', w);
+  bar.style.width = '0';
+  observer.observe(bar);
+});
+
+// Active nav
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => l.style.color = '');
+      const active = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+      if (active) active.style.color = 'var(--accent3)';
+    }
+  });
+}, { threshold: 0.3 });
+
+sections.forEach(s => navObserver.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Vitals — Health & Longevity</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg:#080b0f;--card:#0e1318;--border:#1a2030;
+    --text:#c9d1d9;--muted:#4a5568;
+    --green:#22c55e;--yellow:#f59e0b;--red:#ef4444;
+    --blue:#3b82f6;--purple:#a855f7;--teal:#14b8a6;--orange:#f97316;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;padding:20px;max-width:1100px;margin:0 auto;}
+  a{color:var(--blue);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  header{border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:22px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px;}
+  header h1{font-size:0.8rem;font-weight:600;color:var(--text);letter-spacing:0.04em;display:flex;align-items:center;gap:8px;}
+  .meta{font-size:0.67rem;color:var(--muted);}
+
+  .sec{font-size:0.59rem;font-weight:700;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin:26px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+  .sec i{font-size:0.75rem;}
+
+  /* ── Metric cards ── */
+  .mGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:10px;}
+  .mCard{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 16px;position:relative;overflow:hidden;}
+  .mCard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+  .mCard.ok::before{background:var(--green);}
+  .mCard.warn::before{background:var(--yellow);}
+  .mCard.alert::before{background:var(--red);}
+  .mCard.info::before{background:var(--blue);}
+
+  .mIcon{font-size:1.35rem;margin-bottom:9px;}
+  .mIcon.ok{color:var(--green);}.mIcon.warn{color:var(--yellow);}.mIcon.alert{color:var(--red);}.mIcon.info{color:var(--blue);}
+
+  .mLabel{font-size:0.59rem;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:3px;display:flex;align-items:center;gap:5px;}
+  .mLabel a{color:var(--muted);font-size:0.65rem;transition:color .15s;}
+  .mLabel a:hover{color:var(--blue);}
+
+  .mVal{font-size:1.8rem;font-weight:700;line-height:1;margin-bottom:3px;}
+  .mVal.ok{color:var(--green);}.mVal.warn{color:var(--yellow);}.mVal.alert{color:var(--red);}.mVal.info{color:var(--blue);}
+
+  .mUnit{font-size:0.61rem;color:var(--muted);margin-bottom:5px;}
+  .mTrend{font-size:0.63rem;display:flex;align-items:center;gap:4px;margin-bottom:3px;}
+  .up-good{color:var(--green);}.down-good{color:var(--green);}.up-bad{color:var(--red);}.flat{color:var(--muted);}
+  .mRef{font-size:0.57rem;color:var(--muted);line-height:1.4;}
+
+  /* ── Charts ── */
+  .cGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;}
+  .cCard{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;}
+  .cTitle{font-size:0.61rem;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;}
+  .cWrap{position:relative;height:155px;}
+
+  /* ── Research cards ── */
+  .rGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(305px,1fr));gap:12px;}
+  .rCard{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;}
+  .rHead{display:flex;align-items:flex-start;gap:10px;margin-bottom:9px;}
+  .rIco{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;}
+  .rTitle{font-size:0.73rem;font-weight:600;line-height:1.35;margin-bottom:2px;}
+  .rMeta{font-size:0.59rem;color:var(--muted);}
+  .rBody{font-size:0.67rem;color:var(--muted);line-height:1.65;margin-bottom:9px;}
+  .rMatch{display:inline-block;padding:2px 7px;border-radius:3px;font-size:0.56rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;}
+  .rMatch.direct{background:rgba(34,197,94,0.1);color:var(--green);border:1px solid rgba(34,197,94,0.2);}
+  .rMatch.watch {background:rgba(245,158,11,0.1);color:var(--yellow);border:1px solid rgba(245,158,11,0.2);}
+  .rMatch.explore{background:rgba(59,130,246,0.1);color:var(--blue);border:1px solid rgba(59,130,246,0.2);}
+  .rRelevance{font-size:0.65rem;background:rgba(20,184,166,0.05);border:1px solid rgba(20,184,166,0.14);border-radius:4px;padding:8px 10px;color:#9ca3af;line-height:1.6;margin-bottom:9px;}
+  .rRelevance strong{color:var(--teal);}
+  .rLink{font-size:0.62rem;}
+
+  /* ── Optimisation ── */
+  .oGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:10px;}
+  .oCard{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;}
+  .oHead{font-size:0.64rem;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+  .oItem{display:flex;gap:7px;margin-bottom:8px;font-size:0.66rem;color:var(--muted);line-height:1.55;}
+  .oDot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+  .oDis{font-size:0.59rem;color:var(--muted);margin-top:10px;padding-top:8px;border-top:1px solid var(--border);font-style:italic;}
+
+  /* ── Flags ── */
+  .flag{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start;}
+  .fdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+  .fdot.r{background:var(--red);box-shadow:0 0 5px var(--red);}
+  .fdot.y{background:var(--yellow);box-shadow:0 0 5px var(--yellow);}
+  .fdot.g{background:var(--green);box-shadow:0 0 5px var(--green);}
+  .fdot.b{background:var(--blue);box-shadow:0 0 5px var(--blue);}
+  .ftitle{font-size:0.72rem;font-weight:600;margin-bottom:3px;}
+  .fdesc{font-size:0.66rem;color:var(--muted);line-height:1.55;}
+
+  /* ── Tables & misc ── */
+  .card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:10px;}
+  table{width:100%;border-collapse:collapse;font-size:0.69rem;}
+  th{text-align:left;color:var(--muted);font-weight:500;padding:4px 6px 7px 0;font-size:0.59rem;letter-spacing:0.06em;text-transform:uppercase;border-bottom:1px solid var(--border);}
+  td{padding:5px 6px 5px 0;border-bottom:1px solid rgba(26,32,48,0.5);vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+  .green{color:var(--green);}.yellow{color:var(--yellow);}.red{color:var(--red);}.muted{color:var(--muted);}
+  .pill{display:inline-block;padding:2px 7px;border-radius:3px;font-size:0.56rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;}
+  .pill.ok{background:rgba(34,197,94,0.1);color:var(--green);}
+  .pill.warn{background:rgba(245,158,11,0.1);color:var(--yellow);}
+  .pill.alert{background:rgba(239,68,68,0.1);color:var(--red);}
+  .pill.miss{background:rgba(74,85,104,0.12);color:var(--muted);}
+  .pill.info{background:rgba(59,130,246,0.1);color:var(--blue);}
+  .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
+  .tag{background:rgba(74,85,104,0.1);border:1px solid var(--border);border-radius:4px;padding:3px 8px;font-size:0.61rem;color:var(--muted);}
+  .tag.p1{border-color:rgba(239,68,68,0.3);color:var(--red);background:rgba(239,68,68,0.05);}
+  .tag.p2{border-color:rgba(245,158,11,0.3);color:var(--yellow);background:rgba(245,158,11,0.05);}
+  .hint{font-size:0.62rem;color:var(--muted);margin-top:8px;line-height:1.55;}
+  footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--border);font-size:0.61rem;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px;}
+
+  /* Lock screen */
+  #lockScreen{position:fixed;inset:0;background:#080b0f;z-index:9999;display:flex;align-items:center;justify-content:center;}
+  .lockBox{background:#0e1318;border:1px solid #1a2030;border-radius:14px;padding:40px 36px;max-width:340px;width:100%;text-align:center;}
+  .lockBox h2{font-size:1.1rem;font-weight:700;margin-bottom:6px;color:#f1f5f9;}
+  .lockBox p{font-size:0.75rem;color:#e2e8f0;margin-bottom:24px;}
+  .lockBox input{width:100%;background:#080b0f;border:1px solid #1a2030;border-radius:8px;padding:10px 14px;color:#f1f5f9;font-size:0.9rem;text-align:center;outline:none;margin-bottom:12px;letter-spacing:0.1em;}
+  .lockBox input:focus{border-color:#ef4444;}
+  .lockBox button{width:100%;background:#ef4444;color:#fff;border:none;border-radius:8px;padding:10px;font-size:0.9rem;font-weight:600;cursor:pointer;}
+  .lockBox button:hover{background:#dc2626;}
+  .lockErr{font-size:0.72rem;color:#ef4444;margin-top:8px;display:none;}
+  .lockIcon{font-size:2rem;color:#ef4444;margin-bottom:16px;}
+</style>
+</head>
+<body>
+
+<!-- Lock screen -->
+<div id="lockScreen">
+  <div class="lockBox">
+    <div class="lockIcon"><i class="fa-solid fa-heart-pulse"></i></div>
+    <h2>Project Vitals — Andrew</h2>
+    <p>Private health dashboard. Enter your password to continue.</p>
+    <input type="password" id="pwInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+    <button onclick="checkPw()">Unlock</button>
+    <p class="lockErr" id="lockErr">Incorrect password.</p>
+  </div>
+</div>
+
+<script>
+function checkPw(){
+  const v=document.getElementById('pwInput').value;
+  if(v.toLowerCase()==='atxrocks'){
+    document.getElementById('lockScreen').style.display='none';
+    document.getElementById('pwInput').value='';
+  } else {
+    document.getElementById('lockErr').style.display='block';
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').focus();
+  }
+}
+document.getElementById('pwInput').addEventListener('keyup',function(e){
+  if(e.key==='Enter')checkPw();
+});
+</script>
+
+<header>
+  <h1><i class="fa-solid fa-heart-pulse" style="color:#ef4444"></i> Project Vitals &nbsp;·&nbsp; Health &amp; Longevity</h1>
+  <span class="meta">Last panel: Nov 2025 &nbsp;·&nbsp; 6 panels tracked &nbsp;·&nbsp; Male, 43 &nbsp;·&nbsp; TRT active since Jun 2024</span>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- RIGHT NOW -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="sec"><i class="fa-solid fa-circle-dot" style="color:#22c55e"></i> Right Now — November 2025</div>
+<div class="mGrid">
+
+  <div class="mCard warn">
+    <div class="mIcon warn"><i class="fa-solid fa-dna"></i></div>
+    <div class="mLabel">Total Testosterone <a href="https://www.healthdirect.gov.au/testosterone" target="_blank"><i class="fa-solid fa-circle-question"></i></a></div>
+    <div class="mVal warn">26.2</div>
+    <div class="mUnit">nmol/L &nbsp;·&nbsp; ref 10–35</div>
+    <div class="mTrend"><i class="fa-solid fa-minus flat"></i><span class="flat">Stable on TRT</span></div>
+    <div class="mRef">Peak 37.4 (Oct 24) → titrated to 26 range</div>
+  </div>
+
+  <div class="mCard warn">
+    <div class="mIcon warn"><i class="fa-solid fa-chart-line"></i></div>
+    <div class="mLabel">Free Testosterone <a href="https://www.healthdirect.gov.au/testosterone" target="_blank"><i class="fa-solid fa-circle-question"></i></a></div>
+    <div class="mVal warn">727</div>
+    <div class="mUnit">pmol/L &nbsp;·&nbsp; ref 225–725</div>
+    <div class="mTrend"><i class="fa-solid fa-arrow-trend-down down-good"></i><span class="down-good">Down from 997 peak</span></div>
+    <div class="mRef">At ceiling of ref range. Pre-TRT: 228</div>
+  </div>
+
+  <div class="mCard alert">
+    <div class="mIcon alert"><i class="fa-solid fa-flask"></i></div>
+    <div class="mLabel">Oestradiol (E2) <a href="https://www.healthdirect.gov.au/oestrogen" target="_blank"><i class="fa-solid fa-circle-question"></i></a></div>
+    <div class="mVal alert">159</div>
+    <div class="mUnit">pmol/L &nbsp;·&nbsp; ref &lt;100</div>
+    <div class="mTrend"><i class="fa-solid fa-arrow-trend-down down-good"></i><span class="down-good">Improving (was 198)</span></div>
+    <div class="mRef">TRT aromatisation. Pre-TRT baseline: 67</div>
+  </div>
+
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-heart-pulse"></i></div>
+    <div class="mLabel">hs-CRP Inflammation <a href="https://www.mayoclinic.org/tests-procedures/c-reactive-protein-test/about/pac-20385228" target="_blank"><i class="fa-solid fa-circle-question"></i></a></div>
+    <div class="mVal ok">0.91</div>
+    <div class="mUnit">mg/L &nbsp;·&nbsp; target &lt;1.0</div>
+    <div class="mTrend"><i class="fa-solid fa-arrow-trend-down down-good"></i><span class="down-good">Held low — 2 panels</span></div>
+    <div class="mRef">Feb 25: 3.13 → May 25: 0.91 → Nov 25: 0.91</div>
+  </div>
+
+  <div class="mCard warn">
+    <div class="mIcon warn"><i class="fa-solid fa-droplet"></i></div>
+    <div class="mLabel">LDL Cholesterol <a href="https://www.heartfoundation.org.au/your-heart/know-your-numbers/cholesterol" target="_blank"><i class="fa-solid fa-circle-question"></i></a></div>
+    <div class="mVal warn">3.4</div>
+    <div class="mUnit">mmol/L &nbsp;·&nbsp; longevity target &lt;2.5</div>
+    <div class="mTrend"><i class="fa-solid fa-minus flat"></i><span class="flat">Stuck at ceiling — rising since 2022</span></div>
+    <div class="mRef">ApoB unmeasured ⭐ — true risk unknown</div>
+  </div>
+
+  <div class="mCard warn">
+    <div class="mIcon warn"><i class="fa-solid fa-vial"></i></div>
+    <div class="mLabel">Haemoglobin <a href="https://www.healthdirect.gov.au/haemoglobin" target="_blank"><i class="fa-solid fa-circle-question"></i></a></div>
+    <div class="mVal warn">165</div>
+    <div class="mUnit">g/L &nbsp;·&nbsp; ref 130–170</div>
+    <div class="mTrend"><i class="fa-solid fa-arrow-trend-up up-bad"></i><span class="up-bad">+18% from pre-TRT 140</span></div>
+    <div class="mRef">TRT erythropoietic effect — monitor for polycythaemia</div>
+  </div>
+
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-microscope"></i></div>
+    <div class="mLabel">PSA <a href="https://www.cancercouncil.com.au/prostate-cancer/diagnosis/psa-test/" target="_blank"><i class="fa-solid fa-circle-question"></i></a></div>
+    <div class="mVal ok">0.50</div>
+    <div class="mUnit">ug/L &nbsp;·&nbsp; ref 0.25–2.20</div>
+    <div class="mTrend"><i class="fa-solid fa-minus flat"></i><span class="flat">Stable across all 5 draws</span></div>
+    <div class="mRef">No upward trend. Annual monitoring on TRT.</div>
+  </div>
+
+  <div class="mCard ok">
+    <div class="mIcon ok"><i class="fa-solid fa-weight-scale"></i></div>
+    <div class="mLabel">Fasting Glucose <a href="https://www.diabetesaustralia.com.au/living-with-diabetes/checking-your-glucose/" target="_blank"><i class="fa-solid fa-circle-question"></i></a></div>
+    <div class="mVal ok">4.8</div>
+    <div class="mUnit">mmol/L &nbsp;·&nbsp; ref &lt;5.5</div>
+    <div class="mTrend"><i class="fa-solid fa-arrow-trend-down down-good"></i><span class="down-good">Improving (was 5.0)</span></div>
+    <div class="mRef">HbA1c + fasting insulin not yet tested ⭐</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- KEY TRENDS -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="sec"><i class="fa-solid fa-chart-area" style="color:#3b82f6"></i> Key Trends</div>
+<div class="cGrid">
+
+  <div class="cCard">
+    <div class="cTitle">Testosterone — The Full TRT Story <span class="pill warn">TRT Active</span></div>
+    <div class="cWrap"><canvas id="cT"></canvas></div>
+  </div>
+
+  <div class="cCard">
+    <div class="cTitle">Inflammation — hs-CRP <span class="pill ok">Low Risk</span></div>
+    <div class="cWrap"><canvas id="cCRP"></canvas></div>
+  </div>
+
+  <div class="cCard">
+    <div class="cTitle">LDL Cholesterol — Creeping Up <span class="pill warn">At Ceiling</span></div>
+    <div class="cWrap"><canvas id="cLDL"></canvas></div>
+  </div>
+
+  <div class="cCard">
+    <div class="cTitle">Haemoglobin — TRT Erythropoiesis <span class="pill warn">Monitor</span></div>
+    <div class="cWrap"><canvas id="cHb"></canvas></div>
+  </div>
+
+  <div class="cCard">
+    <div class="cTitle">Oestradiol — Post-TRT Aromatisation <span class="pill alert">Elevated</span></div>
+    <div class="cWrap"><canvas id="cE2"></canvas></div>
+  </div>
+
+  <div class="cCard">
+    <div class="cTitle">PSA — Prostate Health on TRT <span class="pill ok">Stable</span></div>
+    <div class="cWrap"><canvas id="cPSA"></canvas></div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- LONGEVITY RESEARCH -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="sec"><i class="fa-solid fa-flask" style="color:#a855f7"></i> Longevity Research — Mapped to Your Data</div>
+<div class="rGrid">
+
+  <div class="rCard">
+    <span class="rMatch direct">Direct Match</span>
+    <div class="rHead">
+      <div class="rIco" style="background:rgba(168,85,247,0.1);color:#a855f7"><i class="fa-solid fa-dna"></i></div>
+      <div>
+        <div class="rTitle">TRAVERSE Trial — TRT &amp; Cardiovascular Safety</div>
+        <div class="rMeta">NEJM, 2023 &nbsp;·&nbsp; n=5,246, 33-month RCT &nbsp;·&nbsp; Landmark</div>
+      </div>
+    </div>
+    <div class="rBody">Largest RCT of testosterone therapy in hypogonadal men with elevated CV risk. TRT did not increase major adverse cardiovascular events (MACE) vs placebo. However, non-fatal atrial fibrillation (+3.5%), pulmonary embolism (+1.0%), and acute kidney injury were modestly higher in the TRT arm. Small absolute risks, but worth flagging.</div>
+    <div class="rRelevance"><strong>Your data:</strong> You're on TRT for secondary hypogonadism. This trial is direct reassurance on overall CV safety. The AF and PE signals are relevant given your Hb is rising — elevated red cell mass increases blood viscosity and clot risk. Worth keeping Hb under watch.</div>
+    <a class="rLink" href="https://www.nejm.org/doi/10.1056/NEJMoa2215025" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.55rem;margin-right:3px"></i>NEJM 2023 — TRAVERSE Trial</a>
+  </div>
+
+  <div class="rCard">
+    <span class="rMatch direct">Direct Match</span>
+    <div class="rHead">
+      <div class="rIco" style="background:rgba(245,158,11,0.1);color:#f59e0b"><i class="fa-solid fa-droplet"></i></div>
+      <div>
+        <div class="rTitle">ApoB Outperforms LDL-C for CVD Risk</div>
+        <div class="rMeta">Lancet / ESC 2021 Guidelines, multiple meta-analyses</div>
+      </div>
+    </div>
+    <div class="rBody">Each LDL particle contains exactly one ApoB molecule. High particle count with apparently normal LDL-C (called discordance) significantly underestimates cardiovascular risk — especially common after metabolic changes like starting TRT. ESC now recommends ApoB as the primary CVD risk marker. Target: &lt;65 mg/dL for high-risk individuals, &lt;80 for moderate risk.</div>
+    <div class="rRelevance"><strong>Your data:</strong> LDL-C 3.4 — at ceiling and rising since 2022. TRT can shift lipid particle composition toward smaller, denser particles. You could have discordance where LDL-C looks borderline but ApoB reveals significantly higher true risk. This is the single most important missing test.</div>
+    <a class="rLink" href="https://pubmed.ncbi.nlm.nih.gov/32698986/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.55rem;margin-right:3px"></i>ESC ApoB Guidance — PubMed</a>
+  </div>
+
+  <div class="rCard">
+    <span class="rMatch direct">Direct Match</span>
+    <div class="rHead">
+      <div class="rIco" style="background:rgba(239,68,68,0.1);color:#ef4444"><i class="fa-solid fa-flask"></i></div>
+      <div>
+        <div class="rTitle">Optimal Oestradiol Range in Men on TRT</div>
+        <div class="rMeta">J Clin Endocrinol Metab, 2014–2023 (multiple studies)</div>
+      </div>
+    </div>
+    <div class="rBody">Men need oestradiol for bone mineral density, cognitive function, libido, mood, and cardiovascular protection. Aggressively suppressing E2 with aromatase inhibitors (as was common practice) causes bone loss, depression, erectile dysfunction, and joint pain. The current consensus: target 70–150 pmol/L — not as low as possible. Your E2 is just above this optimal window.</div>
+    <div class="rRelevance"><strong>Your data:</strong> E2 159 pmol/L — improving from 198. Just above the 150 ceiling of the optimal window. A modest, low-dose AI protocol could bring you to 90–120 pmol/L without overcorrecting. The key is titration — crashing E2 creates worse symptoms than mild elevation.</div>
+    <a class="rLink" href="https://pubmed.ncbi.nlm.nih.gov/24064685/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.55rem;margin-right:3px"></i>PubMed — Oestradiol in Men</a>
+  </div>
+
+  <div class="rCard">
+    <span class="rMatch explore">Explore</span>
+    <div class="rHead">
+      <div class="rIco" style="background:rgba(59,130,246,0.1);color:#3b82f6"><i class="fa-solid fa-brain"></i></div>
+      <div>
+        <div class="rTitle">Enclomiphene — Fixing the HPG Axis Root Cause</div>
+        <div class="rMeta">Clinical Endocrinology, 2019–2024 (ongoing trials)</div>
+      </div>
+    </div>
+    <div class="rBody">Enclomiphene citrate is a SERM that blocks E2 feedback at the hypothalamus, prompting the pituitary to release more LH and FSH, which drives natural testosterone production. Unlike TRT, it preserves testicular function, fertility, and the natural HPG axis. Evidence shows it can normalise T in secondary hypogonadism — exactly your Feb 2024 diagnosis (LH=2, low T, normal prolactin).</div>
+    <div class="rRelevance"><strong>Your data:</strong> Your hypogonadism was confirmed secondary — the pituitary wasn't signalling adequately. Enclomiphene targets the cause rather than bypassing it. Not a recommendation to switch, but worth raising with your prescriber, particularly if you ever want to preserve fertility or come off TRT.</div>
+    <a class="rLink" href="https://pubmed.ncbi.nlm.nih.gov/30758070/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.55rem;margin-right:3px"></i>PubMed — Enclomiphene for Secondary Hypogonadism</a>
+  </div>
+
+  <div class="rCard">
+    <span class="rMatch watch">Watch</span>
+    <div class="rHead">
+      <div class="rIco" style="background:rgba(20,184,166,0.1);color:#14b8a6"><i class="fa-solid fa-clock-rotate-left"></i></div>
+      <div>
+        <div class="rTitle">DunedinPACE — Measuring Your Rate of Ageing</div>
+        <div class="rMeta">Nature Aging, 2022 &nbsp;·&nbsp; 24-year longitudinal cohort</div>
+      </div>
+    </div>
+    <div class="rBody">DunedinPACE is an epigenetic clock that measures not your biological age, but how fast you are currently ageing — a "pace of ageing" score. The rate of change independently predicts mortality, cognitive decline, and physical function, regardless of your starting point. Crucially, the pace can change with interventions (diet, exercise, sleep, metabolic health).</div>
+    <div class="rRelevance"><strong>Your data:</strong> No epigenetic testing done yet. Your hs-CRP normalisation (17.0 → 0.91) and improving fasting glucose (5.0 → 4.8) suggest markers of accelerated ageing are trending in the right direction. A single DunedinPACE test (~$350 AUD via TruDiagnostic from a blood draw) would give a biological age baseline worth tracking annually.</div>
+    <a class="rLink" href="https://www.nature.com/articles/s43587-022-00248-2" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.55rem;margin-right:3px"></i>Nature Aging — DunedinPACE (2022)</a>
+  </div>
+
+  <div class="rCard">
+    <span class="rMatch watch">Watch</span>
+    <div class="rHead">
+      <div class="rIco" style="background:rgba(34,197,94,0.1);color:#22c55e"><i class="fa-solid fa-heart-pulse"></i></div>
+      <div>
+        <div class="rTitle">JUPITER Trial — hs-CRP as a Treatment Trigger</div>
+        <div class="rMeta">NEJM, 2008 &nbsp;·&nbsp; n=17,802 &nbsp;·&nbsp; Still guideline-setting</div>
+      </div>
+    </div>
+    <div class="rBody">JUPITER showed that men with normal LDL-C but elevated hs-CRP (&gt;2 mg/L) had a 44% relative reduction in major CV events with rosuvastatin 20mg. This established hs-CRP as an independent treatment trigger — not just a risk marker — even when LDL appears acceptable by standard guidelines.</div>
+    <div class="rRelevance"><strong>Your data:</strong> In Feb 2025, you had hs-CRP 3.13 with LDL 3.4 — this exact combination would have met JUPITER criteria for statin consideration. Your CRP has now normalised to 0.91 (below the threshold). The question is whether it stays there, and what ApoB will show. If ApoB comes back high, the combined signal strengthens the case for statin therapy.</div>
+    <a class="rLink" href="https://www.nejm.org/doi/10.1056/NEJMoa0807646" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.55rem;margin-right:3px"></i>NEJM 2008 — JUPITER Trial</a>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- OPTIMISATION -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="sec"><i class="fa-solid fa-sliders" style="color:#f59e0b"></i> Optimisation Opportunities</div>
+<div class="oGrid">
+
+  <div class="oCard">
+    <div class="oHead" style="color:#a855f7"><i class="fa-solid fa-pills" style="color:#a855f7"></i> Pharmaceutical</div>
+    <div class="oItem"><div class="oDot" style="background:#a855f7"></div><div><strong style="color:#c9d1d9">Low-dose Aromatase Inhibitor</strong> — Anastrozole 0.25–0.5mg 2×/week may bring E2 from 159 → 90–120 pmol/L without overcorrecting. Discuss with TRT prescriber.</div></div>
+    <div class="oItem"><div class="oDot" style="background:#a855f7"></div><div><strong style="color:#c9d1d9">Enclomiphene</strong> — If considering preserving HPG axis function or coming off TRT eventually. Stimulates your pituitary directly.</div></div>
+    <div class="oItem"><div class="oDot" style="background:#a855f7"></div><div><strong style="color:#c9d1d9">Statin (conditional)</strong> — If ApoB comes back high, rosuvastatin 5–10mg is clean and well-tolerated. Decision pending ApoB result.</div></div>
+    <div class="oItem"><div class="oDot" style="background:#a855f7"></div><div><strong style="color:#c9d1d9">Therapeutic phlebotomy</strong> — If Hb approaches 185 g/L. Blood donation achieves the same effect and benefits others.</div></div>
+    <div class="oDis">Research-based discussion points only — not recommendations. Raise with your prescribing doctor.</div>
+  </div>
+
+  <div class="oCard">
+    <div class="oHead" style="color:#22c55e"><i class="fa-solid fa-seedling" style="color:#22c55e"></i> Nutritional</div>
+    <div class="oItem"><div class="oDot" style="background:#22c55e"></div><div><strong style="color:#c9d1d9">Omega-3 EPA/DHA 2–4g/day</strong> — Strongest supplement evidence for CV health. Reduces triglycerides, anti-inflammatory, improves LDL particle size.</div></div>
+    <div class="oItem"><div class="oDot" style="background:#22c55e"></div><div><strong style="color:#c9d1d9">Plant sterols 2g/day</strong> — Proven 8–10% LDL reduction. Found in fortified margarine or supplement form.</div></div>
+    <div class="oItem"><div class="oDot" style="background:#22c55e"></div><div><strong style="color:#c9d1d9">Reduce alcohol</strong> — Alcohol raises oestradiol via aromatase upregulation. Reducing intake may help bring E2 into optimal range.</div></div>
+    <div class="oItem"><div class="oDot" style="background:#22c55e"></div><div><strong style="color:#c9d1d9">Mediterranean diet</strong> — Best overall longevity evidence for middle-aged men. Reduces LDL, CRP, and all-cause mortality.</div></div>
+  </div>
+
+  <div class="oCard">
+    <div class="oHead" style="color:#3b82f6"><i class="fa-solid fa-person-running" style="color:#3b82f6"></i> Exercise &amp; Lifestyle</div>
+    <div class="oItem"><div class="oDot" style="background:#3b82f6"></div><div><strong style="color:#c9d1d9">Strength training 3×/wk ✓</strong> — Already doing. Best single intervention for testosterone, insulin sensitivity, and longevity. Keep it.</div></div>
+    <div class="oItem"><div class="oDot" style="background:#3b82f6"></div><div><strong style="color:#c9d1d9">Add Zone 2 cardio</strong> — 150–180min/week at conversational pace. Most powerful intervention for mitochondrial health, VO₂max, and all-cause mortality reduction.</div></div>
+    <div class="oItem"><div class="oDot" style="background:#3b82f6"></div><div><strong style="color:#c9d1d9">Sleep hygiene</strong> — Poor sleep elevates CRP and suppresses testosterone. 7–9hrs is non-negotiable on TRT.</div></div>
+    <div class="oItem"><div class="oDot" style="background:#3b82f6"></div><div><strong style="color:#c9d1d9">Blood donation</strong> — Reduces Hb and haematocrit. If Hb keeps rising, consider giving blood quarterly.</div></div>
+  </div>
+
+  <div class="oCard">
+    <div class="oHead" style="color:#f59e0b"><i class="fa-solid fa-capsules" style="color:#f59e0b"></i> Supplements (evidence tier)</div>
+    <div class="oItem"><div class="oDot" style="background:#f59e0b"></div><div><strong style="color:#c9d1d9">Vitamin D3 + K2</strong> — Almost certainly deficient (not tested). Critical for testosterone production, bone density, immune function. Test 25-OH-D3 first.</div></div>
+    <div class="oItem"><div class="oDot" style="background:#f59e0b"></div><div><strong style="color:#c9d1d9">Magnesium glycinate 300–400mg</strong> — Improves sleep quality, insulin sensitivity, reduces aromatase activity. Take before bed.</div></div>
+    <div class="oItem"><div class="oDot" style="background:#f59e0b"></div><div><strong style="color:#c9d1d9">Berberine 500mg 2×/day</strong> — 15–20% LDL reduction in trials, comparable to low-dose statin. Worth trialling while awaiting ApoB data.</div></div>
+    <div class="oItem"><div class="oDot" style="background:#f59e0b"></div><div><strong style="color:#c9d1d9">NMN/NR (NAD+ precursors)</strong> — Emerging evidence for mitochondrial function and epigenetic pace-of-ageing. Human evidence still thin but low risk profile.</div></div>
+    <div class="oDis">Supplement evidence varies. Discuss with GP before adding anything that may interact with TRT protocol.</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- ACTIVE FLAGS -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="sec"><i class="fa-solid fa-triangle-exclamation" style="color:#ef4444"></i> Active Flags</div>
+
+<div class="flag">
+  <div class="fdot b"></div>
+  <div>
+    <div class="ftitle" style="color:var(--blue)">Secondary hypogonadism — root cause not investigated</div>
+    <div class="fdesc">LH=2 with falling T in Feb 2024. Prolactin normal (83) — rules out prolactinoma. But the underlying reason your pituitary wasn't signalling adequately was never formally investigated. TRT treats the downstream symptom. The root cause (hypothalamic dysfunction? pituitary microadenoma? other?) remains unknown. A pituitary MRI or GnRH stimulation test would answer this.</div>
+  </div>
+</div>
+
+<div class="flag">
+  <div class="fdot y"></div>
+  <div>
+    <div class="ftitle" style="color:var(--yellow)">Oestradiol 159 pmol/L — just above optimal range, trending right</div>
+    <div class="fdesc">TRT aromatisation elevated E2 from a baseline of 67 to 198, now improving to 159. The optimal range for male health and bone density is 70–150 pmol/L — you're 9 points above it. Low-dose AI protocol (anastrozole 0.25mg) may bring you into range. Discuss with your TRT prescriber — the goal is optimisation, not suppression.</div>
+  </div>
+</div>
+
+<div class="flag">
+  <div class="fdot y"></div>
+  <div>
+    <div class="ftitle" style="color:var(--yellow)">ApoB unmeasured — true cardiovascular risk is unknown</div>
+    <div class="fdesc">LDL-C 3.4 looks borderline acceptable, but TRT changes lipid particle composition toward smaller, denser, more atherogenic particles. ApoB captures this — LDL-C misses it. You could have significant discordance. Lp(a) is genetic, only needs testing once, and is a major independent risk factor that 20% of people carry elevated. Both should be on the next panel.</div>
+  </div>
+</div>
+
+<div class="flag">
+  <div class="fdot y"></div>
+  <div>
+    <div class="ftitle" style="color:var(--yellow)">Haemoglobin 165 g/L — +18% from pre-TRT, still in range but rising</div>
+    <div class="fdesc">Expected TRT-driven erythropoiesis. Pre-TRT baseline was 140. Now 165, within normal limits (130–170) but the direction is consistently upward. Higher haematocrit increases blood viscosity and modestly raises DVT/PE risk (cross-referencing TRAVERSE trial findings). Discuss a monitoring threshold with your doctor — most TRT protocols flag at Hb ≥185.</div>
+  </div>
+</div>
+
+<div class="flag">
+  <div class="fdot g"></div>
+  <div>
+    <div class="ftitle" style="color:var(--green)">hs-CRP 0.91 — sustained low risk for two consecutive panels</div>
+    <div class="fdesc">Down from 17.0 (Feb 2024, acute illness) → 3.13 (Feb 2025, chronic high-risk) → 0.91 (May 2025) → 0.91 (Nov 2025). The May→Nov hold is meaningful — this isn't a one-off. Whatever changed between Feb and May 2025 is working. Identify and protect it. Low CRP at your age with your T levels and lipid profile is a genuine positive.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- DOCTOR QUESTIONS -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="sec"><i class="fa-solid fa-stethoscope" style="color:#14b8a6"></i> Questions for Next Doctor Visit</div>
+<div class="card">
+  <table>
+    <tr><th>#</th><th>Question</th><th>Priority</th></tr>
+    <tr><td class="muted">1</td><td>LH=2 with falling T in Feb 2024 — was the cause of secondary hypogonadism ever investigated? Pituitary MRI? GnRH stimulation test? Or was it treated empirically?</td><td><span class="pill alert">High</span></td></tr>
+    <tr><td class="muted">2</td><td>Add to next panel: ApoB, Lp(a) (once only), HbA1c, fasting insulin, Vitamin D (25-OH), DHEA-S, IGF-1, LH/FSH (current state on TRT)</td><td><span class="pill alert">High</span></td></tr>
+    <tr><td class="muted">3</td><td>Oestradiol at 159 — at what threshold would you consider a low-dose AI? What E2 range are you managing to on this TRT protocol?</td><td><span class="pill warn">Medium</span></td></tr>
+    <tr><td class="muted">4</td><td>Haemoglobin now 165 (from 140 pre-TRT) — what's the monitoring threshold? At what level do we discuss dose reduction or therapeutic phlebotomy?</td><td><span class="pill warn">Medium</span></td></tr>
+    <tr><td class="muted">5</td><td>LDL rising since 2022 (2.9→3.4) — is this expected with TRT? What happens if ApoB comes back elevated?</td><td><span class="pill warn">Medium</span></td></tr>
+    <tr><td class="muted">6</td><td>Any interest in discussing enclomiphene as an adjunct to preserve HPG axis function?</td><td><span class="pill ok">Optional</span></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- MISSING MARKERS -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="sec"><i class="fa-solid fa-vials" style="color:var(--muted)"></i> Missing Markers — Next Panel</div>
+<div class="card">
+  <div class="tags">
+    <span class="tag p1">ApoB ⭐⭐</span>
+    <span class="tag p1">Lp(a) ⭐⭐ (once only)</span>
+    <span class="tag p1">Pituitary MRI ⭐</span>
+    <span class="tag p2">HbA1c</span>
+    <span class="tag p2">Fasting Insulin</span>
+    <span class="tag p2">Vitamin D (25-OH)</span>
+    <span class="tag p2">TSH + T3/T4</span>
+    <span class="tag">DHEA-S</span>
+    <span class="tag">IGF-1</span>
+    <span class="tag">Homocysteine</span>
+    <span class="tag">B12 + Folate</span>
+    <span class="tag">VO₂max</span>
+    <span class="tag">DunedinPACE (epigenetic age)</span>
+    <span class="tag">Iron panel (recheck)</span>
+  </div>
+  <div class="hint">⭐⭐ = critical. ApoB and Lp(a) are the highest value tests not yet done. They answer the CVD risk question that LDL-C cannot.</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- FULL HISTORY -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="sec"><i class="fa-solid fa-table-list" style="color:var(--muted)"></i> Full Panel History</div>
+
+<div class="card">
+  <div style="font-size:0.61rem;color:var(--muted);margin-bottom:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">Testosterone &amp; Hormones</div>
+  <table>
+    <tr><th>Date</th><th>Total T</th><th>Free T</th><th>SHBG</th><th>Oestradiol</th><th>LH</th><th>FSH</th><th>Prolactin</th></tr>
+    <tr><td class="muted">Feb 2024</td><td class="yellow">10.9</td><td class="yellow">228</td><td>30</td><td class="green">67</td><td class="yellow"><strong>2 ⚑</strong></td><td>4</td><td>83</td></tr>
+    <tr><td class="muted">Mar 2024</td><td class="yellow">11.5</td><td class="yellow">253</td><td>25</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td></tr>
+    <tr><td class="muted">Jun 2024 →TRT</td><td class="red">6.1</td><td class="red">136</td><td>23</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td></tr>
+    <tr><td class="muted">Oct 2024</td><td class="red">37.4 ⬆</td><td class="red">997</td><td>20</td><td class="muted">—</td><td class="muted">suppressed</td><td class="muted">—</td><td class="muted">—</td></tr>
+    <tr><td class="muted">Feb 2025</td><td class="green">26.4</td><td class="yellow">758</td><td>22</td><td class="muted">—</td><td class="muted">suppressed</td><td class="muted">—</td><td class="muted">—</td></tr>
+    <tr><td class="muted">May 2025</td><td class="green">28.8</td><td class="yellow">796</td><td>26</td><td class="yellow">198</td><td class="muted">suppressed</td><td class="muted">—</td><td class="muted">—</td></tr>
+    <tr><td class="muted">Nov 2025</td><td class="green">26.2</td><td class="yellow">727</td><td>24</td><td class="yellow">159</td><td class="muted">suppressed</td><td class="muted">—</td><td class="muted">—</td></tr>
+  </table>
+  <div class="hint">⚑ LH=2 with falling T = secondary hypogonadism (pituitary not signalling). TRT suppresses LH/FSH — measuring them post-TRT is not meaningful.</div>
+</div>
+
+<div class="card">
+  <div style="font-size:0.61rem;color:var(--muted);margin-bottom:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">Cardiovascular &amp; Metabolic</div>
+  <table>
+    <tr><th>Marker</th><th>Apr 22</th><th>Feb 24*</th><th>Jun 24</th><th>May 25</th><th>Nov 25</th><th>Ref</th></tr>
+    <tr><td>LDL (mmol/L)</td><td class="green">2.9</td><td class="muted">2.1*</td><td class="yellow">3.3</td><td class="yellow">3.4</td><td class="yellow">3.4</td><td>&lt;3.4 std / &lt;2.5 longevity</td></tr>
+    <tr><td>HDL (mmol/L)</td><td>1.1</td><td class="muted">0.9*</td><td>1.2</td><td>1.3</td><td class="yellow">1.1</td><td>&gt;0.9</td></tr>
+    <tr><td>Triglycerides</td><td class="green">0.9</td><td class="muted">0.5*</td><td class="green">0.6</td><td class="green">0.8</td><td class="green">0.6</td><td>&lt;2.0</td></tr>
+    <tr><td>hs-CRP (mg/L)</td><td class="muted">—</td><td class="red">17.0†</td><td class="muted">—</td><td class="yellow">3.13</td><td class="green">0.91</td><td class="green">0.91</td></tr>
+    <tr><td>Glucose (fasting)</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td>5.0</td><td class="green">4.8</td><td>&lt;5.5</td></tr>
+    <tr><td>PSA (ug/L)</td><td class="muted">—</td><td>0.68</td><td class="muted">—</td><td>0.57 / 0.53</td><td>0.50</td><td>0.25–2.20</td></tr>
+  </table>
+  <div class="hint">* Feb 2024 was a random (non-fasting) draw — lipid values not directly comparable to fasting panels. † CRP 17.0 likely reflects acute illness at that draw, not chronic cardiovascular risk.</div>
+</div>
+
+<div class="card">
+  <div style="font-size:0.61rem;color:var(--muted);margin-bottom:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">Full Blood Count</div>
+  <table>
+    <tr><th>Marker</th><th>Feb 24</th><th>Jun 24</th><th>Oct 24</th><th>Feb 25</th><th>May 25</th><th>Nov 25</th><th>Ref</th></tr>
+    <tr><td>Haemoglobin (g/L)</td><td class="muted">140</td><td>151</td><td>163</td><td>150</td><td class="yellow">165</td><td class="yellow">165</td><td>130–170</td></tr>
+    <tr><td>WCC (×10⁹/L)</td><td>5.5</td><td>5.6</td><td class="yellow">9.3‡</td><td>5.4</td><td>6.3</td><td>6.1</td><td>4–11</td></tr>
+    <tr><td>Platelets (×10⁹/L)</td><td>183</td><td>194</td><td>174</td><td>204</td><td>179</td><td>202</td><td>150–450</td></tr>
+  </table>
+  <div class="hint">‡ Oct 2024 WCC spike (9.3) likely infection or stress — fully resolved by Feb 2025. Pre-TRT Hb of 140 shown as baseline context.</div>
+</div>
+
+<footer>
+  <span><i class="fa-solid fa-lock" style="font-size:0.6rem;margin-right:4px;color:var(--muted)"></i>Project Vitals — private &nbsp;·&nbsp; <a href="/">← chappie.larsenfamily.com.au</a></span>
+  <span>v0.4 &nbsp;·&nbsp; 6 panels Feb 2024–Nov 2025 &nbsp;·&nbsp; Updated 2026-03-24</span>
+</footer>
+
+<script>
+const BASE = {
+  responsive:true, maintainAspectRatio:false,
+  plugins:{
+    legend:{display:false},
+    tooltip:{backgroundColor:'#1a2030',titleColor:'#c9d1d9',bodyColor:'#c9d1d9',borderColor:'#2a3040',borderWidth:1}
+  },
+  scales:{
+    x:{grid:{color:'rgba(26,32,48,0.8)'},ticks:{color:'#4a5568',font:{size:9}}},
+    y:{grid:{color:'rgba(26,32,48,0.8)'},ticks:{color:'#4a5568',font:{size:9}}}
+  }
+};
+
+function line(id, labels, data, color, refLines=[], ptColors=null){
+  const ds = [{
+    data, borderColor:color,
+    pointBackgroundColor: ptColors || data.map(()=>color),
+    pointRadius:5, tension:0.28, fill:false, borderWidth:2
+  }];
+  refLines.forEach(r=>ds.push({
+    data:labels.map(()=>r.v),
+    borderColor:r.c||'rgba(74,85,104,0.35)',
+    borderDash:[4,4],pointRadius:0,fill:false,borderWidth:1
+  }));
+  new Chart(document.getElementById(id).getContext('2d'),{type:'line',data:{labels,datasets:ds},options:{...BASE}});
+}
+
+// Testosterone
+line('cT',
+  ['Feb 24','Mar 24','Jun 24','Oct 24','Feb 25','May 25','Nov 25'],
+  [10.9,11.5,6.1,37.4,26.4,28.8,26.2],
+  '#a855f7',
+  [{v:35,c:'rgba(74,85,104,0.35)'},{v:10,c:'rgba(74,85,104,0.35)'}],
+  ['#4a5568','#4a5568','#ef4444','#ef4444','#22c55e','#22c55e','#22c55e']
+);
+
+// CRP
+line('cCRP',
+  ['Feb 24','Feb 25','May 25','Nov 25'],
+  [17.0,3.13,0.91,0.91],
+  '#22c55e',
+  [{v:1.0,c:'rgba(34,197,94,0.3)'},{v:3.0,c:'rgba(245,158,11,0.3)'}],
+  ['#ef4444','#f59e0b','#22c55e','#22c55e']
+);
+
+// LDL
+line('cLDL',
+  ['Apr 22','Jun 24','May 25','Nov 25'],
+  [2.9,3.3,3.4,3.4],
+  '#f59e0b',
+  [{v:3.4,c:'rgba(239,68,68,0.35)'},{v:2.5,c:'rgba(59,130,246,0.35)'}],
+  ['#22c55e','#f59e0b','#ef4444','#ef4444']
+);
+
+// Hb
+line('cHb',
+  ['Feb 24','Jun 24','Oct 24','Feb 25','May 25','Nov 25'],
+  [140,151,163,150,165,165],
+  '#a855f7',
+  [{v:170,c:'rgba(239,68,68,0.35)'},{v:185,c:'rgba(239,68,68,0.2)'}],
+  ['#4a5568','#4a5568','#f59e0b','#4a5568','#f59e0b','#f59e0b']
+);
+
+// E2
+line('cE2',
+  ['Jun 24 (pre-TRT)','May 25','Nov 25'],
+  [67,198,159],
+  '#ef4444',
+  [{v:100,c:'rgba(239,68,68,0.35)'},{v:150,c:'rgba(245,158,11,0.3)'}],
+  ['#22c55e','#ef4444','#f59e0b']
+);
+
+// PSA
+line('cPSA',
+  ['Feb 24','Oct 24','Feb 25','May 25','Nov 25'],
+  [0.68,0.40,0.57,0.53,0.50],
+  '#3b82f6',
+  [{v:2.20,c:'rgba(74,85,104,0.35)'}]
+);
+</script>
+</body>
+</html>

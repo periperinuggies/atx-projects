@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Spectrum — SDR Research · Larsen Ventures</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111;
+    --border: #1e1e1e;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --accent: #06b6d4;
+    --red: #ef4444;
+    --green: #22c55e;
+    --yellow: #facc15;
+    --purple: #a855f7;
+    --orange: #f97316;
+    --blue: #3b82f6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  header { padding: 48px 40px 32px; border-bottom: 1px solid var(--border); max-width: 1200px; margin: 0 auto; }
+  .back { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px; display: block; }
+  .back:hover { color: var(--text); text-decoration: none; }
+  h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.04em; }
+  h1 span { color: var(--accent); }
+  .subtitle { color: var(--muted); margin-top: 8px; font-size: 0.95rem; max-width: 680px; }
+  .meta { display: flex; gap: 16px; margin-top: 20px; flex-wrap: wrap; }
+  .tag { background: rgba(6,182,212,0.1); color: var(--accent); border: 1px solid rgba(6,182,212,0.2); padding: 3px 10px; border-radius: 4px; font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 600; }
+  .tag.red { background: rgba(239,68,68,0.1); color: var(--red); border-color: rgba(239,68,68,0.2); }
+  .tag.purple { background: rgba(168,85,247,0.1); color: var(--purple); border-color: rgba(168,85,247,0.2); }
+  .tag.yellow { background: rgba(250,204,21,0.1); color: var(--yellow); border-color: rgba(250,204,21,0.2); }
+
+  main { max-width: 1200px; margin: 0 auto; padding: 40px; }
+
+  /* Hardware comparison */
+  .hw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 32px 0; }
+  @media (max-width: 700px) { .hw-grid { grid-template-columns: 1fr; } }
+  .hw-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 24px; position: relative; overflow: hidden; }
+  .hw-card.recommended::before { content: 'RECOMMENDED'; position: absolute; top: 12px; right: -28px; background: var(--accent); color: #000; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em; padding: 3px 40px; transform: rotate(45deg); transform-origin: center; }
+  .hw-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+  .hw-price { color: var(--accent); font-size: 0.85rem; font-weight: 600; margin-bottom: 16px; }
+  .hw-specs { display: flex; flex-direction: column; gap: 8px; }
+  .spec-row { display: flex; justify-content: space-between; align-items: flex-start; font-size: 0.82rem; padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .spec-row:last-child { border-bottom: none; }
+  .spec-label { color: var(--muted); flex-shrink: 0; margin-right: 12px; }
+  .spec-value { text-align: right; font-weight: 500; }
+  .spec-value.good { color: var(--green); }
+  .spec-value.bad { color: var(--red); }
+  .spec-value.ok { color: var(--yellow); }
+  .hw-verdict { margin-top: 16px; font-size: 0.82rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 12px; line-height: 1.5; }
+
+  /* Section headings */
+  h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; margin: 40px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  h2 .icon { font-size: 1rem; }
+
+  /* Map */
+  .map-container { border-radius: 8px; overflow: hidden; border: 1px solid var(--border); margin: 24px 0; position: relative; }
+  .map-container iframe { display: block; width: 100%; height: 420px; border: none; filter: invert(0.92) hue-rotate(180deg) saturate(0.8); }
+  .map-legend { background: var(--surface); border-top: 1px solid var(--border); padding: 12px 16px; display: flex; gap: 24px; flex-wrap: wrap; font-size: 0.78rem; color: var(--muted); }
+  .map-legend-item { display: flex; align-items: center; gap: 6px; }
+  .map-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Product image grid */
+  .product-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin: 20px 0 32px; }
+  .product-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; text-decoration: none; transition: border-color 0.15s; }
+  .product-card:hover { border-color: var(--accent); text-decoration: none; }
+  .product-img { width: 100%; aspect-ratio: 1; object-fit: contain; background: #1a1a2e; padding: 16px; display: block; }
+  .product-img-placeholder { width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, #1a1a2e, #0f0f1a); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
+  .product-info { padding: 12px 14px; }
+  .product-name { font-size: 0.82rem; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .product-price { font-size: 0.75rem; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
+  .product-link-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* Use case cards */
+  .usecase-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; margin: 16px 0 32px; }
+  .uc-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; border-left: 3px solid var(--accent); }
+  .uc-card.red { border-left-color: var(--red); }
+  .uc-card.green { border-left-color: var(--green); }
+  .uc-card.yellow { border-left-color: var(--yellow); }
+  .uc-card.purple { border-left-color: var(--purple); }
+  .uc-card.orange { border-left-color: var(--orange); }
+  .uc-card.blue { border-left-color: var(--blue); }
+  .uc-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+  .uc-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+  .uc-tools { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px; }
+  .tool-pill { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 3px; padding: 1px 7px; font-size: 0.7rem; color: var(--muted); font-family: monospace; }
+  .uc-hw { margin-top: 8px; font-size: 0.72rem; color: var(--muted); }
+  .uc-hw span { color: var(--accent); font-weight: 600; }
+
+  /* Legal callout */
+  .legal-box { background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; padding: 20px 24px; margin: 32px 0; }
+  .legal-box h3 { color: var(--red); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+  .legal-box ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .legal-box li { font-size: 0.83rem; color: var(--muted); padding-left: 16px; position: relative; }
+  .legal-box li::before { content: '→'; position: absolute; left: 0; color: var(--red); }
+
+  /* Software table */
+  .sw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin: 16px 0 32px; }
+  .sw-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; }
+  .sw-name { font-size: 0.88rem; font-weight: 700; font-family: monospace; color: var(--accent); margin-bottom: 4px; }
+  .sw-desc { font-size: 0.78rem; color: var(--muted); }
+  .sw-cat { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-top: 6px; font-weight: 600; }
+
+  /* Project ideas */
+  .ideas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; margin: 16px 0; }
+  .idea-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+  .idea-num { font-size: 0.7rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .idea-title { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .idea-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+  .idea-tags { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px; }
+  .idea-diff { margin-top: 10px; font-size: 0.72rem; }
+  .diff-hard { color: var(--red); font-weight: 600; }
+  .diff-med { color: var(--yellow); font-weight: 600; }
+  .diff-easy { color: var(--green); font-weight: 600; }
+
+  footer { max-width: 1200px; margin: 0 auto; padding: 32px 40px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.78rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; gap: 8px; }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="back" href="/">← Larsen Ventures</a>
+  <h1>Project <span>Spectrum</span></h1>
+  <p class="subtitle">Software Defined Radio research platform — from passive signal intelligence to active protocol analysis. BladeRF x40 vs HackRF One, GNU Radio ecosystem, and what's actually possible with serious hardware.</p>
+  <div class="meta">
+    <span class="tag">Research</span>
+    <span class="tag">Security</span>
+    <span class="tag purple">RF / SDR</span>
+    <span class="tag yellow">Planned</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- Quick reference links -->
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border);">
+    <a href="https://www.nuand.com/bladerf-x40/" target="_blank" rel="noopener" style="background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);color:var(--accent);padding:6px 14px;border-radius:4px;font-size:0.78rem;font-weight:600;">BladeRF x40 Specs</a>
+    <a href="https://greatscottgadgets.com/hackrf/one/" target="_blank" rel="noopener" style="background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);color:var(--accent);padding:6px 14px;border-radius:4px;font-size:0.78rem;font-weight:600;">HackRF One</a>
+    <a href="https://www.gnuradio.org/" target="_blank" rel="noopener" style="background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);color:var(--accent);padding:6px 14px;border-radius:4px;font-size:0.78rem;font-weight:600;">GNU Radio</a>
+    <a href="https://www.rtl-sdr.com/big-list-rtl-sdr-supported-software/" target="_blank" rel="noopener" style="background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);color:var(--accent);padding:6px 14px;border-radius:4px;font-size:0.78rem;font-weight:600;">SDR Software List</a>
+    <a href="https://www.flightradar24.com/-31.92,115.79/10" target="_blank" rel="noopener" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);color:var(--green);padding:6px 14px;border-radius:4px;font-size:0.78rem;font-weight:600;">✈️ Perth ADS-B Live</a>
+    <a href="https://www.marinetraffic.com/en/ais/home/centerx:115.73/centery:-31.96/zoom:11" target="_blank" rel="noopener" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);color:var(--green);padding:6px 14px;border-radius:4px;font-size:0.78rem;font-weight:600;">🚢 Fremantle AIS Live</a>
+    <a href="https://www.acma.gov.au/radcomm/spectrum-access/register-radiocommunications-licences" target="_blank" rel="noopener" style="background:rgba(250,204,21,0.08);border:1px solid rgba(250,204,21,0.2);color:var(--yellow);padding:6px 14px;border-radius:4px;font-size:0.78rem;font-weight:600;">⚖️ ACMA Licence Search</a>
+    <a href="https://www.stirling.wa.gov.au/developing-property/planning-advice/planning-documents" target="_blank" rel="noopener" style="background:rgba(250,204,21,0.08);border:1px solid rgba(250,204,21,0.2);color:var(--yellow);padding:6px 14px;border-radius:4px;font-size:0.78rem;font-weight:600;">📋 City of Stirling Planning</a>
+    <a href="https://www.nedlands.wa.gov.au/development-services/planning" target="_blank" rel="noopener" style="background:rgba(250,204,21,0.08);border:1px solid rgba(250,204,21,0.2);color:var(--yellow);padding:6px 14px;border-radius:4px;font-size:0.78rem;font-weight:600;">📋 City of Nedlands Planning</a>
+  </div>
+
+  <!-- Antenna System -->
+  <h2><span class="icon">🗼</span> Commercial Antenna System — Warehouse Installation</h2>
+  <p style="color:var(--muted);font-size:0.85rem;margin-bottom:20px;">A tall warehouse installation changes the game entirely. Height is the single biggest factor in SDR performance — every metre of mast extends your line-of-sight horizon. Here's a commercial-grade stack designed around your setup.</p>
+
+  <div style="background:rgba(6,182,212,0.05);border:1px solid rgba(6,182,212,0.15);border-radius:8px;padding:20px 24px;margin-bottom:28px;font-size:0.83rem;">
+    <div style="font-weight:700;color:var(--accent);margin-bottom:10px;">Core Principle: Signal quality is won at the antenna, not at the radio.</div>
+    <div style="color:var(--muted);line-height:1.7;">The BladeRF and HackRF are only as good as what you feed them. A mediocre antenna + long cheap coax + no LNA will completely negate the quality of either radio. The rule: <strong style="color:var(--text)">put amplification at the antenna, use quality coax, and filter aggressively</strong>. Everything else is secondary.</div>
+  </div>
+
+  <!-- Hardware product gallery -->
+  <div class="product-gallery">
+    <a class="product-card" href="https://www.nuand.com/product/bladerf-x40/" target="_blank" rel="noopener">
+      <img class="product-img" src="https://www.nuand.com/wp-content/uploads/2019/09/bladeRF-x40-800x800.jpg" alt="BladeRF x40" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="product-img-placeholder" style="display:none">📡</div>
+      <div class="product-info">
+        <div class="product-name">BladeRF x40</div>
+        <div class="product-price">~AUD $900 · Primary radio</div>
+        <div class="product-link-label">nuand.com →</div>
+      </div>
+    </a>
+    <a class="product-card" href="https://greatscottgadgets.com/hackrf/one/" target="_blank" rel="noopener">
+      <img class="product-img" src="https://greatscottgadgets.com/images/hackrf-one-black.jpg" alt="HackRF One" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="product-img-placeholder" style="display:none">🔧</div>
+      <div class="product-info">
+        <div class="product-name">HackRF One</div>
+        <div class="product-price">~AUD $400 · Transmit-capable</div>
+        <div class="product-link-label">greatscottgadgets.com →</div>
+      </div>
+    </a>
+    <a class="product-card" href="https://www.diamond-ant.co.jp/english/product/d3000n.html" target="_blank" rel="noopener">
+      <div class="product-img-placeholder">🗼</div>
+      <div class="product-info">
+        <div class="product-name">Diamond D3000N Discone</div>
+        <div class="product-price">~AUD $250 · 25 MHz–3 GHz</div>
+        <div class="product-link-label">diamond-ant.co.jp →</div>
+      </div>
+    </a>
+    <a class="product-card" href="https://store.uputronics.com/index.php?route=product/product&product_id=52" target="_blank" rel="noopener">
+      <div class="product-img-placeholder">⚡</div>
+      <div class="product-info">
+        <div class="product-name">Uputronics ADS-B LNA</div>
+        <div class="product-price">~AUD $80 · Filtered preamp</div>
+        <div class="product-link-label">uputronics.com →</div>
+      </div>
+    </a>
+    <a class="product-card" href="https://www.raspberrypi.com/products/raspberry-pi-5/" target="_blank" rel="noopener">
+      <img class="product-img" src="https://assets.raspberrypi.com/static/pi5-4gb-hero-v2.jpg" alt="Raspberry Pi 5" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="product-img-placeholder" style="display:none">🖥️</div>
+      <div class="product-info">
+        <div class="product-name">Raspberry Pi 5 (8GB)</div>
+        <div class="product-price">~AUD $150 · Edge compute</div>
+        <div class="product-link-label">raspberrypi.com →</div>
+      </div>
+    </a>
+    <a class="product-card" href="https://www.jetvision.de/en/products/ads-b/antennas/spider-antenna-ads-b-1090mhz.html" target="_blank" rel="noopener">
+      <div class="product-img-placeholder">🕷️</div>
+      <div class="product-info">
+        <div class="product-name">Jetvision A3 Spider</div>
+        <div class="product-price">~AUD $120 · 1090 MHz collinear</div>
+        <div class="product-link-label">jetvision.de →</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Antenna tiers -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-bottom:28px;">
+
+    <div class="hw-card" style="border-left:3px solid var(--accent);">
+      <div class="hw-name" style="font-size:1rem;">Primary: Diamond D3000N Discone</div>
+      <div class="hw-price">~AUD $250 · Wideband omnidirectional workhorse</div>
+      <div class="hw-specs" style="margin-top:12px;">
+        <div class="spec-row"><span class="spec-label">Coverage</span><span class="spec-value good">25 MHz – 3 GHz</span></div>
+        <div class="spec-row"><span class="spec-label">Pattern</span><span class="spec-value">Omnidirectional</span></div>
+        <div class="spec-row"><span class="spec-label">Gain</span><span class="spec-value">0–3 dBi (frequency dependent)</span></div>
+        <div class="spec-row"><span class="spec-label">Mount</span><span class="spec-value">Standard mast mount, N-type connector</span></div>
+        <div class="spec-row"><span class="spec-label">Build</span><span class="spec-value good">Commercial aluminium, weather sealed</span></div>
+      </div>
+      <div class="hw-verdict">The industry-standard wideband SDR antenna. A discone is the right shape for omnidirectional receive across a massive frequency range — it's what every serious scanner operator mounts first. Covers GSM, LTE, AIS, ACARS, ADS-B, ISM bands, VHF/UHF, and everything between 25 MHz–3 GHz. Mount this at the top of your mast.</div>
+    </div>
+
+    <div class="hw-card" style="border-left:3px solid var(--green);">
+      <div class="hw-name" style="font-size:1rem;">Dedicated ADS-B: 1090 MHz Collinear</div>
+      <div class="hw-price">~AUD $60–120 · FlightAware or Jetvision A3 Spider</div>
+      <div class="hw-specs" style="margin-top:12px;">
+        <div class="spec-row"><span class="spec-label">Coverage</span><span class="spec-value">1090 MHz only</span></div>
+        <div class="spec-row"><span class="spec-label">Gain</span><span class="spec-value good">5–6 dBi (vs 1–2 dBi wideband)</span></div>
+        <div class="spec-row"><span class="spec-label">Pattern</span><span class="spec-value">Omnidirectional, low-angle optimised</span></div>
+        <div class="spec-row"><span class="spec-label">Value</span><span class="spec-value good">4× more aircraft than generic antenna</span></div>
+      </div>
+      <div class="hw-verdict">A tuned 1090 MHz collinear dramatically outperforms a wideband discone for ADS-B specifically. The extra gain + optimised radiation angle means you'll see aircraft 400+ km away from a tall mast. Run this in parallel with the discone via a splitter or on a second SDR — ADS-B is worth the dedicated channel.</div>
+    </div>
+
+    <div class="hw-card" style="border-left:3px solid var(--purple);">
+      <div class="hw-name" style="font-size:1rem;">Satellite Dish: 90cm Offset (GOES)</div>
+      <div class="hw-price">~AUD $80–150 · Standard Foxtel/Vast dish repurposed</div>
+      <div class="hw-specs" style="margin-top:12px;">
+        <div class="spec-row"><span class="spec-label">Target frequency</span><span class="spec-value">1691 MHz (GOES LRIT)</span></div>
+        <div class="spec-row"><span class="spec-label">Gain</span><span class="spec-value good">~30 dBi (enormous)</span></div>
+        <div class="spec-row"><span class="spec-label">Pattern</span><span class="spec-value">Highly directional — fixed point at satellite</span></div>
+        <div class="spec-row"><span class="spec-label">Feed</span><span class="spec-value">Custom patch antenna replaces LNB</span></div>
+      </div>
+      <div class="hw-verdict">Required for GOES full-disk weather imagery. GOES-19 is geostationary — you point the dish once, aim at 75.2°W at the correct elevation for Perth, and it never moves. A secondhand Foxtel dish works perfectly; you just replace the LNB with a 1691 MHz patch feed. Stunning imagery, completely passive, zero ongoing cost.</div>
+    </div>
+
+    <div class="hw-card" style="border-left:3px solid var(--yellow);">
+      <div class="hw-name" style="font-size:1rem;">137 MHz VHF Turnstile: NOAA APT</div>
+      <div class="hw-price">~AUD $50 DIY or ~$120 commercial</div>
+      <div class="hw-specs" style="margin-top:12px;">
+        <div class="spec-row"><span class="spec-label">Target frequency</span><span class="spec-value">137–138 MHz</span></div>
+        <div class="spec-row"><span class="spec-label">Pattern</span><span class="spec-value">Circularly polarised, zenith-looking</span></div>
+        <div class="spec-row"><span class="spec-label">Why special</span><span class="spec-value">Satellite circular polarisation needs matching antenna</span></div>
+      </div>
+      <div class="hw-verdict">NOAA weather satellites transmit circularly polarised signals — a standard vertical antenna loses 3 dB immediately. A crossed dipole or commercial turnstile eliminates that loss and dramatically improves satellite pass reception. The discone will work but a dedicated turnstile will give noticeably cleaner imagery. Optional but worth it if satellite is a priority.</div>
+    </div>
+
+  </div>
+
+  <!-- Signal Chain -->
+  <h2><span class="icon">⛓</span> Signal Chain — How It All Connects</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:24px;font-family:monospace;font-size:0.8rem;line-height:2.2;overflow-x:auto;">
+    <div style="color:var(--muted);margin-bottom:8px;font-family:system-ui;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;">Recommended Signal Chain (per antenna port)</div>
+    <span style="color:var(--green)">Antenna (top of mast)</span>
+    <span style="color:var(--muted)"> → </span>
+    <span style="color:var(--accent)">Mast-head LNA + filter</span>
+    <span style="color:var(--muted)"> → </span>
+    <span style="color:var(--yellow)">Lightning arrestor</span>
+    <span style="color:var(--muted)"> → </span>
+    <span style="color:var(--text)">LMR-400 coax (long run)</span>
+    <span style="color:var(--muted)"> → </span>
+    <span style="color:var(--text)">Weatherproof entry gland</span>
+    <span style="color:var(--muted)"> → </span>
+    <span style="color:var(--text)">Coax splitter (if multi-radio)</span>
+    <span style="color:var(--muted)"> → </span>
+    <span style="color:var(--purple)">BladeRF / HackRF</span>
+    <span style="color:var(--muted)"> → </span>
+    <span style="color:var(--purple)">Raspberry Pi / VM</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:32px;">
+
+    <div class="sw-card" style="border-left:3px solid var(--accent);">
+      <div class="sw-name">Mast-Head LNA (Critical)</div>
+      <div class="sw-desc">The LNA <strong>must</strong> be at the antenna, not at the radio. Every metre of coax before the LNA adds noise — amplifying after the cable amplifies the cable noise too. Recommended: <strong>Uputronics Filtered Preamp</strong> (band-specific) or <strong>RTL-SDR Wideband LNA</strong>. Uputronics units include a SAW filter that kills out-of-band interference before it reaches the radio.</div>
+      <div class="sw-cat">~AUD $40–90 · Position: immediately at antenna</div>
+    </div>
+
+    <div class="sw-card" style="border-left:3px solid var(--yellow);">
+      <div class="sw-name">Lightning Arrestor (Non-Negotiable)</div>
+      <div class="sw-desc">A tall warehouse antenna on a metal mast is a lightning conductor. A coaxial gas discharge lightning arrestor inline between antenna and entry point protects everything downstream. <strong>Proxicast ANT-234</strong> or equivalent N-type/SMA inline arrestor. Ground the arrestor and mast bonding to earth. Without this you will lose expensive hardware in the first storm.</div>
+      <div class="sw-cat">~AUD $30–60 · Position: top of coax run, before building entry</div>
+    </div>
+
+    <div class="sw-card" style="border-left:3px solid var(--text);">
+      <div class="sw-name">LMR-400 Coax</div>
+      <div class="sw-desc">For any run over 5m, use LMR-400 or equivalent low-loss coax. Standard RG-58 loses ~6 dB per 30m at 1 GHz — you'd be throwing away most of your signal. LMR-400 loses ~2.5 dB per 30m. For a 15m mast run, the difference is 2 dB — that's real aircraft and real range. Use N-type connectors throughout; SMA adaptor at the radio end only.</div>
+      <div class="sw-cat">~AUD $6–8/m · Use N-type throughout, SMA adaptor at radio only</div>
+    </div>
+
+    <div class="sw-card" style="border-left:3px solid var(--purple);">
+      <div class="sw-name">4-Port Coax Splitter</div>
+      <div class="sw-desc">Run one antenna feed into a powered splitter to feed BladeRF + HackRF + dedicated ADS-B receiver simultaneously. A passive splitter loses 6 dB (half power to each port) — an active distribution amplifier maintains signal level. For 2 radios a passive is fine; for 3–4 use a Mini-Circuits or similar active splitter.</div>
+      <div class="sw-cat">~AUD $30–150 passive/active · Position: indoors, after coax entry</div>
+    </div>
+
+  </div>
+
+  <!-- Mast recommendation -->
+  <h2><span class="icon">🏗</span> Mast Setup</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px;">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;">
+      <div style="font-weight:700;margin-bottom:12px;font-size:0.95rem;">What to Install</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;font-size:0.82rem;color:var(--muted);">
+        <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--green)">✓</span> <strong style="color:var(--text)">Telescoping aluminium mast, 6–12m</strong> — lightweight, no permit needed under 12m in most AU industrial zones (verify with council). Tiltover base makes maintenance easy.</li>
+        <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--green)">✓</span> Diamond D3000N discone at top, 1090 MHz collinear 1m below (separation avoids mutual interference)</li>
+        <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--green)">✓</span> Guy wires at 2/3 height if over 8m — commercial mast kits include these</li>
+        <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--green)">✓</span> Mast bonded to building earth via 6mm² copper to earth rod</li>
+        <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--green)">✓</span> LNA units weatherproofed at antenna — Uputronics units are IP65 rated</li>
+        <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--green)">✓</span> Coax entry via weatherproof gland or through-wall bushing with drip loop</li>
+      </ul>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;">
+      <div style="font-weight:700;margin-bottom:12px;font-size:0.95rem;">Expected Performance at 10m Height</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:0.82rem;">
+        <div class="spec-row"><span class="spec-label">ADS-B aircraft range</span><span class="spec-value good">300–500 km</span></div>
+        <div class="spec-row"><span class="spec-label">AIS vessels</span><span class="spec-value good">50–80 km offshore</span></div>
+        <div class="spec-row"><span class="spec-label">GSM/LTE cell towers</span><span class="spec-value good">All towers within 30 km</span></div>
+        <div class="spec-row"><span class="spec-label">NOAA satellite passes</span><span class="spec-value good">Full pass coverage (clear sky line)</span></div>
+        <div class="spec-row"><span class="spec-label">433 MHz IoT devices</span><span class="spec-value good">3–5 km radius</span></div>
+        <div class="spec-row"><span class="spec-label">Drone RF detection</span><span class="spec-value ok">~1–2 km (2.4/5.8 GHz attenuates fast)</span></div>
+        <div class="spec-row"><span class="spec-label">Pager/ACARS</span><span class="spec-value good">Regional coverage, 50+ km</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shopping list -->
+  <h2><span class="icon">🛒</span> Full Shopping List — Commercial Grade</h2>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:32px;">
+    <table style="width:100%;border-collapse:collapse;font-size:0.82rem;">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border);background:rgba(255,255,255,0.02);">
+          <th style="padding:10px 16px;text-align:left;color:var(--muted);font-weight:600;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">Item</th>
+          <th style="padding:10px 16px;text-align:left;color:var(--muted);font-weight:600;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">Purpose</th>
+          <th style="padding:10px 16px;text-align:right;color:var(--muted);font-weight:600;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">Est. AUD</th>
+          <th style="padding:10px 16px;text-align:left;color:var(--muted);font-weight:600;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 16px;font-weight:600;">BladeRF x40</td><td style="padding:10px 16px;color:var(--muted);">Primary radio — full duplex, FPGA, 300M–3.8G</td><td style="padding:10px 16px;text-align:right;color:var(--accent);">~$800</td><td style="padding:10px 16px;"><span style="color:var(--red);font-weight:700;font-size:0.75rem;">MUST</span></td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 16px;font-weight:600;">HackRF One</td><td style="padding:10px 16px;color:var(--muted);">Secondary radio — wide sweep, 1M–6G</td><td style="padding:10px 16px;text-align:right;color:var(--accent);">~$500</td><td style="padding:10px 16px;"><span style="color:var(--red);font-weight:700;font-size:0.75rem;">MUST</span></td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 16px;font-weight:600;">Diamond D3000N Discone</td><td style="padding:10px 16px;color:var(--muted);">Primary wideband antenna, 25M–3GHz</td><td style="padding:10px 16px;text-align:right;color:var(--accent);">~$250</td><td style="padding:10px 16px;"><span style="color:var(--red);font-weight:700;font-size:0.75rem;">MUST</span></td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 16px;font-weight:600;">1090 MHz Collinear (Jetvision A3)</td><td style="padding:10px 16px;color:var(--muted);">Dedicated ADS-B — 5 dBi gain at 1090 MHz</td><td style="padding:10px 16px;text-align:right;color:var(--accent);">~$120</td><td style="padding:10px 16px;"><span style="color:var(--red);font-weight:700;font-size:0.75rem;">MUST</span></td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 16px;font-weight:600;">Uputronics Wideband LNA</td><td style="padding:10px 16px;color:var(--muted);">Mast-head preamp for discone port</td><td style="padding:10px 16px;text-align:right;color:var(--accent);">~$80</td><td style="padding:10px 16px;"><span style="color:var(--red);font-weight:700;font-size:0.75rem;">MUST</span></td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 16px;font-weight:600;">Uputronics 1090 MHz Filtered LNA</td><td style="padding:10px 16px;color:var(--muted);">Mast-head preamp + SAW filter for ADS-B port</td><td style="padding:10px 16px;text-align:right;color:var(--accent);">~$75</td><td style="padding:10px 16px;"><span style="color:var(--red);font-weight:700;font-size:0.75rem;">MUST</span></td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 16px;font-weight:600;">LMR-400 coax (20m)</td><td style="padding:10px 16px;color:var(--muted);">Low-loss feeder from mast to indoors</td><td style="padding:10px 16px;text-align:right;color:var(--accent);">~$160</td><td style="padding:10px 16px;"><span style="color:var(--red);font-weight:700;font-size:0.75rem;">MUST</span></td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 16px;font-weight:600;">Lightning arrestor (×2)</td><td style="padding:10px 16px;color:var(--muted);">One per coax run, N-type inline gas discharge</td><td style="padding:10px 16px;text-align:right;color:var(--accent);">~$80</td><td style="padding:10px 16px;"><span style="color:var(--red);font-weight:700;font-size:0.75rem;">MUST</span></td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 16px;font-weight:600;">Telescoping aluminium mast 8–10m</td><td style="padding:10px 16px;color:var(--muted);">Tiltover base, wall-mount, guy wire kit</td><td style="padding:10px 16px;text-align:right;color:var(--accent);">~$300</td><td style="padding:10px 16px;"><span style="color:var(--red);font-weight:700;font-size:0.75rem;">MUST</span></td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 16px;font-weight:600;">4-port coax splitter/distrib amp</td><td style="padding:10px 16px;color:var(--muted);">Feed multiple radios from one antenna</td><td style="padding:10px 16px;text-align:right;color:var(--accent);">~$60</td><td style="padding:10px 16px;"><span style="color:var(--yellow);font-weight:700;font-size:0.75rem;">HIGH</span></td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 16px;font-weight:600;">Raspberry Pi 5 (8GB)</td><td style="padding:10px 16px;color:var(--muted);">On-site signal processing, feeds VM via VPN</td><td style="padding:10px 16px;text-align:right;color:var(--accent);">~$150</td><td style="padding:10px 16px;"><span style="color:var(--yellow);font-weight:700;font-size:0.75rem;">HIGH</span></td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 16px;font-weight:600;">90cm offset dish + 1691 MHz feed</td><td style="padding:10px 16px;color:var(--muted);">GOES weather satellite full-disk imagery</td><td style="padding:10px 16px;text-align:right;color:var(--accent);">~$150</td><td style="padding:10px 16px;"><span style="color:var(--muted);font-weight:700;font-size:0.75rem;">OPT</span></td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 16px;font-weight:600;">137 MHz turnstile antenna</td><td style="padding:10px 16px;color:var(--muted);">NOAA APT weather satellite passes</td><td style="padding:10px 16px;text-align:right;color:var(--accent);">~$100</td><td style="padding:10px 16px;"><span style="color:var(--muted);font-weight:700;font-size:0.75rem;">OPT</span></td></tr>
+        <tr><td style="padding:10px 16px;font-weight:700;" colspan="2">TOTAL (MUST items only)</td><td style="padding:10px 16px;text-align:right;font-weight:700;color:var(--accent);">~$2,415</td><td style="padding:10px 16px;"></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Hardware -->
+  <h2><span class="icon">📡</span> Hardware: Pick Your Weapon</h2>
+  <p style="color:var(--muted);font-size:0.85rem;margin-bottom:20px;">The BladeRF and HackRF are both serious tools but fundamentally different in philosophy. The right choice depends on what you're building.</p>
+
+  <div class="hw-grid">
+    <div class="hw-card recommended">
+      <div class="hw-name">BladeRF x40</div>
+      <div class="hw-price">~AUD $800 · Core Electronics</div>
+      <div class="hw-specs">
+        <div class="spec-row"><span class="spec-label">Frequency</span><span class="spec-value ok">300 MHz – 3.8 GHz</span></div>
+        <div class="spec-row"><span class="spec-label">ADC Resolution</span><span class="spec-value good">12-bit</span></div>
+        <div class="spec-row"><span class="spec-label">Instantaneous BW</span><span class="spec-value good">28 MHz</span></div>
+        <div class="spec-row"><span class="spec-label">Duplex</span><span class="spec-value good">Full duplex (TX + RX simultaneously)</span></div>
+        <div class="spec-row"><span class="spec-label">FPGA</span><span class="spec-value good">Altera Cyclone IV x40 — field programmable</span></div>
+        <div class="spec-row"><span class="spec-label">Interface</span><span class="spec-value good">USB 3.0</span></div>
+        <div class="spec-row"><span class="spec-label">MIMO</span><span class="spec-value good">Yes (with 2nd unit)</span></div>
+        <div class="spec-row"><span class="spec-label">Best for</span><span class="spec-value">MITM, cellular research, MIMO, precision work</span></div>
+      </div>
+      <div class="hw-verdict">Full duplex is the critical differentiator — it lets you receive and transmit simultaneously, enabling MITM attacks, active cellular research, and protocol relay. The FPGA also lets you offload signal processing, enabling real-time work that software alone can't do. The narrower frequency range is the only real limitation.</div>
+    </div>
+
+    <div class="hw-card">
+      <div class="hw-name">HackRF One</div>
+      <div class="hw-price">~AUD $500 · Core Electronics</div>
+      <div class="hw-specs">
+        <div class="spec-row"><span class="spec-label">Frequency</span><span class="spec-value good">1 MHz – 6 GHz</span></div>
+        <div class="spec-row"><span class="spec-label">ADC Resolution</span><span class="spec-value bad">8-bit</span></div>
+        <div class="spec-row"><span class="spec-label">Instantaneous BW</span><span class="spec-value ok">20 MHz</span></div>
+        <div class="spec-row"><span class="spec-label">Duplex</span><span class="spec-value bad">Half duplex only (TX or RX, not both)</span></div>
+        <div class="spec-row"><span class="spec-label">FPGA</span><span class="spec-value ok">Fixed (not reprogrammable)</span></div>
+        <div class="spec-row"><span class="spec-label">Interface</span><span class="spec-value ok">USB 2.0</span></div>
+        <div class="spec-row"><span class="spec-label">MIMO</span><span class="spec-value bad">No</span></div>
+        <div class="spec-row"><span class="spec-label">Best for</span><span class="spec-value">Wide spectrum scanning, prototyping, portability</span></div>
+      </div>
+      <div class="hw-verdict">The Swiss Army knife of SDR — huge frequency range, open hardware, massive community. Excellent for passive intelligence and wide-spectrum sweeps. Half-duplex limits active research but it covers 5 GHz WiFi, 2.4 GHz, and anything up to 6 GHz that the BladeRF misses. Both together is the real answer.</div>
+    </div>
+  </div>
+
+  <div style="background:rgba(6,182,212,0.05);border:1px solid rgba(6,182,212,0.15);border-radius:6px;padding:16px 20px;font-size:0.83rem;color:var(--muted);margin-bottom:32px;">
+    <strong style="color:var(--accent)">Verdict:</strong> Start with the <strong style="color:var(--text)">BladeRF x40</strong> if you're serious about active research — full duplex + reprogrammable FPGA is a ceiling that HackRF can never hit. Add HackRF later for the wider frequency sweep. Together they cover the full spectrum from 1 MHz to 6 GHz with no gaps.
+  </div>
+
+  <!-- Legal -->
+  <div class="legal-box">
+    <h3>⚠ Australian Legal Boundaries</h3>
+    <ul>
+      <li>Receiving most signals is legal in Australia — interception of private communications is not (Telecommunications (Interception and Access) Act 1979)</li>
+      <li>Transmitting requires an ACMA licence unless within your own property on permitted bands — unlicensed transmission can attract significant fines</li>
+      <li>IMSI catchers (fake base stations) are illegal to operate outside of law enforcement / controlled lab environments</li>
+      <li>GPS spoofing is a federal offence regardless of context</li>
+      <li>GSM/LTE passive monitoring of control channels is a grey area — ACMA has not prosecuted academic researchers but the law is ambiguous</li>
+      <li>Safe zone: passive receive, own property TX experiments, isolated RF cage testing, academic research with documented consent</li>
+    </ul>
+  </div>
+
+  <!-- Use cases: Passive -->
+  <h2><span class="icon">👁</span> Passive SIGINT — Receive Only (Legal Everywhere)</h2>
+  <div class="usecase-grid">
+
+    <div class="uc-card green">
+      <div class="uc-title">ADS-B Aircraft Tracking</div>
+      <div class="uc-desc">Decode 1090 MHz transponder signals from every commercial and private aircraft in range. Build a real-time radar display covering 200+ km radius. Feed data to FlightAware or run fully private. Surprisingly rich data — altitude, speed, callsign, route, squawk code.</div>
+      <div class="uc-tools"><span class="tool-pill">dump1090</span><span class="tool-pill">PiAware</span><span class="tool-pill">tar1090</span><span class="tool-pill">readsb</span></div>
+      <div class="uc-hw">Hardware: <span>HackRF or BladeRF</span> · Difficulty: Easy</div>
+    </div>
+
+    <div class="uc-card green">
+      <div class="uc-title">AIS Ship Tracking</div>
+      <div class="uc-desc">Receive AIS (Automatic Identification System) broadcasts from vessels at 161.975 / 162.025 MHz. Every commercial vessel is legally required to broadcast position, speed, heading, MMSI, cargo type. Coastal monitoring, port surveillance, or maritime intelligence.</div>
+      <div class="uc-tools"><span class="tool-pill">rtl-ais</span><span class="tool-pill">OpenCPN</span><span class="tool-pill">AISmon</span></div>
+      <div class="uc-hw">Hardware: <span>HackRF or BladeRF</span> · Difficulty: Easy</div>
+    </div>
+
+    <div class="uc-card green">
+      <div class="uc-title">NOAA Weather Satellites</div>
+      <div class="uc-desc">Receive live weather imagery from NOAA 15/18/19 satellites at 137 MHz as they pass overhead (~4 passes/day). Raw APT signal decodes to real satellite imagery. GOES-16/17 at 1691 MHz delivers stunning full-disk Earth images — requires dish antenna and BladeRF bandwidth.</div>
+      <div class="uc-tools"><span class="tool-pill">noaa-apt</span><span class="tool-pill">WXtoImg</span><span class="tool-pill">SatDump</span><span class="tool-pill">GNU Radio</span></div>
+      <div class="uc-hw">Hardware: <span>BladeRF preferred for GOES</span> · Difficulty: Medium</div>
+    </div>
+
+    <div class="uc-card green">
+      <div class="uc-title">ACARS Aircraft Data</div>
+      <div class="uc-desc">Aircraft Addressing and Reporting System — digital text messages between aircraft and ground stations at 129.125 / 130.025 MHz. Maintenance messages, weather requests, clearances, departure reports. A surprising window into airline operations most people don't know exists.</div>
+      <div class="uc-tools"><span class="tool-pill">acarsdec</span><span class="tool-pill">JAERO</span><span class="tool-pill">MultiMon-NG</span></div>
+      <div class="uc-hw">Hardware: <span>Either</span> · Difficulty: Easy</div>
+    </div>
+
+    <div class="uc-card green">
+      <div class="uc-title">Pager Network Interception</div>
+      <div class="uc-desc">POCSAG and FLEX pagers still operate in AU on 148–174 MHz and are completely unencrypted. Emergency services, hospitals, utilities, and businesses still use them. The content is often highly sensitive — worth demonstrating how exposed legacy infrastructure is.</div>
+      <div class="uc-tools"><span class="tool-pill">MultiMon-NG</span><span class="tool-pill">PDW</span><span class="tool-pill">GQRX</span></div>
+      <div class="uc-hw">Hardware: <span>Either</span> · Legal note: receive-only, do not act on content</div>
+    </div>
+
+    <div class="uc-card green">
+      <div class="uc-title">IoT Sensor Decoding</div>
+      <div class="uc-desc">Decode temperature sensors, weather stations, utility meters, garage doors, TPMS tyre pressure sensors, and hundreds of other 433/868/915 MHz devices. rtl_433 supports 200+ devices out of the box. Map every RF-emitting device in your neighbourhood passively.</div>
+      <div class="uc-tools"><span class="tool-pill">rtl_433</span><span class="tool-pill">Home Assistant</span><span class="tool-pill">MQTT</span></div>
+      <div class="uc-hw">Hardware: <span>HackRF preferred (433MHz range)</span> · Difficulty: Easy</div>
+    </div>
+
+  </div>
+
+  <!-- Security Research -->
+  <h2><span class="icon">🔐</span> Security Research — White Hat / Academic</h2>
+  <div class="usecase-grid">
+
+    <div class="uc-card">
+      <div class="uc-title">Rogue Base Station Detection (Crocodile Hunter)</div>
+      <div class="uc-desc">The EFF's Crocodile Hunter project — originally built with BladeRF — detects fake 4G/LTE base stations (IMSI catchers / Stingrays) by scanning for anomalous cell towers. Presented at DEFCON. The BladeRF's full-duplex and bandwidth make it the reference hardware for this research.</div>
+      <div class="uc-tools"><span class="tool-pill">Crocodile Hunter</span><span class="tool-pill">LTE-Cell-Scanner</span><span class="tool-pill">srsRAN</span></div>
+      <div class="uc-hw">Hardware: <span>BladeRF required</span> · High signal, genuinely useful</div>
+    </div>
+
+    <div class="uc-card">
+      <div class="uc-title">GSM Network Analysis</div>
+      <div class="uc-desc">Capture and decode GSM control channels — system information, paging, cell broadcast. With gr-gsm you can see your carrier's network topology, timing advance data, and even observe downlink traffic structure. Legitimate for network research; do not capture user traffic.</div>
+      <div class="uc-tools"><span class="tool-pill">gr-gsm</span><span class="tool-pill">GNU Radio</span><span class="tool-pill">Wireshark</span><span class="tool-pill">Kalibrate</span></div>
+      <div class="uc-hw">Hardware: <span>Either (BladeRF better SNR)</span></div>
+    </div>
+
+    <div class="uc-card">
+      <div class="uc-title">Drone RF Fingerprinting & Detection</div>
+      <div class="uc-desc">Every DJI and consumer drone has a distinct RF signature on 2.4/5.8 GHz. With a trained ML model, you can identify drone model, controller presence, and flight state passively. Published research shows 95%+ detection rates. Directly applicable to warehouse security.</div>
+      <div class="uc-tools"><span class="tool-pill">GNU Radio</span><span class="tool-pill">TensorFlow/PyTorch</span><span class="tool-pill">SigDigger</span></div>
+      <div class="uc-hw">Hardware: <span>HackRF (covers 5.8 GHz)</span> · Very active research area</div>
+    </div>
+
+    <div class="uc-card">
+      <div class="uc-title">Automotive Key Fob / RKE Analysis</div>
+      <div class="uc-desc">Rolling code analysis on 433/315 MHz — understand how your car's remote entry works, identify relay attack vulnerabilities, and test for replay susceptibility. Modern vehicles are theoretically protected by rolling codes, but implementation flaws exist. Research your own vehicles only.</div>
+      <div class="uc-tools"><span class="tool-pill">Universal Radio Hacker</span><span class="tool-pill">inspectrum</span><span class="tool-pill">GNU Radio</span></div>
+      <div class="uc-hw">Hardware: <span>HackRF (433 MHz coverage)</span></div>
+    </div>
+
+    <div class="uc-card">
+      <div class="uc-title">RF Device Fingerprinting</div>
+      <div class="uc-desc">Every radio transmitter has unique hardware imperfections — frequency offset, phase noise, transient characteristics — that act as a hardware fingerprint. With enough IQ samples you can identify a specific device even if it's transmitting the same protocol as thousands of others. Used in military and academic contexts.</div>
+      <div class="uc-tools"><span class="tool-pill">GNU Radio</span><span class="tool-pill">scikit-learn</span><span class="tool-pill">SigDigger</span></div>
+      <div class="uc-hw">Hardware: <span>BladeRF (12-bit ADC critical for precision)</span></div>
+    </div>
+
+    <div class="uc-card">
+      <div class="uc-title">Spectrum Occupancy Monitoring</div>
+      <div class="uc-desc">Automated long-duration spectrum sweeps to map signal occupancy across bands — identify who's using what, detect unauthorised transmissions, build baseline RF environment profiles. Useful for warehouse RF hygiene, interference hunting, and understanding the local RF landscape.</div>
+      <div class="uc-tools"><span class="tool-pill">SoapySDR</span><span class="tool-pill">GNU Radio</span><span class="tool-pill">qspectrumanalyzer</span><span class="tool-pill">SDRangel</span></div>
+      <div class="uc-hw">Hardware: <span>HackRF (widest range for sweeps)</span></div>
+    </div>
+
+  </div>
+
+  <!-- Advanced / Active -->
+  <h2><span class="icon">⚡</span> Advanced Active Research — Controlled Lab / RF Cage Required</h2>
+  <div class="usecase-grid">
+
+    <div class="uc-card red">
+      <div class="uc-title">OpenBTS — Build Your Own GSM Network</div>
+      <div class="uc-desc">OpenBTS turns the BladeRF into a fully functional GSM base station. Phones in range will associate with it as a real carrier. Used for: testing in RF-isolated environments, understanding how cellular association works, building private mesh networks for events or remote areas. Requires RF shielding for legal indoor use.</div>
+      <div class="uc-tools"><span class="tool-pill">OpenBTS</span><span class="tool-pill">Asterisk</span><span class="tool-pill">bladeRF</span></div>
+      <div class="uc-hw">Hardware: <span>BladeRF required (full duplex essential)</span> · <span style="color:var(--red)">RF cage required</span></div>
+    </div>
+
+    <div class="uc-card red">
+      <div class="uc-title">srsRAN — 4G/5G Private Network</div>
+      <div class="uc-desc">Full open-source LTE and 5G NR stack. With BladeRF you can run a complete 4G EPC (core) + eNB (base station). SIM card programming required for device association. Used by universities, telecoms vendors, and security researchers to test LTE protocol implementations. Serious hardware, serious research.</div>
+      <div class="uc-tools"><span class="tool-pill">srsRAN</span><span class="tool-pill">Open5GS</span><span class="tool-pill">SIM programming</span></div>
+      <div class="uc-hw">Hardware: <span>BladeRF required</span> · <span style="color:var(--red)">RF cage required</span></div>
+    </div>
+
+    <div class="uc-card yellow">
+      <div class="uc-title">Protocol MITM — Full Duplex Relay</div>
+      <div class="uc-desc">BladeRF's full-duplex enables simultaneous receive + retransmit — the basis for active protocol MITM. Intercept, modify, and forward RF communications in real time. Academic value in understanding relay attack vectors for automotive (keyless entry), industrial SCADA, and wireless sensor networks. Own devices only.</div>
+      <div class="uc-tools"><span class="tool-pill">GNU Radio</span><span class="tool-pill">bladeRF</span><span class="tool-pill">custom flowgraph</span></div>
+      <div class="uc-hw">Hardware: <span>BladeRF only — HackRF physically cannot do this</span></div>
+    </div>
+
+    <div class="uc-card yellow">
+      <div class="uc-title">Passive Radar</div>
+      <div class="uc-desc">Passive coherent location (PCL) radar using existing FM broadcasts as illuminators of opportunity. Detect and track aircraft without transmitting — completely passive. Requires two antennas and BladeRF full-duplex to capture both reference (direct) and surveillance (reflected) channels simultaneously. Genuinely advanced DSP.</div>
+      <div class="uc-tools"><span class="tool-pill">GNU Radio</span><span class="tool-pill">gr-pcl</span><span class="tool-pill">CFAR detector</span></div>
+      <div class="uc-hw">Hardware: <span>BladeRF required (simultaneous dual channel)</span></div>
+    </div>
+
+    <div class="uc-card yellow">
+      <div class="uc-title">Wireless Protocol Fuzzing</div>
+      <div class="uc-desc">Transmit malformed, oversized, or unexpected protocol frames to target wireless stacks — Bluetooth, ZigBee, Z-Wave, proprietary 433 MHz. Discover buffer overflows, parser bugs, and denial-of-service conditions in IoT firmware. Boofuzz and custom GNU Radio blocks. Own devices only.</div>
+      <div class="uc-tools"><span class="tool-pill">boofuzz</span><span class="tool-pill">GNU Radio</span><span class="tool-pill">Universal Radio Hacker</span></div>
+      <div class="uc-hw">Hardware: <span>Either</span> · <span style="color:var(--yellow)">Own devices only</span></div>
+    </div>
+
+    <div class="uc-card yellow">
+      <div class="uc-title">GPS Signal Simulation (Shielded)</div>
+      <div class="uc-desc">Generate synthetic GPS signals to test receiver behaviour in edge cases — poor geometry, spoofed positions, signal outages. Critical for autonomous vehicle and drone navigation testing. GPS-SDR-SIM + BladeRF. Absolutely requires a fully shielded RF enclosure — any GPS signal leakage outside is a federal offence.</div>
+      <div class="uc-tools"><span class="tool-pill">gps-sdr-sim</span><span class="tool-pill">bladeRF</span></div>
+      <div class="uc-hw">Hardware: <span>BladeRF required</span> · <span style="color:var(--red)">RF cage mandatory — no exceptions</span></div>
+    </div>
+
+  </div>
+
+  <!-- Software Ecosystem -->
+  <h2><span class="icon">🛠</span> Software Ecosystem</h2>
+  <div class="sw-grid">
+    <div class="sw-card"><div class="sw-name">GNU Radio</div><div class="sw-desc">The foundational SDR framework. Visual flowgraph editor + Python/C++ blocks. Everything else is built on or integrates with it.</div><div class="sw-cat">Core platform</div></div>
+    <div class="sw-card"><div class="sw-name">Universal Radio Hacker</div><div class="sw-desc">GUI for recording, visualising, decoding, and attacking radio protocols. The best starting point for unknown protocol reverse engineering.</div><div class="sw-cat">Protocol analysis</div></div>
+    <div class="sw-card"><div class="sw-name">GQRX</div><div class="sw-desc">Real-time spectrum analyser and receiver. Excellent waterfall display. The first tool you'll open with any new SDR.</div><div class="sw-cat">Spectrum viewer</div></div>
+    <div class="sw-card"><div class="sw-name">SigDigger</div><div class="sw-desc">Advanced signal analyser — real-time inspection, channel equalisation, symbol timing recovery. Best for unknown signal characterisation.</div><div class="sw-cat">Signal analysis</div></div>
+    <div class="sw-card"><div class="sw-name">inspectrum</div><div class="sw-desc">Offline IQ file analyser with powerful visualisation. Measure symbol timing, extract bitstreams from captured signals.</div><div class="sw-cat">Offline analysis</div></div>
+    <div class="sw-card"><div class="sw-name">gr-gsm</div><div class="sw-desc">GNU Radio GSM receiver. Decode GSM control channels, observe network topology, capture broadcast data.</div><div class="sw-cat">Cellular</div></div>
+    <div class="sw-card"><div class="sw-name">LTE-Cell-Scanner</div><div class="sw-desc">Scan for LTE cells, decode MIB/SIB messages, map carrier frequencies. Foundation for cellular research.</div><div class="sw-cat">Cellular</div></div>
+    <div class="sw-card"><div class="sw-name">srsRAN</div><div class="sw-desc">Full open-source 4G/5G stack — eNB + EPC. Run your own LTE network. Used by vendors and universities for protocol research.</div><div class="sw-cat">Cellular / Advanced</div></div>
+    <div class="sw-card"><div class="sw-name">OpenBTS</div><div class="sw-desc">Open-source GSM/UMTS base station. Turn BladeRF into a real cellular network. Requires RF isolation.</div><div class="sw-cat">Cellular / Active</div></div>
+    <div class="sw-card"><div class="sw-name">Crocodile Hunter</div><div class="sw-desc">EFF's BladeRF-based rogue LTE base station detector. DEFCON-proven. Best example of SDR for defensive security.</div><div class="sw-cat">Security / Defensive</div></div>
+    <div class="sw-card"><div class="sw-name">dump1090 / readsb</div><div class="sw-desc">ADS-B aircraft decoder. Feeds tar1090 for the best web-based radar display. Instant gratification.</div><div class="sw-cat">Aviation</div></div>
+    <div class="sw-card"><div class="sw-name">rtl_433</div><div class="sw-desc">Decode 200+ IoT devices on 433/868/915 MHz. Temperature sensors, weather stations, TPMS, smart meters. Passive and legal.</div><div class="sw-cat">IoT / Passive</div></div>
+    <div class="sw-card"><div class="sw-name">SatDump</div><div class="sw-desc">Receive and decode satellite imagery — NOAA APT, GOES LRIT, Meteor-M, and dozens more. Active development, excellent results.</div><div class="sw-cat">Satellite</div></div>
+    <div class="sw-card"><div class="sw-name">gps-sdr-sim</div><div class="sw-desc">Generate GPS satellite signals for receiver testing. Requires RF cage. Used for autonomous vehicle development and GPS vulnerability research.</div><div class="sw-cat">Navigation / Active</div></div>
+    <div class="sw-card"><div class="sw-name">Kalibrate</div><div class="sw-desc">Calibrate SDR frequency offset against GSM carrier frequencies. Essential for accurate frequency work — SDRs drift without calibration.</div><div class="sw-cat">Utility</div></div>
+  </div>
+
+  <!-- Project Ideas -->
+  <h2><span class="icon">💡</span> Project Ideas — Priority Ranked</h2>
+  <div class="ideas-grid">
+
+    <div class="idea-card">
+      <div class="idea-num">Priority 1</div>
+      <div class="idea-title">SpectraMap — Live RF Environment Dashboard</div>
+      <div class="idea-desc">Automated spectrum occupancy monitor that runs continuously, builds baseline RF profiles for home and warehouse, and alerts on anomalies — unexpected transmitters, new devices, signal spikes. Visualised as a live web dashboard. Practical value: interference detection, security monitoring, regulatory awareness.</div>
+      <div class="idea-tags"><span class="tool-pill">GNU Radio</span><span class="tool-pill">Python</span><span class="tool-pill">Grafana</span></div>
+      <div class="idea-diff">Difficulty: <span class="diff-med">Medium</span> · HackRF · Fully legal</div>
+    </div>
+
+    <div class="idea-card">
+      <div class="idea-num">Priority 2</div>
+      <div class="idea-title">DroneWatch — Warehouse RF Perimeter</div>
+      <div class="idea-desc">Passive drone detection system for the warehouse using RF fingerprinting of DJI/consumer drone control channels (2.4/5.8 GHz). Alert on Telegram when a drone is detected nearby. Extend with direction-finding using signal strength variations. Real security value, no transmitting required.</div>
+      <div class="idea-tags"><span class="tool-pill">GNU Radio</span><span class="tool-pill">ML classifier</span><span class="tool-pill">OpenClaw</span></div>
+      <div class="idea-diff">Difficulty: <span class="diff-hard">Hard</span> · HackRF · Fully legal</div>
+    </div>
+
+    <div class="idea-card">
+      <div class="idea-num">Priority 3</div>
+      <div class="idea-title">ADS-B Local Radar + Feed</div>
+      <div class="idea-desc">Set up a local aircraft radar covering Perth/warehouse area, feed FlightAware for a free subscription upgrade, and build a custom tile on the dashboard showing local air traffic. Easy, immediate, and the dump1090/tar1090 stack is rock-solid. Good first project to validate hardware setup.</div>
+      <div class="idea-tags"><span class="tool-pill">dump1090</span><span class="tool-pill">tar1090</span><span class="tool-pill">PiAware</span></div>
+      <div class="idea-diff">Difficulty: <span class="diff-easy">Easy</span> · Either · Fully legal · Best first project</div>
+    </div>
+
+    <div class="idea-card">
+      <div class="idea-num">Priority 4</div>
+      <div class="idea-title">CellSentinel — Rogue Tower Detection</div>
+      <div class="uc-desc">Port or run Crocodile Hunter to passively scan for anomalous LTE base stations in Perth — particularly relevant near the warehouse and CBD. Log results over time to detect patterns. Genuinely useful defensive security tool. BladeRF was the original development hardware for this exact use case.</div>
+      <div class="idea-tags"><span class="tool-pill">Crocodile Hunter</span><span class="tool-pill">LTE-Cell-Scanner</span><span class="tool-pill">BladeRF</span></div>
+      <div class="idea-diff">Difficulty: <span class="diff-med">Medium</span> · BladeRF required · Legal (passive receive)</div>
+    </div>
+
+    <div class="idea-card">
+      <div class="idea-num">Priority 5</div>
+      <div class="idea-title">RF Decoder — IoT Neighbourhood Map</div>
+      <div class="idea-desc">Run rtl_433 passively and map every 433 MHz IoT device you can receive — neighbour weather stations, smart meters, tyre pressure sensors, door/window sensors. Visualise on a local map. Demonstrates how much personal data leaks over unencrypted RF without owners knowing.</div>
+      <div class="idea-tags"><span class="tool-pill">rtl_433</span><span class="tool-pill">MQTT</span><span class="tool-pill">Grafana</span></div>
+      <div class="idea-diff">Difficulty: <span class="diff-easy">Easy</span> · HackRF · Fully legal</div>
+    </div>
+
+    <div class="idea-card">
+      <div class="idea-num">Priority 6</div>
+      <div class="idea-title">SatRx — Weather Satellite Ground Station</div>
+      <div class="idea-desc">Receive real-time weather imagery from NOAA satellites (137 MHz) as they pass overhead, and GOES full-disk imagery (1691 MHz) with a small dish. Automate with orbital prediction, build a local weather intelligence feed. Beautiful output, genuine scientific value, and entirely legal everywhere.</div>
+      <div class="idea-tags"><span class="tool-pill">SatDump</span><span class="tool-pill">noaa-apt</span><span class="tool-pill">Predict</span></div>
+      <div class="idea-diff">Difficulty: <span class="diff-med">Medium</span> · BladeRF for GOES · Fully legal</div>
+    </div>
+
+    <div class="idea-card">
+      <div class="idea-num">Priority 7</div>
+      <div class="idea-title">PrivateCell — Isolated GSM Network (RF Cage)</div>
+      <div class="idea-desc">Build a complete private GSM base station using OpenBTS + BladeRF inside an RF-shielded enclosure. Phones inside the cage associate with your network. Understand the full cellular association stack, test custom protocol implementations, and explore IMSI/authentication flows. Research-grade setup.</div>
+      <div class="idea-tags"><span class="tool-pill">OpenBTS</span><span class="tool-pill">Asterisk</span><span class="tool-pill">BladeRF</span></div>
+      <div class="idea-diff">Difficulty: <span class="diff-hard">Hard</span> · BladeRF required · <span style="color:var(--red)">RF cage mandatory</span></div>
+    </div>
+
+    <div class="idea-card">
+      <div class="idea-num">Priority 8</div>
+      <div class="idea-title">RFprint — Unknown Protocol Reverse Engineer</div>
+      <div class="idea-desc">Pick any unknown 433/868 MHz signal in your environment and fully reverse engineer it — modulation type, encoding, frame structure, data meaning. Universal Radio Hacker makes this surprisingly accessible. The skill transfers to any IoT security work. Good foundation for all other active research.</div>
+      <div class="idea-tags"><span class="tool-pill">Universal Radio Hacker</span><span class="tool-pill">inspectrum</span><span class="tool-pill">GNU Radio</span></div>
+      <div class="idea-diff">Difficulty: <span class="diff-med">Medium</span> · Either · Legal on own devices</div>
+    </div>
+
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px;margin:32px 0;">
+    <div style="font-size:0.85rem;font-weight:700;margin-bottom:8px;color:var(--accent)">Recommended Starting Path</div>
+    <div style="font-size:0.83rem;color:var(--muted);line-height:1.7;">
+      <strong style="color:var(--text)">Week 1:</strong> ADS-B radar — validates hardware, produces immediate visible output, zero risk.<br>
+      <strong style="color:var(--text)">Week 2–3:</strong> SpectraMap spectrum dashboard — builds GNU Radio foundations you'll use everywhere.<br>
+      <strong style="color:var(--text)">Month 2:</strong> rtl_433 IoT decoder + RF fingerprinting primer with URH.<br>
+      <strong style="color:var(--text)">Month 3+:</strong> DroneWatch ML classifier for warehouse, or CellSentinel if BladeRF is in hand.<br>
+      <strong style="color:var(--text)">When RF cage available:</strong> PrivateCell OpenBTS — the most instructive active experiment.
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DUAL NODE SECTION -->
+  <!-- ============================================================ -->
+
+  <h2 style="font-size:1.4rem;font-weight:800;letter-spacing:-0.03em;margin:48px 0 8px;"><span style="color:var(--accent)">⬡</span> Dual-Node Setup — Osborne Park + Swanbourne</h2>
+  <p style="color:var(--muted);font-size:0.88rem;margin-bottom:20px;max-width:780px;">Two geographically separated receive nodes ~10km apart unlock capabilities that a single node cannot. This is the difference between a scanner and a sensor network.</p>
+
+  <!-- Interactive map -->
+  <div class="map-container">
+    <iframe
+      src="https://www.openstreetmap.org/export/embed.html?bbox=115.7200%2C-31.9800%2C115.8800%2C-31.8700&layer=mapnik&marker=-31.8953%2C115.8047"
+      title="Node locations — Perth WA"
+      loading="lazy"
+    ></iframe>
+    <div class="map-legend">
+      <div class="map-legend-item"><div class="map-dot" style="background:#06b6d4;"></div><strong style="color:var(--text)">Node A</strong> — Osborne Park 6017 (warehouse, industrial zone, City of Stirling)</div>
+      <div class="map-legend-item"><div class="map-dot" style="background:#a855f7;"></div><strong style="color:var(--text)">Node B</strong> — Swanbourne 6010 (residential, City of Nedlands, ~500m from Indian Ocean)</div>
+      <div class="map-legend-item"><div class="map-dot" style="background:#ef4444;"></div><strong style="color:var(--text)">Campbell Barracks</strong> — 152 Signal Squadron HF arrays</div>
+      <div style="margin-left:auto;"><a href="https://www.openstreetmap.org/#map=13/-31.9300/115.7900" target="_blank" rel="noopener" style="font-size:0.75rem;">Open full map →</a></div>
+    </div>
+  </div>
+  <!-- Annotated satellite view links -->
+  <div style="display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap;font-size:0.8rem;">
+    <a href="https://www.openstreetmap.org/?mlat=-31.8953&mlon=115.8047#map=16/-31.8953/115.8047" target="_blank" rel="noopener" style="background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);color:var(--accent);padding:6px 14px;border-radius:4px;">📍 Node A — Osborne Park</a>
+    <a href="https://www.openstreetmap.org/?mlat=-31.9435&mlon=115.7630#map=16/-31.9435/115.7630" target="_blank" rel="noopener" style="background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2);color:var(--purple);padding:6px 14px;border-radius:4px;">📍 Node B — Swanbourne</a>
+    <a href="https://www.openstreetmap.org/?mlat=-31.9524&mlon=115.7627#map=16/-31.9524/115.7627" target="_blank" rel="noopener" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:var(--red);padding:6px 14px;border-radius:4px;">📍 Campbell Barracks</a>
+    <a href="https://www.flightradar24.com/-31.92,115.79/10" target="_blank" rel="noopener" style="background:rgba(250,204,21,0.1);border:1px solid rgba(250,204,21,0.2);color:var(--yellow);padding:6px 14px;border-radius:4px;">✈️ Live ADS-B — Perth airspace</a>
+    <a href="https://www.marinetraffic.com/en/ais/home/centerx:115.73/centery:-31.96/zoom:11" target="_blank" rel="noopener" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);color:var(--green);padding:6px 14px;border-radius:4px;">🚢 Live AIS — Fremantle/Perth</a>
+  </div>
+
+  <!-- Node comparison cards -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px;">
+
+    <!-- Node A: Osborne Park -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div style="font-size:1.05rem;font-weight:800;">Node A — Osborne Park</div>
+        <div style="background:rgba(6,182,212,0.1);color:var(--accent);border:1px solid rgba(6,182,212,0.2);padding:3px 10px;border-radius:4px;font-size:0.7rem;font-weight:700;letter-spacing:0.05em;">WAREHOUSE</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:0.83rem;">
+        <div style="display:flex;gap:8px;"><span style="color:var(--muted);min-width:120px;">Suburb</span><span>Osborne Park 6017</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:var(--muted);min-width:120px;">LGA</span><span>City of Stirling</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:var(--muted);min-width:120px;">Zone</span><span>Industrial — most permissive rules</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:var(--muted);min-width:120px;">Distance to coast</span><span>~7km inland (Indian Ocean)</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:var(--muted);min-width:120px;">Elevation</span><span>Low (~20m ASL), flat terrain</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:var(--muted);min-width:120px;">RF environment</span><span>Industrial — moderate interference from machinery, motors, lighting</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:var(--muted);min-width:120px;">Strengths</span><span>Full mast height, persistent power, existing network infra, NAS/compute on-site, no neighbour complaints</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:var(--muted);min-width:120px;">Weaknesses</span><span>Blocked ocean horizon, limited marine AIS coverage, industrial RF noise floor</span></div>
+      </div>
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
+        <div style="font-size:0.75rem;font-weight:700;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em;">Council / Planning — City of Stirling</div>
+        <div style="font-size:0.8rem;color:var(--muted);line-height:1.7;">
+          Industrial zoning is the most forgiving classification for antenna structures in WA. Under City of Stirling Local Planning Scheme No. 3, structures ancillary to the primary use of an industrial lot are generally exempt from planning approval if they don't create a public safety hazard or exceed building height limits.<br><br>
+          <strong style="color:var(--text)">Practical rules:</strong><br>
+          • Masts up to ~6m above the building roofline are typically exempt from planning approval in industrial zones<br>
+          • Masts exceeding ~10m above natural ground level or protruding significantly above the roof generally require a building permit for structural certification — this is a standard structural engineer sign-off, not a planning refusal<br>
+          • No residential amenity concerns — industrial neighbours won't care<br>
+          • A building permit is straightforward here: engage a structural engineer, provide wind loading calcs, submit to the City of Stirling. Usually ~4–6 weeks and a few hundred dollars<br><br>
+          <strong style="color:var(--green)">Bottom line: 8–10m mast is achievable with a building permit. Planning approval risk is very low.</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Node B: Swanbourne -->
+    <div style="background:var(--surface);border:1px solid rgba(168,85,247,0.3);border-radius:8px;padding:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div style="font-size:1.05rem;font-weight:800;">Node B — Swanbourne</div>
+        <div style="background:rgba(168,85,247,0.1);color:var(--purple);border:1px solid rgba(168,85,247,0.2);padding:3px 10px;border-radius:4px;font-size:0.7rem;font-weight:700;letter-spacing:0.05em;">RESIDENTIAL</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:0.83rem;">
+        <div style="display:flex;gap:8px;"><span style="color:var(--muted);min-width:120px;">Suburb</span><span>Swanbourne 6010</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:var(--muted);min-width:120px;">LGA</span><span>City of Nedlands</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:var(--muted);min-width:120px;">Zone</span><span>Residential R20–R40 — more restrictions</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:var(--muted);min-width:120px;">Distance to coast</span><span>~500m–1km from Indian Ocean</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:var(--muted);min-width:120px;">Elevation</span><span>~30–40m ASL, slight coastal ridge</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:var(--muted);min-width:120px;">RF environment</span><span>Quiet residential — very low noise floor, ideal for weak signal work</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:var(--muted);min-width:120px;">Strengths</span><span>Clear ocean horizon, excellent AIS coverage (Fremantle shipping, Indian Ocean traffic), coastal ridge elevation, quiet RF environment, proximity to Campbell Barracks</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:var(--muted);min-width:120px;">Weaknesses</span><span>Residential planning rules, potential neighbour visibility concerns, no existing compute infra — needs Pi 5 + Cloudflare tunnel standalone</span></div>
+      </div>
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
+        <div style="font-size:0.75rem;font-weight:700;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em;">Council / Planning — City of Nedlands</div>
+        <div style="font-size:0.8rem;color:var(--muted);line-height:1.7;">
+          Residential zoning under City of Nedlands Local Planning Scheme No. 3 is considerably more restrictive than industrial. Nedlands is an established, heritage-conscious LGA — they take visual amenity seriously.<br><br>
+          <strong style="color:var(--text)">Practical rules:</strong><br>
+          • A small rooftop antenna (similar to a TV aerial) is generally exempt from planning approval if it doesn't project more than 2m above the roof ridge — this covers an RTL-SDR dongle on a short pole, not a serious mast<br>
+          • Any mast visible from the street or neighbouring properties that materially changes the visual character of the property will likely need planning approval from Nedlands. Their scheme prioritises streetscape and character<br>
+          • A 4–6m pole fixed to the rear of a dwelling (not visible from street) with a modest antenna is the practical maximum you'll get through without a planning fight<br>
+          • Anything taller or more prominent: you'd need to demonstrate it doesn't adversely affect neighbours' outlook or the streetscape — outcome is uncertain and neighbour-dependent<br>
+          • City of Nedlands planning counter will give you a pre-lodgement meeting for free — worth doing before you buy any hardware for this site<br><br>
+          <strong style="color:var(--yellow)">Bottom line: 4–6m max without planning risk. A discreet rear-of-property mount is achievable; a full commercial mast is not.</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What dual-node unlocks -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:28px;margin-bottom:32px;">
+    <div style="font-size:1rem;font-weight:700;margin-bottom:16px;">What Two Nodes Unlocks</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;font-size:0.83rem;">
+      <div>
+        <div style="color:var(--green);font-weight:700;margin-bottom:8px;">High Value (dual-node required)</div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;color:var(--muted);">
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--green)">✓</span> <strong style="color:var(--text)">MLAT (multilateration)</strong> — two receivers at known positions calculate aircraft location via TDOA. Contributes to FlightAware/FlightRadar24 upgrade. Node spacing of ~10km is ideal.</li>
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--green)">✓</span> <strong style="color:var(--text)">AIS coverage</strong> — Swanbourne owns the open ocean; Osborne Park covers port approaches and inland. Combined: comprehensive Perth maritime picture.</li>
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--green)">✓</span> <strong style="color:var(--text)">TDOA direction finding</strong> — with two nodes at known positions you can estimate transmitter bearing/location. Useful for DroneWatch and RF anomaly hunting.</li>
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--green)">✓</span> <strong style="color:var(--text)">Signal correlation</strong> — compare what both nodes hear simultaneously. Isolate local interference at one site vs genuine regional signals.</li>
+        </ul>
+      </div>
+      <div>
+        <div style="color:var(--muted);font-weight:700;margin-bottom:8px;">Single Node is Sufficient</div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;color:var(--muted);">
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--muted)">—</span> General spectrum scanning (covers same spectrum)</li>
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--muted)">—</span> Satellite reception (NOAA/GOES — marginal gain)</li>
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--muted)">—</span> GSM/LTE tower mapping</li>
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--muted)">—</span> DroneWatch (can do on single node)</li>
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--muted)">—</span> PrivateCell OpenBTS lab</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- The SAS section -->
+  <div style="background:#0f0a1a;border:1px solid rgba(168,85,247,0.4);border-radius:8px;padding:28px;margin-bottom:32px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <div style="font-size:1rem;font-weight:800;">📡 The Elephant in the Room — Campbell Barracks</div>
+      <div style="background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.2);padding:3px 10px;border-radius:4px;font-size:0.7rem;font-weight:700;letter-spacing:0.05em;">UNFILTERED</div>
+    </div>
+    <p style="font-size:0.83rem;color:var(--muted);line-height:1.75;margin-bottom:16px;">
+      Campbell Barracks is the home of the Australian Special Air Service Regiment — the SAS. It's also sitting on a very interesting RF footprint. Here's what's actually known, and some honest thoughts on proximity.
+    </p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;font-size:0.82rem;">
+      <div>
+        <div style="color:var(--purple);font-weight:700;margin-bottom:10px;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">What's Known</div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:9px;color:var(--muted);">
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--purple)">→</span> The large log-periodic antenna arrays visible at Campbell Barracks are operated by <strong style="color:var(--text)">152 Signal Squadron</strong>, the Army's specialist communications unit embedded with SASR</li>
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--purple)">→</span> The log-periodics are <strong style="color:var(--text)">HF antenna systems</strong> (roughly 3–30 MHz), used for long-range encrypted voice and data communications — the kind that bounces off the ionosphere and reaches anywhere on Earth</li>
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--purple)">→</span> Perth's scanner community (WARSUG) has documented these antennas publicly — they were originally sited on a hill north of the firing range and relocated to the barracks when the land was repurposed for public open space. They're not secret in the sense of being unknown; their <em>content</em> is classified.</li>
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--purple)">→</span> SASR also uses tactical VHF/UHF for local comms (encrypted), satellite terminals (SATCOM), and likely some UHF MILSATCOM. The big log-periodics are specifically the HF long-haul links.</li>
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--purple)">→</span> The ADF also historically coordinated with the former <strong style="color:var(--text)">Gnangara VIP HF station</strong> — logs from that installation ended up at Swanbourne when Gnangara was decommissioned</li>
+        </ul>
+      </div>
+      <div>
+        <div style="color:var(--red);font-weight:700;margin-bottom:10px;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">Honest Assessment</div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:9px;color:var(--muted);">
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--red)">!</span> <strong style="color:var(--text)">Receiving HF in the 3–30 MHz range from a civilian address near a military installation is entirely legal</strong>. Passive receive is not interception under Australian law; the Radiocommunications Act 1992 prohibits <em>disclosing</em> or <em>using</em> intercepted communications, not the act of receiving. You are legally allowed to tune to any frequency. You are not allowed to decode, record, or act on encrypted military traffic.</li>
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--red)">!</span> <strong style="color:var(--text)">Proximity to military infrastructure does not create legal risk for passive RF monitoring of civilian bands</strong>. Your AIS, ADS-B, weather satellite, and spectrum scanning activities are completely unrelated to military comms.</li>
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--red)">!</span> <strong style="color:var(--text)">The practical interest</strong>: from a Swanbourne node, you would almost certainly see HF carrier activity from 152 Sqn systems just by nature of proximity. Log-periodics are powerful transmitters and you'd be within 500m. They'd light up a wideband HF scan like a lighthouse. You're not decoding anything — but you'd know when they're active.</li>
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--red)">!</span> <strong style="color:var(--text)">The grey area</strong>: deliberately pointing equipment at a military facility with the intent to characterise its transmissions would attract ASIO attention even if technically legal. Passively scanning all HF bands and noticing military signals as part of broader spectrum work is a completely different thing. Don't make it the <em>point</em> of the exercise.</li>
+          <li style="padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--red)">!</span> <strong style="color:var(--text)">The non-obvious advantage</strong>: military sites are typically surrounded by RF-quiet buffer zones. No industrial equipment, no noisy switching power supplies, minimal consumer electronics interference. Campbell Barracks' perimeter may actually provide <em>better</em> RF quiet than surrounding suburbs, making it a surprisingly clean location for sensitive receive work.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:6px;padding:16px;font-size:0.8rem;color:var(--muted);line-height:1.6;">
+      <strong style="color:var(--red);">TL;DR —</strong> The antennas are 152 Signal Squadron HF systems for long-range encrypted comms. You'll see them on any HF scan. Legal to receive, illegal to decode/disclose content. Don't make it the focus. The more interesting point is that proximity to the base may give you a quieter RF environment than you'd expect, and a clear ocean horizon that makes Swanbourne excellent for AIS and ADS-B regardless of what's next door.
+    </div>
+    <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;font-size:0.78rem;">
+      <a href="https://en.wikipedia.org/wiki/Campbell_Barracks_(Western_Australia)" target="_blank" rel="noopener" style="color:var(--muted);border:1px solid var(--border);padding:5px 12px;border-radius:4px;">Campbell Barracks — Wikipedia</a>
+      <a href="https://en.wikipedia.org/wiki/152nd_Signal_Squadron_(Australia)" target="_blank" rel="noopener" style="color:var(--muted);border:1px solid var(--border);padding:5px 12px;border-radius:4px;">152 Signal Squadron</a>
+      <a href="https://www.legislation.gov.au/Details/C2004A04503" target="_blank" rel="noopener" style="color:var(--muted);border:1px solid var(--border);padding:5px 12px;border-radius:4px;">Radiocommunications Act 1992 (AU)</a>
+      <a href="https://www.acma.gov.au/spectrum-management" target="_blank" rel="noopener" style="color:var(--muted);border:1px solid var(--border);padding:5px 12px;border-radius:4px;">ACMA Spectrum Management</a>
+    </div>
+  </div>
+
+  <!-- Node setup summary -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:32px;">
+    <div style="font-size:0.9rem;font-weight:700;margin-bottom:16px;">Dual-Node Hardware — Incremental Cost</div>
+    <table style="width:100%;border-collapse:collapse;font-size:0.82rem;">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border);">
+          <th style="text-align:left;padding:8px 12px;color:var(--muted);font-weight:600;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">Item</th>
+          <th style="text-align:left;padding:8px 12px;color:var(--muted);font-weight:600;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">Note</th>
+          <th style="text-align:right;padding:8px 12px;color:var(--muted);font-weight:600;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">Cost (AUD)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 12px;font-weight:600;">BladeRF x40 (second unit)</td><td style="padding:10px 12px;color:var(--muted);">Identical to Node A</td><td style="padding:10px 12px;text-align:right;color:var(--accent);">~$900</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 12px;font-weight:600;">Raspberry Pi 5 8GB</td><td style="padding:10px 12px;color:var(--muted);">Standalone edge compute, Swanbourne</td><td style="padding:10px 12px;text-align:right;color:var(--accent);">~$150</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 12px;font-weight:600;">Diamond D3000N Discone</td><td style="padding:10px 12px;color:var(--muted);">Wideband antenna for Node B</td><td style="padding:10px 12px;text-align:right;color:var(--accent);">~$250</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 12px;font-weight:600;">Jetvision A3 ADS-B collinear</td><td style="padding:10px 12px;color:var(--muted);">1090 MHz dedicated — ocean horizon from Swanbourne is exceptional for this</td><td style="padding:10px 12px;text-align:right;color:var(--accent);">~$180</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 12px;font-weight:600;">Compact wall/pole mount + LMR-400 run</td><td style="padding:10px 12px;color:var(--muted);">4–6m max at residential site, rear of property</td><td style="padding:10px 12px;text-align:right;color:var(--accent);">~$150</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 12px;font-weight:600;">Uputronics preamp (ADS-B filtered)</td><td style="padding:10px 12px;color:var(--muted);">Mast-head LNA for Node B</td><td style="padding:10px 12px;text-align:right;color:var(--accent);">~$90</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 12px;font-weight:600;">MicroSD + PSU + enclosure</td><td style="padding:10px 12px;color:var(--muted);">Pi 5 setup</td><td style="padding:10px 12px;text-align:right;color:var(--accent);">~$60</td></tr>
+        <tr><td style="padding:12px 12px;font-weight:800;">Node B Total (incremental)</td><td style="padding:12px 12px;color:var(--muted);">On top of Node A warehouse setup</td><td style="padding:12px 12px;text-align:right;color:var(--green);font-weight:800;font-size:0.95rem;">~$1,780 AUD</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px;margin:32px 0;">
+    <div style="font-size:0.85rem;font-weight:700;margin-bottom:8px;color:var(--accent)">Recommended Starting Path</div>
+    <div style="font-size:0.83rem;color:var(--muted);line-height:1.7;">
+      <strong style="color:var(--text)">Week 1:</strong> ADS-B radar — validates hardware, produces immediate visible output, zero risk.<br>
+      <strong style="color:var(--text)">Week 2–3:</strong> SpectraMap spectrum dashboard — builds GNU Radio foundations you'll use everywhere.<br>
+      <strong style="color:var(--text)">Month 2:</strong> rtl_433 IoT decoder + RF fingerprinting primer with URH.<br>
+      <strong style="color:var(--text)">Month 3+:</strong> DroneWatch ML classifier for warehouse, or CellSentinel if BladeRF is in hand.<br>
+      <strong style="color:var(--text)">When RF cage available:</strong> PrivateCell OpenBTS — the most instructive active experiment.<br>
+      <strong style="color:var(--text)">When Node B ready:</strong> Enable MLAT on both nodes + AIS maritime tracking — first thing that requires two receivers.
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span>Project Spectrum · Larsen Ventures · Research use only</span>
+  <span>BladeRF x40 + HackRF One · GNU Radio ecosystem</span>
+</footer>
+
+</body>
+</html>

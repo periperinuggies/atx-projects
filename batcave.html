@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BATCAVE — Larsen Ventures</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --bg:       #050508;
+    --panel:    #0a0a10;
+    --border:   #1a1a2e;
+    --accent:   #00e5ff;
+    --amber:    #ffb300;
+    --red:      #ff1744;
+    --green:    #00e676;
+    --purple:   #d500f9;
+    --orange:   #ff6d00;
+    --text:     #c0c8d8;
+    --dim:      #444466;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,229,255,0.03) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(0,229,255,0.03) 40px);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    padding: 20px;
+    user-select: none;
+  }
+
+  /* ── Auth overlay ─────────────────────────────────────── */
+  #auth-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 20px;
+  }
+  #auth-overlay h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem; font-weight: 900;
+    color: var(--accent);
+    letter-spacing: 0.3em;
+    text-shadow: 0 0 30px rgba(0,229,255,0.6);
+  }
+  #auth-overlay input {
+    background: #0d0d1a; border: 1px solid var(--accent);
+    color: var(--accent); font-family: 'Share Tech Mono', monospace;
+    font-size: 1.2rem; padding: 12px 24px; width: 260px;
+    text-align: center; letter-spacing: 0.2em;
+    outline: none;
+  }
+  #auth-overlay button {
+    background: transparent; border: 1px solid var(--accent);
+    color: var(--accent); font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem; letter-spacing: 0.2em;
+    padding: 10px 30px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  #auth-overlay button:hover { background: rgba(0,229,255,0.1); }
+  #auth-err { color: var(--red); font-size: 0.8rem; display: none; }
+
+  /* ── Header ───────────────────────────────────────────── */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 28px; padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  header h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem; font-weight: 900;
+    color: var(--accent);
+    letter-spacing: 0.25em;
+    text-shadow: 0 0 20px rgba(0,229,255,0.4);
+  }
+  #conn-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--dim); display: inline-block;
+    margin-right: 8px; transition: background 0.4s;
+  }
+  #conn-dot.live { background: var(--green); box-shadow: 0 0 8px var(--green); }
+  #conn-dot.err  { background: var(--red); }
+  #conn-label { font-size: 0.72rem; color: var(--dim); letter-spacing: 0.1em; }
+
+  /* ── Panels ───────────────────────────────────────────── */
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 18px 20px 20px;
+    margin-bottom: 20px;
+  }
+  .panel-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.25em; color: var(--dim);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  .panel-title span { color: var(--accent); }
+
+  /* ── Button grid ──────────────────────────────────────── */
+  .btn-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+
+  /* ── Soundboard button ────────────────────────────────── */
+  .btn {
+    position: relative;
+    background: linear-gradient(160deg, #0d0d16 0%, #080810 100%);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 14px 10px 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 6px;
+    min-height: 80px; justify-content: center;
+  }
+  .btn:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 12px rgba(0,229,255,0.15), inset 0 0 20px rgba(0,229,255,0.04);
+  }
+  .btn.active {
+    border-color: var(--accent);
+    background: linear-gradient(160deg, rgba(0,229,255,0.08) 0%, #080810 100%);
+    box-shadow: 0 0 18px rgba(0,229,255,0.25);
+  }
+  .btn.firing {
+    animation: btn-fire 0.3s ease;
+  }
+  @keyframes btn-fire {
+    0%  { box-shadow: 0 0 0 rgba(0,229,255,0); border-color: var(--border); }
+    50% { box-shadow: 0 0 30px rgba(0,229,255,0.6); border-color: var(--accent); }
+    100%{ box-shadow: 0 0 10px rgba(0,229,255,0.2); }
+  }
+  .btn-icon { font-size: 1.6rem; line-height: 1; }
+  .btn-label {
+    font-size: 0.65rem; letter-spacing: 0.08em;
+    color: var(--text); text-transform: uppercase;
+    line-height: 1.3;
+  }
+  .btn-sub {
+    font-size: 0.58rem; color: var(--dim);
+    letter-spacing: 0.05em;
+  }
+  /* colour variants */
+  .btn-red:hover, .btn-red.active   { border-color: var(--red);    box-shadow: 0 0 12px rgba(255,23,68,0.3); }
+  .btn-green:hover, .btn-green.active{ border-color: var(--green);  box-shadow: 0 0 12px rgba(0,230,118,0.3); }
+  .btn-amber:hover, .btn-amber.active{ border-color: var(--amber);  box-shadow: 0 0 12px rgba(255,179,0,0.3); }
+  .btn-purple:hover,.btn-purple.active{border-color: var(--purple); box-shadow: 0 0 12px rgba(213,0,249,0.3); }
+  .btn-orange:hover,.btn-orange.active{border-color: var(--orange); box-shadow: 0 0 12px rgba(255,109,0,0.3); }
+
+  /* toggle state for power buttons */
+  .btn.on .btn-icon::after { content: ''; display: block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin: 2px auto 0; box-shadow: 0 0 6px var(--green); }
+  .btn.off .btn-icon::after{ content: ''; display: block; width: 6px; height: 6px; border-radius: 50%; background: var(--dim); margin: 2px auto 0; }
+
+  /* ── Scene buttons ────────────────────────────────────── */
+  #scene-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+  .scene-btn {
+    background: #0a0a14; border: 1px solid var(--border);
+    color: var(--text); font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.08em;
+    padding: 10px 16px; cursor: pointer; border-radius: 3px;
+    transition: all 0.15s; text-transform: uppercase;
+  }
+  .scene-btn:hover {
+    border-color: var(--purple);
+    box-shadow: 0 0 10px rgba(213,0,249,0.2);
+    color: var(--purple);
+  }
+  #scene-empty { color: var(--dim); font-size: 0.72rem; font-style: italic; }
+
+  /* ── Status bar ───────────────────────────────────────── */
+  #status-bar {
+    display: flex; gap: 20px; flex-wrap: wrap;
+    font-size: 0.65rem; color: var(--dim);
+    letter-spacing: 0.08em; margin-top: 24px;
+    padding-top: 14px; border-top: 1px solid var(--border);
+  }
+  #status-bar span b { color: var(--text); }
+  #toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: #0d1020; border: 1px solid var(--accent);
+    color: var(--accent); font-size: 0.75rem;
+    padding: 10px 18px; letter-spacing: 0.08em;
+    opacity: 0; transition: opacity 0.3s;
+    pointer-events: none; z-index: 100;
+  }
+  #toast.show { opacity: 1; }
+
+  /* ── Scanline overlay ─────────────────────────────────── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; pointer-events: none; z-index: 9998;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 3px);
+  }
+</style>
+</head>
+<body>
+
+<!-- Auth overlay -->
+<div id="auth-overlay">
+  <h1>BATCAVE</h1>
+  <div style="color:var(--dim);font-size:0.72rem;letter-spacing:0.15em">LARSEN VENTURES — WAREHOUSE CONTROL</div>
+  <input type="password" id="pw-input" placeholder="ACCESS CODE" onkeydown="if(event.key==='Enter')authCheck()">
+  <button onclick="authCheck()">AUTHENTICATE</button>
+  <div id="auth-err">⚠ INVALID CODE</div>
+</div>
+
+<!-- Main UI (hidden until auth) -->
+<div id="main" style="display:none">
+
+<header>
+  <h1>⚡ BATCAVE</h1>
+  <div style="display:flex;align-items:center;gap:8px">
+    <span id="conn-dot"></span>
+    <span id="conn-label">CONNECTING…</span>
+  </div>
+</header>
+
+<!-- LIGHTS MASTER -->
+<div class="panel">
+  <div class="panel-title"><span>//</span> LIGHTS — MASTER</div>
+  <div class="btn-grid">
+    <button class="btn btn-green" onclick="runEffect('all_on')" title="All lights full brightness">
+      <span class="btn-icon">💡</span>
+      <span class="btn-label">All On</span>
+      <span class="btn-sub">Full brightness</span>
+    </button>
+    <button class="btn btn-amber" onclick="runEffect('all_on',{level:150})" title="50% mood lighting">
+      <span class="btn-icon">🌕</span>
+      <span class="btn-label">Mood</span>
+      <span class="btn-sub">50% warm</span>
+    </button>
+    <button class="btn btn-amber" onclick="runEffect('all_on',{level:80})" title="Low security light">
+      <span class="btn-icon">🔅</span>
+      <span class="btn-label">Low</span>
+      <span class="btn-sub">30% dim</span>
+    </button>
+    <button class="btn btn-red" onclick="runEffect('all_off')" title="Kill all lights">
+      <span class="btn-icon">🌑</span>
+      <span class="btn-label">All Off</span>
+      <span class="btn-sub">Blackout</span>
+    </button>
+  </div>
+</div>
+
+<!-- LIGHT EFFECTS -->
+<div class="panel">
+  <div class="panel-title"><span>//</span> EFFECTS — PROGRAMMED SEQUENCES</div>
+  <div class="btn-grid">
+    <button class="btn btn-purple" onclick="runEffect('disco')" title="Random strobe 20s">
+      <span class="btn-icon">🪩</span>
+      <span class="btn-label">Disco</span>
+      <span class="btn-sub">20 sec</span>
+    </button>
+    <button class="btn btn-orange" onclick="runEffect('wind')" title="Sweeping front-to-back wave">
+      <span class="btn-icon">🌊</span>
+      <span class="btn-label">Wind</span>
+      <span class="btn-sub">6 sweeps</span>
+    </button>
+    <button class="btn btn-amber" onclick="runEffect('heartbeat',{bpm:72,beats:30})" title="Slow heartbeat pulse 72bpm">
+      <span class="btn-icon">💓</span>
+      <span class="btn-label">Heartbeat</span>
+      <span class="btn-sub">72 bpm</span>
+    </button>
+    <button class="btn btn-amber" onclick="runEffect('heartbeat',{bpm:120,beats:40})" title="Fast pulse 120bpm">
+      <span class="btn-icon">⚡</span>
+      <span class="btn-label">Pulse</span>
+      <span class="btn-sub">120 bpm</span>
+    </button>
+    <button class="btn" onclick="runEffect('ghost')" title="Eerie flicker 40s">
+      <span class="btn-icon">👻</span>
+      <span class="btn-label">Ghost</span>
+      <span class="btn-sub">40 sec</span>
+    </button>
+  </div>
+</div>
+
+<!-- CASAMBI SCENES -->
+<div class="panel">
+  <div class="panel-title"><span>//</span> CASAMBI SCENES <span style="margin-left:12px;cursor:pointer;color:var(--dim)" onclick="loadScenes()" title="Refresh scene list">↻</span></div>
+  <div id="scene-grid">
+    <span id="scene-empty">Wake Casambi app once to populate scenes, then tap ↻</span>
+  </div>
+</div>
+
+<!-- TAPO POWER -->
+<div class="panel">
+  <div class="panel-title"><span>//</span> POWER — TAPO SMART PLUGS</div>
+  <div class="btn-grid">
+    <button class="btn" id="btn-honda" onclick="tapoToggle('honda')" title="Honda sign power">
+      <span class="btn-icon">🚘</span>
+      <span class="btn-label">Honda Sign</span>
+      <span class="btn-sub" id="sub-honda">—</span>
+    </button>
+    <button class="btn" id="btn-plug2" onclick="tapoToggle('plug2')" title="Plug 2">
+      <span class="btn-icon">🔌</span>
+      <span class="btn-label">Plug 2</span>
+      <span class="btn-sub" id="sub-plug2">—</span>
+    </button>
+    <button class="btn" id="btn-plug3" onclick="tapoToggle('plug3')" title="Plug 3">
+      <span class="btn-icon">🔌</span>
+      <span class="btn-label">Plug 3</span>
+      <span class="btn-sub" id="sub-plug3">—</span>
+    </button>
+    <button class="btn btn-red" onclick="tapoAllOff()" title="Cut power to all plugs">
+      <span class="btn-icon">⛔</span>
+      <span class="btn-label">All Off</span>
+      <span class="btn-sub">Kill power</span>
+    </button>
+  </div>
+</div>
+
+<!-- Status bar -->
+<div id="status-bar">
+  <span>LIGHTS: <b id="s-online">—</b></span>
+  <span>SCENES: <b id="s-scenes">—</b></span>
+  <span>LAST CMD: <b id="s-lastcmd">—</b></span>
+  <span>UPDATED: <b id="s-ts">—</b></span>
+</div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── Config ────────────────────────────────────────────────────────────────────
+const API = 'https://api.larsenfamily.com.au/batcave';
+const PASS_HASH = 'ff6bfc19564a8b0db01c0081ba7568375634dab3388dd003eae48e7ed6cb62fb'; // sha256 of '6014life'
+
+// ── Auth ──────────────────────────────────────────────────────────────────────
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+async function authCheck() {
+  const v = document.getElementById('pw-input').value;
+  const h = await sha256(v);
+  if (h === PASS_HASH) {
+    localStorage.setItem('batcave_auth', h);
+    document.getElementById('auth-overlay').style.display = 'none';
+    document.getElementById('main').style.display = 'block';
+    init();
+  } else {
+    document.getElementById('auth-err').style.display = 'block';
+    document.getElementById('pw-input').value = '';
+  }
+}
+async function checkAuth() {
+  const stored = localStorage.getItem('batcave_auth');
+  if (stored === PASS_HASH) {
+    document.getElementById('auth-overlay').style.display = 'none';
+    document.getElementById('main').style.display = 'block';
+    return true;
+  }
+  return false;
+}
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid = setTimeout(() => t.classList.remove('show'), 2200);
+}
+function fire(btn) {
+  btn.classList.add('firing');
+  setTimeout(() => btn.classList.remove('firing'), 400);
+}
+
+// ── API calls ─────────────────────────────────────────────────────────────────
+async function apiPost(path, body = {}) {
+  try {
+    const r = await fetch(`${API}${path}`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(body),
+    });
+    return await r.json();
+  } catch (e) {
+    return {error: e.message};
+  }
+}
+async function apiGet(path) {
+  try {
+    const r = await fetch(`${API}${path}`);
+    return await r.json();
+  } catch (e) {
+    return {error: e.message};
+  }
+}
+
+// ── Commands ──────────────────────────────────────────────────────────────────
+async function runEffect(mode, opts = {}) {
+  const el = event.currentTarget;
+  fire(el);
+  document.getElementById('s-lastcmd').textContent = mode.toUpperCase();
+  const d = await apiPost('/run', {mode, ...opts});
+  if (d.error) toast(`⚠ ${d.error}`);
+  else toast(`▶ ${mode.toUpperCase()}`);
+}
+
+async function activateScene(id, name) {
+  const el = event.currentTarget;
+  fire(el);
+  document.getElementById('s-lastcmd').textContent = `SCENE: ${name}`;
+  const d = await apiPost('/scene', {id});
+  if (d.error) toast(`⚠ ${d.error}`);
+  else toast(`⚡ SCENE: ${name}`);
+}
+
+const tapoState = {honda: null, plug2: null, plug3: null};
+async function tapoToggle(dev) {
+  const el = event.currentTarget;
+  fire(el);
+  const d = await apiPost('/tapo', {device: dev, action: 'toggle'});
+  if (d.error) { toast(`⚠ ${d.error}`); return; }
+  toast(`🔌 ${dev.toUpperCase()} ${d.state.toUpperCase()}`);
+  updateTapoBtn(dev, d.state);
+}
+async function tapoAllOff() {
+  fire(event.currentTarget);
+  await Promise.all(['honda','plug2','plug3'].map(d => apiPost('/tapo', {device: d, action: 'off'})));
+  ['honda','plug2','plug3'].forEach(d => updateTapoBtn(d, 'off'));
+  toast('⛔ ALL POWER OFF');
+}
+function updateTapoBtn(dev, state) {
+  const btn = document.getElementById(`btn-${dev}`);
+  const sub = document.getElementById(`sub-${dev}`);
+  if (!btn) return;
+  btn.classList.remove('on','off','btn-green','btn-red');
+  if (state === 'on') { btn.classList.add('on','btn-green'); sub.textContent = '● LIVE'; }
+  else if (state === 'off') { btn.classList.add('off','btn-red'); sub.textContent = '○ OFF'; }
+  else { sub.textContent = '— unknown'; }
+}
+
+// ── Scenes ────────────────────────────────────────────────────────────────────
+async function loadScenes() {
+  const d = await apiGet('/scenes');
+  const grid = document.getElementById('scene-grid');
+  const scenes = d.scenes || [];
+  document.getElementById('s-scenes').textContent = scenes.length;
+  if (scenes.length === 0) {
+    document.getElementById('scene-empty').style.display = '';
+    return;
+  }
+  document.getElementById('scene-empty').style.display = 'none';
+  grid.innerHTML = scenes.map(s =>
+    `<button class="scene-btn" onclick="activateScene(${s.id},'${s.name.replace(/'/g,"\\'")}')">${s.name}</button>`
+  ).join('');
+}
+
+// ── Status poll ───────────────────────────────────────────────────────────────
+async function pollStatus() {
+  const d = await apiGet('/status');
+  const dot = document.getElementById('conn-dot');
+  const lbl = document.getElementById('conn-label');
+  if (d.connected) {
+    dot.className = 'live';
+    lbl.textContent = `${d.online} UNITS LIVE`;
+    document.getElementById('s-online').textContent = d.online;
+  } else {
+    dot.className = 'err';
+    lbl.textContent = 'OFFLINE';
+  }
+  document.getElementById('s-ts').textContent = new Date().toLocaleTimeString();
+}
+
+async function pollTapo() {
+  const d = await apiGet('/tapo/status');
+  if (!d.error) {
+    ['honda','plug2','plug3'].forEach(dev => {
+      if (d[dev]) updateTapoBtn(dev, d[dev]);
+    });
+  }
+}
+
+function init() {
+  pollStatus();
+  loadScenes();
+  pollTapo();
+  setInterval(pollStatus, 15000);
+  setInterval(pollTapo, 30000);
+}
+
+// ── Boot ──────────────────────────────────────────────────────────────────────
+(async () => {
+  const authed = await checkAuth();
+  if (authed) init();
+})();
+</script>
+</body>
+</html>
