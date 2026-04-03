@@ -134,22 +134,25 @@ function checkPw(){
 <div class="grid" id="grid"></div>
 
 <script>
-const BASE    = 'http://streams.larsenfamily.com.au:1984';
-const WS_BASE = 'ws://streams.larsenfamily.com.au:1984';
+
+// ── Config ───────────────────────────────────────────────────
+// Routed through Cloudflare tunnel — HTTPS/WSS, no port needed
+const BASE    = 'https://streams.larsenfamily.com.au';
+const WS_BASE = 'wss://streams.larsenfamily.com.au';
 const CHANNELS = 8;
 const CHANNEL_NAMES = {1:'Gate', 2:'Door', 3:'Kitchen', 4:'Office', 5:'Workshop', 6:'Mezz', 7:'Channel 7', 8:'Channel 8'};
 const CHANNEL_IDS   = {1:'gate', 2:'door', 3:'kitchen', 4:'office', 5:'workshop', 6:'mezz', 7:'ch7', 8:'ch8'};
 
-const state = {}; // per-channel state
+const state = {};
 
 function updateSummary() {
   const counts = { live:0, error:0, trying:0 };
   Object.values(state).forEach(s => counts[s.status] = (counts[s.status]||0) + 1);
   const el = document.getElementById('summary');
   el.innerHTML = [
-    counts.live  ? `<span class="sum-chip live">✓ ${counts.live} live</span>` : '',
+    counts.live   ? `<span class="sum-chip live">✓ ${counts.live} live</span>` : '',
     counts.trying ? `<span class="sum-chip wait">⟳ ${counts.trying} connecting</span>` : '',
-    counts.error ? `<span class="sum-chip error">✗ ${counts.error} failed</span>` : '',
+    counts.error  ? `<span class="sum-chip error">✗ ${counts.error} failed</span>` : '',
     `<span class="sum-chip wait">${new Date().toLocaleTimeString()}</span>`
   ].join('');
 }
@@ -165,7 +168,7 @@ function setChannelStatus(ch, status, modeText) {
   state[ch].status = status;
   const dot   = document.getElementById(`dot${ch}`);
   const badge = document.getElementById(`badge${ch}`);
-  if (dot)   { dot.className = `dot ${status}`; }
+  if (dot)   dot.className = `dot ${status}`;
   if (badge) { badge.className = `mode-badge ${status}`; badge.textContent = modeText; }
   updateSummary();
 }
@@ -175,264 +178,11 @@ function showVideo(ch) {
   if (v) v.style.display = 'block';
 }
 
-function initCam(ch) {
-  const id = CHANNEL_IDS[ch] || `ch${ch}`;
-  state[ch] = { status: 'trying' };
-
+// ── Build tile ───────────────────────────────────────────────
+function buildTile(ch) {
   const stageList = [
-    { id: 0, label: 'WebRTC (lowest latency)' },
-    { id: 1, label: 'MSE stream (WebSocket)' },
-    { id: 2, label: 'Snapshot fallback' },
-  ];
-
-  const stagesHtml = stageList.map(s =>
-    `<div class="stage wait" id="stage-${ch}-${s.id}">
-       <span class="icon"></span>
-       <span class="txt">${s.label}</span>
-     </div>`
-  ).join('');
-
-  const div = document.createElement('div');
-  div.className = 'cam';
-  div.dataset.ch = ch;
-  div.innerHTML = `
-    <div class="cam-media">
-      <div class="placeholder">${CHANNEL_NAMES[ch]||'Channel '+ch}</div>
-      <img class="snap" id="snap${ch}" style="display:none" />
-      <video id="v${ch}" muted playsinline autoplay></video>
-    </div>
-    <div class="label">
-      <span class="ch-name">
-        <span class="dot trying" id="dot${ch}"></span>
-        ${CHANNEL_NAMES[ch]||'Channel '+ch}
-      </span>
-      <span class="mode-badge trying" id="badge${ch}">connecting…</span>
-    </div>
-    <div class="stages" id="stages${ch}" style="display:none">${stagesHtml}</div>`;
-  document.getElementById('grid').appendChild(div);
-
-  // Try WebRTC first, fall back to MSE, then snapshots
-  tryWebRTC(ch, id);
-}
-
-function tryWebRTC(ch, id) {
-  setStage(ch, 0, 'active', 'WebRTC — creating peer connection…');
-  const video = document.getElementById(`v${ch}`);
-  const pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
-  pc.addTransceiver('video', { direction: 'recvonly' });
-  pc.addTransceiver('audio', { direction: 'recvonly' });
-  let connected = false;
-
-  const timeout = setTimeout(() => {
-    if (!connected) {
-      pc.close();
-      setStage(ch, 0, 'fail', 'WebRTC timeout (8s)');
-      tryMSE(ch, id);
-    }
-  }, 8000);
-
-  pc.ontrack = e => {
-    if (e.track.kind === 'video') {
-      clearTimeout(timeout);
-      video.srcObject = e.streams[0];
-      video.play().catch(() => {});
-      video.onplaying = () => {
-        if (!connected) {
-          connected = true;
-          setStage(ch, 0, 'done', 'WebRTC live ✓ (sub-second latency)');
-          setStage(ch, 1, 'wait', 'Skipped');
-          setStage(ch, 2, 'wait', 'Skipped');
-          setChannelStatus(ch, 'live', 'WebRTC');
-          showVideo(ch);
-        }
-      };
-    }
-  };
-
-  pc.oniceconnectionstatechange = () => {
-    if (pc.iceConnectionState === 'failed' || pc.iceConnectionState === 'disconnected') {
-      clearTimeout(timeout);
-      if (!connected) {
-        setStage(ch, 0, 'fail', `WebRTC ICE ${pc.iceConnectionState}`);
-        tryMSE(ch, id);
-      } else {
-        setChannelStatus(ch, 'error', 'reconnecting');
-        setTimeout(() => tryWebRTC(ch, id), 5000);
-      }
-    }
-  };
-
-  pc.createOffer().then(offer => pc.setLocalDescription(offer))
-    .then(() => fetch(`${BASE}/api/webrtc?src=${id}`, {
-      method: 'POST',
-      body: new URLSearchParams({ data: btoa(pc.localDescription.sdp) }),
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    }))
-    .then(r => r.text())
-    .then(sdp => pc.setRemoteDescription({ type: 'answer', sdp: atob(sdp) }))
-    .catch(err => {
-      clearTimeout(timeout);
-      if (!connected) {
-        setStage(ch, 0, 'fail', `WebRTC error: ${err.message}`);
-        tryMSE(ch, id);
-      }
-    });
-}
-
-function tryMSE(ch, id) {
-  const video = document.getElementById(`v${ch}`);
-  setStage(ch, 1, 'active', 'Opening WebSocket…');
-
-  if (!window.MediaSource) {
-    setStage(ch, 1, 'fail', 'MediaSource not supported');
-    tryHLS(ch, id);
-    return;
-  }
-
-  const ms = new MediaSource();
-  video.src = URL.createObjectURL(ms);
-
-  let connected = false;
-  let sb, queue = [];
-  let ws;
-
-  const wsTimeout = setTimeout(() => {
-    if (!connected) {
-      setStage(ch, 1, 'fail', 'WebSocket timeout (10s)');
-      try { ws && ws.close(); } catch {}
-      tryHLS(ch, id);
-    }
-  }, 10000);
-
-  ms.addEventListener('sourceopen', () => {
-    ws = new WebSocket(`${WS_BASE}/api/ws?src=${id}&video=copy&audio=copy`);
-    ws.binaryType = 'arraybuffer';
-
-    ws.onopen = () => setStage(ch, 1, 'active', 'WebSocket open — waiting for codec…');
-
-    ws.onmessage = e => {
-      if (typeof e.data === 'string') {
-        try {
-          const info = JSON.parse(e.data);
-          if (info.type === 'mse' && !sb) {
-            clearTimeout(wsTimeout);
-            setStage(ch, 1, 'active', `Codec: ${info.value} — buffering…`);
-            sb = ms.addSourceBuffer(info.value);
-            sb.mode = 'segments';
-            sb.addEventListener('updateend', () => {
-              if (queue.length) sb.appendBuffer(queue.shift());
-              if (!connected) {
-                connected = true;
-                setStage(ch, 1, 'done', `MSE live (${info.value.match(/codecs="([^"]+)"/)?.[1] || 'mp4'})`);
-                setChannelStatus(ch, 'live', 'MSE');
-                showVideo(ch);
-                video.play().catch(() => {});
-              }
-            });
-          }
-        } catch {}
-      } else if (sb) {
-        if (sb.updating) queue.push(e.data);
-        else sb.appendBuffer(e.data);
-      }
-    };
-
-    ws.onerror = () => {
-      clearTimeout(wsTimeout);
-      setStage(ch, 1, 'fail', 'WebSocket error');
-      tryHLS(ch, id);
-    };
-
-    ws.onclose = e => {
-      if (!connected) {
-        clearTimeout(wsTimeout);
-        setStage(ch, 1, 'fail', `WebSocket closed (code ${e.code})`);
-        tryHLS(ch, id);
-      } else {
-        setChannelStatus(ch, 'error', 'disconnected');
-        setTimeout(() => tryMSE(ch, id), 5000);
-      }
-    };
-  });
-}
-
-function tryHLS(ch, id) {
-  // Fall back to snapshot polling — still useful if live stream fails
-  setStage(ch, 2, 'active', 'Snapshot polling (2s)…');
-  startSnapshotPoll(ch, id);
-}
-
-const snapPollers = {}; // track per-channel interval IDs
-
-function startSnapshotPoll(ch, id) {
-  // Clear any existing poller
-  if (snapPollers[ch]) clearInterval(snapPollers[ch]);
-
-  const snapImg = document.getElementById(`snap${ch}`);
-  const video   = document.getElementById(`v${ch}`);
-
-  // Hide video element, show snap img
-  if (video) video.style.display = 'none';
-  if (snapImg) snapImg.style.display = 'block';
-
-  let failures = 0;
-
-  function fetchSnap() {
-    const url = `${BASE}/api/frame.jpeg?src=${id}&t=${Date.now()}`;
-    const img = new Image();
-    img.crossOrigin = null; // plain img load, no CORS
-    img.onload = () => {
-      failures = 0;
-      if (snapImg) snapImg.src = img.src;
-      setChannelStatus(ch, 'live', 'Snap ~2s');
-      setStage(ch, 2, 'done', 'Snapshot polling live ✓');
-    };
-    img.onerror = () => {
-      failures++;
-      if (failures >= 3) {
-        setChannelStatus(ch, 'error', 'snapshot failed');
-        setStage(ch, 2, 'fail', `Snapshot failed (${failures}x)`);
-      }
-    };
-    img.src = url;
-  }
-
-  fetchSnap();
-  snapPollers[ch] = setInterval(fetchSnap, 2000);
-}
-
-// ── Reconnect a single channel ──────────────────────────────
-function reconnectCam(ch) {
-  const grid = document.getElementById('grid');
-  const tiles = grid.querySelectorAll('.cam');
-  // Remove existing tile for this channel (they're in order ch1..ch8)
-  const tile = tiles[ch - 1];
-  if (tile) {
-    // Kill any active video/ws before removing
-    const vid = tile.querySelector('video');
-    if (vid && vid.srcObject) { vid.srcObject.getTracks().forEach(t => t.stop()); vid.srcObject = null; }
-    if (vid) vid.src = '';
-    grid.removeChild(tile);
-  }
-  // Re-insert at correct position
-  const nextTile = grid.querySelectorAll('.cam')[ch - 1];
-  const newDiv = document.createElement('div'); // temp placeholder
-  if (nextTile) grid.insertBefore(newDiv, nextTile);
-  else grid.appendChild(newDiv);
-  // initCam appends to grid — we want it in position, so remove placeholder after
-  grid.removeChild(newDiv);
-  // Shift existing tiles right of ch then insert
-  initCamAt(ch);
-}
-
-// initCamAt: same as initCam but inserts at correct grid position
-function initCamAt(ch) {
-  const id = CHANNEL_IDS[ch] || `ch${ch}`;
-  state[ch] = { status: 'trying' };
-  const stageList = [
-    { id: 0, label: 'WebRTC (lowest latency)' },
-    { id: 1, label: 'MSE stream (WebSocket)' },
-    { id: 2, label: 'Snapshot fallback' },
+    { id: 0, label: 'MSE stream (WebSocket)' },
+    { id: 1, label: 'Snapshot fallback' },
   ];
   const stagesHtml = stageList.map(s =>
     `<div class="stage wait" id="stage-${ch}-${s.id}">
@@ -455,28 +205,153 @@ function initCamAt(ch) {
       </span>
       <span class="mode-badge trying" id="badge${ch}">connecting…</span>
     </div>
-    <div class="stages" id="stages${ch}" style="display:${stagesVisible?'flex':'none'}">${stagesHtml}</div>`;
-  // Insert in correct position
+    <div class="stages" id="stages${ch}" style="display:none">${stagesHtml}</div>`;
+  return div;
+}
+
+// ── MSE via WebSocket ────────────────────────────────────────
+function tryMSE(ch, id) {
+  const video = document.getElementById(`v${ch}`);
+  setStage(ch, 0, 'active', 'Opening WebSocket…');
+
+  if (!window.MediaSource) {
+    setStage(ch, 0, 'fail', 'MediaSource not supported');
+    startSnapshotPoll(ch, id);
+    return;
+  }
+
+  const ms = new MediaSource();
+  video.src = URL.createObjectURL(ms);
+
+  let connected = false;
+  let sb, queue = [];
+  let ws;
+
+  const wsTimeout = setTimeout(() => {
+    if (!connected) {
+      setStage(ch, 0, 'fail', 'WebSocket timeout (10s)');
+      try { ws && ws.close(); } catch {}
+      startSnapshotPoll(ch, id);
+    }
+  }, 10000);
+
+  ms.addEventListener('sourceopen', () => {
+    ws = new WebSocket(`${WS_BASE}/api/ws?src=${id}&video=copy&audio=copy`);
+    ws.binaryType = 'arraybuffer';
+
+    ws.onopen = () => setStage(ch, 0, 'active', 'WebSocket open — waiting for codec…');
+
+    ws.onmessage = e => {
+      if (typeof e.data === 'string') {
+        try {
+          const info = JSON.parse(e.data);
+          if (info.type === 'mse' && !sb) {
+            clearTimeout(wsTimeout);
+            setStage(ch, 0, 'active', `Codec: ${info.value} — buffering…`);
+            sb = ms.addSourceBuffer(info.value);
+            sb.mode = 'segments';
+            sb.addEventListener('updateend', () => {
+              if (queue.length) sb.appendBuffer(queue.shift());
+              if (!connected) {
+                connected = true;
+                setStage(ch, 0, 'done', `MSE live (${info.value.match(/codecs="([^"]+)"/)?.[1] || 'mp4'})`);
+                setChannelStatus(ch, 'live', 'MSE');
+                showVideo(ch);
+                video.play().catch(() => {});
+              }
+            });
+          }
+        } catch {}
+      } else if (sb) {
+        if (sb.updating) queue.push(e.data);
+        else sb.appendBuffer(e.data);
+      }
+    };
+
+    ws.onerror = () => {
+      clearTimeout(wsTimeout);
+      setStage(ch, 0, 'fail', 'WebSocket error');
+      startSnapshotPoll(ch, id);
+    };
+
+    ws.onclose = e => {
+      if (!connected) {
+        clearTimeout(wsTimeout);
+        setStage(ch, 0, 'fail', `WebSocket closed (${e.code})`);
+        startSnapshotPoll(ch, id);
+      } else {
+        setChannelStatus(ch, 'error', 'disconnected');
+        setTimeout(() => tryMSE(ch, id), 5000);
+      }
+    };
+  });
+}
+
+// ── Snapshot fallback ────────────────────────────────────────
+const snapPollers = {};
+
+function startSnapshotPoll(ch, id) {
+  if (snapPollers[ch]) clearInterval(snapPollers[ch]);
+  const snapImg = document.getElementById(`snap${ch}`);
+  const video   = document.getElementById(`v${ch}`);
+  if (video)   video.style.display = 'none';
+  if (snapImg) snapImg.style.display = 'block';
+
+  setStage(ch, 1, 'active', 'Snapshot polling (2s)…');
+  let failures = 0;
+
+  function fetchSnap() {
+    const img = new Image();
+    img.onload = () => {
+      failures = 0;
+      if (snapImg) snapImg.src = img.src;
+      setChannelStatus(ch, 'live', 'Snap ~2s');
+      setStage(ch, 1, 'done', 'Snapshot polling live ✓');
+    };
+    img.onerror = () => {
+      failures++;
+      if (failures >= 3) {
+        setChannelStatus(ch, 'error', 'snapshot failed');
+        setStage(ch, 1, 'fail', `Snapshot failed (${failures}x)`);
+      }
+    };
+    img.src = `${BASE}/api/frame.jpeg?src=${id}&t=${Date.now()}`;
+  }
+
+  fetchSnap();
+  snapPollers[ch] = setInterval(fetchSnap, 2000);
+}
+
+// ── Init / reconnect ─────────────────────────────────────────
+function initCamAt(ch) {
+  const id = CHANNEL_IDS[ch] || `ch${ch}`;
+  state[ch] = { status: 'trying' };
+
+  // Kill any existing snapshot poller
+  if (snapPollers[ch]) { clearInterval(snapPollers[ch]); delete snapPollers[ch]; }
+
+  const tile = buildTile(ch);
   const grid = document.getElementById('grid');
   const existing = Array.from(grid.querySelectorAll('.cam'));
   const after = existing.find(el => parseInt(el.dataset.ch) > ch);
-  if (after) grid.insertBefore(div, after);
-  else grid.appendChild(div);
-  // Kick off WebRTC-first connection waterfall
-  tryWebRTC(ch, id);
+  if (after) grid.insertBefore(tile, after);
+  else grid.appendChild(tile);
+
+  // Show stages if panel is open
+  if (stagesVisible) document.getElementById(`stages${ch}`).style.display = 'flex';
+
+  tryMSE(ch, id);
 }
 
-// ── Reconnect all cameras ────────────────────────────────────
 function reconnectAll(btn) {
   btn.classList.add('spinning');
-  // Clear all snapshot pollers
   Object.keys(snapPollers).forEach(ch => { clearInterval(snapPollers[ch]); delete snapPollers[ch]; });
   document.getElementById('grid').innerHTML = '';
   for (let ch = 1; ch <= CHANNELS; ch++) initCamAt(ch);
   setTimeout(() => btn.classList.remove('spinning'), 2000);
 }
 
-// ── Toggle diagnostics panel ─────────────────────────────────
+// ── UI controls ──────────────────────────────────────────────
 let stagesVisible = false;
 function toggleStages() {
   stagesVisible = !stagesVisible;
@@ -485,7 +360,6 @@ function toggleStages() {
   document.getElementById('btnStages').style.borderColor = stagesVisible ? '#1a3a25' : '';
 }
 
-// ── Toggle layout ─────────────────────────────────────────────
 let wideLayout = false;
 function toggleLayout() {
   wideLayout = !wideLayout;
@@ -495,15 +369,14 @@ function toggleLayout() {
   document.getElementById('btnLayout').style.borderColor = wideLayout ? '#1a3a25' : '';
 }
 
-// ── Clock ─────────────────────────────────────────────────────
 function updateClock() {
-  const now = new Date();
   document.getElementById('barClock').textContent =
-    now.toLocaleTimeString('en-AU', { hour:'2-digit', minute:'2-digit', second:'2-digit', timeZone:'Australia/Perth' }) + ' AWST';
+    new Date().toLocaleTimeString('en-AU', { hour:'2-digit', minute:'2-digit', second:'2-digit', timeZone:'Australia/Perth' }) + ' AWST';
 }
 setInterval(updateClock, 1000);
 updateClock();
 
+// ── Boot ─────────────────────────────────────────────────────
 for (let ch = 1; ch <= CHANNELS; ch++) { state[ch] = {}; initCamAt(ch); }
 setInterval(updateSummary, 5000);
 </script>
