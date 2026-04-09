@@ -1157,316 +1157,6 @@
   };
 
   // ─────────────────────────────────────────────
-  // COMPANY DATA
-  // ─────────────────────────────────────────────
-  const COMPANIES = [
-    {
-      id: 'lenderlink',
-      name: 'LenderLink',
-      status: 'contacted',
-      country: 'Philippines', flag: '🇵🇭',
-      accelerator: 'Iterative W25',
-      url: 'https://lenderlink.ph',
-      stage: 'Seed',
-      flow: 'information',
-      region: 'apac',
-      ac: '#34d399',
-      founderFlag: null,
-      fundingNote: '$1.25M pre-seed closed April 2025 (Kaya Founders)',
-      comparable: 'Wonde / Clever — neutral API layer between data providers and consumers. Once lenders integrate, switching means rebuilding API connections to 36M records.',
-      founders: [
-        { name: 'Christo Georgiev — CEO', li: 'https://linkedin.com/in/christo-georgiev-40bb0156/' },
-        { name: 'Dimitar Manolov — CTO', li: null },
-        { name: 'Dimo Hristov — Chief DevOps', li: null },
-        { name: 'Petya Dimitrova — Chief Data & Product', li: null },
-      ],
-      whatTheyDo: 'Credit data exchange platform sitting between lenders, credit bureaus, and collection agencies in the Philippines. A single API accessing 36M+ verified credit records with a pay-per-hit model and revenue share back to contributors. 60% higher hit rate than incumbent bureaus at half the cost.',
-      whyFlagged: 'Textbook flow play. Credit data flows through LenderLink every time a lender queries a borrower. They\'re not the lender or bureau — they\'re the pipe. Switching means rebuilding integrations with 36M records. Philippines has 100M+ people, near-zero formal credit penetration, $14B consumer lending market growing 4x in a decade.',
-      macroTailwind: 'SEA digital lending growing fast — Philippines central bank actively pushing financial inclusion. Regional BNPL and neobank growth creating demand for credit data infrastructure. LenderLink is building the foundational layer before the market requires it.',
-      needsToBeTrue: 'Regulatory framework stays stable. Expansion to Indonesia or Vietnam before a local competitor replicates. Data contributor network keeps growing — more valuable with every lender that joins.',
-      risks: 'Regulatory risk — credit data is sensitive. Each new market needs local contributors recruited from scratch. Incumbent credit bureaus could build competing APIs. Limited public ARR/growth data available.',
-      founderProfile: 'All four founders were executives at Finscore, a telco-data credit risk company for the Philippines. Built it, scaled it, exited. Gold standard: serial winners with prior exit in the exact same domain, returning to the same market with a sharper thesis.',
-      revenueModel: 'Pay-per-hit (lenders only pay on a successful match) + revenue share to contributing lenders. Two-sided marketplace with structural switching costs on both sides.',
-      tags: ['Information flow', 'Fintech infra', 'Philippines', 'APAC portable', 'B2B'],
-      diligence: [
-        'Current MRR and month-on-month growth trajectory?',
-        'How many active lenders querying monthly vs total signed up?',
-        'Data contributor pipeline — lenders/bureaus signed vs actively contributing?',
-        'Pricing per hit vs incumbent bureaus — is there room for margin expansion at scale?',
-        'Plan for Indonesia/Vietnam expansion — how is data contributor recruitment approached in a new market?',
-        'Any incumbent credit bureau building a competing API or exploring acquisition?',
-        'Pending data privacy or credit reporting regulation changes in Philippines?',
-      ],
-      lastUpdated: '2026-03-23',
-    },
-    {
-      id: 'nexacore',
-      name: 'Nexacore',
-      status: 'contacted',
-      country: 'Malaysia', flag: '🇲🇾',
-      accelerator: 'Iterative S25',
-      url: 'https://nexacore.com.my',
-      stage: 'Seed — raising RM2M',
-      flow: 'both',
-      region: 'apac',
-      ac: '#a78bfa',
-      founderFlag: null,
-      fundingNote: null,
-      comparable: 'Cover Genius / Clyde — TPA middleware layer between insurer and service network. Once the insurer\'s claims workflow runs through the platform, replacement requires full workflow reconstruction.',
-      founders: [
-        { name: 'Melanie Hawgood — CEO & Co-Founder', li: 'https://linkedin.com/company/nexacoremy' },
-      ],
-      whatTheyDo: 'Insurtech Third Party Administrator (TPA) for device protection and extended warranty claims in Southeast Asia. Sits between insurers, telcos, and retailers on one side and device repair/replacement networks on the other. Every claim — money and information — flows through the platform. Nexacore digitises and automates what is still largely a paper-based, manual claims process.',
-      whyFlagged: 'Classic TPA model — doesn\'t take insurance risk, just processes the flow. Every approved claim is a payment moving through Nexacore. Insurers integrate once; replacing them means rebuilding the entire claims workflow. Partnership with InsureMO (Nov 2025) unlocks rollout across UAE, India, AU, NZ, SG, MY simultaneously — the global portability indicator we look for.',
-      macroTailwind: 'Device insurance growing as smartphone penetration hits emerging markets. Telcos bundling device protection as a revenue line. Insurers want to digitise claims stacks. APAC device protection market is largely undigitised — incumbents are paper-based TPAs.',
-      needsToBeTrue: 'InsureMO partnership converts into signed insurer contracts, not just announced markets. First revenue outside Malaysia confirmed. RM2M raise closes cleanly.',
-      risks: 'Dependent on insurer/telco partnerships which can be slow to close. InsureMO partnership promising but needs to convert. Regulatory variation across APAC markets adds complexity.',
-      founderProfile: 'Melanie Hawgood (CEO & Co-Founder) — insurance industry background, domain expert in device protection and extended warranty claims. Lived the problem from inside the TPA industry. Fits the operator-founder profile well.',
-      revenueModel: 'TPA fee per claim processed + platform fee to insurers/telcos for claims infrastructure. Claims are recurring — every device with active cover generates a potential claim event. High switching cost once insurer claims workflow runs through Nexacore.',
-      tags: ['Payment + info flow', 'InsurTech', 'Malaysia / APAC', 'B2B', 'TPA model'],
-      diligence: [
-        'How many insurer/telco clients signed vs pilot vs prospect?',
-        'Claims volume per month and growth trajectory?',
-        'InsureMO partnership — what does "activation" look like vs just announced markets?',
-        'Revenue per claim processed — what is the unit economics at scale?',
-        'RM2M raise — who are the investors and what is the valuation?',
-        'Any established TPA or insurer building a competing digital claims platform in SEA?',
-        'What is the average time from insurer onboarding to first claim processed?',
-      ],
-      lastUpdated: '2026-03-23',
-    },
-    {
-      id: 'promosync',
-      name: 'Promosync',
-      status: 'watching',
-      country: 'Australia', flag: '🇦🇺',
-      accelerator: 'Startmate W25',
-      url: 'https://promosync.ai',
-      stage: 'Pre-seed',
-      flow: 'information',
-      region: 'aunz',
-      ac: '#34d399',
-      founderFlag: null,
-      fundingNote: null,
-      comparable: 'Anaplan / Numerator — trade promotion analytics platforms. Once a brand\'s promotional history, category data, and retailer relationships are loaded, reconstruction elsewhere is a 12-month project.',
-      founders: [
-        { name: 'Henry Choo — CEO (15 yrs P&G + Nestlé trade promotion)', li: 'https://linkedin.com/in/iamhenrychoo' },
-        { name: 'Divyanshu Chauhan — CTO (ex-Shippit, InDebted, CSIRO)', li: 'https://linkedin.com/in/divyanshu-chauhan' },
-      ],
-      whatTheyDo: 'B2B SaaS platform automating trade promotion management for FMCG brands. The multi-million dollar promotional campaigns run by P&G, Nestlé, and equivalents in Woolworths/Coles are currently planned via manual spreadsheets. Promosync replaces that with AI-driven campaign planning, ROI optimisation, and near-real-time performance analytics.',
-      whyFlagged: 'Information flow pipe inside the FMCG/retailer promotional data exchange. Promosync sits between FMCG suppliers and major retailer scan data — once a brand\'s promotional history, category data, and retailer relationships are loaded, migration is catastrophic. First AU-native player in a space dominated by US enterprise incumbents (Kantar, Aforza) that don\'t serve the AU market well. The domain founder spent 15 years living this exact problem at P&G and Nestlé.',
-      macroTailwind: 'FMCG brands under severe margin pressure from private label growth (Woolworths/Coles own-brand) and shrinkflation scrutiny. CFOs demanding ROI proof on every promotional dollar. Manual spreadsheet workflows are indefensible at board level — automation is becoming a compliance necessity, not just an efficiency play.',
-      needsToBeTrue: 'Lands at least one Tier 1 FMCG customer (Nestlé AU, Unilever AU, or similar). Proves measurable ROI lift, not just workflow efficiency. Retailer scan data access (Woolworths/Coles APIs) is contractual and stable.',
-      risks: 'FMCG enterprise sales cycles are 6–12 months minimum; runway risk during ramp. Category managers at major FMCG brands are protective of data and vendor relationships. US/EU players could enter AU with more resources. CTO (not CEO) has the builder track record — go-to-market execution is the open question.',
-      founderProfile: 'Henry Choo (CEO) — 15+ years in FMCG trade promotion management at P&G and Nestlé. Pure domain operator who lived this problem for a career. Divyanshu Chauhan (CTO) — serial technical builder at Shippit (raised $30M+), InDebted (Series B), and CSIRO. Prior founder at Chefadora. Proven technical execution at scale. Domain founder + experienced technical co-founder is a strong combination.',
-      revenueModel: 'B2B SaaS subscription. Per-brand or per-category pricing. High switching cost once promotional history and retailer data is embedded in the platform.',
-      tags: ['Information flow', 'FMCG / Retail', 'Australia', 'Domain-expert founder', 'B2B SaaS'],
-      diligence: [
-        'Who are the current paying customers — any Tier 1 FMCG brands or only mid-market?',
-        'Current MRR and growth trajectory post-Startmate?',
-        'How is retailer scan data accessed — direct API, data broker, or manual export?',
-        'Sales cycle length with FMCG brands — signed pilots vs active paying contracts?',
-        'How does Promosync\'s ROI measurement compare to Kantar or Nielsen tracking services?',
-        'Who is leading enterprise sales — Henry or a dedicated sales hire?',
-        'International expansion plan — UK and EU have the same FMCG dynamics. Is this on the roadmap?',
-      ],
-      lastUpdated: '2026-03-23',
-    },
-    {
-      id: 'switchboard',
-      name: 'Switchboard',
-      status: 'contacted',
-      country: 'Australia', flag: '🇦🇺',
-      accelerator: 'Skalata SF-III',
-      url: 'https://switchboardcloud.com',
-      stage: 'Pre-seed — $1.5M AUD raised',
-      flow: 'information',
-      region: 'aunz',
-      ac: '#60a5fa',
-      founderFlag: null,
-      fundingNote: '$1.5M AUD pre-seed (Jun 2024) — Archangel, Skalata, Startmate, TEN13, Investible',
-      comparable: 'SPS Commerce / TrueCommerce — EDI and supply chain integration platforms. AU mid-market equivalent with no entrenched local player at this price point.',
-      founders: [
-        { name: 'Hugh Dixson — CEO/Founder (BCG → Uber Ops → Head of M&A, Ofload)', li: 'https://linkedin.com/in/hughdixson' },
-      ],
-      whatTheyDo: 'Supply chain integration platform connecting businesses to their suppliers, customers, and logistics partners via a single API layer. Automates inventory, order handling, invoicing, and documentation between trading partners — replacing manual processes and fragmented point-to-point integrations. SOC-2 and ISO-27001 certified. Marketed at 10% the cost of existing solutions.',
-      whyFlagged: 'Pure infrastructure pipe. Once a company\'s trading partner network (suppliers, customers, 3PLs) is onboarded through Switchboard, switching means re-integrating every partner from scratch. The EDI modernisation play for AU\'s mid-market — the US incumbents (SPS Commerce, TrueCommerce) are expensive, legacy, and US-focused. Founder lived the problem directly at Ofload, where a manual data entry error cost $100K in a single incident.',
-      macroTailwind: 'Post-COVID supply chain digitisation pressure; large AU retailers (Woolworths, Coles, Amazon AU) forcing supplier compliance with digital ordering/invoicing; near-shoring driving partner network expansion; AI analytics on supply chain data becoming a boardroom priority.',
-      needsToBeTrue: 'Signs 3–5 mid-market anchor customers each with multiple trading partners (network effects only kick in with density). The 10% cost claim holds at scale without margin compression. Hugh translates BCG/Ofload pedigree into enterprise sales execution.',
-      risks: 'Competing against NASDAQ-listed SPS Commerce and IBM Sterling — they have AU distribution. Network effects take time. Pre-seed means limited proof beyond product. Hugh has not previously founded a company — strong operator pedigree but no founder track record.',
-      founderProfile: 'Hugh Dixson (CEO, sole founder) — BCG, Uber operations, then Head of Operations and Head of M&A at Ofload (one of AU\'s leading digital road freight platforms). Deep supply chain operations background. The founding insight: a $100K error from manual data entry at Ofload. No prior exit, but operator pedigree is strong and the problem is clearly first-hand.',
-      revenueModel: 'SaaS subscription — per-integration volume or ARR per trading partner network. Network grows as more partners onboard; revenue per customer increases with usage. High switching cost once supply chain integrations are live.',
-      tags: ['Information flow', 'Supply chain infra', 'Australia', 'Operator founder', 'B2B'],
-      diligence: [
-        'How many live paying customers with active trading partner integrations?',
-        'Average trading partners per customer — is network density building?',
-        'Revenue per customer — what does a typical contract look like?',
-        'Gross margin at current scale — does the 10% cost claim leave adequate margin?',
-        'Who is closing enterprise deals, and what is the sales cycle length?',
-        'Is there an analytics/AI layer planned on top of the integration data?',
-        'Any Woolworths or Coles supplier mandate for digital integration that Switchboard benefits from directly?',
-      ],
-      lastUpdated: '2026-03-23',
-    },
-
-    // ── Europe / UK ──────────────────────────────
-
-    {
-      id: 'topograph',
-      name: 'Topograph',
-      status: 'watching',
-      country: 'France', flag: '🇫🇷',
-      accelerator: 'Seedcamp 2026',
-      url: 'https://topograph.co',
-      stage: 'Seed — €2M raised (Mar 2026)',
-      flow: 'information',
-      region: 'europe',
-      ac: '#60a5fa',
-      founderFlag: null,
-      fundingNote: '€2M seed (Mar 2026) — Seedcamp (lead), Drysdale Ventures, Motier Ventures, Kima Ventures, Better Angle',
-      comparable: 'Dun & Bradstreet / Kyckr — but source-native, traceable, and real-time. Once compliance workflows integrate directly to official registers via Topograph, switching means re-building country-by-country data pipelines across 40+ jurisdictions.',
-      founders: [
-        { name: 'Pierre-Henri Janssens — CEO & Co-Founder (ex-1POINT6 / BNP Paribas)', li: 'https://linkedin.com/in/pierre-henri-janssens-27b12ba6/' },
-        { name: 'Hugo Dellinger — CTO & Co-Founder (ex-1POINT6 / BNP Paribas)', li: null },
-      ],
-      whatTheyDo: 'B2B data infrastructure for global Know-Your-Business (KYB) compliance. Connects directly to official company registers in 40+ countries and delivers real-time, structured business data and supporting documents via a single API endpoint. Every data point is traceable back to its originating official source — not scraped or repackaged. Used by neobanks, PSPs, BNPL providers, and compliance software vendors to automate multi-jurisdiction business identity verification.',
-      whyFlagged: 'Textbook information flow pipe. Every KYB check — whether for onboarding, ongoing monitoring, or AML — flows through Topograph. The platform doesn\'t make compliance decisions; it is the data layer that compliance tools and financial institutions run on. Switching means rebuilding country-by-country register integrations across 40+ jurisdictions — a multi-year project for any mid-sized fintech. Seedcamp validation (Revolut, Wise, Pleo alumni) is the strongest European seed signal available. Paying customers already: Hero (neobank), Pledg (BNPL), Lemonway (PSP), Spektr, Dotfile, Ondorse.',
-      macroTailwind: 'EU AML and KYB regulatory pressure escalating — 6th AML Directive tightening requirements, AI-assisted compliance requiring grounded, verifiable data. Cross-border fintech growth (neobanks, BNPL, PSPs) creating structurally growing demand for multi-jurisdiction business identity infrastructure. Manual country-by-country verification becoming commercially indefensible at scale.',
-      needsToBeTrue: 'Expansion to 80+ countries (North America, Asia, ME) delivers on the global-coverage thesis without compromising data quality or traceability. Competitor (Kyckr, Bureau van Dijk/Moody\'s) doesn\'t out-invest on register integrations. API usage per customer compounds as fintech clients scale their own customer bases.',
-      risks: 'Capital-intensive to build and maintain register integrations at global scale. Large incumbents (Moody\'s/Bureau van Dijk, LSEG) could acquire or out-fund. US and Asian expansion earmarked — early on those corridors. Founder pair, not a broader team yet at €2M stage.',
-      founderProfile: 'Pierre-Henri Janssens (CEO) and Hugo Dellinger (CTO) were both founding team members of 1POINT6, BNP Paribas\'s embedded payment services subsidiary, where they encountered the KYB data gap directly while onboarding merchants across multiple countries. Classic operator-founders: lived the problem inside a Tier 1 financial institution before building the solution they couldn\'t find. Prior company building at BNP Paribas scale is the right credential for selling into regulated financial services.',
-      revenueModel: 'API usage-based pricing — per query / per register data pull. Fintech customers pay per KYB check, with volume discounts. Compliance software vendors pay for platform integration. Revenue scales directly with customer transaction volumes and geographic expansion. Natural NRR expansion as customers grow and enter new markets.',
-      tags: ['Information flow', 'KYB / Compliance infra', 'France / Europe', 'API-first', 'B2B'],
-      diligence: [
-        'Current ARR and MRR growth rate — is usage compounding with fintech client growth?',
-        'How many active API customers vs total signed up?',
-        'Revenue split: direct fintech clients vs compliance software vendor partnerships?',
-        'Unit economics per country — does profitability hold as lower-volume jurisdictions are added?',
-        'North America and Asia expansion plan — register access complexity and timeline?',
-        'Any current or planned relationships with EU regulators or AML authorities that strengthen the moat?',
-        'Are Seedcamp terms convertible or priced? Any pro-rata reserved for next round?',
-      ],
-      lastUpdated: '2026-04-01',
-    },
-
-  ];
-
-  // ─────────────────────────────────────────────
-  // RADAR DATA
-  // ─────────────────────────────────────────────
-  const RADAR = [
-    {
-      name: 'SystemEarth',
-      meta: 'Singapore · Iterative S25',
-      desc: 'AI and satellite intelligence to automate trade and sustainability compliance for global exporters. Compliance documents, sustainability data, and trade certifications flow through their platform. Macro tailwind is exceptional: EU Carbon Border Adjustment Mechanism (CBAM), deforestation regulations, and mandatory ESG reporting creating compliance infrastructure demand globally.',
-      trigger: 'EU CBAM enforcement milestones (live 2026). First enterprise contract wins outside Singapore. Founder background confirmation — need domain expertise in trade compliance or sustainability regulation.',
-    },
-    {
-      name: 'Fineksi',
-      meta: 'Indonesia · Accelerating Asia C12',
-      desc: 'Document automation for credit analysis in Indonesian banking and lending. Credit documents flowing through their automation layer. Indonesia has 270M people and a massive underserved credit market. Banks still process credit applications largely manually.',
-      trigger: 'Confirmed bank integrations and ARR figures. Clarity on whether they\'re automation tooling (replaceable) or embedded infrastructure (sticky). Founder profile assessment.',
-    },
-    {
-      name: 'Light',
-      meta: 'Denmark · Seedcamp 2024',
-      desc: 'AI-native general ledger for multinational companies. Unifies accounting, tax, payments, and financial reporting across entities, currencies, and countries — replacing legacy ERP accounting modules (SAP, Oracle, Dynamics). Sits at the centre of all financial information flow for every company it serves. $13M seed (Atomico, Cherry Ventures, Seedcamp).',
-      trigger: 'First enterprise multinational migrating away from SAP/Oracle — that\'s the proof point the category needs. Also watch: does the founder\'s prior company Juni (wound down, not acquired) affect institutional buyer confidence.',
-    },
-    {
-      name: 'fileAI',
-      meta: 'Singapore · Antler 2024',
-      desc: 'AI-native unstructured document workflow automation for financial services and enterprise. Extracts, organises, and enriches data from financial documents, invoices, and contracts. $14M Series A (Feb 2025, Illuminate Financial + Antler Elevate + Insignia), $20M total raised. Founder Christian Schneider: McKinsey + Citi + Rothschild + Delivery Hero background.',
-      trigger: 'Series A stage — may be past seed entry. Trigger: confirmed ARR growth trajectory and expansion outside Singapore. If a co-investment opportunity arises via Antler Elevate at current Series A terms, worth reviewing.',
-    },
-    {
-      name: 'BorderDollar',
-      meta: 'Singapore · Antler 2024',
-      desc: 'Cross-border SME invoice financing platform. Sits inside the invoice payment cycle between exporters/importers and their cash flow gap, using unpaid invoices as collateral. $500B+ trade finance gap in Asia (ADB data). ASEAN cross-border trade growing fast.',
-      trigger: 'Confirm paying SME customers beyond pilot stage. Founder background verification — not publicly available. Capital-intensive model needs confirmation of funding source for loan book (own capital vs third-party investors).',
-    },
-    {
-      name: 'Integuide',
-      meta: 'Australia · Startmate W25',
-      desc: 'Industrial AI knowledge capture — body-cam recordings of senior technicians converted into searchable AI knowledge bases for junior field staff. Sits in the information flow between human expertise and operational execution. Heavy industry (mining, utilities, manufacturing) institutional memory problem is large and genuine. Founders: Hunter Jay (built Ripe Robotics) + Slava Chalnev (AI safety researcher).',
-      trigger: 'Paying enterprise customers in mining or utilities — that\'s the willingness-to-pay validation. Hardware-adjacent (body cams) is a mild concern but product is software-first.',
-    },
-    {
-      name: 'FlowGo',
-      meta: 'Malaysia / Australia · Startmate S26',
-      desc: 'AI accounting automation that runs inside WhatsApp, Telegram, and email. Deploys specialised AI agents for AP automation, sales order processing, collections, and reconciliation — connecting existing chat channels to accounting software (AutoCount, SQL Account, QuickBooks, SAP) without replacing them. Founders managed $15B+ in transaction volume and scaled workflows for 50,000+ SMEs. Trusted by SMEs across Malaysia, Singapore, and Australia with a 5-minute client setup claim. Dual-geography base (KL + Sydney) is interesting for APAC-first expansion.',
-      trigger: 'Paying customers confirmed with MRR visibility. Accounting software integrations deepen to the point where migration means rebuilding the entire AP workflow — that\'s when it becomes a sticky information flow play rather than just workflow tooling. Watch for: Series A signal or strategic investor in AU/SEA fintech.',
-    },
-    {
-      name: 'iBnkVault',
-      meta: 'Australia / USA · Startmate S26',
-      desc: 'Cross-border payments platform for e-commerce merchants using stablecoin rails to settle in real-time, reducing cross-border fees from 3–5% to near-zero. Founders: Yi Zhang (blockchain infrastructure background) and Ivy Fan (managed millions in cross-border capital flows). Based Melbourne + Wyoming. Addresses a real problem but operates in an increasingly crowded stablecoin payments space (OpenFX just raised $94M in March 2026, BVNK, Bridge, Conduit, etc.).',
-      trigger: 'Differentiated moat beyond stablecoin routing — what makes iBnkVault sticky once the e-commerce merchant is onboarded? Watch for: anchor merchant partnerships or a unique corridor that large players aren\'t serving well. At this stage, too competitive a space without a clearer wedge.',
-    },
-    {
-      name: 'Orivfy',
-      meta: 'Country / Accelerator TBC',
-      desc: 'AI authenticity and content verification platform. Detects and explains whether text, images, audio, or video are AI-generated. Provides transparent reasoning, confidence scores, and identifies the likely AI source model. Added to radar on Neera\'s recommendation — full research pending.',
-      trigger: 'Who are the paying customers and what use case is generating revenue (enterprise compliance, media, legal)? Founder background and country of origin. Moat check: how does detection accuracy hold as generative models improve?',
-    },
-    {
-      name: 'Specific AI',
-      meta: 'Country / Accelerator TBC',
-      desc: 'Generative large-scale modeling company jointly established by FMO Consulting and Cambridge Talents. Limited public information available. Added to radar on Neera\'s recommendation — full research pending.',
-      trigger: 'What problem are they solving and for which customers? Founder profiles and academic/commercial background. Funding status and stage. Is this a research-to-product play or already generating revenue?',
-    },
-  ];
-
-  // ─────────────────────────────────────────────
-  // PASSED DATA
-  // ─────────────────────────────────────────────
-  // ─────────────────────────────────────────────
-  const PASSED = [
-    {
-      name: 'Medlo + Doccy',
-      accelerator: 'Startmate W25',
-      country: 'Australia',
-      reason: 'Busy space with big incumbent players (Apt, Paragon, established telehealth platforms). Limited growth ceiling given competition. Telehealth too crowded — don\'t love the sector. Good founder, wrong market for us.',
-    },
-    {
-      name: 'Spektr',
-      accelerator: 'Seedcamp 2024',
-      country: 'Denmark',
-      reason: 'Missed it — raised €5M two years ago. Next raise will be too expensive to get meaningful equity. Would have been a strong Watch candidate at earlier stage (serial exit founders, excellent compliance infrastructure thesis).',
-    },
-    {
-      name: 'Prelude',
-      accelerator: 'Seedcamp 2024',
-      country: 'France',
-      reason: 'Missed it — raised $8M seed. Next raise will be too expensive. Strong flow infrastructure play vs Twilio but we\'re too late for the right entry price.',
-    },
-    {
-      name: 'Chhaya',
-      accelerator: 'Iterative W25',
-      country: 'Bangladesh',
-      reason: 'Geography change — South Asia removed from investment scope. Strong micro-insurance platform and 10x revenue growth, but outside revised geography (SEA, Korea, Japan, Europe, UK, AU/NZ).',
-    },
-    {
-      name: 'Chamak',
-      accelerator: 'Accelerating Asia C12',
-      country: 'Bangladesh',
-      reason: 'Geography change — South Asia removed from investment scope. Also noted: founder profile concern (recent graduates without deep trade finance background).',
-    },
-    {
-      name: 'Cybrilla / Fintech Primitives',
-      accelerator: 'Surge / Peak XV — Cohort 11',
-      country: 'India',
-      reason: 'Geography change — India removed from investment scope. Strong mutual fund API infrastructure play with SEBI RTA licence and ONDC milestone; would be a Watch candidate if geography fit.',
-    },
-    {
-      name: 'Ignosis',
-      accelerator: 'Surge / Peak XV — Cohort 11',
-      country: 'India',
-      reason: 'Geography change — India removed from investment scope. Strong Account Aggregator infrastructure play on RBI rails, backed by Kunal Shah (CRED) and Razorpay Ventures.',
-    },
-  ];
-
-  // ─────────────────────────────────────────────
   // RENDER HELPERS
   // ─────────────────────────────────────────────
   function statusBadge(s) {
@@ -1574,6 +1264,9 @@
   // ─────────────────────────────────────────────
   // FILTER STATE
   // ─────────────────────────────────────────────
+  let COMPANIES = [];
+  let RADAR = [];
+  let PASSED = [];
   let activeFilters = { status: 'all', flow: 'all', region: 'all' };
   let activeSort = 'newest';
 
@@ -1645,11 +1338,22 @@
   }
 
   // ─────────────────────────────────────────────
-  // INIT
+  // LOAD DATA FROM JSON & INIT
   // ─────────────────────────────────────────────
-  applyFilters();
-  renderRadar();
-  renderPassed();
+  Promise.all([
+    fetch('scout-companies.json').then(r => r.json()),
+    fetch('scout-radar.json').then(r => r.json()),
+    fetch('scout-passed.json').then(r => r.json()),
+  ]).then(([companies, radar, passed]) => {
+    COMPANIES = companies;
+    RADAR = radar;
+    PASSED = passed;
+    applyFilters();
+    renderRadar();
+    renderPassed();
+  }).catch(err => {
+    console.error('Failed to load Scout data:', err);
+  });
   </script>
 
   <footer>
