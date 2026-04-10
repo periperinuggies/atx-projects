@@ -657,24 +657,41 @@ function init() {
 }
 
 // ── WLED ─────────────────────────────────────────────────────────────────────
+let _wledActiveBtn = null;
+
+function wledSetActive(el) {
+  // Clear previous active WLED button
+  if (_wledActiveBtn) _wledActiveBtn.classList.remove('active');
+  _wledActiveBtn = el || null;
+  if (_wledActiveBtn) _wledActiveBtn.classList.add('active');
+}
+
 async function wledSet(body) {
-  if (event) fire(event.currentTarget);
+  const el = event ? event.currentTarget : null;
+  if (el) fire(el);
   const d = await apiPost('/wled/state', body);
   if (d.error) { toast(`⚠ WLED: ${d.error}`); return; }
   toast(`💡 WLED ${body.on === false ? 'OFF' : 'ON'}`);
+  wledSetActive(el);
   pollWled();
 }
 async function wledColour(r, g, b) {
-  if (event) fire(event.currentTarget);
-  const d = await apiPost('/wled/state', {on:true, seg:[{col:[[r,g,b]]}]});
-  if (d.error) toast(`⚠ WLED: ${d.error}`);
-  else toast(`💡 COLOUR SET`);
+  const el = event ? event.currentTarget : null;
+  if (el) fire(el);
+  const d = await apiPost('/wled/state', {on:true, seg:[{col:[[r,g,b]],fx:0}]});
+  if (d.error) { toast(`⚠ WLED: ${d.error}`); return; }
+  toast(`💡 COLOUR SET`);
+  wledSetActive(el);
+  pollWled();
 }
 async function wledEffect(fx) {
-  if (event) fire(event.currentTarget);
+  const el = event ? event.currentTarget : null;
+  if (el) fire(el);
   const d = await apiPost('/wled/state', {on:true, seg:[{fx}]});
-  if (d.error) toast(`⚠ WLED: ${d.error}`);
-  else toast(`✨ EFFECT ${fx}`);
+  if (d.error) { toast(`⚠ WLED: ${d.error}`); return; }
+  toast(`✨ EFFECT ${fx}`);
+  wledSetActive(el);
+  pollWled();
 }
 async function pollWled() {
   const d = await apiGet('/wled/state');
@@ -686,10 +703,13 @@ async function pollWled() {
   const pct = Math.round((d.bri / 255) * 100);
   document.getElementById('wled-status').textContent = d.on ? `● ON — ${pct}%` : '○ OFF';
   document.getElementById('wled-status').style.color = d.on ? 'var(--green)' : 'var(--dim)';
-  const onBtn  = document.getElementById('btn-wled-on');
-  const offBtn = document.getElementById('btn-wled-off');
-  if (onBtn)  { onBtn.classList.toggle('active', d.on); }
-  if (offBtn) { offBtn.classList.toggle('active', !d.on); }
+  // Only update on/off buttons if no colour/effect button is actively selected
+  if (!_wledActiveBtn || _wledActiveBtn.id === 'btn-wled-on' || _wledActiveBtn.id === 'btn-wled-off') {
+    const onBtn  = document.getElementById('btn-wled-on');
+    const offBtn = document.getElementById('btn-wled-off');
+    if (onBtn)  { onBtn.classList.toggle('active', d.on); }
+    if (offBtn) { offBtn.classList.toggle('active', !d.on); }
+  }
 }
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
