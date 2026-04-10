@@ -389,13 +389,13 @@
       <span class="btn-icon">⬛</span><span class="btn-label">Solid</span><span class="btn-sub">Static colour</span>
     </button>
     <button class="btn btn-purple" onclick="wledPreset('soft-rainbow')">
-      <span class="btn-icon">🌈</span><span class="btn-label">Soft Rainbow</span><span class="btn-sub">Slow hue shift</span>
+      <span class="btn-icon">🌈</span><span class="btn-label">Soft Rainbow</span><span class="btn-sub">Slow hue drift</span>
     </button>
     <button class="btn btn-amber" onclick="wledPreset('pulse')">
       <span class="btn-icon">💨</span><span class="btn-label">Pulse</span><span class="btn-sub">10s breathe</span>
     </button>
     <button class="btn btn-purple" onclick="wledPreset('firework')">
-      <span class="btn-icon">🎆</span><span class="btn-label">Firework</span><span class="btn-sub">Colour chases</span>
+      <span class="btn-icon">🎆</span><span class="btn-label">Firework</span><span class="btn-sub">Colour bursts</span>
     </button>
     <button class="btn btn-orange" onclick="wledPreset('fire')">
       <span class="btn-icon">🔥</span><span class="btn-label">Fire</span><span class="btn-sub">Full strip flame</span>
@@ -408,6 +408,24 @@
     </button>
     <button class="btn btn-purple" onclick="wledPreset('disco')">
       <span class="btn-icon">🪩</span><span class="btn-label">Disco</span><span class="btn-sub">Party mode</span>
+    </button>
+    <button class="btn" onclick="wledPreset('ocean')">
+      <span class="btn-icon">🌊</span><span class="btn-label">Ocean</span><span class="btn-sub">Blue waves</span>
+    </button>
+    <button class="btn btn-amber" onclick="wledPreset('candle')">
+      <span class="btn-icon">🕯️</span><span class="btn-label">Candle</span><span class="btn-sub">Warm flicker</span>
+    </button>
+    <button class="btn btn-purple" onclick="wledPreset('runner')">
+      <span class="btn-icon">🏃</span><span class="btn-label">Runner</span><span class="btn-sub">Rainbow run</span>
+    </button>
+    <button class="btn btn-purple" onclick="wledPreset('ripple')">
+      <span class="btn-icon">💧</span><span class="btn-label">Ripple</span><span class="btn-sub">Colour rings</span>
+    </button>
+    <button class="btn btn-green" onclick="wledPreset('aurora')">
+      <span class="btn-icon">🌌</span><span class="btn-label">Aurora</span><span class="btn-sub">Green + purple</span>
+    </button>
+    <button class="btn btn-red" onclick="wledPreset('heartbeat')">
+      <span class="btn-icon">💓</span><span class="btn-label">Heartbeat</span><span class="btn-sub">Red pulse</span>
     </button>
   </div>
 </div>
@@ -672,24 +690,43 @@ function wledSetActive(el) {
   if (_wledActiveBtn) _wledActiveBtn.classList.add('active');
 }
 
-// Effect presets — verified effect IDs from this WLED build (0.15.1), tuned params
+// Each preset sends a FULL segment reset to prevent palette/colour bleed from previous effect
+function mkPreset(fx, opts={}) {
+  return {on:true, transition:0, seg:[Object.assign({
+    fx, pal:0, sx:128, ix:128,
+    col:[[0,0,0],[0,0,0],[0,0,0]]
+  }, opts)]};
+}
+
 const WLED_PRESETS = {
-  // Solid static colour
-  solid:          {on:true, seg:[{fx:0}]},
-  // Whole strip as single hue, slowly drifts through full spectrum (fx:8 Colorloop)
-  'soft-rainbow': {on:true, seg:[{fx:8, pal:0, sx:5, ix:255}]},
-  // 10-second breathe on current colour (fx:2 Breathe)
-  pulse:          {on:true, seg:[{fx:2, sx:8, ix:200}]},
-  // Multicolour bursts with ~20-LED tails (fx:90 Fireworks 1D)
-  firework:       {on:true, seg:[{fx:90, pal:11, sx:80, ix:150}]},
-  // Fire 2012 — genuine flame algorithm fills strip (fx:66 Fire 2012, fire palette 35)
-  fire:           {on:true, seg:[{fx:66, pal:35, sx:30, ix:220}]},
-  // Smooth comet with long fading tail, slow (fx:77 Meteor Smooth)
-  chase:          {on:true, seg:[{fx:77, col:[[0,100,255]], sx:40, ix:50}]},
-  // White + warm gold sparkle (fx:80 Twinklefox)
-  twinkle:        {on:true, seg:[{fx:80, col:[[255,255,255],[255,160,40]], pal:0, sx:60, ix:180}]},
-  // Fast multicolour party (fx:65 Palette cycling)
-  disco:          {on:true, seg:[{fx:65, pal:6, sx:200, ix:255}]},
+  // Solid static colour — uses current colour selection
+  solid:          mkPreset(0),
+  // Whole strip single hue drifts slowly through spectrum
+  'soft-rainbow': mkPreset(8,  {pal:0, sx:5,   ix:255, col:[[255,0,0],[0,0,0],[0,0,0]]}),
+  // Slow breathe fade on current colour (10s up/down)
+  pulse:          mkPreset(2,  {pal:0, sx:8,   ix:200}),
+  // Multicolour 1D firework bursts with trails
+  firework:       mkPreset(90, {pal:11,sx:80,  ix:150}),
+  // Fire 2012 — genuine flame, fire palette, fills strip
+  fire:           mkPreset(66, {pal:35,sx:30,  ix:220}),
+  // Smooth slow comet with long blue fading tail
+  chase:          mkPreset(77, {pal:0, sx:40,  ix:50,  col:[[0,100,255],[0,0,0],[0,0,0]]}),
+  // White + warm gold twinkle stars
+  twinkle:        mkPreset(80, {pal:0, sx:60,  ix:180, col:[[255,255,255],[255,160,40],[0,0,0]]}),
+  // Fast multicolour party palette
+  disco:          mkPreset(65, {pal:6, sx:200, ix:255}),
+  // Deep blue ocean waves — calm and immersive
+  ocean:          mkPreset(101,{pal:9, sx:30,  ix:180}),
+  // Candle flicker — warm amber glow, realistic
+  candle:         mkPreset(88, {pal:0, sx:50,  ix:150, col:[[255,100,10],[255,50,0],[0,0,0]]}),
+  // Rainbow running lights
+  runner:         mkPreset(33, {pal:11,sx:120, ix:200}),
+  // Ripple rings expanding outward, multicolour
+  ripple:         mkPreset(99, {pal:11,sx:80,  ix:180}),
+  // Aurora borealis — slow sweeping greens and purples
+  aurora:         mkPreset(38, {pal:0, sx:24,  ix:128, col:[[0,255,100],[100,0,255],[0,0,0]]}),
+  // Heartbeat pulse — red, rhythmic
+  heartbeat:      mkPreset(100,{pal:0, sx:60,  ix:200, col:[[220,0,0],[0,0,0],[0,0,0]]}),
 };
 
 async function wledSet(body) {
