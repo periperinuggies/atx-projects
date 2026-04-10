@@ -323,7 +323,15 @@
 </div>
 
 <!-- WLED LED STRIPS -->
-<div class="panel">
+<div class="panel" style="position:relative">
+  <!-- Offline overlay -->
+  <div id="wled-offline-overlay" style="display:none;position:absolute;inset:0;z-index:10;background:rgba(5,5,8,0.85);border-radius:4px;flex-direction:column;align-items:center;justify-content:center;gap:10px;">
+    <div style="font-size:1.4rem">🔌</div>
+    <div style="font-family:'Orbitron',sans-serif;font-size:0.7rem;color:var(--red);letter-spacing:0.15em">STRIP OFFLINE</div>
+    <div style="font-size:0.65rem;color:var(--dim);text-align:center">Controller unreachable.<br>Check power &amp; connection.</div>
+    <button class="scene-ctrl-btn" onclick="pollWled()" style="margin-top:4px">↻ RETRY</button>
+  </div>
+  <div id="wled-panel">
   <div class="panel-title" style="display:flex;align-items:center;justify-content:space-between">
     <span><span style="color:var(--accent)">//</span> WLED — LED STRIPS</span>
     <span id="wled-status" style="font-size:0.62rem;color:var(--dim)">LOADING…</span>
@@ -482,6 +490,7 @@
       <span class="btn-icon">🎵</span><span class="btn-label">BPM</span><span class="btn-sub">Beat palette</span>
     </button>
   </div>
+  </div><!-- /wled-panel -->
 </div>
 
 <!-- TAPO POWER -->
@@ -732,7 +741,9 @@ function init() {
   pollWled();
   setInterval(pollStatus, 15000);
   setInterval(pollTapo, 30000);
-  setInterval(pollWled, 30000);
+  // Poll WLED every 15s when online, every 10s when offline (faster reconnect detection)
+  setInterval(() => pollWled(), _wledOnline ? 15000 : 10000);
+  setInterval(() => { if (!_wledOnline) pollWled(); }, 10000);
 }
 
 // ── WLED ─────────────────────────────────────────────────────────────────────
@@ -789,38 +800,64 @@ const WLED_PRESETS = {
   noisefire:      mkPreset(143, {pal:35, sx:60,  ix:200}),                                        // fx:143 Noisefire — noise-driven fire
 };
 
+let _wledOnline = true;
+
+function wledSetOnlineState(online) {
+  if (_wledOnline === online) return;
+  _wledOnline = online;
+  const panel   = document.getElementById('wled-panel');
+  const overlay = document.getElementById('wled-offline-overlay');
+  const status  = document.getElementById('wled-status');
+  if (online) {
+    if (overlay) overlay.style.display = 'none';
+    if (panel)   panel.style.opacity   = '1';
+    status.textContent = '● ONLINE';
+    status.style.color = 'var(--green)';
+  } else {
+    if (overlay) overlay.style.display = 'flex';
+    if (panel)   panel.style.opacity   = '0.4';
+    status.textContent = '○ OFFLINE';
+    status.style.color = 'var(--red)';
+    if (_wledActiveBtn) { _wledActiveBtn.classList.remove('active'); _wledActiveBtn = null; }
+  }
+}
+
 async function wledSet(body) {
+  if (!_wledOnline) { toast('WLED offline — strip disconnected'); return; }
   const el = event ? event.currentTarget : null;
   if (el) fire(el);
   const d = await apiPost('/wled/state', body);
-  if (d.error) { toast(`⚠ WLED: ${d.error}`); return; }
+  if (d.error) { wledSetOnlineState(false); return; }
   toast(`💡 WLED ${body.on === false ? 'OFF' : 'ON'}`);
   wledSetActive(el);
   pollWled();
 }
 
 async function wledSetBri(val) {
+  if (!_wledOnline) return;
   await apiPost('/wled/state', {on:true, bri:parseInt(val)});
   pollWled();
 }
 
 async function wledColour(r, g, b) {
+  if (!_wledOnline) { toast('WLED offline — strip disconnected'); return; }
   const el = event ? event.currentTarget : null;
   if (el) fire(el);
   const d = await apiPost('/wled/state', {on:true, seg:[{fx:0, col:[[r,g,b]]}]});
-  if (d.error) { toast(`⚠ WLED: ${d.error}`); return; }
-  toast(`💡 ${r},${g},${b}`);
+  if (d.error) { wledSetOnlineState(false); return; }
+  toast(`💡 COLOUR SET`);
   wledSetActive(el);
   pollWled();
 }
 
 async function wledPreset(name) {
+  if (!_wledOnline) { toast('WLED offline — strip disconnected'); return; }
   const el = event ? event.currentTarget : null;
   if (el) fire(el);
   const body = WLED_PRESETS[name];
   if (!body) return;
   const d = await apiPost('/wled/state', body);
-  if (d.error) { toast(`⚠ WLED: ${d.error}`); return; }
+  if (d.error) { wledSetOnlineState(false); return; }
   toast(`✨ ${name.toUpperCase()}`);
   wledSetActive(el);
   pollWled();
@@ -829,14 +866,13 @@ async function wledPreset(name) {
 async function pollWled() {
   const d = await apiGet('/wled/state');
   if (d.error) {
-    document.getElementById('wled-status').textContent = 'OFFLINE';
-    document.getElementById('wled-status').style.color = 'var(--red)';
+    wledSetOnlineState(false);
     return;
   }
+  wledSetOnlineState(true);
   const pct = Math.round((d.bri / 255) * 100);
   document.getElementById('wled-status').textContent = d.on ? `● ON — ${pct}%` : '○ OFF';
   document.getElementById('wled-status').style.color = d.on ? 'var(--green)' : 'var(--dim)';
-  // Sync slider
   const slider = document.getElementById('wled-bri-slider');
   const briVal = document.getElementById('wled-bri-val');
   if (slider && !slider.matches(':active')) {
