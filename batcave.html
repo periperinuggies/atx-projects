@@ -322,6 +322,89 @@
   </div>
 </div>
 
+<!-- WLED LED STRIPS -->
+<div class="panel">
+  <div class="panel-title" style="display:flex;align-items:center;justify-content:space-between">
+    <span><span style="color:var(--accent)">//</span> WLED — LED STRIPS</span>
+    <span id="wled-status" style="font-size:0.62rem;color:var(--dim)">LOADING…</span>
+  </div>
+  <!-- Power + brightness -->
+  <div class="btn-grid" style="margin-bottom:12px">
+    <button class="btn btn-green" id="btn-wled-on" onclick="wledSet({on:true})">
+      <span class="btn-icon">💡</span>
+      <span class="btn-label">On</span>
+      <span class="btn-sub">Full power</span>
+    </button>
+    <button class="btn btn-red" id="btn-wled-off" onclick="wledSet({on:false})">
+      <span class="btn-icon">🌑</span>
+      <span class="btn-label">Off</span>
+      <span class="btn-sub">Strips off</span>
+    </button>
+    <button class="btn btn-amber" onclick="wledSet({on:true,bri:255})">
+      <span class="btn-icon">☀️</span>
+      <span class="btn-label">Full</span>
+      <span class="btn-sub">100% bright</span>
+    </button>
+    <button class="btn btn-amber" onclick="wledSet({on:true,bri:128})">
+      <span class="btn-icon">🌕</span>
+      <span class="btn-label">Half</span>
+      <span class="btn-sub">50% bright</span>
+    </button>
+    <button class="btn btn-amber" onclick="wledSet({on:true,bri:40})">
+      <span class="btn-icon">🔅</span>
+      <span class="btn-label">Dim</span>
+      <span class="btn-sub">15% bright</span>
+    </button>
+  </div>
+  <!-- Colours -->
+  <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:8px">COLOUR PRESETS</div>
+  <div class="btn-grid" style="margin-bottom:12px">
+    <button class="btn" onclick="wledColour(255,255,255)" style="--c:#ffffff">
+      <span class="btn-icon">⬜</span><span class="btn-label">White</span>
+    </button>
+    <button class="btn btn-red" onclick="wledColour(255,0,0)">
+      <span class="btn-icon">🟥</span><span class="btn-label">Red</span>
+    </button>
+    <button class="btn btn-green" onclick="wledColour(0,255,0)">
+      <span class="btn-icon">🟩</span><span class="btn-label">Green</span>
+    </button>
+    <button class="btn" style="--hov:var(--accent)" onclick="wledColour(0,150,255)">
+      <span class="btn-icon">🟦</span><span class="btn-label">Blue</span>
+    </button>
+    <button class="btn btn-purple" onclick="wledColour(180,0,255)">
+      <span class="btn-icon">🟪</span><span class="btn-label">Purple</span>
+    </button>
+    <button class="btn btn-orange" onclick="wledColour(255,80,0)">
+      <span class="btn-icon">🟧</span><span class="btn-label">Orange</span>
+    </button>
+    <button class="btn btn-amber" onclick="wledColour(255,200,20)">
+      <span class="btn-icon">🟨</span><span class="btn-label">Gold</span>
+    </button>
+  </div>
+  <!-- Effects -->
+  <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:8px">EFFECTS</div>
+  <div class="btn-grid">
+    <button class="btn" onclick="wledEffect(0)">
+      <span class="btn-icon">⬛</span><span class="btn-label">Solid</span>
+    </button>
+    <button class="btn btn-purple" onclick="wledEffect(9)">
+      <span class="btn-icon">🌈</span><span class="btn-label">Rainbow</span>
+    </button>
+    <button class="btn btn-purple" onclick="wledEffect(28)">
+      <span class="btn-icon">🌀</span><span class="btn-label">Chase</span>
+    </button>
+    <button class="btn btn-orange" onclick="wledEffect(38)">
+      <span class="btn-icon">🔥</span><span class="btn-label">Fire</span>
+    </button>
+    <button class="btn btn-amber" onclick="wledEffect(11)">
+      <span class="btn-icon">✨</span><span class="btn-label">Twinkle</span>
+    </button>
+    <button class="btn btn-purple" onclick="wledEffect(66)">
+      <span class="btn-icon">🪩</span><span class="btn-label">Disco</span>
+    </button>
+  </div>
+</div>
+
 <!-- TAPO POWER -->
 <div class="panel">
   <div class="panel-title"><span>//</span> POWER — TAPO SMART PLUGS</div>
@@ -567,8 +650,46 @@ function init() {
   pollStatus();
   loadScenes();
   pollTapo();
+  pollWled();
   setInterval(pollStatus, 15000);
   setInterval(pollTapo, 30000);
+  setInterval(pollWled, 30000);
+}
+
+// ── WLED ─────────────────────────────────────────────────────────────────────
+async function wledSet(body) {
+  if (event) fire(event.currentTarget);
+  const d = await apiPost('/wled/state', body);
+  if (d.error) { toast(`⚠ WLED: ${d.error}`); return; }
+  toast(`💡 WLED ${body.on === false ? 'OFF' : 'ON'}`);
+  pollWled();
+}
+async function wledColour(r, g, b) {
+  if (event) fire(event.currentTarget);
+  const d = await apiPost('/wled/state', {on:true, seg:[{col:[[r,g,b]]}]});
+  if (d.error) toast(`⚠ WLED: ${d.error}`);
+  else toast(`💡 COLOUR SET`);
+}
+async function wledEffect(fx) {
+  if (event) fire(event.currentTarget);
+  const d = await apiPost('/wled/state', {on:true, seg:[{fx}]});
+  if (d.error) toast(`⚠ WLED: ${d.error}`);
+  else toast(`✨ EFFECT ${fx}`);
+}
+async function pollWled() {
+  const d = await apiGet('/wled/state');
+  if (d.error) {
+    document.getElementById('wled-status').textContent = 'OFFLINE';
+    document.getElementById('wled-status').style.color = 'var(--red)';
+    return;
+  }
+  const pct = Math.round((d.bri / 255) * 100);
+  document.getElementById('wled-status').textContent = d.on ? `● ON — ${pct}%` : '○ OFF';
+  document.getElementById('wled-status').style.color = d.on ? 'var(--green)' : 'var(--dim)';
+  const onBtn  = document.getElementById('btn-wled-on');
+  const offBtn = document.getElementById('btn-wled-off');
+  if (onBtn)  { onBtn.classList.toggle('active', d.on); }
+  if (offBtn) { offBtn.classList.toggle('active', !d.on); }
 }
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
