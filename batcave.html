@@ -672,24 +672,24 @@ function wledSetActive(el) {
   if (_wledActiveBtn) _wledActiveBtn.classList.add('active');
 }
 
-// Effect presets — tuned parameters for each effect
+// Effect presets — verified effect IDs from this WLED build (0.15.1), tuned params
 const WLED_PRESETS = {
-  // Whole strip slowly cycles through hue as one solid colour (fx:41 Colorloop)
-  'soft-rainbow': {on:true, seg:[{fx:41, sx:8, ix:255}]},
-  // Breathe/pulse — uses whatever colour is currently set, 10s fade up/down (fx:2 Breath)
-  pulse:          {on:true, seg:[{fx:2, sx:8, ix:200}]},
-  // Multiple ~20-LED coloured blobs with soft tails chasing along strip (fx:57 Shooting Star Rain)
-  firework:       {on:true, seg:[{fx:57, pal:11, sx:80, ix:160}]},
-  // Fire — low speed = slow cooling = flames fill 60-90% of strip (fx:45 Fire2012)
-  fire:           {on:true, seg:[{fx:45, pal:35, sx:35, ix:210}]},
-  // Single ~50-LED comet with long soft tail, slow chase (fx:55 Comet)
-  chase:          {on:true, seg:[{fx:55, col:[[0,100,255]], sx:50, ix:220}]},
   // Solid static colour
   solid:          {on:true, seg:[{fx:0}]},
-  // White/warm sparkle (fx:11 Twinkle)
-  twinkle:        {on:true, seg:[{fx:11, col:[[255,255,255],[255,180,60]], sx:80, ix:200}]},
-  // Party — fast multicolour (fx:66 Disco)
-  disco:          {on:true, seg:[{fx:66, pal:6, sx:200, ix:255}]},
+  // Whole strip as single hue, slowly drifts through full spectrum (fx:8 Colorloop)
+  'soft-rainbow': {on:true, seg:[{fx:8, pal:0, sx:5, ix:255}]},
+  // 10-second breathe on current colour (fx:2 Breathe)
+  pulse:          {on:true, seg:[{fx:2, sx:8, ix:200}]},
+  // Multicolour bursts with ~20-LED tails (fx:90 Fireworks 1D)
+  firework:       {on:true, seg:[{fx:90, pal:11, sx:80, ix:150}]},
+  // Fire 2012 — genuine flame algorithm fills strip (fx:66 Fire 2012, fire palette 35)
+  fire:           {on:true, seg:[{fx:66, pal:35, sx:30, ix:220}]},
+  // Smooth comet with long fading tail, slow (fx:77 Meteor Smooth)
+  chase:          {on:true, seg:[{fx:77, col:[[0,100,255]], sx:40, ix:50}]},
+  // White + warm gold sparkle (fx:80 Twinklefox)
+  twinkle:        {on:true, seg:[{fx:80, col:[[255,255,255],[255,160,40]], pal:0, sx:60, ix:180}]},
+  // Fast multicolour party (fx:65 Palette cycling)
+  disco:          {on:true, seg:[{fx:65, pal:6, sx:200, ix:255}]},
 };
 
 async function wledSet(body) {
