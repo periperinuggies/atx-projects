@@ -163,7 +163,7 @@ function buildGrid() {
   grid.innerHTML = '';
   for (let ch = 1; ch <= CHANNELS; ch++) {
     const id  = CHANNEL_IDS[ch];
-    const src = `${STREAMS_BASE}/?src=${id}`;
+    const src = `${STREAMS_BASE}/stream.html?src=${id}`;
     const div = document.createElement('div');
     div.className = 'cam';
     div.innerHTML = `
