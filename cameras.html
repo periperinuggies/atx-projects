@@ -5,73 +5,94 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Warehouse CCTV — Larsen Ventures</title>
 <style>
-  /* Lock screen */
-  #lockScreen { position:fixed; inset:0; background:#0a0a0a; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
-  #lockScreen h2 { font-size:0.85rem; font-weight:500; color:#444; letter-spacing:0.1em; text-transform:uppercase; }
-  #lockScreen p { font-size:0.75rem; color:#333; }
-  #lockScreen input { background:#111; border:1px solid #2a2a2a; color:#ccc; padding:8px 14px; border-radius:4px; font-size:0.85rem; outline:none; text-align:center; }
-  #lockScreen input:focus { border-color:#444; }
-  #lockScreen button { background:#1a1a1a; border:1px solid #2a2a2a; color:#888; padding:7px 20px; border-radius:4px; font-size:0.8rem; cursor:pointer; }
-  #lockScreen button:hover { border-color:#444; color:#ccc; }
-  #lockErr { color:#ef4444; font-size:0.75rem; display:none; }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #0a0a0a; color: #ccc; font-family: system-ui, sans-serif; padding: 16px; }
-  h1 { font-size: 0.8rem; font-weight: 500; color: #444; margin-bottom: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
 
-  /* Summary bar */
-  #summary { display:flex; gap:16px; margin-bottom:14px; flex-wrap:wrap; }
-  .sum-chip { font-size:0.7rem; padding:3px 10px; border-radius:99px; background:#111; border:1px solid #1f1f1f; color:#555; }
-  .sum-chip.live  { color:#22c55e; border-color:#1a3a25; }
-  .sum-chip.error { color:#ef4444; border-color:#3a1a1a; }
-  .sum-chip.wait  { color:#888; }
+  body {
+    background: #0a0a0a;
+    color: #ccc;
+    font-family: system-ui, sans-serif;
+    padding: 16px;
+    min-height: 100vh;
+  }
 
-  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(380px, 1fr)); gap:10px; }
-
-  /* Camera tile */
-  .cam { background:#0f0f0f; border-radius:6px; overflow:hidden; border:1px solid #1a1a1a; position:relative; }
-  .cam-media { position:relative; width:100%; aspect-ratio:16/9; background:#000; }
-  .cam-media video    { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:2; display:none; }
-  .cam-media img.snap { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1; opacity:0.5; }
-  .cam-media .placeholder { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:0.7rem; color:#333; z-index:0; }
-
-  /* Label & status */
-  .label { padding:6px 10px; display:flex; align-items:center; justify-content:space-between; border-top:1px solid #111; }
-  .ch-name { font-size:0.72rem; color:#555; display:flex; align-items:center; gap:6px; }
-  .dot { width:6px; height:6px; border-radius:50%; background:#222; flex-shrink:0; transition:background 0.3s; }
-  .dot.live   { background:#22c55e; box-shadow:0 0 5px #22c55e88; }
-  .dot.error  { background:#ef4444; }
-  .dot.trying { background:#f59e0b; animation:pulse 1s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-  .mode-badge { font-size:0.65rem; padding:2px 7px; border-radius:4px; background:#111; color:#333; border:1px solid #1a1a1a; }
-  .mode-badge.live  { color:#22c55e; border-color:#1a3a25; }
-  .mode-badge.error { color:#ef4444; border-color:#3a1a1a; }
-  .mode-badge.trying { color:#f59e0b; border-color:#3a2a0a; }
-
-  /* Stage log */
-  .stages { padding:0 10px 8px; font-size:0.65rem; color:#333; display:flex; flex-direction:column; gap:2px; }
-  .stage { display:flex; align-items:center; gap:6px; }
-  .stage .icon { width:12px; text-align:center; }
-  .stage.done   .icon::before { content:'✓'; color:#22c55e; }
-  .stage.fail   .icon::before { content:'✗'; color:#ef4444; }
-  .stage.active .icon::before { content:'⟳'; color:#f59e0b; }
-  .stage.wait   .icon::before { content:'·'; color:#333; }
-  .stage.done   .txt { color:#3a3a3a; }
-  .stage.fail   .txt { color:#6b3030; }
-  .stage.active .txt { color:#7a5a20; }
+  /* Lock screen */
+  #lockScreen {
+    position: fixed; inset: 0; background: #0a0a0a; z-index: 9999;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 12px;
+  }
+  #lockScreen h2 { font-size: 0.85rem; font-weight: 500; color: #444; letter-spacing: 0.1em; text-transform: uppercase; }
+  #lockScreen p  { font-size: 0.75rem; color: #333; }
+  #lockScreen input {
+    background: #111; border: 1px solid #2a2a2a; color: #ccc;
+    padding: 8px 14px; border-radius: 4px; font-size: 0.85rem;
+    outline: none; text-align: center;
+  }
+  #lockScreen input:focus { border-color: #444; }
+  #lockScreen button {
+    background: #1a1a1a; border: 1px solid #2a2a2a; color: #888;
+    padding: 7px 20px; border-radius: 4px; font-size: 0.8rem; cursor: pointer;
+  }
+  #lockScreen button:hover { border-color: #444; color: #ccc; }
+  #lockErr { color: #ef4444; font-size: 0.75rem; display: none; }
 
   /* Menu bar */
-  #menubar { display:flex; align-items:center; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
-  #menubar .bar-title { font-size:0.8rem; font-weight:500; color:#444; letter-spacing:0.1em; text-transform:uppercase; flex:1; }
-  #menubar button { background:#111; border:1px solid #1f1f1f; color:#555; padding:4px 12px; border-radius:4px; font-size:0.72rem; cursor:pointer; display:flex; align-items:center; gap:5px; transition:border-color 0.2s,color 0.2s; }
-  #menubar button:hover { border-color:#333; color:#ccc; }
-  #menubar button.spinning svg { animation:spin 1s linear infinite; }
-  #menubar .bar-clock { font-size:0.68rem; color:#333; font-variant-numeric:tabular-nums; }
-  #menubar .bar-sep { width:1px; height:14px; background:#1f1f1f; }
-  @keyframes spin { to { transform:rotate(360deg); } }
+  #menubar {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 14px; flex-wrap: wrap;
+  }
+  #menubar .bar-title {
+    font-size: 0.8rem; font-weight: 500; color: #444;
+    letter-spacing: 0.1em; text-transform: uppercase; flex: 1;
+  }
+  #menubar button {
+    background: #111; border: 1px solid #1f1f1f; color: #555;
+    padding: 4px 12px; border-radius: 4px; font-size: 0.72rem;
+    cursor: pointer; display: flex; align-items: center; gap: 5px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  #menubar button:hover { border-color: #333; color: #ccc; }
+  #menubar button.spinning svg { animation: spin 1s linear infinite; }
+  #menubar .bar-clock { font-size: 0.68rem; color: #333; font-variant-numeric: tabular-nums; }
+  #menubar .bar-sep   { width: 1px; height: 14px; background: #1f1f1f; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Summary bar */
+  #summary { display: flex; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; }
+  .sum-chip {
+    font-size: 0.7rem; padding: 3px 10px; border-radius: 99px;
+    background: #111; border: 1px solid #1f1f1f; color: #555;
+  }
+  .sum-chip.live  { color: #22c55e; border-color: #1a3a25; }
+  .sum-chip.error { color: #ef4444; border-color: #3a1a1a; }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 10px;
+  }
+
+  /* Camera tile */
+  .cam { background: #0f0f0f; border-radius: 6px; overflow: hidden; border: 1px solid #1a1a1a; }
+  .cam-media { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; overflow: hidden; }
+  .cam-media iframe {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    border: none; z-index: 2;
+  }
+
+  /* Label */
+  .label {
+    padding: 6px 10px; display: flex; align-items: center;
+    justify-content: space-between; border-top: 1px solid #111;
+  }
+  .ch-name { font-size: 0.72rem; color: #555; display: flex; align-items: center; gap: 6px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 5px #22c55e88; flex-shrink: 0; }
+  .mode-badge {
+    font-size: 0.65rem; padding: 2px 7px; border-radius: 4px;
+    background: #111; color: #22c55e; border: 1px solid #1a3a25;
+  }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js"></script>
 </head>
 <body>
 
@@ -84,14 +105,14 @@
 </div>
 
 <script>
-function checkPw(){
-  const v=document.getElementById('pwInput').value;
-  if(v.toLowerCase()==='batcave'){
-    document.getElementById('lockScreen').style.display='none';
-    document.getElementById('pwInput').value='';
+function checkPw() {
+  const v = document.getElementById('pwInput').value;
+  if (v.toLowerCase() === 'batcave') {
+    document.getElementById('lockScreen').style.display = 'none';
+    document.getElementById('pwInput').value = '';
   } else {
-    document.getElementById('lockErr').style.display='block';
-    document.getElementById('pwInput').value='';
+    document.getElementById('lockErr').style.display = 'block';
+    document.getElementById('pwInput').value = '';
     document.getElementById('pwInput').focus();
   }
 }
@@ -100,7 +121,7 @@ function checkPw(){
 <div id="menubar">
   <span class="bar-title">Warehouse CCTV &nbsp;·&nbsp; Larsen Ventures</span>
 
-  <button id="btnRefreshAll" onclick="reconnectAll(this)" title="Reconnect all cameras">
+  <button id="btnRefreshAll" onclick="refreshAll(this)">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
       <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
@@ -110,125 +131,90 @@ function checkPw(){
 
   <div class="bar-sep"></div>
 
-  <button onclick="toggleStages()" id="btnStages" title="Show/hide connection diagnostics">
+  <button onclick="toggleLayout()" id="btnLayout">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-    </svg>
-    Diagnostics
-  </button>
-
-  <div class="bar-sep"></div>
-
-  <button onclick="toggleLayout()" id="btnLayout" title="Switch between 2-col and fullwidth layout">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+      <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+      <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
     </svg>
     Layout
   </button>
 
   <div class="bar-sep"></div>
-
   <span class="bar-clock" id="barClock"></span>
 </div>
 
 <div id="summary"></div>
 <div class="grid" id="grid"></div>
 
-
-// ── Config ───────────────────────────────────────────────────
+<script>
 const STREAMS_BASE = 'https://streams.larsenfamily.com.au';
 const CHANNELS = 8;
-const CHANNEL_NAMES = {1:'Gate',2:'Door',3:'Kitchen',4:'Office',5:'Workshop',6:'Mezz',7:'Channel 7',8:'Channel 8'};
-const CHANNEL_IDS   = {1:'gate',2:'door',3:'kitchen',4:'office',5:'workshop',6:'mezz',7:'ch7',8:'ch8'};
+const CHANNEL_NAMES = {
+  1:'Gate', 2:'Door', 3:'Kitchen', 4:'Office',
+  5:'Workshop', 6:'Mezz', 7:'Channel 7', 8:'Channel 8'
+};
+const CHANNEL_IDS = {
+  1:'gate', 2:'door', 3:'kitchen', 4:'office',
+  5:'workshop', 6:'mezz', 7:'ch7', 8:'ch8'
+};
 
-const state = {};
-
-function updateSummary() {
-  const counts = {live:0,error:0,trying:0};
-  Object.values(state).forEach(s => counts[s.status] = (counts[s.status]||0)+1);
-  document.getElementById('summary').innerHTML = [
-    counts.live   ? `<span class="sum-chip live">✓ ${counts.live} live</span>` : '',
-    counts.trying ? `<span class="sum-chip wait">⟳ ${counts.trying} connecting</span>` : '',
-    counts.error  ? `<span class="sum-chip error">✗ ${counts.error} failed</span>` : '',
-    `<span class="sum-chip wait">${new Date().toLocaleTimeString()}</span>`
-  ].join('');
-}
-
-function setChannelStatus(ch, status, modeText) {
-  state[ch] = {status};
-  const dot   = document.getElementById(`dot${ch}`);
-  const badge = document.getElementById(`badge${ch}`);
-  if (dot)   dot.className = `dot ${status}`;
-  if (badge) { badge.className = `mode-badge ${status}`; badge.textContent = modeText; }
+function buildGrid() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  for (let ch = 1; ch <= CHANNELS; ch++) {
+    const id  = CHANNEL_IDS[ch];
+    const src = `${STREAMS_BASE}/?src=${id}`;
+    const div = document.createElement('div');
+    div.className = 'cam';
+    div.innerHTML = `
+      <div class="cam-media">
+        <iframe src="${src}" allow="autoplay" loading="lazy"></iframe>
+      </div>
+      <div class="label">
+        <span class="ch-name">
+          <span class="dot"></span>
+          ${CHANNEL_NAMES[ch]}
+        </span>
+        <span class="mode-badge">LIVE</span>
+      </div>`;
+    grid.appendChild(div);
+  }
   updateSummary();
 }
 
-// ── Build tile ───────────────────────────────────────────────
-function buildTile(ch) {
-  const id  = CHANNEL_IDS[ch] || `ch${ch}`;
-  // go2rtc player — same origin, auto-selects best working protocol (MSE→HLS→snapshot)
-  const src = `${STREAMS_BASE}/?src=${id}`;
-  const div = document.createElement('div');
-  div.className = 'cam';
-  div.dataset.ch = ch;
-  div.innerHTML = `
-    <div class="cam-media" style="position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden;">
-      <iframe
-        id="frame${ch}"
-        src="${src}"
-        style="position:absolute;inset:0;width:100%;height:100%;border:none;z-index:2;"
-        allow="autoplay"
-        loading="lazy"
-      ></iframe>
-    </div>
-    <div class="label">
-      <span class="ch-name">
-        <span class="dot live" id="dot${ch}"></span>
-        ${CHANNEL_NAMES[ch]||'Channel '+ch}
-      </span>
-      <span class="mode-badge live" id="badge${ch}">go2rtc</span>
-    </div>`;
-  state[ch] = {status:'live'};
-  return div;
+function updateSummary() {
+  document.getElementById('summary').innerHTML =
+    `<span class="sum-chip live">✓ ${CHANNELS} streams</span>
+     <span class="sum-chip">${new Date().toLocaleTimeString()}</span>`;
 }
 
-function initCamAt(ch) {
-  const tile = buildTile(ch);
-  const grid = document.getElementById('grid');
-  const existing = Array.from(grid.querySelectorAll('.cam'));
-  const after = existing.find(el => parseInt(el.dataset.ch) > ch);
-  if (after) grid.insertBefore(tile, after);
-  else grid.appendChild(tile);
-}
-
-// ── Reconnect all ────────────────────────────────────────────
-function reconnectAll(btn) {
+function refreshAll(btn) {
   btn.classList.add('spinning');
-  document.getElementById('grid').innerHTML = '';
-  for (let ch = 1; ch <= CHANNELS; ch++) initCamAt(ch);
+  buildGrid();
   setTimeout(() => btn.classList.remove('spinning'), 1000);
 }
 
-// ── UI ───────────────────────────────────────────────────────
-function toggleStages() {} // no diagnostics needed — go2rtc handles internally
 let wideLayout = false;
 function toggleLayout() {
   wideLayout = !wideLayout;
-  document.getElementById('grid').style.gridTemplateColumns = wideLayout ? '1fr' : 'repeat(auto-fill, minmax(380px, 1fr))';
-  document.getElementById('btnLayout').style.color = wideLayout ? '#22c55e' : '';
+  document.getElementById('grid').style.gridTemplateColumns =
+    wideLayout ? '1fr' : 'repeat(auto-fill, minmax(380px, 1fr))';
+  document.getElementById('btnLayout').style.color       = wideLayout ? '#22c55e' : '';
   document.getElementById('btnLayout').style.borderColor = wideLayout ? '#1a3a25' : '';
 }
 
 function updateClock() {
   document.getElementById('barClock').textContent =
-    new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit',second:'2-digit',timeZone:'Australia/Perth'}) + ' AWST';
+    new Date().toLocaleTimeString('en-AU', {
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+      timeZone: 'Australia/Perth'
+    }) + ' AWST';
 }
 setInterval(updateClock, 1000);
 updateClock();
 
-// ── Boot ─────────────────────────────────────────────────────
-for (let ch = 1; ch <= CHANNELS; ch++) { state[ch] = {}; initCamAt(ch); }
-setInterval(updateSummary, 5000);
+buildGrid();
+setInterval(updateSummary, 10000);
 </script>
 </body>
 </html>
