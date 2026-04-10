@@ -134,17 +134,14 @@ function checkPw(){
 <div id="summary"></div>
 <div class="grid" id="grid"></div>
 
-<script>
 
 // ── Config ───────────────────────────────────────────────────
-// HLS via Cloudflare tunnel — short-lived segment requests, CF-friendly
-const BASE     = 'https://streams.larsenfamily.com.au';
+const STREAMS_BASE = 'https://streams.larsenfamily.com.au';
 const CHANNELS = 8;
 const CHANNEL_NAMES = {1:'Gate',2:'Door',3:'Kitchen',4:'Office',5:'Workshop',6:'Mezz',7:'Channel 7',8:'Channel 8'};
 const CHANNEL_IDS   = {1:'gate',2:'door',3:'kitchen',4:'office',5:'workshop',6:'mezz',7:'ch7',8:'ch8'};
 
 const state = {};
-const hlsInstances = {};
 
 function updateSummary() {
   const counts = {live:0,error:0,trying:0};
@@ -166,161 +163,54 @@ function setChannelStatus(ch, status, modeText) {
   updateSummary();
 }
 
-function setStageText(ch, text) {
-  const el = document.getElementById(`stagelog${ch}`);
-  if (el) el.textContent = text;
-}
-
 // ── Build tile ───────────────────────────────────────────────
 function buildTile(ch) {
+  const id  = CHANNEL_IDS[ch] || `ch${ch}`;
+  // go2rtc player — same origin, auto-selects best working protocol (MSE→HLS→snapshot)
+  const src = `${STREAMS_BASE}/?src=${id}`;
   const div = document.createElement('div');
   div.className = 'cam';
   div.dataset.ch = ch;
   div.innerHTML = `
-    <div class="cam-media">
-      <div class="placeholder">${CHANNEL_NAMES[ch]||'Channel '+ch}</div>
-      <img id="snap${ch}" class="snap" style="display:none;" />
-      <video id="v${ch}" muted playsinline autoplay style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;display:none;"></video>
+    <div class="cam-media" style="position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden;">
+      <iframe
+        id="frame${ch}"
+        src="${src}"
+        style="position:absolute;inset:0;width:100%;height:100%;border:none;z-index:2;"
+        allow="autoplay"
+        loading="lazy"
+      ></iframe>
     </div>
     <div class="label">
       <span class="ch-name">
-        <span class="dot trying" id="dot${ch}"></span>
+        <span class="dot live" id="dot${ch}"></span>
         ${CHANNEL_NAMES[ch]||'Channel '+ch}
       </span>
-      <span class="mode-badge trying" id="badge${ch}">connecting…</span>
-    </div>
-    <div class="stages" id="stages${ch}" style="display:none;">
-      <div class="stage active"><span class="icon"></span><span class="txt" id="stagelog${ch}">Starting…</span></div>
+      <span class="mode-badge live" id="badge${ch}">go2rtc</span>
     </div>`;
+  state[ch] = {status:'live'};
   return div;
 }
 
-// ── HLS via hls.js ───────────────────────────────────────────
-const snapPollers = {};
-
 function initCamAt(ch) {
-  const id = CHANNEL_IDS[ch] || `ch${ch}`;
-  state[ch] = {status:'trying'};
-
-  // Destroy any existing hls instance
-  if (hlsInstances[ch]) { try { hlsInstances[ch].destroy(); } catch {} delete hlsInstances[ch]; }
-  if (snapPollers[ch])  { clearInterval(snapPollers[ch]); delete snapPollers[ch]; }
-
   const tile = buildTile(ch);
   const grid = document.getElementById('grid');
   const existing = Array.from(grid.querySelectorAll('.cam'));
   const after = existing.find(el => parseInt(el.dataset.ch) > ch);
   if (after) grid.insertBefore(tile, after);
   else grid.appendChild(tile);
-
-  if (stagesVisible) document.getElementById(`stages${ch}`).style.display = 'flex';
-
-  tryHLS(ch, id);
-}
-
-function tryHLS(ch, id) {
-  const video   = document.getElementById(`v${ch}`);
-  const m3u8url = `${BASE}/api/stream.m3u8?src=${id}`;
-  setStageText(ch, 'Loading HLS stream…');
-
-  if (Hls.isSupported()) {
-    const hls = new Hls({
-      liveSyncDurationCount: 2,
-      liveMaxLatencyDurationCount: 4,
-      maxBufferLength: 10,
-    });
-    hlsInstances[ch] = hls;
-
-    hls.loadSource(m3u8url);
-    hls.attachMedia(video);
-
-    hls.on(Hls.Events.MANIFEST_PARSED, () => {
-      setStageText(ch, 'HLS manifest loaded — buffering…');
-      video.play().catch(() => {});
-    });
-
-    video.onplaying = () => {
-      video.style.display = 'block';
-      setChannelStatus(ch, 'live', 'HLS');
-      setStageText(ch, 'HLS live ✓');
-    };
-
-    hls.on(Hls.Events.ERROR, (e, data) => {
-      if (data.fatal) {
-        setStageText(ch, `HLS error (${data.type}) — snapshot fallback`);
-        hls.destroy();
-        delete hlsInstances[ch];
-        video.style.display = 'none';
-        startSnapshotPoll(ch, id);
-      }
-    });
-
-  } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-    // Native HLS (Safari)
-    video.src = m3u8url;
-    video.onplaying = () => {
-      video.style.display = 'block';
-      setChannelStatus(ch, 'live', 'HLS');
-      setStageText(ch, 'HLS live ✓ (native)');
-    };
-    video.onerror = () => {
-      video.style.display = 'none';
-      setStageText(ch, 'HLS failed — snapshot fallback');
-      startSnapshotPoll(ch, id);
-    };
-    video.play().catch(() => {});
-  } else {
-    setStageText(ch, 'HLS not supported — snapshot fallback');
-    startSnapshotPoll(ch, id);
-  }
-}
-
-function startSnapshotPoll(ch, id) {
-  if (snapPollers[ch]) clearInterval(snapPollers[ch]);
-  const snapEl = document.getElementById(`snap${ch}`);
-  if (snapEl) snapEl.style.display = 'block';
-  let failures = 0;
-
-  function fetchSnap() {
-    const img = new Image();
-    img.onload = () => {
-      failures = 0;
-      if (snapEl) snapEl.src = img.src;
-      setChannelStatus(ch, 'live', 'Snap ~2s');
-      setStageText(ch, 'Snapshot fallback active');
-    };
-    img.onerror = () => {
-      failures++;
-      if (failures >= 3) {
-        setChannelStatus(ch, 'error', 'offline');
-        setStageText(ch, `Not responding (${failures} failures)`);
-      }
-    };
-    img.src = `${BASE}/api/frame.jpeg?src=${id}&t=${Date.now()}`;
-  }
-  fetchSnap();
-  snapPollers[ch] = setInterval(fetchSnap, 2000);
 }
 
 // ── Reconnect all ────────────────────────────────────────────
 function reconnectAll(btn) {
   btn.classList.add('spinning');
-  Object.keys(snapPollers).forEach(ch => { clearInterval(snapPollers[ch]); delete snapPollers[ch]; });
-  Object.keys(hlsInstances).forEach(ch => { try { hlsInstances[ch].destroy(); } catch {} delete hlsInstances[ch]; });
   document.getElementById('grid').innerHTML = '';
   for (let ch = 1; ch <= CHANNELS; ch++) initCamAt(ch);
-  setTimeout(() => btn.classList.remove('spinning'), 2000);
+  setTimeout(() => btn.classList.remove('spinning'), 1000);
 }
 
 // ── UI ───────────────────────────────────────────────────────
-let stagesVisible = false;
-function toggleStages() {
-  stagesVisible = !stagesVisible;
-  document.querySelectorAll('.stages').forEach(el => el.style.display = stagesVisible ? 'flex' : 'none');
-  document.getElementById('btnStages').style.color = stagesVisible ? '#22c55e' : '';
-  document.getElementById('btnStages').style.borderColor = stagesVisible ? '#1a3a25' : '';
-}
-
+function toggleStages() {} // no diagnostics needed — go2rtc handles internally
 let wideLayout = false;
 function toggleLayout() {
   wideLayout = !wideLayout;
