@@ -388,32 +388,26 @@
     <button class="btn" onclick="wledPreset('solid')">
       <span class="btn-icon">⬛</span><span class="btn-label">Solid</span><span class="btn-sub">Static colour</span>
     </button>
-    <button class="btn btn-amber" onclick="wledPreset('breathe')">
-      <span class="btn-icon">💨</span><span class="btn-label">Breathe</span><span class="btn-sub">Slow fade</span>
+    <button class="btn btn-purple" onclick="wledPreset('soft-rainbow')">
+      <span class="btn-icon">🌈</span><span class="btn-label">Soft Rainbow</span><span class="btn-sub">Slow hue shift</span>
     </button>
-    <button class="btn btn-purple" onclick="wledPreset('rainbow')">
-      <span class="btn-icon">🌈</span><span class="btn-label">Rainbow</span><span class="btn-sub">Cycle all</span>
+    <button class="btn btn-amber" onclick="wledPreset('pulse')">
+      <span class="btn-icon">💨</span><span class="btn-label">Pulse</span><span class="btn-sub">10s breathe</span>
     </button>
-    <button class="btn btn-purple" onclick="wledPreset('chase')">
-      <span class="btn-icon">⚡</span><span class="btn-label">Chase</span><span class="btn-sub">Running lights</span>
+    <button class="btn btn-purple" onclick="wledPreset('firework')">
+      <span class="btn-icon">🎆</span><span class="btn-label">Firework</span><span class="btn-sub">Colour chases</span>
     </button>
     <button class="btn btn-orange" onclick="wledPreset('fire')">
-      <span class="btn-icon">🔥</span><span class="btn-label">Fire</span><span class="btn-sub">Flame effect</span>
+      <span class="btn-icon">🔥</span><span class="btn-label">Fire</span><span class="btn-sub">Full strip flame</span>
+    </button>
+    <button class="btn" onclick="wledPreset('chase')">
+      <span class="btn-icon">⚡</span><span class="btn-label">Chase</span><span class="btn-sub">Long soft tail</span>
     </button>
     <button class="btn btn-amber" onclick="wledPreset('twinkle')">
-      <span class="btn-icon">✨</span><span class="btn-label">Twinkle</span><span class="btn-sub">Sparkle stars</span>
-    </button>
-    <button class="btn btn-purple" onclick="wledPreset('meteor')">
-      <span class="btn-icon">🌠</span><span class="btn-label">Meteor</span><span class="btn-sub">Shooting trail</span>
+      <span class="btn-icon">✨</span><span class="btn-label">Twinkle</span><span class="btn-sub">Warm sparkle</span>
     </button>
     <button class="btn btn-purple" onclick="wledPreset('disco')">
       <span class="btn-icon">🪩</span><span class="btn-label">Disco</span><span class="btn-sub">Party mode</span>
-    </button>
-    <button class="btn btn-red" onclick="wledPreset('strobe')">
-      <span class="btn-icon">👁️</span><span class="btn-label">Strobe</span><span class="btn-sub">Flash white</span>
-    </button>
-    <button class="btn btn-green" onclick="wledPreset('larsen')">
-      <span class="btn-icon">🚀</span><span class="btn-label">Larsen</span><span class="btn-sub">Sci-fi scan</span>
     </button>
   </div>
 </div>
@@ -678,18 +672,24 @@ function wledSetActive(el) {
   if (_wledActiveBtn) _wledActiveBtn.classList.add('active');
 }
 
-// Effect presets — colours baked in so they look right immediately
+// Effect presets — tuned parameters for each effect
 const WLED_PRESETS = {
-  solid:   {on:true, seg:[{fx:0}]},
-  breathe: {on:true, seg:[{fx:2,  col:[[0,100,255],[0,0,0]]}]},                          // blue breathe
-  rainbow: {on:true, seg:[{fx:9,  col:[[255,0,0]], pal:11, sx:128, ix:128}]},            // rainbow cycle, full pal
-  chase:   {on:true, seg:[{fx:28, col:[[0,200,255],[0,0,50]], sx:180, ix:200}]},         // cyan chase
-  fire:    {on:true, seg:[{fx:45, pal:35, sx:120, ix:160}]},                            // WLED Fire2012 with fire palette
-  twinkle: {on:true, seg:[{fx:11, col:[[255,255,255],[255,200,80]], sx:100, ix:200}]},   // white/warm twinkle
-  meteor:  {on:true, seg:[{fx:58, col:[[255,255,255],[0,0,0]], sx:200, ix:64}]},         // white meteor trail
-  disco:   {on:true, seg:[{fx:66, pal:6,  sx:200, ix:255}]},                            // party colours
-  strobe:  {on:true, seg:[{fx:76, col:[[255,255,255]], sx:200, ix:255}]},               // white strobe
-  larsen:  {on:true, seg:[{fx:53, col:[[255,30,0],[0,0,0]], sx:150, ix:200}]},          // red larsen scanner
+  // Whole strip slowly cycles through hue as one solid colour (fx:41 Colorloop)
+  'soft-rainbow': {on:true, seg:[{fx:41, sx:8, ix:255}]},
+  // Breathe/pulse — uses whatever colour is currently set, 10s fade up/down (fx:2 Breath)
+  pulse:          {on:true, seg:[{fx:2, sx:8, ix:200}]},
+  // Multiple ~20-LED coloured blobs with soft tails chasing along strip (fx:57 Shooting Star Rain)
+  firework:       {on:true, seg:[{fx:57, pal:11, sx:80, ix:160}]},
+  // Fire — low speed = slow cooling = flames fill 60-90% of strip (fx:45 Fire2012)
+  fire:           {on:true, seg:[{fx:45, pal:35, sx:35, ix:210}]},
+  // Single ~50-LED comet with long soft tail, slow chase (fx:55 Comet)
+  chase:          {on:true, seg:[{fx:55, col:[[0,100,255]], sx:50, ix:220}]},
+  // Solid static colour
+  solid:          {on:true, seg:[{fx:0}]},
+  // White/warm sparkle (fx:11 Twinkle)
+  twinkle:        {on:true, seg:[{fx:11, col:[[255,255,255],[255,180,60]], sx:80, ix:200}]},
+  // Party — fast multicolour (fx:66 Disco)
+  disco:          {on:true, seg:[{fx:66, pal:6, sx:200, ix:255}]},
 };
 
 async function wledSet(body) {
