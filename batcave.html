@@ -323,174 +323,266 @@
 </div>
 
 <!-- WLED LED STRIPS -->
-<div class="panel" style="position:relative">
+<div class="panel">
+  <div class="panel-title" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+    <span><span style="color:var(--accent)">//</span> LED STRIPS</span>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <span id="wled-strip-tabs" style="display:flex;gap:6px"></span>
+      <button class="scene-ctrl-btn" id="btn-wled-discover" onclick="wledDiscover(this)">⟳ SCAN</button>
+    </div>
+  </div>
+
+  <!-- Strip selector tabs + ALL -->
+  <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap" id="wled-tab-bar">
+    <button class="scene-ctrl-btn" id="tab-all" onclick="wledSelectTarget('all',this)"
+      style="border-color:var(--accent);color:var(--accent)">ALL STRIPS</button>
+  </div>
+
+  <!-- Per-strip status row -->
+  <div id="wled-strip-status" style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap"></div>
+
   <!-- Offline overlay -->
-  <div id="wled-offline-overlay" style="display:none;position:absolute;inset:0;z-index:10;background:rgba(5,5,8,0.85);border-radius:4px;flex-direction:column;align-items:center;justify-content:center;gap:10px;">
-    <div style="font-size:1.4rem">🔌</div>
-    <div style="font-family:'Orbitron',sans-serif;font-size:0.7rem;color:var(--red);letter-spacing:0.15em">STRIP OFFLINE</div>
-    <div style="font-size:0.65rem;color:var(--dim);text-align:center">Controller unreachable.<br>Check power &amp; connection.</div>
-    <button class="scene-ctrl-btn" onclick="pollWled()" style="margin-top:4px">↻ RETRY</button>
-  </div>
-  <div id="wled-panel">
-  <div class="panel-title" style="display:flex;align-items:center;justify-content:space-between">
-    <span><span style="color:var(--accent)">//</span> WLED — LED STRIPS</span>
-    <span id="wled-status" style="font-size:0.62rem;color:var(--dim)">LOADING…</span>
+  <div id="wled-offline-msg" style="display:none;text-align:center;padding:20px 0">
+    <div style="font-size:1.2rem;margin-bottom:6px">🔌</div>
+    <div style="font-size:0.7rem;color:var(--red);font-family:'Orbitron',sans-serif;letter-spacing:0.15em;margin-bottom:4px">NO STRIPS ONLINE</div>
+    <div style="font-size:0.65rem;color:var(--dim)">Check power &amp; WiFi, then tap SCAN</div>
   </div>
 
-  <!-- Power -->
-  <div class="btn-grid" style="margin-bottom:16px">
-    <button class="btn btn-green" id="btn-wled-on" onclick="wledSet({on:true})">
-      <span class="btn-icon">💡</span>
-      <span class="btn-label">On</span>
-    </button>
-    <button class="btn btn-red" id="btn-wled-off" onclick="wledSet({on:false})">
-      <span class="btn-icon">🌑</span>
-      <span class="btn-label">Off</span>
-    </button>
-  </div>
+  <div id="wled-controls">
+    <!-- Power row -->
+    <div class="btn-grid" style="margin-bottom:14px">
+      <button class="btn btn-green" id="btn-wled-on" onclick="wledSet({on:true})">
+        <span class="btn-icon">💡</span><span class="btn-label">On</span>
+      </button>
+      <button class="btn btn-red" id="btn-wled-off" onclick="wledSet({on:false})">
+        <span class="btn-icon">🌑</span><span class="btn-label">Off</span>
+      </button>
+    </div>
 
-  <!-- Brightness slider -->
-  <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between">
-    <span>BRIGHTNESS</span>
-    <span id="wled-bri-val" style="color:var(--text)">—</span>
-  </div>
-  <div style="margin-bottom:16px;padding:0 2px">
-    <input type="range" id="wled-bri-slider" min="1" max="255" value="128"
-      style="width:100%;accent-color:var(--accent);cursor:pointer;height:4px"
-      oninput="document.getElementById('wled-bri-val').textContent=Math.round(this.value/255*100)+'%'"
-      onchange="wledSetBri(this.value)">
-  </div>
+    <!-- Brightness slider -->
+    <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:6px;display:flex;justify-content:space-between">
+      <span>BRIGHTNESS</span><span id="wled-bri-val" style="color:var(--text)">—</span>
+    </div>
+    <div style="margin-bottom:16px;padding:0 2px">
+      <input type="range" id="wled-bri-slider" min="1" max="255" value="128"
+        style="width:100%;accent-color:var(--accent);cursor:pointer;height:4px"
+        oninput="document.getElementById('wled-bri-val').textContent=Math.round(this.value/255*100)+'%'"
+        onchange="wledSetBri(this.value)">
+    </div>
 
-  <!-- Colour presets -->
-  <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:8px">COLOUR</div>
-  <div class="btn-grid" style="margin-bottom:16px">
-    <button class="btn" onclick="wledColour(255,255,255)">
-      <span class="btn-icon">⬜</span><span class="btn-label">White</span>
-    </button>
-    <button class="btn btn-red" onclick="wledColour(255,0,0)">
-      <span class="btn-icon">🟥</span><span class="btn-label">Red</span>
-    </button>
-    <button class="btn btn-green" onclick="wledColour(0,255,0)">
-      <span class="btn-icon">🟩</span><span class="btn-label">Green</span>
-    </button>
-    <button class="btn" onclick="wledColour(0,100,255)">
-      <span class="btn-icon">🟦</span><span class="btn-label">Blue</span>
-    </button>
-    <button class="btn btn-purple" onclick="wledColour(180,0,255)">
-      <span class="btn-icon">🟪</span><span class="btn-label">Purple</span>
-    </button>
-    <button class="btn btn-orange" onclick="wledColour(255,60,0)">
-      <span class="btn-icon">🟧</span><span class="btn-label">Orange</span>
-    </button>
-    <button class="btn btn-amber" onclick="wledColour(255,180,0)">
-      <span class="btn-icon">🟨</span><span class="btn-label">Gold</span>
-    </button>
-    <button class="btn" onclick="wledColour(0,255,200)">
-      <span class="btn-icon">🟦</span><span class="btn-label">Cyan</span>
-    </button>
-  </div>
+    <!-- Colour -->
+    <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:8px">COLOUR</div>
+    <div class="btn-grid" style="margin-bottom:16px">
+      <button class="btn" onclick="wledColour(255,255,255)"><span class="btn-icon">⬜</span><span class="btn-label">White</span></button>
+      <button class="btn btn-red" onclick="wledColour(255,0,0)"><span class="btn-icon">🟥</span><span class="btn-label">Red</span></button>
+      <button class="btn btn-green" onclick="wledColour(0,255,0)"><span class="btn-icon">🟩</span><span class="btn-label">Green</span></button>
+      <button class="btn" onclick="wledColour(0,100,255)"><span class="btn-icon">🟦</span><span class="btn-label">Blue</span></button>
+      <button class="btn btn-purple" onclick="wledColour(180,0,255)"><span class="btn-icon">🟪</span><span class="btn-label">Purple</span></button>
+      <button class="btn btn-orange" onclick="wledColour(255,60,0)"><span class="btn-icon">🟧</span><span class="btn-label">Orange</span></button>
+      <button class="btn btn-amber" onclick="wledColour(255,180,0)"><span class="btn-icon">🟨</span><span class="btn-label">Gold</span></button>
+      <button class="btn" onclick="wledColour(0,255,200)"><span class="btn-icon">🟦</span><span class="btn-label">Cyan</span></button>
+    </div>
 
-  <!-- Effects -->
-  <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:8px">EFFECTS</div>
+    <!-- Effects — grouped -->
+    <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:8px">FIRE &amp; ENERGY</div>
+    <div class="btn-grid" style="margin-bottom:14px">
+      <button class="btn btn-orange" onclick="wledPreset('fire')"><span class="btn-icon">🔥</span><span class="btn-label">Fire</span><span class="btn-sub">Full strip flame</span></button>
+      <button class="btn btn-orange" onclick="wledPreset('noisefire')"><span class="btn-icon">🌫️</span><span class="btn-label">Noise Fire</span><span class="btn-sub">Turbulent flame</span></button>
+      <button class="btn btn-red" onclick="wledPreset('lightning')"><span class="btn-icon">⚡</span><span class="btn-label">Lightning</span><span class="btn-sub">Electric strikes</span></button>
+      <button class="btn btn-red" onclick="wledPreset('heartbeat')"><span class="btn-icon">💓</span><span class="btn-label">Heartbeat</span><span class="btn-sub">Red pulse</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('firework')"><span class="btn-icon">🎆</span><span class="btn-label">Firework</span><span class="btn-sub">Colour bursts</span></button>
+    </div>
+
+    <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:8px">MOTION &amp; CHASE</div>
+    <div class="btn-grid" style="margin-bottom:14px">
+      <button class="btn" onclick="wledPreset('chase')"><span class="btn-icon">🛸</span><span class="btn-label">Chase</span><span class="btn-sub">Long soft tail</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('runner')"><span class="btn-icon">🏃</span><span class="btn-label">Runner</span><span class="btn-sub">Rainbow run</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('sinelon')"><span class="btn-icon">🌀</span><span class="btn-label">Sinelon</span><span class="btn-sub">Smooth sine dot</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('stream')"><span class="btn-icon">🛶</span><span class="btn-label">Stream</span><span class="btn-sub">Colour river</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('juggle')"><span class="btn-icon">🤹</span><span class="btn-label">Juggle</span><span class="btn-sub">Arcing dots</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('bouncing')"><span class="btn-icon">🪶</span><span class="btn-label">Bouncing</span><span class="btn-sub">Physics balls</span></button>
+    </div>
+
+    <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:8px">AMBIENT &amp; CALM</div>
+    <div class="btn-grid" style="margin-bottom:14px">
+      <button class="btn btn-purple" onclick="wledPreset('soft-rainbow')"><span class="btn-icon">🌈</span><span class="btn-label">Soft Rainbow</span><span class="btn-sub">Slow hue drift</span></button>
+      <button class="btn" onclick="wledPreset('ocean')"><span class="btn-icon">🌊</span><span class="btn-label">Ocean</span><span class="btn-sub">Blue waves</span></button>
+      <button class="btn btn-green" onclick="wledPreset('aurora')"><span class="btn-icon">🌌</span><span class="btn-label">Aurora</span><span class="btn-sub">Green + purple</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('colorwaves')"><span class="btn-icon">🌍</span><span class="btn-label">Colour Waves</span><span class="btn-sub">Gentle wash</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('pride')"><span class="btn-icon">🎈</span><span class="btn-label">Pride</span><span class="btn-sub">Buttery rainbow</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('flow')"><span class="btn-icon">💧</span><span class="btn-label">Flow</span><span class="btn-sub">Slow river</span></button>
+      <button class="btn btn-amber" onclick="wledPreset('sunrise')"><span class="btn-icon">🌅</span><span class="btn-label">Sunrise</span><span class="btn-sub">Warm sweep</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('plasma')"><span class="btn-icon">🔮</span><span class="btn-label">Plasma</span><span class="btn-sub">Lava blobs</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('distortion')"><span class="btn-icon">🌀</span><span class="btn-label">Distortion</span><span class="btn-sub">Psychedelic</span></button>
+    </div>
+
+    <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:8px">SPARKLE &amp; PARTY</div>
+    <div class="btn-grid">
+      <button class="btn btn-amber" onclick="wledPreset('twinkle')"><span class="btn-icon">✨</span><span class="btn-label">Twinkle</span><span class="btn-sub">Warm sparkle</span></button>
+      <button class="btn btn-amber" onclick="wledPreset('fairytwinkle')"><span class="btn-icon">🧙</span><span class="btn-label">Fairy</span><span class="btn-sub">Multicolour</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('colortwinkles')"><span class="btn-icon">🌟</span><span class="btn-label">Colortwinkles</span><span class="btn-sub">Random sparkle</span></button>
+      <button class="btn" onclick="wledPreset('glitter')"><span class="btn-icon">💫</span><span class="btn-label">Glitter</span><span class="btn-sub">Blue + sparkles</span></button>
+      <button class="btn btn-amber" onclick="wledPreset('candle')"><span class="btn-icon">🕯️</span><span class="btn-label">Candle</span><span class="btn-sub">Warm flicker</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('ripple')"><span class="btn-icon">🔵</span><span class="btn-label">Ripple</span><span class="btn-sub">Colour rings</span></button>
+      <button class="btn" onclick="wledPreset('rain')"><span class="btn-icon">🌧️</span><span class="btn-label">Rain</span><span class="btn-sub">Blue drops</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('popcorn')"><span class="btn-icon">🍿</span><span class="btn-label">Popcorn</span><span class="btn-sub">Random pops</span></button>
+      <button class="btn" onclick="wledPreset('drip')"><span class="btn-icon">🚰</span><span class="btn-label">Drip</span><span class="btn-sub">Dripping</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('dissolve')"><span class="btn-icon">🌫️</span><span class="btn-label">Dissolve</span><span class="btn-sub">Fade in</span></button>
+      <button class="btn btn-amber" onclick="wledPreset('bpm')"><span class="btn-icon">🎵</span><span class="btn-label">BPM</span><span class="btn-sub">Beat palette</span></button>
+      <button class="btn" onclick="wledPreset('solid')"><span class="btn-icon">⬛</span><span class="btn-label">Solid</span><span class="btn-sub">Static colour</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- TAPO POWER -->
+<div class="panel">
+  <div class="panel-title"><span>//</span> POWER — TAPO SMART PLUGS</div>
   <div class="btn-grid">
-    <button class="btn" onclick="wledPreset('solid')">
-      <span class="btn-icon">⬛</span><span class="btn-label">Solid</span><span class="btn-sub">Static colour</span>
+    <button class="btn" id="btn-honda" onclick="tapoToggle('honda')" title="Honda sign power">
+      <span class="btn-icon">🚘</span>
+      <span class="btn-label">Honda Sign</span>
+      <span class="btn-sub" id="sub-honda">—</span>
     </button>
-    <button class="btn btn-purple" onclick="wledPreset('soft-rainbow')">
-      <span class="btn-icon">🌈</span><span class="btn-label">Soft Rainbow</span><span class="btn-sub">Slow hue drift</span>
+    <button class="btn" id="btn-plug2" onclick="tapoToggle('plug2')" title="Plug 2">
+      <span class="btn-icon">🔌</span>
+      <span class="btn-label">Plug 2</span>
+      <span class="btn-sub" id="sub-plug2">—</span>
     </button>
-    <button class="btn btn-orange" onclick="wledPreset('fire')">
-      <span class="btn-icon">🔥</span><span class="btn-label">Fire</span><span class="btn-sub">Full strip flame</span>
+    <button class="btn" id="btn-plug3" onclick="tapoToggle('plug3')" title="Plug 3">
+      <span class="btn-icon">🔌</span>
+      <span class="btn-label">Plug 3</span>
+      <span class="btn-sub" id="sub-plug3">—</span>
     </button>
-    <button class="btn btn-orange" onclick="wledPreset('noisefire')">
-      <span class="btn-icon">🌫️</span><span class="btn-label">Noise Fire</span><span class="btn-sub">Turbulent flame</span>
-    </button>
-    <button class="btn btn-purple" onclick="wledPreset('firework')">
-      <span class="btn-icon">🎆</span><span class="btn-label">Firework</span><span class="btn-sub">Colour bursts</span>
-    </button>
-    <button class="btn btn-red" onclick="wledPreset('lightning')">
-      <span class="btn-icon">⚡</span><span class="btn-label">Lightning</span><span class="btn-sub">Electric strikes</span>
-    </button>
-    <button class="btn" onclick="wledPreset('chase')">
-      <span class="btn-icon">🛸</span><span class="btn-label">Chase</span><span class="btn-sub">Long soft tail</span>
-    </button>
-    <button class="btn btn-purple" onclick="wledPreset('sinelon')">
-      <span class="btn-icon">🌀</span><span class="btn-label">Sinelon</span><span class="btn-sub">Smooth sine dot</span>
-    </button>
-    <button class="btn btn-purple" onclick="wledPreset('runner')">
-      <span class="btn-icon">🏃</span><span class="btn-label">Runner</span><span class="btn-sub">Rainbow run</span>
-    </button>
-    <button class="btn btn-purple" onclick="wledPreset('stream')">
-      <span class="btn-icon">🛶</span><span class="btn-label">Stream</span><span class="btn-sub">Colour river</span>
-    </button>
-    <button class="btn" onclick="wledPreset('ocean')">
-      <span class="btn-icon">🌊</span><span class="btn-label">Ocean</span><span class="btn-sub">Blue waves</span>
-    </button>
-    <button class="btn btn-purple" onclick="wledPreset('colorwaves')">
-      <span class="btn-icon">🌍</span><span class="btn-label">Colour Waves</span><span class="btn-sub">Gentle wash</span>
-    </button>
-    <button class="btn btn-purple" onclick="wledPreset('pride')">
-      <span class="btn-icon">🎈</span><span class="btn-label">Pride</span><span class="btn-sub">Buttery rainbow</span>
-    </button>
-    <button class="btn btn-purple" onclick="wledPreset('flow')">
-      <span class="btn-icon">💧</span><span class="btn-label">Flow</span><span class="btn-sub">Slow colour river</span>
-    </button>
-    <button class="btn btn-green" onclick="wledPreset('aurora')">
-      <span class="btn-icon">🌌</span><span class="btn-label">Aurora</span><span class="btn-sub">Green + purple</span>
-    </button>
-    <button class="btn btn-purple" onclick="wledPreset('plasma')">
-      <span class="btn-icon">🔮</span><span class="btn-label">Plasma</span><span class="btn-sub">Lava blobs</span>
-    </button>
-    <button class="btn btn-purple" onclick="wledPreset('distortion')">
-      <span class="btn-icon">🌌</span><span class="btn-label">Distortion</span><span class="btn-sub">Psychedelic</span>
-    </button>
-    <button class="btn btn-amber" onclick="wledPreset('sunrise')">
-      <span class="btn-icon">🌅</span><span class="btn-label">Sunrise</span><span class="btn-sub">Warm sweep</span>
-    </button>
-    <button class="btn btn-amber" onclick="wledPreset('candle')">
-      <span class="btn-icon">🕯️</span><span class="btn-label">Candle</span><span class="btn-sub">Warm flicker</span>
-    </button>
-    <button class="btn btn-red" onclick="wledPreset('heartbeat')">
-      <span class="btn-icon">💓</span><span class="btn-label">Heartbeat</span><span class="btn-sub">Red pulse</span>
-    </button>
-    <button class="btn btn-amber" onclick="wledPreset('twinkle')">
-      <span class="btn-icon">✨</span><span class="btn-label">Twinkle</span><span class="btn-sub">Warm sparkle</span>
-    </button>
-    <button class="btn btn-amber" onclick="wledPreset('fairytwinkle')">
-      <span class="btn-icon">🧙</span><span class="btn-label">Fairy</span><span class="btn-sub">Multicolour fairy</span>
-    </button>
-    <button class="btn btn-purple" onclick="wledPreset('colortwinkles')">
-      <span class="btn-icon">🌟</span><span class="btn-label">Colortwinkles</span><span class="btn-sub">Random sparkle</span>
-    </button>
-    <button class="btn" onclick="wledPreset('glitter')">
-      <span class="btn-icon">💫</span><span class="btn-label">Glitter</span><span class="btn-sub">Blue + sparkles</span>
-    </button>
-    <button class="btn btn-purple" onclick="wledPreset('ripple')">
-      <span class="btn-icon">🔵</span><span class="btn-label">Ripple</span><span class="btn-sub">Colour rings</span>
-    </button>
-    <button class="btn btn-purple" onclick="wledPreset('bouncing')">
-      <span class="btn-icon">🪶</span><span class="btn-label">Bouncing</span><span class="btn-sub">Physics balls</span>
-    </button>
-    <button class="btn btn-purple" onclick="wledPreset('juggle')">
-      <span class="btn-icon">🤹</span><span class="btn-label">Juggle</span><span class="btn-sub">Arcing dots</span>
-    </button>
-    <button class="btn" onclick="wledPreset('rain')">
-      <span class="btn-icon">🌧️</span><span class="btn-label">Rain</span><span class="btn-sub">Blue drops</span>
-    </button>
-    <button class="btn btn-purple" onclick="wledPreset('popcorn')">
-      <span class="btn-icon">🍿</span><span class="btn-label">Popcorn</span><span class="btn-sub">Random pops</span>
-    </button>
-    <button class="btn" onclick="wledPreset('drip')">
-      <span class="btn-icon">🚰</span><span class="btn-label">Drip</span><span class="btn-sub">Dripping water</span>
-    </button>
-    <button class="btn btn-purple" onclick="wledPreset('dissolve')">
-      <span class="btn-icon">🌫️</span><span class="btn-label">Dissolve</span><span class="btn-sub">Fade in pixels</span>
-    </button>
-    <button class="btn btn-amber" onclick="wledPreset('bpm')">
-      <span class="btn-icon">🎵</span><span class="btn-label">BPM</span><span class="btn-sub">Beat palette</span>
+    <button class="btn btn-red" onclick="tapoAllOff()" title="Cut power to all plugs">
+      <span class="btn-icon">⛔</span>
+      <span class="btn-label">All Off</span>
+      <span class="btn-sub">Kill power</span>
     </button>
   </div>
-  </div><!-- /wled-panel -->
+</div>
+
+<!-- Status bar -->
+<div id="status-bar">
+  <span>LIGHTS: <b id="s-online">—</b></span>
+  <span>SCENES: <b id="s-scenes">—</b></span>
+  <span>BLE: <b id="s-ble">—</b></span>
+  <span>LAST CMD: <b id="s-lastcmd">—</b></span>
+  <span>UPDATED: <b id="s-ts">—</b></span>
+</div>
+</div>
+
+<div id="toast"></div>
+
+<!-- WLED LED STRIPS -->
+<div class="panel">
+  <div class="panel-title" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+    <span><span style="color:var(--accent)">//</span> LED STRIPS</span>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <span id="wled-strip-tabs" style="display:flex;gap:6px"></span>
+      <button class="scene-ctrl-btn" id="btn-wled-discover" onclick="wledDiscover(this)">⟳ SCAN</button>
+    </div>
+  </div>
+
+  <!-- Strip selector tabs + ALL -->
+  <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap" id="wled-tab-bar">
+    <button class="scene-ctrl-btn" id="tab-all" onclick="wledSelectTarget('all',this)"
+      style="border-color:var(--accent);color:var(--accent)">ALL STRIPS</button>
+  </div>
+
+  <!-- Per-strip status row -->
+  <div id="wled-strip-status" style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap"></div>
+
+  <!-- Offline overlay -->
+  <div id="wled-offline-msg" style="display:none;text-align:center;padding:20px 0">
+    <div style="font-size:1.2rem;margin-bottom:6px">🔌</div>
+    <div style="font-size:0.7rem;color:var(--red);font-family:'Orbitron',sans-serif;letter-spacing:0.15em;margin-bottom:4px">NO STRIPS ONLINE</div>
+    <div style="font-size:0.65rem;color:var(--dim)">Check power &amp; WiFi, then tap SCAN</div>
+  </div>
+
+  <div id="wled-controls">
+    <!-- Power row -->
+    <div class="btn-grid" style="margin-bottom:14px">
+      <button class="btn btn-green" id="btn-wled-on" onclick="wledSet({on:true})">
+        <span class="btn-icon">💡</span><span class="btn-label">On</span>
+      </button>
+      <button class="btn btn-red" id="btn-wled-off" onclick="wledSet({on:false})">
+        <span class="btn-icon">🌑</span><span class="btn-label">Off</span>
+      </button>
+    </div>
+
+    <!-- Brightness slider -->
+    <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:6px;display:flex;justify-content:space-between">
+      <span>BRIGHTNESS</span><span id="wled-bri-val" style="color:var(--text)">—</span>
+    </div>
+    <div style="margin-bottom:16px;padding:0 2px">
+      <input type="range" id="wled-bri-slider" min="1" max="255" value="128"
+        style="width:100%;accent-color:var(--accent);cursor:pointer;height:4px"
+        oninput="document.getElementById('wled-bri-val').textContent=Math.round(this.value/255*100)+'%'"
+        onchange="wledSetBri(this.value)">
+    </div>
+
+    <!-- Colour -->
+    <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:8px">COLOUR</div>
+    <div class="btn-grid" style="margin-bottom:16px">
+      <button class="btn" onclick="wledColour(255,255,255)"><span class="btn-icon">⬜</span><span class="btn-label">White</span></button>
+      <button class="btn btn-red" onclick="wledColour(255,0,0)"><span class="btn-icon">🟥</span><span class="btn-label">Red</span></button>
+      <button class="btn btn-green" onclick="wledColour(0,255,0)"><span class="btn-icon">🟩</span><span class="btn-label">Green</span></button>
+      <button class="btn" onclick="wledColour(0,100,255)"><span class="btn-icon">🟦</span><span class="btn-label">Blue</span></button>
+      <button class="btn btn-purple" onclick="wledColour(180,0,255)"><span class="btn-icon">🟪</span><span class="btn-label">Purple</span></button>
+      <button class="btn btn-orange" onclick="wledColour(255,60,0)"><span class="btn-icon">🟧</span><span class="btn-label">Orange</span></button>
+      <button class="btn btn-amber" onclick="wledColour(255,180,0)"><span class="btn-icon">🟨</span><span class="btn-label">Gold</span></button>
+      <button class="btn" onclick="wledColour(0,255,200)"><span class="btn-icon">🟦</span><span class="btn-label">Cyan</span></button>
+    </div>
+
+    <!-- Effects — grouped -->
+    <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:8px">FIRE &amp; ENERGY</div>
+    <div class="btn-grid" style="margin-bottom:14px">
+      <button class="btn btn-orange" onclick="wledPreset('fire')"><span class="btn-icon">🔥</span><span class="btn-label">Fire</span><span class="btn-sub">Full strip flame</span></button>
+      <button class="btn btn-orange" onclick="wledPreset('noisefire')"><span class="btn-icon">🌫️</span><span class="btn-label">Noise Fire</span><span class="btn-sub">Turbulent flame</span></button>
+      <button class="btn btn-red" onclick="wledPreset('lightning')"><span class="btn-icon">⚡</span><span class="btn-label">Lightning</span><span class="btn-sub">Electric strikes</span></button>
+      <button class="btn btn-red" onclick="wledPreset('heartbeat')"><span class="btn-icon">💓</span><span class="btn-label">Heartbeat</span><span class="btn-sub">Red pulse</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('firework')"><span class="btn-icon">🎆</span><span class="btn-label">Firework</span><span class="btn-sub">Colour bursts</span></button>
+    </div>
+
+    <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:8px">MOTION &amp; CHASE</div>
+    <div class="btn-grid" style="margin-bottom:14px">
+      <button class="btn" onclick="wledPreset('chase')"><span class="btn-icon">🛸</span><span class="btn-label">Chase</span><span class="btn-sub">Long soft tail</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('runner')"><span class="btn-icon">🏃</span><span class="btn-label">Runner</span><span class="btn-sub">Rainbow run</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('sinelon')"><span class="btn-icon">🌀</span><span class="btn-label">Sinelon</span><span class="btn-sub">Smooth sine dot</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('stream')"><span class="btn-icon">🛶</span><span class="btn-label">Stream</span><span class="btn-sub">Colour river</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('juggle')"><span class="btn-icon">🤹</span><span class="btn-label">Juggle</span><span class="btn-sub">Arcing dots</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('bouncing')"><span class="btn-icon">🪶</span><span class="btn-label">Bouncing</span><span class="btn-sub">Physics balls</span></button>
+    </div>
+
+    <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:8px">AMBIENT &amp; CALM</div>
+    <div class="btn-grid" style="margin-bottom:14px">
+      <button class="btn btn-purple" onclick="wledPreset('soft-rainbow')"><span class="btn-icon">🌈</span><span class="btn-label">Soft Rainbow</span><span class="btn-sub">Slow hue drift</span></button>
+      <button class="btn" onclick="wledPreset('ocean')"><span class="btn-icon">🌊</span><span class="btn-label">Ocean</span><span class="btn-sub">Blue waves</span></button>
+      <button class="btn btn-green" onclick="wledPreset('aurora')"><span class="btn-icon">🌌</span><span class="btn-label">Aurora</span><span class="btn-sub">Green + purple</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('colorwaves')"><span class="btn-icon">🌍</span><span class="btn-label">Colour Waves</span><span class="btn-sub">Gentle wash</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('pride')"><span class="btn-icon">🎈</span><span class="btn-label">Pride</span><span class="btn-sub">Buttery rainbow</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('flow')"><span class="btn-icon">💧</span><span class="btn-label">Flow</span><span class="btn-sub">Slow river</span></button>
+      <button class="btn btn-amber" onclick="wledPreset('sunrise')"><span class="btn-icon">🌅</span><span class="btn-label">Sunrise</span><span class="btn-sub">Warm sweep</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('plasma')"><span class="btn-icon">🔮</span><span class="btn-label">Plasma</span><span class="btn-sub">Lava blobs</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('distortion')"><span class="btn-icon">🌀</span><span class="btn-label">Distortion</span><span class="btn-sub">Psychedelic</span></button>
+    </div>
+
+    <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:8px">SPARKLE &amp; PARTY</div>
+    <div class="btn-grid">
+      <button class="btn btn-amber" onclick="wledPreset('twinkle')"><span class="btn-icon">✨</span><span class="btn-label">Twinkle</span><span class="btn-sub">Warm sparkle</span></button>
+      <button class="btn btn-amber" onclick="wledPreset('fairytwinkle')"><span class="btn-icon">🧙</span><span class="btn-label">Fairy</span><span class="btn-sub">Multicolour</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('colortwinkles')"><span class="btn-icon">🌟</span><span class="btn-label">Colortwinkles</span><span class="btn-sub">Random sparkle</span></button>
+      <button class="btn" onclick="wledPreset('glitter')"><span class="btn-icon">💫</span><span class="btn-label">Glitter</span><span class="btn-sub">Blue + sparkles</span></button>
+      <button class="btn btn-amber" onclick="wledPreset('candle')"><span class="btn-icon">🕯️</span><span class="btn-label">Candle</span><span class="btn-sub">Warm flicker</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('ripple')"><span class="btn-icon">🔵</span><span class="btn-label">Ripple</span><span class="btn-sub">Colour rings</span></button>
+      <button class="btn" onclick="wledPreset('rain')"><span class="btn-icon">🌧️</span><span class="btn-label">Rain</span><span class="btn-sub">Blue drops</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('popcorn')"><span class="btn-icon">🍿</span><span class="btn-label">Popcorn</span><span class="btn-sub">Random pops</span></button>
+      <button class="btn" onclick="wledPreset('drip')"><span class="btn-icon">🚰</span><span class="btn-label">Drip</span><span class="btn-sub">Dripping</span></button>
+      <button class="btn btn-purple" onclick="wledPreset('dissolve')"><span class="btn-icon">🌫️</span><span class="btn-label">Dissolve</span><span class="btn-sub">Fade in</span></button>
+      <button class="btn btn-amber" onclick="wledPreset('bpm')"><span class="btn-icon">🎵</span><span class="btn-label">BPM</span><span class="btn-sub">Beat palette</span></button>
+      <button class="btn" onclick="wledPreset('solid')"><span class="btn-icon">⬛</span><span class="btn-label">Solid</span><span class="btn-sub">Static colour</span></button>
+    </div>
+  </div>
 </div>
 
 <!-- TAPO POWER -->
@@ -535,7 +627,7 @@
 <script>
 // ── Config ────────────────────────────────────────────────────────────────────
 const API = 'https://api.larsenfamily.com.au/batcave';
-const PASS_HASH = 'ff6bfc19564a8b0db01c0081ba7568375634dab3388dd003eae48e7ed6cb62fb'; // sha256 of '6014life'
+const PASS_HASH = 'ff6bfc19564a8b0db01c0081ba7568375634dab3388dd003eae48e7ed6cb62fb';
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 async function sha256(str) {
@@ -600,11 +692,10 @@ async function apiGet(path) {
   }
 }
 
-// ── Commands ──────────────────────────────────────────────────────────────────
+// ── Casambi / Effects ─────────────────────────────────────────────────────────
 async function runEffect(mode, opts = {}) {
   const el = event.currentTarget;
   fire(el);
-  // Clear active scene highlight when master commands fire
   _activeSceneId = null;
   setActiveSceneBtn(null);
   document.getElementById('s-lastcmd').textContent = mode.toUpperCase();
@@ -618,9 +709,7 @@ let _activeSceneId = null;
 async function activateScene(id, name, el) {
   if (!el && event) el = event.currentTarget;
   if (el) fire(el);
-
   if (_activeSceneId === id) {
-    // Already active — deactivate (all off)
     _activeSceneId = null;
     setActiveSceneBtn(null);
     document.getElementById('s-lastcmd').textContent = 'SCENE OFF';
@@ -628,7 +717,6 @@ async function activateScene(id, name, el) {
     if (d.error) toast(`⚠ ${d.error}`);
     else toast(`🌑 ${name} OFF`);
   } else {
-    // Activate scene
     _activeSceneId = id;
     setActiveSceneBtn(id);
     document.getElementById('s-lastcmd').textContent = `SCENE: ${name}`;
@@ -641,11 +729,7 @@ async function activateScene(id, name, el) {
 function setActiveSceneBtn(activeId) {
   document.querySelectorAll('.scene-btn').forEach(btn => {
     const bid = parseInt(btn.dataset.sceneId);
-    if (bid === activeId) {
-      btn.classList.add('scene-active');
-    } else {
-      btn.classList.remove('scene-active');
-    }
+    btn.classList.toggle('scene-active', bid === activeId);
   });
 }
 
@@ -653,7 +737,7 @@ async function reconnect() {
   const btn = document.getElementById('btn-reconnect');
   if (btn) { btn.textContent = '⟳ RESETTING…'; btn.disabled = true; }
   toast('⟳ BLE RESET…');
-  const d = await apiPost('/reconnect', {});
+  await apiPost('/reconnect', {});
   setTimeout(() => {
     if (btn) { btn.textContent = '⟳ RECONNECT'; btn.disabled = false; }
     pollStatus();
@@ -661,7 +745,7 @@ async function reconnect() {
   }, 8000);
 }
 
-const tapoState = {honda: null, plug2: null, plug3: null};
+// ── Tapo ──────────────────────────────────────────────────────────────────────
 async function tapoToggle(dev) {
   const el = event.currentTarget;
   fire(el);
@@ -708,16 +792,13 @@ async function pollStatus() {
   const dot = document.getElementById('conn-dot');
   const lbl = document.getElementById('conn-label');
   if (d.connected && d.online > 0) {
-    dot.className = 'live';
-    lbl.textContent = `${d.online} UNITS LIVE`;
+    dot.className = 'live'; lbl.textContent = `${d.online} UNITS LIVE`;
     document.getElementById('s-ble').textContent = 'CONNECTED';
   } else if (d.connected && d.online === 0) {
-    dot.className = 'err';
-    lbl.textContent = 'BLE RECONNECTING…';
+    dot.className = 'err'; lbl.textContent = 'BLE RECONNECTING…';
     document.getElementById('s-ble').textContent = 'RECONNECTING';
   } else {
-    dot.className = 'err';
-    lbl.textContent = 'OFFLINE';
+    dot.className = 'err'; lbl.textContent = 'OFFLINE';
     document.getElementById('s-ble').textContent = 'OFFLINE';
   }
   document.getElementById('s-online').textContent = d.online || 0;
@@ -728,43 +809,18 @@ async function pollStatus() {
 async function pollTapo() {
   const d = await apiGet('/tapo/status');
   if (!d.error) {
-    ['honda','plug2','plug3'].forEach(dev => {
-      if (d[dev]) updateTapoBtn(dev, d[dev]);
-    });
+    ['honda','plug2','plug3'].forEach(dev => { if (d[dev]) updateTapoBtn(dev, d[dev]); });
   }
 }
 
-function init() {
-  pollStatus();
-  loadScenes();
-  pollTapo();
-  pollWled();
-  setInterval(pollStatus, 15000);
-  setInterval(pollTapo, 30000);
-  // Poll WLED every 15s when online, every 10s when offline (faster reconnect detection)
-  setInterval(() => pollWled(), _wledOnline ? 15000 : 10000);
-  setInterval(() => { if (!_wledOnline) pollWled(); }, 10000);
-}
-
-// ── WLED ─────────────────────────────────────────────────────────────────────
-let _wledActiveBtn = null;
-
-function wledSetActive(el) {
-  if (_wledActiveBtn) _wledActiveBtn.classList.remove('active');
-  _wledActiveBtn = el || null;
-  if (_wledActiveBtn) _wledActiveBtn.classList.add('active');
-}
-
-// Each preset sends a FULL segment reset to prevent palette/colour bleed from previous effect
+// ── WLED presets ──────────────────────────────────────────────────────────────
 function mkPreset(fx, opts={}) {
   return {on:true, transition:0, seg:[Object.assign({
-    fx, pal:0, sx:128, ix:128,
-    col:[[0,0,0],[0,0,0],[0,0,0]]
+    fx, pal:0, sx:128, ix:128, col:[[0,0,0],[0,0,0],[0,0,0]]
   }, opts)]};
 }
 
 const WLED_PRESETS = {
-  // Solid static colour — uses current colour selection
   solid:          mkPreset(0),
   'soft-rainbow': mkPreset(8,   {pal:0,  sx:5,   ix:255, col:[[255,0,0],[0,0,0],[0,0,0]]}),
   firework:       mkPreset(90,  {pal:11, sx:80,  ix:150}),
@@ -777,114 +833,149 @@ const WLED_PRESETS = {
   ripple:         mkPreset(99,  {pal:11, sx:80,  ix:180}),
   aurora:         mkPreset(38,  {pal:0,  sx:24,  ix:128, col:[[0,255,100],[100,0,255],[0,0,0]]}),
   heartbeat:      mkPreset(100, {pal:0,  sx:60,  ix:200, col:[[220,0,0],[0,0,0],[0,0,0]]}),
-  // 20 new additions
-  pride:          mkPreset(63,  {pal:0,  sx:20,  ix:255}),                                        // fx:63  Pride 2015 — buttery smooth rainbow
-  colorwaves:     mkPreset(67,  {pal:11, sx:15,  ix:200}),                                        // fx:67  Colorwaves — gentle rippling colour wash
-  plasma:         mkPreset(97,  {pal:11, sx:60,  ix:128}),                                        // fx:97  Plasma — lava lamp blobs
-  lightning:      mkPreset(57,  {pal:0,  sx:50,  ix:200, col:[[255,255,255],[0,0,80],[0,0,0]]}),  // fx:57  Lightning — white electric strikes
-  rain:           mkPreset(43,  {pal:0,  sx:80,  ix:180, col:[[0,80,255],[0,0,20],[0,0,0]]}),    // fx:43  Rain — blue drops falling
-  bouncing:       mkPreset(91,  {pal:11, sx:100, ix:200}),                                        // fx:91  Bouncing Balls — physics-based
-  popcorn:        mkPreset(95,  {pal:11, sx:80,  ix:200}),                                        // fx:95  Popcorn — random colour pops
-  drip:           mkPreset(96,  {pal:0,  sx:60,  ix:180, col:[[0,150,255],[0,10,30],[0,0,0]]}),  // fx:96  Drip — dripping water
-  juggle:         mkPreset(64,  {pal:11, sx:120, ix:200}),                                        // fx:64  Juggle — coloured dots arc
-  bpm:            mkPreset(68,  {pal:6,  sx:128, ix:200}),                                        // fx:68  BPM — beat-synced palette
-  sinelon:        mkPreset(94,  {pal:11, sx:80,  ix:200}),                                        // fx:94  Sinelon Rainbow — smooth sine dot
-  flow:           mkPreset(110, {pal:11, sx:40,  ix:180}),                                        // fx:110 Flow — slow colour river
-  sunrise:        mkPreset(104, {pal:0,  sx:50,  ix:200, col:[[255,80,0],[255,200,0],[0,0,0]]}), // fx:104 Sunrise — warm orange→gold sweep
-  glitter:        mkPreset(103, {pal:0,  sx:80,  ix:200, col:[[0,100,255],[0,0,0],[0,0,0]]}),    // fx:103 Solid Glitter — blue with sparkles
-  fairytwinkle:   mkPreset(51,  {pal:11, sx:80,  ix:200}),                                        // fx:51  Fairytwinkle — multicolour fairy lights
-  colortwinkles:  mkPreset(74,  {pal:11, sx:80,  ix:200}),                                        // fx:74  Colortwinkles — random colour twinkles
-  dissolve:       mkPreset(19,  {pal:11, sx:60,  ix:200}),                                        // fx:19  Dissolve Rnd — pixels fade in randomly
-  stream:         mkPreset(39,  {pal:11, sx:100, ix:200}),                                        // fx:39  Stream — flowing colour stream
-  distortion:     mkPreset(124, {pal:11, sx:40,  ix:128}),                                        // fx:124 Distortion Waves — psychedelic waves
-  noisefire:      mkPreset(143, {pal:35, sx:60,  ix:200}),                                        // fx:143 Noisefire — noise-driven fire
+  pride:          mkPreset(63,  {pal:0,  sx:20,  ix:255}),
+  colorwaves:     mkPreset(67,  {pal:11, sx:15,  ix:200}),
+  plasma:         mkPreset(97,  {pal:11, sx:60,  ix:128}),
+  lightning:      mkPreset(57,  {pal:0,  sx:50,  ix:200, col:[[255,255,255],[0,0,80],[0,0,0]]}),
+  rain:           mkPreset(43,  {pal:0,  sx:80,  ix:180, col:[[0,80,255],[0,0,20],[0,0,0]]}),
+  bouncing:       mkPreset(91,  {pal:11, sx:100, ix:200}),
+  popcorn:        mkPreset(95,  {pal:11, sx:80,  ix:200}),
+  drip:           mkPreset(96,  {pal:0,  sx:60,  ix:180, col:[[0,150,255],[0,10,30],[0,0,0]]}),
+  juggle:         mkPreset(64,  {pal:11, sx:120, ix:200}),
+  bpm:            mkPreset(68,  {pal:6,  sx:128, ix:200}),
+  sinelon:        mkPreset(94,  {pal:11, sx:80,  ix:200}),
+  flow:           mkPreset(110, {pal:11, sx:40,  ix:180}),
+  sunrise:        mkPreset(104, {pal:0,  sx:50,  ix:200, col:[[255,80,0],[255,200,0],[0,0,0]]}),
+  glitter:        mkPreset(103, {pal:0,  sx:80,  ix:200, col:[[0,100,255],[0,0,0],[0,0,0]]}),
+  fairytwinkle:   mkPreset(51,  {pal:11, sx:80,  ix:200}),
+  colortwinkles:  mkPreset(74,  {pal:11, sx:80,  ix:200}),
+  dissolve:       mkPreset(19,  {pal:11, sx:60,  ix:200}),
+  stream:         mkPreset(39,  {pal:11, sx:100, ix:200}),
+  distortion:     mkPreset(124, {pal:11, sx:40,  ix:128}),
+  noisefire:      mkPreset(143, {pal:35, sx:60,  ix:200}),
 };
 
-let _wledOnline = true;
+// ── WLED multi-strip ──────────────────────────────────────────────────────────
+let _wledTarget    = 'all';
+let _wledStrips    = [];
+let _wledActiveBtn = null;
 
-function wledSetOnlineState(online) {
-  if (_wledOnline === online) return;
-  _wledOnline = online;
-  const panel   = document.getElementById('wled-panel');
-  const overlay = document.getElementById('wled-offline-overlay');
-  const status  = document.getElementById('wled-status');
-  if (online) {
-    if (overlay) overlay.style.display = 'none';
-    if (panel)   panel.style.opacity   = '1';
-    status.textContent = '● ONLINE';
-    status.style.color = 'var(--green)';
-  } else {
-    if (overlay) overlay.style.display = 'flex';
-    if (panel)   panel.style.opacity   = '0.4';
-    status.textContent = '○ OFFLINE';
-    status.style.color = 'var(--red)';
-    if (_wledActiveBtn) { _wledActiveBtn.classList.remove('active'); _wledActiveBtn = null; }
-  }
+function wledSetActive(el) {
+  if (_wledActiveBtn) _wledActiveBtn.classList.remove('active');
+  _wledActiveBtn = el || null;
+  if (_wledActiveBtn) _wledActiveBtn.classList.add('active');
 }
 
-async function wledSet(body) {
-  if (!_wledOnline) { toast('WLED offline — strip disconnected'); return; }
-  const el = event ? event.currentTarget : null;
-  if (el) fire(el);
-  const d = await apiPost('/wled/state', body);
-  if (d.error) { wledSetOnlineState(false); return; }
-  toast(`💡 WLED ${body.on === false ? 'OFF' : 'ON'}`);
-  wledSetActive(el);
-  pollWled();
-}
-
-async function wledSetBri(val) {
-  if (!_wledOnline) return;
-  await apiPost('/wled/state', {on:true, bri:parseInt(val)});
-  pollWled();
-}
-
-async function wledColour(r, g, b) {
-  if (!_wledOnline) { toast('WLED offline — strip disconnected'); return; }
-  const el = event ? event.currentTarget : null;
-  if (el) fire(el);
-  const d = await apiPost('/wled/state', {on:true, seg:[{fx:0, col:[[r,g,b]]}]});
-  if (d.error) { wledSetOnlineState(false); return; }
-  toast(`💡 COLOUR SET`);
-  wledSetActive(el);
-  pollWled();
-}
-
-async function wledPreset(name) {
-  if (!_wledOnline) { toast('WLED offline — strip disconnected'); return; }
-  const el = event ? event.currentTarget : null;
-  if (el) fire(el);
-  const body = WLED_PRESETS[name];
-  if (!body) return;
-  const d = await apiPost('/wled/state', body);
-  if (d.error) { wledSetOnlineState(false); return; }
-  toast(`✨ ${name.toUpperCase()}`);
-  wledSetActive(el);
-  pollWled();
-}
-
-async function pollWled() {
-  const d = await apiGet('/wled/state');
-  if (d.error) {
-    wledSetOnlineState(false);
-    return;
-  }
-  wledSetOnlineState(true);
-  const pct = Math.round((d.bri / 255) * 100);
-  document.getElementById('wled-status').textContent = d.on ? `● ON — ${pct}%` : '○ OFF';
-  document.getElementById('wled-status').style.color = d.on ? 'var(--green)' : 'var(--dim)';
-  const slider = document.getElementById('wled-bri-slider');
-  const briVal = document.getElementById('wled-bri-val');
-  if (slider && !slider.matches(':active')) {
-    slider.value = d.bri;
-    briVal.textContent = pct + '%';
-  }
-  if (!_wledActiveBtn || _wledActiveBtn.id === 'btn-wled-on' || _wledActiveBtn.id === 'btn-wled-off') {
+function wledSelectTarget(id, btn) {
+  _wledTarget = id;
+  document.querySelectorAll('#wled-tab-bar button').forEach(b => {
+    b.style.borderColor = ''; b.style.color = '';
+  });
+  if (btn) { btn.style.borderColor = 'var(--accent)'; btn.style.color = 'var(--accent)'; }
+  // Sync brightness slider for selected strip
+  const targetId = id === 'all' ? 'strip1' : id;
+  apiGet(`/wled/${targetId}/state`).then(d => {
+    if (d.error) return;
+    const pct = Math.round((d.bri / 255) * 100);
+    const slider = document.getElementById('wled-bri-slider');
+    const briVal = document.getElementById('wled-bri-val');
+    if (slider) { slider.value = d.bri; briVal.textContent = pct + '%'; }
     const onBtn  = document.getElementById('btn-wled-on');
     const offBtn = document.getElementById('btn-wled-off');
     if (onBtn)  onBtn.classList.toggle('active', d.on);
     if (offBtn) offBtn.classList.toggle('active', !d.on);
-  }
+  });
+}
+
+async function wledDiscover(btn) {
+  if (btn) { btn.textContent = '⟳ SCANNING…'; btn.disabled = true; }
+  toast('Scanning for WLED strips…');
+  const d = await apiPost('/wled/discover', {});
+  if (btn) { btn.textContent = '⟳ SCAN'; btn.disabled = false; }
+  if (d.strips) renderStripTabs(d.strips);
+}
+
+function renderStripTabs(strips) {
+  _wledStrips = strips;
+  const bar = document.getElementById('wled-tab-bar');
+  const allBtn = bar.querySelector('#tab-all');
+  bar.innerHTML = '';
+  bar.appendChild(allBtn);
+  let anyOnline = false;
+  strips.forEach(s => {
+    if (s.online) anyOnline = true;
+    const btn = document.createElement('button');
+    btn.className = 'scene-ctrl-btn';
+    btn.id = `tab-${s.id}`;
+    btn.textContent = s.name + (s.online ? '' : ' ✗');
+    btn.style.color = s.online ? '' : 'var(--red)';
+    btn.onclick = () => wledSelectTarget(s.id, btn);
+    bar.appendChild(btn);
+  });
+  // Status chips
+  const statusRow = document.getElementById('wled-strip-status');
+  statusRow.innerHTML = strips.map(s =>
+    `<span class="sum-chip ${s.online ? 'live' : 'error'}">${s.online ? '●' : '○'} ${s.name}</span>`
+  ).join('');
+  // Show controls or offline message
+  document.getElementById('wled-controls').style.display = anyOnline ? '' : 'none';
+  document.getElementById('wled-offline-msg').style.display = anyOnline ? 'none' : '';
+  // Re-highlight active tab
+  const activeBtn = document.getElementById(`tab-${_wledTarget}`) || document.getElementById('tab-all');
+  if (activeBtn) { activeBtn.style.borderColor = 'var(--accent)'; activeBtn.style.color = 'var(--accent)'; }
+}
+
+async function wledSet(body) {
+  const el = event ? event.currentTarget : null;
+  if (el) fire(el);
+  const path = _wledTarget === 'all' ? '/wled/all/state' : `/wled/${_wledTarget}/state`;
+  const d = await apiPost(path, body);
+  if (d.error) { toast(`⚠ ${d.error}`); return; }
+  toast(`💡 ${body.on === false ? 'OFF' : 'ON'}`);
+  wledSetActive(el);
+}
+
+async function wledSetBri(val) {
+  const path = _wledTarget === 'all' ? '/wled/all/state' : `/wled/${_wledTarget}/state`;
+  await apiPost(path, {on:true, bri:parseInt(val)});
+}
+
+async function wledColour(r, g, b) {
+  const el = event ? event.currentTarget : null;
+  if (el) fire(el);
+  const path = _wledTarget === 'all' ? '/wled/all/state' : `/wled/${_wledTarget}/state`;
+  const d = await apiPost(path, {on:true, seg:[{fx:0, col:[[r,g,b]]}]});
+  if (d.error) { toast(`⚠ ${d.error}`); return; }
+  toast('💡 COLOUR SET');
+  wledSetActive(el);
+}
+
+async function wledPreset(name) {
+  const el = event ? event.currentTarget : null;
+  if (el) fire(el);
+  const body = WLED_PRESETS[name];
+  if (!body) return;
+  const path = _wledTarget === 'all' ? '/wled/all/state' : `/wled/${_wledTarget}/state`;
+  const d = await apiPost(path, body);
+  if (d.error) { toast(`⚠ ${d.error}`); return; }
+  toast(`✨ ${name.toUpperCase()}`);
+  wledSetActive(el);
+}
+
+async function pollWled() {
+  const strips = await apiGet('/wled/strips');
+  if (!strips.error && strips.strips) renderStripTabs(strips.strips);
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+function init() {
+  pollStatus();
+  loadScenes();
+  pollTapo();
+  pollWled();
+  setInterval(pollStatus, 15000);
+  setInterval(pollTapo, 30000);
+  setInterval(pollWled, 20000);
 }
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
