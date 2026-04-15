@@ -751,25 +751,42 @@ function renderStripTabs(strips) {
   bar.innerHTML = '';
   bar.appendChild(allBtn);
   let anyOnline = false;
+
+  // Collapse grouped strips into single group tabs
+  const seen = new Set();
+  const tabs = [];
   strips.forEach(s => {
     if (s.online) anyOnline = true;
+    if (s.group) {
+      if (!seen.has(s.group)) {
+        seen.add(s.group);
+        const groupOnline = strips.filter(x => x.group === s.group).some(x => x.online);
+        const label = s.group.charAt(0).toUpperCase() + s.group.slice(1);
+        tabs.push({ id: s.group, label, online: groupOnline });
+      }
+    } else {
+      tabs.push({ id: s.id, label: s.name, online: s.online });
+    }
+  });
+
+  tabs.forEach(t => {
     const btn = document.createElement('button');
     btn.className = 'scene-ctrl-btn';
-    btn.id = `tab-${s.id}`;
-    btn.textContent = s.name + (s.online ? '' : ' ✗');
-    btn.style.color = s.online ? '' : 'var(--red)';
-    btn.onclick = () => wledSelectTarget(s.id, btn);
+    btn.id = `tab-${t.id}`;
+    btn.textContent = t.label + (t.online ? '' : ' ✗');
+    btn.style.color = t.online ? '' : 'var(--red)';
+    btn.onclick = () => wledSelectTarget(t.id, btn);
     bar.appendChild(btn);
   });
-  // Status chips
+
+  // Status chips show individual strips
   const statusRow = document.getElementById('wled-strip-status');
   statusRow.innerHTML = strips.map(s =>
     `<span class="sum-chip ${s.online ? 'live' : 'error'}">${s.online ? '●' : '○'} ${s.name}</span>`
   ).join('');
-  // Show controls or offline message
+
   document.getElementById('wled-controls').style.display = anyOnline ? '' : 'none';
   document.getElementById('wled-offline-msg').style.display = anyOnline ? 'none' : '';
-  // Re-highlight active tab
   const activeBtn = document.getElementById(`tab-${_wledTarget}`) || document.getElementById('tab-all');
   if (activeBtn) { activeBtn.style.borderColor = 'var(--accent)'; activeBtn.style.color = 'var(--accent)'; }
 }
