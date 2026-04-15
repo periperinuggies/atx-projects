@@ -434,6 +434,29 @@
   </div>
 </div>
 
+<!-- DMX SMOKE -->
+<div class="panel">
+  <div class="panel-title"><span>//</span> DMX — SMOKE MACHINE</div>
+  <div class="btn-grid">
+    <button class="btn btn-blue" onclick="smoke(128,3)" title="Short burst at half power">
+      <span class="btn-icon">💨</span>
+      <span class="btn-label">Short Burst</span>
+      <span class="btn-sub">50% · 3s</span>
+    </button>
+    <button class="btn btn-purple" onclick="smoke(255,5)" title="Full power 5 second blast">
+      <span class="btn-icon">🌫️</span>
+      <span class="btn-label">Full Blast</span>
+      <span class="btn-sub">100% · 5s</span>
+    </button>
+    <button class="btn btn-red" onclick="smoke(255,15)" title="Sustained fog for 15 seconds">
+      <span class="btn-icon">☁️</span>
+      <span class="btn-label">Flood</span>
+      <span class="btn-sub">100% · 15s</span>
+    </button>
+  </div>
+  <div id="smoke-status" style="margin-top:10px;font-size:0.75rem;color:#888;text-align:center;"></div>
+</div>
+
 <!-- TAPO POWER -->
 <div class="panel">
   <div class="panel-title"><span>//</span> POWER — TAPO SMART PLUGS</div>
@@ -475,7 +498,8 @@
 
 <script>
 // ── Config ────────────────────────────────────────────────────────────────────
-const API = 'https://api.larsenfamily.com.au/batcave';
+const API     = 'https://api.larsenfamily.com.au/batcave';
+const DMX_API = 'https://api.larsenfamily.com.au/dmx';
 const PASS_HASH = 'ff6bfc19564a8b0db01c0081ba7568375634dab3388dd003eae48e7ed6cb62fb';
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
@@ -542,6 +566,22 @@ async function apiGet(path) {
 }
 
 // ── Casambi / Effects ─────────────────────────────────────────────────────────
+async function smoke(value, duration) {
+  const el = document.getElementById('smoke-status');
+  el.style.color = '#00e5ff';
+  el.textContent = `Firing — ${duration}s…`;
+  try {
+    const r = await fetch(`${DMX_API}/smoke?token=warehouse2026&value=${value}&duration=${duration}`);
+    const d = await r.json();
+    el.style.color = d.ok ? '#4caf50' : '#f44336';
+    el.textContent = d.ok ? `Done — ${value} val · ${duration}s` : `Error: ${d.error}`;
+  } catch(e) {
+    el.style.color = '#f44336';
+    el.textContent = `Error: ${e.message}`;
+  }
+  setTimeout(() => { el.textContent = ''; }, 5000);
+}
+
 async function runEffect(mode, opts = {}) {
   const el = event.currentTarget;
   fire(el);
