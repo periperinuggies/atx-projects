@@ -3,72 +3,84 @@
     "name": "LenderLink",
     "accelerator": "Iterative W25",
     "country": "Philippines",
-    "reason": "Founder friction — offering May dates for meetings, making engagement unnecessarily difficult. Life is too short for reluctant founders. Strong thesis (credit data pipe, 36M records, Philippines market) but the relationship dynamic is the earliest signal of how they'll run the company."
+    "reason": "Founder friction \u2014 offering May dates for meetings, making engagement unnecessarily difficult. Life is too short for reluctant founders. Strong thesis (credit data pipe, 36M records, Philippines market) but the relationship dynamic is the earliest signal of how they'll run the company."
   },
   {
     "name": "Nexacore",
     "accelerator": "Iterative S25",
     "country": "Malaysia",
-    "reason": "Wrong model for the lens. Melanie Hawgood (CEO) is impressive and the domain expertise is genuine (husband worked in insurance last-mile for years). AU contract via The Good Guys and Appliances Online is real traction. But the product is physical operations — drivers, device collection, repair, returns. That's a logistics business, not a pipe. Not raising capital currently. Passed April 2026."
+    "reason": "Wrong model for the lens. Melanie Hawgood (CEO) is impressive and the domain expertise is genuine (husband worked in insurance last-mile for years). AU contract via The Good Guys and Appliances Online is real traction. But the product is physical operations \u2014 drivers, device collection, repair, returns. That's a logistics business, not a pipe. Not raising capital currently. Passed April 2026."
   },
   {
     "name": "Medlo + Doccy",
     "accelerator": "Startmate W25",
     "country": "Australia",
-    "reason": "Busy space with big incumbent players (Apt, Paragon, established telehealth platforms). Limited growth ceiling given competition. Telehealth too crowded — don't love the sector. Good founder, wrong market for us."
+    "reason": "Busy space with big incumbent players (Apt, Paragon, established telehealth platforms). Limited growth ceiling given competition. Telehealth too crowded \u2014 don't love the sector. Good founder, wrong market for us."
   },
   {
     "name": "Spektr",
     "accelerator": "Seedcamp 2024",
     "country": "Denmark",
-    "reason": "Missed it — raised €5M two years ago. Next raise will be too expensive to get meaningful equity. Would have been a strong Watch candidate at earlier stage (serial exit founders, excellent compliance infrastructure thesis)."
+    "reason": "Missed it \u2014 raised \u20ac5M two years ago. Next raise will be too expensive to get meaningful equity. Would have been a strong Watch candidate at earlier stage (serial exit founders, excellent compliance infrastructure thesis)."
   },
   {
     "name": "Prelude",
     "accelerator": "Seedcamp 2024",
     "country": "France",
-    "reason": "Missed it — raised $8M seed. Next raise will be too expensive. Strong flow infrastructure play vs Twilio but we're too late for the right entry price."
+    "reason": "Missed it \u2014 raised $8M seed. Next raise will be too expensive. Strong flow infrastructure play vs Twilio but we're too late for the right entry price."
   },
   {
     "name": "Chhaya",
     "accelerator": "Iterative W25",
     "country": "Bangladesh",
-    "reason": "Geography change — South Asia removed from investment scope. Strong micro-insurance platform and 10x revenue growth, but outside revised geography (SEA, Korea, Japan, Europe, UK, AU/NZ)."
+    "reason": "Geography change \u2014 South Asia removed from investment scope. Strong micro-insurance platform and 10x revenue growth, but outside revised geography (SEA, Korea, Japan, Europe, UK, AU/NZ)."
   },
   {
     "name": "Chamak",
     "accelerator": "Accelerating Asia C12",
     "country": "Bangladesh",
-    "reason": "Geography change — South Asia removed from investment scope. Also noted: founder profile concern (recent graduates without deep trade finance background)."
+    "reason": "Geography change \u2014 South Asia removed from investment scope. Also noted: founder profile concern (recent graduates without deep trade finance background)."
   },
   {
     "name": "Cybrilla / Fintech Primitives",
-    "accelerator": "Surge / Peak XV — Cohort 11",
+    "accelerator": "Surge / Peak XV \u2014 Cohort 11",
     "country": "India",
-    "reason": "Geography change — India removed from investment scope. Strong mutual fund API infrastructure play with SEBI RTA licence and ONDC milestone; would be a Watch candidate if geography fit."
+    "reason": "Geography change \u2014 India removed from investment scope. Strong mutual fund API infrastructure play with SEBI RTA licence and ONDC milestone; would be a Watch candidate if geography fit."
   },
   {
     "name": "Ignosis",
-    "accelerator": "Surge / Peak XV — Cohort 11",
+    "accelerator": "Surge / Peak XV \u2014 Cohort 11",
     "country": "India",
-    "reason": "Geography change — India removed from investment scope. Strong Account Aggregator infrastructure play on RBI rails, backed by Kunal Shah (CRED) and Razorpay Ventures."
+    "reason": "Geography change \u2014 India removed from investment scope. Strong Account Aggregator infrastructure play on RBI rails, backed by Kunal Shah (CRED) and Razorpay Ventures."
   },
   {
     "name": "Co-architecture",
     "accelerator": "Skalata + West Coast Angels",
     "country": "Australia",
-    "reason": "Wrong cohort (founded 2021, outside 2025/2026 filter) and wrong model. Labour marketplace for architects — not a pipe. Once an architect finds a job they leave the platform. Low switching cost, cyclical underlying sector (tied to construction), no recurring revenue mechanism. Skalata backing is a positive quality signal but the model doesn't fit the lens."
+    "reason": "Wrong cohort (founded 2021, outside 2025/2026 filter) and wrong model. Labour marketplace for architects \u2014 not a pipe. Once an architect finds a job they leave the platform. Low switching cost, cyclical underlying sector (tied to construction), no recurring revenue mechanism. Skalata backing is a positive quality signal but the model doesn't fit the lens."
   },
   {
     "name": "Zabidou",
     "accelerator": "Antler Australia-EXT",
     "country": "Australia",
-    "reason": "Hardware/physical inspection — computer vision on production lines. Strong metrics ($172K ARR, $3.4M pipeline, Vossloh deployment) and credible founder, but physical hardware deployment is out of scope. Not a pipe play."
+    "reason": "Hardware/physical inspection \u2014 computer vision on production lines. Strong metrics ($172K ARR, $3.4M pipeline, Vossloh deployment) and credible founder, but physical hardware deployment is out of scope. Not a pipe play."
   },
   {
     "name": "Nexobot",
     "accelerator": "Antler Australia-EXT",
     "country": "Australia",
-    "reason": "Robotics — physical robotic sorting systems for logistics. RaaS model with good margins ($130K ARR, 84% gross margin). Dominic Lindsay is a credible founder. But it's a robot. Hardware is out of scope regardless of the model."
+    "reason": "Robotics \u2014 physical robotic sorting systems for logistics. RaaS model with good margins ($130K ARR, 84% gross margin). Dominic Lindsay is a credible founder. But it's a robot. Hardware is out of scope regardless of the model."
+  },
+  {
+    "name": "Balo",
+    "accelerator": "Antler AUS11",
+    "country": "Australia",
+    "reason": "Salesforce-only dependency. Salesforce itself is being disrupted by AI agents \u2014 companies are building their own CRM functionality via agents rather than buying Salesforce seats. The expert marketplace thesis relies on Salesforce remaining dominant. If the platform shrinks, so does the addressable market. Single-vendor concentration was always the key risk; the AI agent wave makes it structural."
+  },
+  {
+    "name": "Promosync",
+    "accelerator": "Startmate W25",
+    "country": "Australia",
+    "reason": "Thin moat in a sector we don't love. US and EU players (Kantar, Aforza, Numerator) could enter the AU FMCG market relatively easily \u2014 distribution relationships and data partnerships don't require local presence. FMCG trade promotion is a declining-margin, retailer-dominated sector. The founder domain expertise is genuine but not enough to offset the moat concern."
   }
 ]
