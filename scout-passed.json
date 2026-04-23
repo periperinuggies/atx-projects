@@ -3,84 +3,160 @@
     "name": "LenderLink",
     "accelerator": "Iterative W25",
     "country": "Philippines",
-    "reason": "Founder friction \u2014 offering May dates for meetings, making engagement unnecessarily difficult. Life is too short for reluctant founders. Strong thesis (credit data pipe, 36M records, Philippines market) but the relationship dynamic is the earliest signal of how they'll run the company."
+    "tags": ["Information flow", "Fintech infra", "Credit data", "Philippines", "APAC"],
+    "reason": "Founder friction — offering May dates for meetings, making engagement unnecessarily difficult. Life is too short for reluctant founders. Company and thesis remain sound but the relationship dynamic is the earliest signal of how they'll run the company.",
+    "profile": {
+      "url": "https://lenderlink.ph",
+      "stage": "Seed — $1.25M raised (Apr 2025, Kaya Founders)",
+      "fundingNote": "$1.25M pre-seed (Apr 2025) — Kaya Founders, Iterative",
+      "whatTheyDo": "Credit data exchange platform sitting between lenders, credit bureaus, and collection agencies in the Philippines. A single API accessing 36M+ verified credit records with a pay-per-hit model and revenue share back to contributors. 60% higher hit rate than incumbent bureaus at half the cost.",
+      "whyFlagged": "Textbook flow play. Credit data flows through LenderLink every time a lender queries a borrower. They're not the lender or bureau — they're the pipe. Switching means rebuilding integrations with 36M records. Philippines has 100M+ people, near-zero formal credit penetration, $14B consumer lending market growing 4x in a decade.",
+      "founderProfile": "All four founders were executives at Finscore, a telco-data credit risk company for the Philippines. Built it, scaled it, exited. Gold standard: serial winners with prior exit in the exact same domain, returning to the same market with a sharper thesis.",
+      "founders": [
+        { "name": "Christo Georgiev — CEO (ex-Finscore)", "li": "https://linkedin.com/in/christo-georgiev-40bb0156/" },
+        { "name": "Dimitar Manolov — CTO (ex-Finscore)", "li": null },
+        { "name": "Dimo Hristov — Chief DevOps (ex-Finscore)", "li": null },
+        { "name": "Petya Dimitrova — Chief Data & Product (ex-Finscore)", "li": null }
+      ],
+      "revenueModel": "Pay-per-hit (lenders only pay on a successful match) + revenue share to contributing lenders. Two-sided marketplace with structural switching costs on both sides.",
+      "risks": "Regulatory risk — credit data is sensitive. Each new market needs local contributors recruited from scratch. Incumbent credit bureaus could build competing APIs.",
+      "macroTailwind": "SEA digital lending growing fast — Philippines central bank actively pushing financial inclusion. Regional BNPL and neobank growth creating demand for credit data infrastructure."
+    }
   },
   {
     "name": "Nexacore",
     "accelerator": "Iterative S25",
     "country": "Malaysia",
-    "reason": "Wrong model for the lens. Melanie Hawgood (CEO) is impressive and the domain expertise is genuine (husband worked in insurance last-mile for years). AU contract via The Good Guys and Appliances Online is real traction. But the product is physical operations \u2014 drivers, device collection, repair, returns. That's a logistics business, not a pipe. Not raising capital currently. Passed April 2026."
-  },
-  {
-    "name": "Medlo + Doccy",
-    "accelerator": "Startmate W25",
-    "country": "Australia",
-    "reason": "Busy space with big incumbent players (Apt, Paragon, established telehealth platforms). Limited growth ceiling given competition. Telehealth too crowded \u2014 don't love the sector. Good founder, wrong market for us."
-  },
-  {
-    "name": "Spektr",
-    "accelerator": "Seedcamp 2024",
-    "country": "Denmark",
-    "reason": "Missed it \u2014 raised \u20ac5M two years ago. Next raise will be too expensive to get meaningful equity. Would have been a strong Watch candidate at earlier stage (serial exit founders, excellent compliance infrastructure thesis)."
-  },
-  {
-    "name": "Prelude",
-    "accelerator": "Seedcamp 2024",
-    "country": "France",
-    "reason": "Missed it \u2014 raised $8M seed. Next raise will be too expensive. Strong flow infrastructure play vs Twilio but we're too late for the right entry price."
-  },
-  {
-    "name": "Chhaya",
-    "accelerator": "Iterative W25",
-    "country": "Bangladesh",
-    "reason": "Geography change \u2014 South Asia removed from investment scope. Strong micro-insurance platform and 10x revenue growth, but outside revised geography (SEA, Korea, Japan, Europe, UK, AU/NZ)."
-  },
-  {
-    "name": "Chamak",
-    "accelerator": "Accelerating Asia C12",
-    "country": "Bangladesh",
-    "reason": "Geography change \u2014 South Asia removed from investment scope. Also noted: founder profile concern (recent graduates without deep trade finance background)."
-  },
-  {
-    "name": "Cybrilla / Fintech Primitives",
-    "accelerator": "Surge / Peak XV \u2014 Cohort 11",
-    "country": "India",
-    "reason": "Geography change \u2014 India removed from investment scope. Strong mutual fund API infrastructure play with SEBI RTA licence and ONDC milestone; would be a Watch candidate if geography fit."
-  },
-  {
-    "name": "Ignosis",
-    "accelerator": "Surge / Peak XV \u2014 Cohort 11",
-    "country": "India",
-    "reason": "Geography change \u2014 India removed from investment scope. Strong Account Aggregator infrastructure play on RBI rails, backed by Kunal Shah (CRED) and Razorpay Ventures."
-  },
-  {
-    "name": "Co-architecture",
-    "accelerator": "Skalata + West Coast Angels",
-    "country": "Australia",
-    "reason": "Wrong cohort (founded 2021, outside 2025/2026 filter) and wrong model. Labour marketplace for architects \u2014 not a pipe. Once an architect finds a job they leave the platform. Low switching cost, cyclical underlying sector (tied to construction), no recurring revenue mechanism. Skalata backing is a positive quality signal but the model doesn't fit the lens."
-  },
-  {
-    "name": "Zabidou",
-    "accelerator": "Antler Australia-EXT",
-    "country": "Australia",
-    "reason": "Hardware/physical inspection \u2014 computer vision on production lines. Strong metrics ($172K ARR, $3.4M pipeline, Vossloh deployment) and credible founder, but physical hardware deployment is out of scope. Not a pipe play."
-  },
-  {
-    "name": "Nexobot",
-    "accelerator": "Antler Australia-EXT",
-    "country": "Australia",
-    "reason": "Robotics \u2014 physical robotic sorting systems for logistics. RaaS model with good margins ($130K ARR, 84% gross margin). Dominic Lindsay is a credible founder. But it's a robot. Hardware is out of scope regardless of the model."
+    "tags": ["Payment flow", "Information flow", "InsurTech", "TPA", "Malaysia", "APAC"],
+    "reason": "Wrong model for the lens. Melanie Hawgood (CEO) is impressive and the domain expertise is genuine (husband worked in insurance last-mile for years). AU contract via The Good Guys and Appliances Online is real traction. But the product is physical operations — drivers, device collection, repair, returns. That's a logistics business, not a pipe. Not raising capital currently. Passed April 2026.",
+    "profile": {
+      "url": "https://nexacore.com.my",
+      "stage": "Seed — raising RM2M",
+      "fundingNote": null,
+      "whatTheyDo": "Insurtech Third Party Administrator (TPA) for device protection and extended warranty claims in Southeast Asia. Sits between insurers, telcos, and retailers on one side and device repair/replacement networks on the other. Every claim flows through the platform. Nexacore digitises and automates what is still largely a paper-based, manual claims process.",
+      "whyFlagged": "Classic TPA model — doesn't take insurance risk, just processes the flow. Every approved claim is a payment moving through Nexacore. Insurers integrate once; replacing them means rebuilding the entire claims workflow. Partnership with InsureMO (Nov 2025) unlocks rollout across UAE, India, AU, NZ, SG, MY simultaneously.",
+      "founderProfile": "Melanie Hawgood (CEO & Co-Founder) — insurance industry background, domain expert in device protection and extended warranty claims. Lived the problem from inside the TPA industry. Husband worked in insurance last-mile (device repair/returns) for years — deep domain depth. AU contract via The Good Guys + Appliances Online is genuine market entry traction.",
+      "founders": [
+        { "name": "Melanie Hawgood — CEO & Co-Founder", "li": null }
+      ],
+      "revenueModel": "TPA fee per claim processed + platform fee to insurers/telcos. Claims are recurring — every device with active cover generates a potential claim event.",
+      "risks": "Physical operations business — drivers, device collection, repair, returns. Requires humans, vehicles, and logistics infrastructure. Not a pipe play despite the information flow framing.",
+      "macroTailwind": "Device insurance growing as smartphone penetration hits emerging markets. Telcos bundling device protection as a revenue line. APAC device protection market largely undigitised."
+    }
   },
   {
     "name": "Balo",
     "accelerator": "Antler AUS11",
     "country": "Australia",
-    "reason": "Salesforce-only dependency. Salesforce itself is being disrupted by AI agents \u2014 companies are building their own CRM functionality via agents rather than buying Salesforce seats. The expert marketplace thesis relies on Salesforce remaining dominant. If the platform shrinks, so does the addressable market. Single-vendor concentration was always the key risk; the AI agent wave makes it structural."
+    "tags": ["Information flow", "Enterprise software", "Marketplace", "Salesforce", "Australia"],
+    "reason": "Salesforce-only dependency. Salesforce itself is being disrupted by AI agents — companies are building their own CRM functionality via agents rather than buying Salesforce seats. The expert marketplace thesis relies on Salesforce remaining dominant. Single-vendor concentration was always the key risk; the AI agent wave makes it structural.",
+    "profile": {
+      "url": "https://getbalo.com",
+      "stage": "Pre-seed — $712K raised (Oct 2025)",
+      "fundingNote": "$712K pre-seed (Oct 2025) — DJ Kim (lead) + angels",
+      "whatTheyDo": "On-demand expert marketplace for enterprise software support, starting with Salesforce. Connects businesses to vetted top-1% Salesforce experts (250+ globally, less than 4% acceptance rate) for urgent or complex support tasks. Pay-as-you-go model. 14 Salesforce product categories. 230+ companies in 23 countries, $1.3M total transactions, $360K net revenue.",
+      "whyFlagged": "Information flow pipe embedded in enterprise software operations. 95% repeat revenue and 42% MoM growth at $1.3M ARR. Profitable at 10 months post-launch. Expert network quality (less than 4% acceptance rate) creates real switching cost. 250+ vetted experts, 600+ waitlisted.",
+      "founderProfile": "Michael Joo (CEO) — 13 years in the Salesforce ecosystem, from developer to building Salesforce agencies. Spearheaded 200+ Salesforce implementations. Classic operator-founder. Yomi Joseph (CTO) — 10+ years building digital products for Target Australia and Tabcorp. Both came into Antler residency with the same startup idea independently.",
+      "founders": [
+        { "name": "Michael Joo — CEO (13 yrs Salesforce, 200+ implementations)", "li": "https://linkedin.com/in/mjoo0113/" },
+        { "name": "Yomi Joseph — CTO (ex-Target AU, Tabcorp)", "li": "https://linkedin.com/in/yomijoseph2000/" },
+        { "name": "Luke Sheehan — CGO", "li": null }
+      ],
+      "revenueModel": "~40% take rate on expert sessions. $1.3M+ total transactions, $360K net revenue. 95% repeat project-based work.",
+      "risks": "Single-vendor concentration (Salesforce). AI agents enabling companies to build their own CRM without Salesforce seats — structural platform risk that accelerated the graveyard decision.",
+      "macroTailwind": "Enterprise software market growing from $230B to $500B by 2030. Salesforce has 150,000+ customers globally. Shift from large SI retainers to outcome-based flexible expert support."
+    }
   },
   {
     "name": "Promosync",
     "accelerator": "Startmate W25",
     "country": "Australia",
-    "reason": "Thin moat in a sector we don't love. US and EU players (Kantar, Aforza, Numerator) could enter the AU FMCG market relatively easily \u2014 distribution relationships and data partnerships don't require local presence. FMCG trade promotion is a declining-margin, retailer-dominated sector. The founder domain expertise is genuine but not enough to offset the moat concern."
+    "tags": ["Information flow", "FMCG", "Retail", "B2B SaaS", "Australia"],
+    "reason": "Thin moat in a sector we don't love. US and EU players (Kantar, Aforza, Numerator) could enter the AU FMCG market relatively easily. FMCG trade promotion is a declining-margin, retailer-dominated sector. The founder domain expertise is genuine but not enough to offset the moat concern.",
+    "profile": {
+      "url": "https://promosync.ai",
+      "stage": "Pre-seed",
+      "fundingNote": null,
+      "whatTheyDo": "B2B SaaS platform automating trade promotion management for FMCG brands. Multi-million dollar promotional campaigns run by P&G and Nestle across Woolworths/Coles are currently planned via manual spreadsheets. Promosync replaces that with AI-driven campaign planning, ROI optimisation, and near-real-time performance analytics.",
+      "whyFlagged": "Information flow pipe inside the FMCG/retailer promotional data exchange. Sits between FMCG suppliers and major retailer scan data — once a brand's promotional history, category data, and retailer relationships are loaded, migration is catastrophic. First AU-native player in a space dominated by US incumbents that don't serve AU well.",
+      "founderProfile": "Henry Choo (CEO) — 15+ years in FMCG trade promotion management at P&G and Nestle. Pure domain operator. Divyanshu Chauhan (CTO) — serial technical builder at Shippit (raised $30M+), InDebted (Series B), and CSIRO. Strong combination.",
+      "founders": [
+        { "name": "Henry Choo — CEO (15 yrs P&G + Nestle)", "li": "https://linkedin.com/in/iamhenrychoo" },
+        { "name": "Divyanshu Chauhan — CTO (ex-Shippit, InDebted, CSIRO)", "li": "https://linkedin.com/in/divyanshu-chauhan" }
+      ],
+      "revenueModel": "B2B SaaS subscription. Per-brand or per-category pricing. High switching cost once promotional history and retailer data is embedded.",
+      "risks": "FMCG enterprise sales cycles 6-12 months minimum. US/EU players could enter AU with more resources. Category is declining-margin and retailer-dominated.",
+      "macroTailwind": "FMCG brands under margin pressure from private label growth. CFOs demanding ROI proof on every promotional dollar."
+    }
+  },
+  {
+    "name": "Medlo + Doccy",
+    "accelerator": "Startmate W25",
+    "country": "Australia",
+    "tags": ["HealthTech", "Telehealth", "B2B SaaS", "Australia"],
+    "reason": "Busy space with big incumbent players (Apt, Paragon, established telehealth platforms). Limited growth ceiling given competition. Telehealth too crowded — don't love the sector. Good founder, wrong market for us."
+  },
+  {
+    "name": "Spektr",
+    "accelerator": "Seedcamp 2024",
+    "country": "Denmark",
+    "tags": ["Information flow", "Compliance", "FinTech", "Denmark", "Europe"],
+    "reason": "Missed it — raised 5M euros two years ago. Next raise will be too expensive to get meaningful equity. Would have been a strong Watch candidate at earlier stage (serial exit founders, excellent compliance infrastructure thesis)."
+  },
+  {
+    "name": "Prelude",
+    "accelerator": "Seedcamp 2024",
+    "country": "France",
+    "tags": ["Information flow", "Communications infra", "API", "France", "Europe"],
+    "reason": "Missed it — raised $8M seed. Next raise will be too expensive. Strong flow infrastructure play vs Twilio but we're too late for the right entry price."
+  },
+  {
+    "name": "Chhaya",
+    "accelerator": "Iterative W25",
+    "country": "Bangladesh",
+    "tags": ["InsurTech", "Micro-insurance", "Bangladesh", "South Asia"],
+    "reason": "Geography change — South Asia removed from investment scope. Strong micro-insurance platform and 10x revenue growth, but outside revised geography (SEA, Korea, Japan, Europe, UK, AU/NZ)."
+  },
+  {
+    "name": "Chamak",
+    "accelerator": "Accelerating Asia C12",
+    "country": "Bangladesh",
+    "tags": ["FinTech", "Trade finance", "Bangladesh", "South Asia"],
+    "reason": "Geography change — South Asia removed from investment scope. Also noted: founder profile concern (recent graduates without deep trade finance background)."
+  },
+  {
+    "name": "Cybrilla / Fintech Primitives",
+    "accelerator": "Surge / Peak XV — Cohort 11",
+    "country": "India",
+    "tags": ["FinTech", "Mutual funds", "API infra", "India", "South Asia"],
+    "reason": "Geography change — India removed from investment scope. Strong mutual fund API infrastructure play with SEBI RTA licence and ONDC milestone; would be a Watch candidate if geography fit."
+  },
+  {
+    "name": "Ignosis",
+    "accelerator": "Surge / Peak XV — Cohort 11",
+    "country": "India",
+    "tags": ["FinTech", "Account aggregator", "Open banking", "India", "South Asia"],
+    "reason": "Geography change — India removed from investment scope. Strong Account Aggregator infrastructure play on RBI rails, backed by Kunal Shah (CRED) and Razorpay Ventures."
+  },
+  {
+    "name": "Co-architecture",
+    "accelerator": "Skalata + West Coast Angels",
+    "country": "Australia",
+    "tags": ["Marketplace", "Architecture", "Labour", "Australia"],
+    "reason": "Wrong cohort (founded 2021, outside 2025/2026 filter) and wrong model. Labour marketplace for architects — not a pipe. Once an architect finds a job they leave the platform. Low switching cost, cyclical underlying sector."
+  },
+  {
+    "name": "Zabidou",
+    "accelerator": "Antler Australia-EXT",
+    "country": "Australia",
+    "tags": ["Industrial AI", "Computer vision", "Hardware", "Quality assurance", "Australia"],
+    "reason": "Hardware/physical inspection — computer vision on production lines. Strong metrics ($172K ARR, $3.4M pipeline, Vossloh deployment) and credible founder, but physical hardware deployment is out of scope. Not a pipe play."
+  },
+  {
+    "name": "Nexobot",
+    "accelerator": "Antler Australia-EXT",
+    "country": "Australia",
+    "tags": ["Robotics", "Logistics", "Hardware", "Australia"],
+    "reason": "Robotics — physical robotic sorting systems for logistics. RaaS model with good margins ($130K ARR, 84% gross margin). Dominic Lindsay is a credible founder. But it's a robot. Hardware is out of scope regardless of the model."
   }
 ]

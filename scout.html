@@ -1074,9 +1074,20 @@
       padding:16px 20px; display:flex; gap:14px; align-items:flex-start;
     }
     .passed-x { color:#64748b; font-weight:800; font-size:1rem; flex-shrink:0; margin-top:1px; }
-    .passed-name { font-size:0.88rem; font-weight:700; color:#475569; margin-bottom:3px; }
-    .passed-meta { font-size:0.72rem; color:#374151; margin-bottom:4px; }
-    .passed-reason { font-size:0.8rem; color:#374151; line-height:1.5; }
+    .passed-name { font-size:0.88rem; font-weight:700; color:#e2e8f0; margin-bottom:3px; }
+    .passed-meta { font-size:0.72rem; color:#94a3b8; margin-bottom:6px; }
+    .passed-reason { font-size:0.8rem; color:#cbd5e1; line-height:1.55; }
+    .passed-tags { display:flex; flex-wrap:wrap; gap:4px; margin-bottom:8px; }
+    .passed-tag { font-size:0.65rem; font-weight:600; padding:2px 7px; border-radius:5px; background:rgba(167,139,250,0.08); color:#a78bfa; border:1px solid rgba(167,139,250,0.2); }
+    .passed-expand { margin-top:10px; }
+    .passed-expand summary { font-size:0.73rem; font-weight:600; color:#a78bfa; cursor:pointer; list-style:none; display:inline-flex; align-items:center; gap:5px; opacity:0.8; transition:opacity 0.15s; }
+    .passed-expand summary:hover { opacity:1; }
+    .passed-expand summary::-webkit-details-marker { display:none; }
+    .passed-expand[open] summary { opacity:1; }
+    .passed-profile { margin-top:12px; padding-top:12px; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:10px; }
+    .passed-profile-row { font-size:0.79rem; color:#94a3b8; line-height:1.55; }
+    .passed-profile-row strong { color:#cbd5e1; font-weight:600; display:block; margin-bottom:2px; font-size:0.68rem; letter-spacing:0.06em; text-transform:uppercase; }
+    .passed-profile-founders { display:flex; flex-wrap:wrap; gap:5px; margin-top:2px; }
     .update-hint { font-size:0.72rem; color:var(--muted); margin-bottom:24px; padding:10px 14px; background:var(--subtle); border:1px solid var(--border); border-radius:8px; }
     .update-hint a { color:#a78bfa; text-decoration:none; }
   </style>
@@ -1326,15 +1337,42 @@
   // ─────────────────────────────────────────────
   function renderPassed() {
     if (PASSED.length === 0) return;
-    document.getElementById('passedList').innerHTML = PASSED.map(p => `
+    document.getElementById('passedList').innerHTML = PASSED.map(p => {
+      const tags = p.tags ? p.tags.map(t => `<span class="passed-tag">${t}</span>`).join('') : '';
+      let profileHtml = '';
+      if (p.profile) {
+        const pr = p.profile;
+        const founders = pr.founders ? pr.founders.map(f =>
+          f.li ? `<a class="li-pill" href="${f.li}" target="_blank">🔗 ${f.name}</a>`
+               : `<span class="li-nolink">${f.name}</span>`
+        ).join('') : '';
+        profileHtml = `
+          <details class="passed-expand">
+            <summary>▸ View full profile</summary>
+            <div class="passed-profile">
+              ${pr.stage ? `<div class="passed-profile-row"><strong>Stage</strong>${pr.stage}${pr.fundingNote ? ' · ' + pr.fundingNote : ''}</div>` : ''}
+              ${pr.whatTheyDo ? `<div class="passed-profile-row"><strong>What they do</strong>${pr.whatTheyDo}</div>` : ''}
+              ${pr.whyFlagged ? `<div class="passed-profile-row"><strong>Why we flagged it</strong>${pr.whyFlagged}</div>` : ''}
+              ${founders ? `<div class="passed-profile-row"><strong>Founders</strong><div class="passed-profile-founders">${founders}</div></div>` : ''}
+              ${pr.founderProfile ? `<div class="passed-profile-row"><strong>Founder profile</strong>${pr.founderProfile}</div>` : ''}
+              ${pr.revenueModel ? `<div class="passed-profile-row"><strong>Revenue model</strong>${pr.revenueModel}</div>` : ''}
+              ${pr.risks ? `<div class="passed-profile-row"><strong>Risks (why we passed)</strong>${pr.risks}</div>` : ''}
+              ${pr.macroTailwind ? `<div class="passed-profile-row"><strong>Macro tailwind</strong>${pr.macroTailwind}</div>` : ''}
+            </div>
+          </details>`;
+      }
+      return `
       <div class="passed-card">
         <div class="passed-x">✕</div>
-        <div>
+        <div style="flex:1;">
           <div class="passed-name">${p.name}</div>
           <div class="passed-meta">${p.accelerator} · ${p.country}</div>
+          ${tags ? `<div class="passed-tags">${tags}</div>` : ''}
           <div class="passed-reason">${p.reason}</div>
+          ${profileHtml}
         </div>
-      </div>`).join('');
+      </div>`;
+    }).join('');
   }
 
   // ─────────────────────────────────────────────
