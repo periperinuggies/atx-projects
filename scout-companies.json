@@ -49,7 +49,12 @@
     ],
     "lastUpdated": "2026-04-09",
     "source": "antler",
-    "sourceLabel": "Antler AUS8"
+    "sourceLabel": "Antler AUS8",
+    "funding": {
+      "raised": "Antler (Jan 2023) + Skalata Ventures (follow-on)",
+      "latestRound": "Pre-seed + Skalata follow-on",
+      "seeking": "A$2.5M Seed (Feb 2026 \u2014 active raise)"
+    }
   },
   {
     "id": "switchboard",
@@ -97,7 +102,12 @@
     ],
     "lastUpdated": "2026-03-23",
     "source": "accelerator",
-    "sourceLabel": "Skalata SF-III"
+    "sourceLabel": "Skalata SF-III",
+    "funding": {
+      "raised": "A$1.5M pre-seed (Jun 2024)",
+      "investors": "Archangel, Skalata, Startmate, TEN13, Investible",
+      "latestRound": "Pre-seed"
+    }
   },
   {
     "id": "topograph",
@@ -149,6 +159,11 @@
     ],
     "lastUpdated": "2026-04-01",
     "source": "accelerator",
-    "sourceLabel": "Seedcamp 2026"
+    "sourceLabel": "Seedcamp 2026",
+    "funding": {
+      "raised": "\u20ac2M seed (Mar 2026)",
+      "investors": "Seedcamp (lead), Drysdale Ventures, Motier Ventures, Kima Ventures, Better Angle",
+      "latestRound": "Seed"
+    }
   }
 ]

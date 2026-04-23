@@ -4,77 +4,88 @@
     "meta": "Singapore \u00b7 Iterative S25",
     "desc": "AI and satellite intelligence to automate trade and sustainability compliance for global exporters. Compliance documents, sustainability data, and trade certifications flow through their platform. Macro tailwind is exceptional: EU Carbon Border Adjustment Mechanism (CBAM), deforestation regulations, and mandatory ESG reporting creating compliance infrastructure demand globally.",
     "trigger": "EU CBAM enforcement milestones (live 2026). First enterprise contract wins outside Singapore. Founder background confirmation \u2014 need domain expertise in trade compliance or sustainability regulation.",
-    "source": "accelerator"
+    "source": "accelerator",
+    "sourceLabel": "Iterative S25"
   },
   {
     "name": "Fineksi",
     "meta": "Indonesia \u00b7 Accelerating Asia C12",
     "desc": "Document automation for credit analysis in Indonesian banking and lending. Credit documents flowing through their automation layer. Indonesia has 270M people and a massive underserved credit market. Banks still process credit applications largely manually.",
     "trigger": "Confirmed bank integrations and ARR figures. Clarity on whether they're automation tooling (replaceable) or embedded infrastructure (sticky). Founder profile assessment.",
-    "source": "accelerator"
+    "source": "accelerator",
+    "sourceLabel": "Accelerating Asia C12"
   },
   {
     "name": "Light",
     "meta": "Denmark \u00b7 Seedcamp 2024",
     "desc": "AI-native general ledger for multinational companies. Unifies accounting, tax, payments, and financial reporting across entities, currencies, and countries \u2014 replacing legacy ERP accounting modules (SAP, Oracle, Dynamics). Sits at the centre of all financial information flow for every company it serves. $13M seed (Atomico, Cherry Ventures, Seedcamp).",
     "trigger": "First enterprise multinational migrating away from SAP/Oracle \u2014 that's the proof point the category needs. Also watch: does the founder's prior company Juni (wound down, not acquired) affect institutional buyer confidence.",
-    "source": "accelerator"
+    "source": "accelerator",
+    "sourceLabel": "Seedcamp 2024"
   },
   {
     "name": "fileAI",
     "meta": "Singapore \u00b7 Antler 2024",
     "desc": "AI-native unstructured document workflow automation for financial services and enterprise. Extracts, organises, and enriches data from financial documents, invoices, and contracts. $14M Series A (Feb 2025, Illuminate Financial + Antler Elevate + Insignia), $20M total raised. Founder Christian Schneider: McKinsey + Citi + Rothschild + Delivery Hero background.",
     "trigger": "Series A stage \u2014 may be past seed entry. Trigger: confirmed ARR growth trajectory and expansion outside Singapore. If a co-investment opportunity arises via Antler Elevate at current Series A terms, worth reviewing.",
-    "source": "accelerator"
+    "source": "accelerator",
+    "sourceLabel": "Antler 2024"
   },
   {
     "name": "BorderDollar",
     "meta": "Singapore \u00b7 Antler 2024",
     "desc": "Cross-border SME invoice financing platform. Sits inside the invoice payment cycle between exporters/importers and their cash flow gap, using unpaid invoices as collateral. $500B+ trade finance gap in Asia (ADB data). ASEAN cross-border trade growing fast.",
     "trigger": "Confirm paying SME customers beyond pilot stage. Founder background verification \u2014 not publicly available. Capital-intensive model needs confirmation of funding source for loan book (own capital vs third-party investors).",
-    "source": "accelerator"
+    "source": "accelerator",
+    "sourceLabel": "Antler 2024"
   },
   {
     "name": "Integuide",
     "meta": "Australia \u00b7 Startmate W25",
     "desc": "Industrial AI knowledge capture \u2014 body-cam recordings of senior technicians converted into searchable AI knowledge bases for junior field staff. Sits in the information flow between human expertise and operational execution. Heavy industry (mining, utilities, manufacturing) institutional memory problem is large and genuine. Founders: Hunter Jay (built Ripe Robotics) + Slava Chalnev (AI safety researcher).",
     "trigger": "Paying enterprise customers in mining or utilities \u2014 that's the willingness-to-pay validation. Hardware-adjacent (body cams) is a mild concern but product is software-first.",
-    "source": "accelerator"
+    "source": "accelerator",
+    "sourceLabel": "Startmate W25"
   },
   {
     "name": "FlowGo",
     "meta": "Malaysia / Australia \u00b7 Startmate S26",
     "desc": "AI accounting automation that runs inside WhatsApp, Telegram, and email. Deploys specialised AI agents for AP automation, sales order processing, collections, and reconciliation \u2014 connecting existing chat channels to accounting software (AutoCount, SQL Account, QuickBooks, SAP) without replacing them. Founders managed $15B+ in transaction volume and scaled workflows for 50,000+ SMEs.",
     "trigger": "Paying customers confirmed with MRR visibility. Accounting software integrations deepen to the point where migration means rebuilding the entire AP workflow \u2014 that's when it becomes a sticky information flow play rather than just workflow tooling. Watch for: Series A signal or strategic investor in AU/SEA fintech.",
-    "source": "accelerator"
+    "source": "accelerator",
+    "sourceLabel": "Startmate S26"
   },
   {
     "name": "iBnkVault",
     "meta": "Australia / USA \u00b7 Startmate S26",
     "desc": "Cross-border payments platform for e-commerce merchants using stablecoin rails to settle in real-time, reducing cross-border fees from 3\u20135% to near-zero. Founders: Yi Zhang (blockchain infrastructure background) and Ivy Fan (managed millions in cross-border capital flows). Based Melbourne + Wyoming. Addresses a real problem but operates in an increasingly crowded stablecoin payments space.",
     "trigger": "Differentiated moat beyond stablecoin routing \u2014 what makes iBnkVault sticky once the e-commerce merchant is onboarded? Watch for: anchor merchant partnerships or a unique corridor that large players aren't serving well.",
-    "source": "accelerator"
+    "source": "accelerator",
+    "sourceLabel": "Startmate S26"
   },
   {
     "name": "Enrola",
     "meta": "Australia \u00b7 Antler AUS10",
     "desc": "AI sales agents for B2C sales teams \u2014 converts leads via SMS. $0 to $300K ARR in 5 months, 37% MoM growth, 18 paying customers across AU/UK/Ireland/NZ. 77% demo-to-conversion rate. Founders: Jo Thomas (CEO), Yvette Quinby (CTO). Category concern: AI outbound sales agents is crowded globally. The 'agent-to-agent infrastructure' angle is more interesting but not yet the core product.",
     "trigger": "Holds 30%+ MoM for another 6 months without category compression. Concrete evidence of the infrastructure layer (agent-to-agent) becoming a revenue-generating product, not just a narrative. Competitive displacement story \u2014 what specifically makes Enrola defensible vs US players entering AU?",
-    "source": "accelerator"
+    "source": "accelerator",
+    "sourceLabel": "Antler AUS10"
   },
   {
     "name": "Orivfy",
     "meta": "Singapore \u00b7 Startup Grind 2026",
     "desc": "AI authenticity and content verification platform. Detects and explains whether text, images, audio, or video are AI-generated. Provides transparent reasoning, confidence scores, and identifies the likely AI source model. B2B trust infrastructure play \u2014 sits between content platforms/enterprises and synthetic media verification. Regulatory tailwind: EU AI Act, platform liability frameworks tightening globally.",
     "trigger": "Paying enterprise customers and use case clarity (compliance, media, legal). Founder background and prior domain experience. Moat check: detection accuracy hold as generative models improve? Funding round announced.",
-    "source": "accelerator"
+    "source": "award",
+    "sourceLabel": "Startup Grind 2026"
   },
   {
     "name": "Specific AI",
     "meta": "Estonia \u00b7 Startup Grind 2026",
     "desc": "Deterministic, auditable AI workflow automation for regulated enterprise industries. Positions as zero-hallucination architecture \u2014 non-transformer approach targeting sectors (finance, legal, compliance) where LLM unpredictability is a liability. Estonia HQ \u2014 strong engineering pedigree. Limited public information; surfaced at Startup Grind 2026.",
     "trigger": "Technical validation of the architecture claim \u2014 is the zero-hallucination positioning real differentiation or marketing? First named enterprise customer in a regulated vertical. Seed raise announcement. Founder profiles and academic/commercial background confirmed.",
-    "source": "accelerator"
+    "source": "award",
+    "sourceLabel": "Startup Grind 2026"
   },
   {
     "name": "Fortiro",

@@ -1225,6 +1225,7 @@
         ${c.sources && c.sources.length > 1 ? `<div class="co-meta-item" style="color:#f59e0b;">⬡ ${c.sources.length} sources validated</div>` : ''}
         <div class="co-meta-item">🌐 <a href="${c.url}" target="_blank" style="color:${c.ac};">${c.url.replace('https://','')}</a></div>
         ${c.fundingNote ? `<div class="co-meta-item"><span class="funding-note">💰 ${c.fundingNote}</span></div>` : ''}
+        ${c.funding && c.funding.seeking ? `<div class="co-meta-item"><span style="font-size:0.7rem;font-weight:600;color:#f59e0b;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);padding:3px 9px;border-radius:5px;">🟡 Raising: ${c.funding.seeking}</span></div>` : ''}
       </div>
 
       <div>
@@ -1327,15 +1328,19 @@
   // ─────────────────────────────────────────────
   function renderRadar() {
     document.getElementById('radarCount').textContent = RADAR.length;
-    document.getElementById('radarList').innerHTML = RADAR.map(r => `
+    document.getElementById('radarCount').textContent = RADAR.length;
+    document.getElementById('radarList').innerHTML = RADAR.map(r => {
+      const sourceBadge = r.sourceLabel ? `<span style="font-size:0.63rem;font-weight:600;padding:2px 7px;border-radius:5px;background:${r.source==='award'?'rgba(245,158,11,0.1)':'rgba(96,165,250,0.1)'};color:${r.source==='award'?'#f59e0b':'#60a5fa'};border:1px solid ${r.source==='award'?'rgba(245,158,11,0.25)':'rgba(96,165,250,0.25)'};margin-left:6px;">${r.source==='award'?'🏆':'🏛'} ${r.sourceLabel}</span>` : '';
+      return `
       <div class="radar-card">
         <div class="radar-dot"></div>
         <div class="radar-content">
-          <div class="radar-name">${r.name} — ${r.meta}</div>
+          <div class="radar-name" style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;">${r.name} <span style="color:var(--muted);font-weight:400">— ${r.meta}</span>${sourceBadge}</div>
           <div class="radar-text">${r.desc}</div>
           <div class="radar-trigger">⚡ Trigger to Watch: ${r.trigger}</div>
         </div>
-      </div>`).join('');
+      </div>`;
+    }).join('');
   }
 
   // ─────────────────────────────────────────────
