@@ -1135,6 +1135,7 @@
         <select class="sort-select" id="sortSelect">
           <option value="newest">Newest first</option>
           <option value="name">Name A–Z</option>
+          <option value="validated">Most validated</option>
         </select>
       </div>
     </div>
@@ -1208,7 +1209,10 @@
       style="--card-ac:${c.ac};">
 
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-        <div class="co-name">${c.name}</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <img src="https://logo.clearbit.com/${c.url.replace('https://','').replace('http://','').split('/')[0]}" alt="" style="width:24px;height:24px;border-radius:5px;object-fit:contain;background:#1e2535;flex-shrink:0;" onerror="this.style.display='none'">
+          <div class="co-name">${c.name}</div>
+        </div>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
           ${statusBadge(c.status)}
           <div class="co-stage-badge">${c.stage}</div>
@@ -1217,7 +1221,8 @@
 
       <div class="co-meta">
         <div class="co-meta-item">${c.flag} ${c.country}</div>
-        <div class="co-meta-item">🏛 ${c.accelerator}</div>
+        <div class="co-meta-item">🏛 ${c.sourceLabel || c.accelerator}</div>
+        ${c.sources && c.sources.length > 1 ? `<div class="co-meta-item" style="color:#f59e0b;">⬡ ${c.sources.length} sources validated</div>` : ''}
         <div class="co-meta-item">🌐 <a href="${c.url}" target="_blank" style="color:${c.ac};">${c.url.replace('https://','')}</a></div>
         ${c.fundingNote ? `<div class="co-meta-item"><span class="funding-note">💰 ${c.fundingNote}</span></div>` : ''}
       </div>
@@ -1289,6 +1294,7 @@
       return true;
     });
     if (activeSort === 'name') filtered.sort((a,b) => a.name.localeCompare(b.name));
+    else if (activeSort === 'validated') filtered.sort((a,b) => (b.sources||[]).length - (a.sources||[]).length);
     else filtered.sort((a,b) => b.lastUpdated.localeCompare(a.lastUpdated));
 
     const grid = document.getElementById('companiesGrid');

@@ -47,7 +47,9 @@
       "Competitive displacement: have any deals been won by replacing Samsara or Augury, or is it all greenfield?",
       "Follow-on raise: timing, amount, and who is leading the Series A process?"
     ],
-    "lastUpdated": "2026-04-09"
+    "lastUpdated": "2026-04-09",
+    "source": "antler",
+    "sourceLabel": "Antler AUS8"
   },
   {
     "id": "switchboard",
@@ -93,7 +95,9 @@
       "Is there an analytics/AI layer planned on top of the integration data?",
       "Any Woolworths or Coles supplier mandate for digital integration that Switchboard benefits from directly?"
     ],
-    "lastUpdated": "2026-03-23"
+    "lastUpdated": "2026-03-23",
+    "source": "accelerator",
+    "sourceLabel": "Skalata SF-III"
   },
   {
     "id": "topograph",
@@ -143,6 +147,8 @@
       "Any current or planned relationships with EU regulators or AML authorities that strengthen the moat?",
       "Are Seedcamp terms convertible or priced? Any pro-rata reserved for next round?"
     ],
-    "lastUpdated": "2026-04-01"
+    "lastUpdated": "2026-04-01",
+    "source": "accelerator",
+    "sourceLabel": "Seedcamp 2026"
   }
 ]
