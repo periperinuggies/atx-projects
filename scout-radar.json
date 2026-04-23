@@ -75,5 +75,21 @@
     "desc": "Deterministic, auditable AI workflow automation for regulated enterprise industries. Positions as zero-hallucination architecture \u2014 non-transformer approach targeting sectors (finance, legal, compliance) where LLM unpredictability is a liability. Estonia HQ \u2014 strong engineering pedigree. Limited public information; surfaced at Startup Grind 2026.",
     "trigger": "Technical validation of the architecture claim \u2014 is the zero-hallucination positioning real differentiation or marketing? First named enterprise customer in a regulated vertical. Seed raise announcement. Founder profiles and academic/commercial background confirmed.",
     "source": "accelerator"
+  },
+  {
+    "name": "Fortiro",
+    "meta": "Australia \u00b7 Finnies 2025 Winner (Most Innovative AI in Finance)",
+    "source": "award",
+    "sourceLabel": "Finnies 2025",
+    "desc": "Document fraud detection and financial verification SaaS. Every financial document flowing into a bank, lender, or insurer gets checked through Fortiro \u2014 income verification, fraud detection, document redaction. Founded by three former PwC Australia directors (Sean Quagliani, David Weber, Amir Vahid) who lived the document fraud problem on the advisory side. Used by major AU financial institutions. A$3.5M seed raised Feb 2025. Won two consecutive AI fintech awards: 2024 Startup of the Year (Startup Daily Best in Tech) + 2025 Finnies Most Innovative AI in Finance.",
+    "trigger": "Follow-on raise (Series A) announced \u2014 that's the entry window. Confirm ARR and growth trajectory. Check whether the cohort filter (founded 2022) is a dealbreaker or whether 2025 award + first institutional raise is the relevant signal. Also: are they expanding beyond AU financial institutions into other geographies?"
+  },
+  {
+    "name": "Fennech",
+    "meta": "Singapore \u00b7 MAS SFF Emerging FinTech Award 2025",
+    "source": "award",
+    "sourceLabel": "MAS SFF 2025",
+    "desc": "Cloud-native treasury, payments and liquidity management orchestration platform. Sits between corporates, banks, and fintechs on one side and their legacy + modern payment infrastructure on the other. Three segments: corporates (automating cash/liquidity/reconciliation), banks (modernising corporate client services), fintechs (treasury infrastructure as plug-and-play API). Won MAS SFF Emerging FinTech Award \u2014 one of the most credible fintech signals in Southeast Asia. Singapore HQ. B2B exclusively.",
+    "trigger": "Confirm founding year and current ARR \u2014 Wikipedia presence suggests they may be more established than typical Radar stage. Check whether they're still raising (pre-Series A would be the right entry window). Key question: what does the customer list look like and is revenue recurring/contractual?"
   }
 ]
