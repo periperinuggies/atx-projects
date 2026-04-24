@@ -1,0 +1,15 @@
+[
+  {
+    "kind": "thesis",
+    "name": "Financial Rails for the Agent Economy",
+    "date": "2026-04-24",
+    "source": "YC W26 signal",
+    "sourceLabel": "YC W26",
+    "summary": "AI agents are becoming autonomous economic actors — booking, buying, paying without human approval on each action. Current payment rails assume a human at every transaction. They fail for agents on authorization speed, settlement velocity, programmable spending limits, and regulatory accountability. YC W26 had three companies explicitly building this infrastructure (Maven, Sponge, Orthogonal). That's a batch-level signal.",
+    "whyItMatters": "The company that builds the 'Stripe for AI agents' in SEA, EU, or AU will sit in the path of every agent-initiated transaction in the region. US incumbents (Stripe, Adyen) will capture the US/Western Europe market. SEA is structurally underserved — payment fragmentation (GoPay, GrabPay, OVO, PromptPay) means no single US player solves it. Singapore (MAS sandbox capability) and EU (PSD3 compliance moat) are the most interesting geographies for a purpose-built solution.",
+    "whatToLookFor": "A developer-first company in SEA/SG/EU/UK/AU explicitly positioning as payment infrastructure for AI agents — not a neobank, not a generic payments API. Needs: programmable authorization for non-human actors, millisecond settlement, audit logging for regulatory compliance, micro-transaction support. First named enterprise customer using it for actual agent-initiated payments is the proof point.",
+    "trigger": "Any company in our geographies that specifically calls out AI agents or autonomous systems as the primary customer → immediate Watch List, no further review needed. The thesis is proven; only founder quality and timing remain.",
+    "timeline": "2025-2026: Infrastructure phase (foundations being built). 2027-2028: First enterprise deployments. 2029-2030: Mainstream adoption.",
+    "related": "iBnkVault (on Radar) is adjacent — stablecoin cross-border rails for e-commerce — but not agent-native. Airwallex (AU) and Checkout.com (UK) are most likely to add agent layers to existing infrastructure."
+  }
+]

@@ -1144,6 +1144,11 @@
   <div id="companiesGrid" style="display:flex;flex-direction:column;gap:16px;margin-bottom:48px;"></div>
   <div id="noResults">No companies match these filters.</div>
 
+  <!-- Outliers -->
+  <p class="section-label">Outliers — <span style="color:#f1f5f9" id="outliersCount"></span></p>
+  <span class="updated">Exceptional founders outside the pipe filter, and emerging thesis spaces we’re actively watching</span>
+  <div id="outliersList" style="display:flex;flex-direction:column;gap:12px;margin-bottom:48px;"></div>
+
   <!-- On the Radar -->
   <p class="section-label">On the Radar — <span style="color:#f1f5f9" id="radarCount"></span></p>
   <span class="updated">Interesting but waiting for a trigger before flagging</span>
@@ -1284,6 +1289,7 @@
   let COMPANIES = [];
   let RADAR = [];
   let PASSED = [];
+  let OUTLIERS = [];
   let activeFilters = { status: 'all', flow: 'all', region: 'all' };
   let activeSort = 'newest';
 
@@ -1387,17 +1393,66 @@
   }
 
   // ─────────────────────────────────────────────
+  // RENDER OUTLIERS
+  // ─────────────────────────────────────────────
+  function renderOutliers() {
+    document.getElementById('outliersCount').textContent = OUTLIERS.length;
+    document.getElementById('outliersList').innerHTML = OUTLIERS.map(o => {
+      if (o.kind === 'thesis') {
+        return `
+        <div class="radar-card" style="border-left:3px solid #f59e0b;">
+          <div class="radar-dot" style="background:#f59e0b;"></div>
+          <div class="radar-content">
+            <div class="radar-name" style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
+              💡 ${o.name}
+              <span style="font-size:0.63rem;font-weight:600;padding:2px 7px;border-radius:5px;background:rgba(245,158,11,0.1);color:#f59e0b;border:1px solid rgba(245,158,11,0.25);">Thesis Space</span>
+              <span style="font-size:0.63rem;font-weight:600;padding:2px 7px;border-radius:5px;background:rgba(96,165,250,0.1);color:#60a5fa;border:1px solid rgba(96,165,250,0.25);">Source: ${o.sourceLabel}</span>
+            </div>
+            <div class="radar-text" style="margin-top:8px;">${o.summary}</div>
+            <details style="margin-top:8px;">
+              <summary style="font-size:0.72rem;font-weight:600;color:#f59e0b;cursor:pointer;list-style:none;">▸ Why it matters &amp; what to look for</summary>
+              <div style="margin-top:8px;display:flex;flex-direction:column;gap:8px;">
+                <div class="radar-text"><strong style="color:#cbd5e1;">Why it matters:</strong> ${o.whyItMatters}</div>
+                <div class="radar-text"><strong style="color:#cbd5e1;">What to look for:</strong> ${o.whatToLookFor}</div>
+                ${o.timeline ? `<div class="radar-text"><strong style="color:#cbd5e1;">Timeline:</strong> ${o.timeline}</div>` : ''}
+                ${o.related ? `<div class="radar-text"><strong style="color:#cbd5e1;">Related companies:</strong> ${o.related}</div>` : ''}
+              </div>
+            </details>
+            <div class="radar-trigger">⚡ Auto-Watch trigger: ${o.trigger}</div>
+          </div>
+        </div>`;
+      }
+      // Company-type outlier (exceptional founder outside the pipe filter)
+      return `
+      <div class="radar-card" style="border-left:3px solid #a78bfa;">
+        <div class="radar-dot" style="background:#a78bfa;"></div>
+        <div class="radar-content">
+          <div class="radar-name" style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
+            ${o.name} — ${o.country}
+            <span style="font-size:0.63rem;font-weight:600;padding:2px 7px;border-radius:5px;background:rgba(167,139,250,0.1);color:#a78bfa;border:1px solid rgba(167,139,250,0.25);">Outlier</span>
+          </div>
+          <div class="radar-text">${o.summary}</div>
+          <div class="radar-trigger">⚡ ${o.trigger}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ─────────────────────────────────────────────
   // LOAD DATA FROM JSON & INIT
   // ─────────────────────────────────────────────
   Promise.all([
     fetch('scout-companies.json').then(r => r.json()),
     fetch('scout-radar.json').then(r => r.json()),
     fetch('scout-passed.json').then(r => r.json()),
-  ]).then(([companies, radar, passed]) => {
+    fetch('scout-outliers.json').then(r => r.json()),
+  ]).then(([companies, radar, passed, outliers]) => {
     COMPANIES = companies;
     RADAR = radar;
     PASSED = passed;
+    OUTLIERS = outliers;
     applyFilters();
+    renderOutliers();
     renderRadar();
     renderPassed();
   }).catch(err => {
