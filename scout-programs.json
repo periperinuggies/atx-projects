@@ -1,0 +1,226 @@
+{
+  "lastReviewed": "2026-04-24",
+  "nextAnnualReview": "2027-01",
+  "programs": [
+    {
+      "name": "Startmate Accelerator",
+      "tier": 1,
+      "type": "accelerator",
+      "geography": "AU/NZ",
+      "url": "https://startmate.com/writing",
+      "frequency": "bi-annual",
+      "announcementMonths": [2, 8],
+      "notes": "Summer cohort ~Feb, Winter cohort ~Aug. Most important AU accelerator for our lens.",
+      "lastSwept": "2026-04"
+    },
+    {
+      "name": "Antler Australia",
+      "tier": 1,
+      "type": "accelerator",
+      "geography": "AU",
+      "url": "https://www.antler.co/location/australia",
+      "frequency": "rolling",
+      "announcementMonths": [1, 4, 7, 10],
+      "notes": "Multiple cohorts per year. AUS8-AUS12 naming convention. Check Startup Daily for cohort announcements.",
+      "lastSwept": "2026-04"
+    },
+    {
+      "name": "Iterative",
+      "tier": 1,
+      "type": "accelerator",
+      "geography": "SEA",
+      "url": "https://iterative.vc",
+      "frequency": "bi-annual",
+      "announcementMonths": [3, 9],
+      "notes": "YC-style for South and Southeast Asia. W and S batches. High signal for B2B SaaS.",
+      "lastSwept": "2026-03"
+    },
+    {
+      "name": "Accelerating Asia",
+      "tier": 1,
+      "type": "accelerator",
+      "geography": "SEA",
+      "url": "https://acceleratingasia.com",
+      "frequency": "bi-annual",
+      "announcementMonths": [4, 10],
+      "notes": "C13 applications open Jan 2026. Cohort announces ~April. Impact-focused, strong fintech output.",
+      "lastSwept": "2026-03"
+    },
+    {
+      "name": "Seedcamp",
+      "tier": 1,
+      "type": "accelerator",
+      "geography": "Europe/UK",
+      "url": "https://seedcamp.com",
+      "frequency": "rolling",
+      "announcementMonths": [1, 4, 7, 10],
+      "notes": "Quarterly investments. Check blog for new portfolio announcements. Topograph was Seedcamp 2026.",
+      "lastSwept": "2026-04"
+    },
+    {
+      "name": "Skalata Ventures",
+      "tier": 1,
+      "type": "accelerator",
+      "geography": "AU/NZ",
+      "url": "https://skalata.com.au",
+      "frequency": "rolling",
+      "announcementMonths": [2, 5, 8, 11],
+      "notes": "Pre-Series A fund for $500K-$3M ARR AU/NZ B2B SaaS. Their investment note blog is the source. Double-validation when a company is also Antler/Startmate backed.",
+      "lastSwept": "2026-04"
+    },
+    {
+      "name": "Startup Wise Guys",
+      "tier": 1,
+      "type": "accelerator",
+      "geography": "Europe/UK/Baltics",
+      "url": "https://startupwiseguys.com",
+      "frequency": "rolling",
+      "announcementMonths": [3, 6, 9, 12],
+      "notes": "Multiple cohorts/year across fintech, cybersecurity, SaaS, defence. Strong for non-obvious European geographies (Estonia, Latvia, Lithuania).",
+      "lastSwept": "2026-03"
+    },
+    {
+      "name": "Y Combinator (non-US filter)",
+      "tier": 1,
+      "type": "accelerator",
+      "geography": "Global — filter for SEA/EU/AU/NZ founders",
+      "url": "https://ycombinator.com/companies",
+      "frequency": "bi-annual",
+      "announcementMonths": [3, 9],
+      "notes": "W and S batches. W26: Demo Day March 24, 2026 — sweep pending (May 1). Filter: non-US founders, B2B SaaS, fintech, data infra. 196 companies in W26.",
+      "lastSwept": "NOT YET"
+    },
+    {
+      "name": "FinTech Australia Finnies",
+      "tier": 1,
+      "type": "award",
+      "geography": "AU",
+      "url": "https://australianfintech.com.au",
+      "frequency": "annual",
+      "announcementMonths": [6],
+      "notes": "Annual awards announced June. 2025 produced Fortiro (now on Radar). Focus categories: Emerging FinTech, Most Innovative Product, AI in Finance.",
+      "lastSwept": "2026-04"
+    },
+    {
+      "name": "MAS Singapore FinTech Festival Awards",
+      "tier": 1,
+      "type": "award",
+      "geography": "SG",
+      "url": "https://www.mas.gov.sg",
+      "frequency": "annual",
+      "announcementMonths": [11],
+      "notes": "Annual, announced November at SFF. 2025 produced Fennech (now on Radar). Hackcelerator + Excellence Awards. Focus: AI for financial services.",
+      "lastSwept": "2026-04"
+    },
+    {
+      "name": "Innovate UK Funded Projects",
+      "tier": 1,
+      "type": "grant",
+      "geography": "UK",
+      "url": "https://www.ukri.org/publications/innovate-uk-funded-projects-since-2004/",
+      "frequency": "monthly",
+      "announcementMonths": [1,2,3,4,5,6,7,8,9,10,11,12],
+      "notes": "CSV database updated monthly. Smart Grants paused Jan 2025 — replaced by Growth Catalyst and Responsive programmes. Download CSV, filter by year/sector/size. 2025 sweep produced Scrub AI + Collaborative Conveyancing (now on Radar). Access via exec CSV download.",
+      "lastSwept": "2026-04"
+    },
+    {
+      "name": "Callaghan Innovation (NZ)",
+      "tier": 1,
+      "type": "grant",
+      "geography": "NZ",
+      "url": "https://www.callaghaninnovation.govt.nz",
+      "frequency": "rolling",
+      "announcementMonths": [3, 6, 9, 12],
+      "notes": "NZ's main R&D grant body. Grants are public. Filter for commercial software companies (not pure research). High signal when grant > NZ$100K.",
+      "lastSwept": "NOT YET"
+    },
+    {
+      "name": "Antler Southeast Asia",
+      "tier": 1,
+      "type": "accelerator",
+      "geography": "SEA",
+      "url": "https://www.antler.co/location/singapore",
+      "frequency": "rolling",
+      "announcementMonths": [2, 5, 8, 11],
+      "notes": "Next SEA cohort May 11, 2026. Check Singapore, Indonesia, Vietnam offices separately.",
+      "lastSwept": "2026-04"
+    },
+    {
+      "name": "AFR BOSS Most Innovative Companies",
+      "tier": 2,
+      "type": "award",
+      "geography": "AU",
+      "url": "https://www.afr.com/lists-and-awards/most-innovative-companies",
+      "frequency": "annual",
+      "announcementMonths": [10],
+      "notes": "Paywalled — find via press releases from companies that announce their own win. Skews large corporate. Check October each year for startup-stage winners specifically. Low priority.",
+      "lastSwept": "2026-04"
+    },
+    {
+      "name": "WA Innovator of the Year",
+      "tier": 2,
+      "type": "award",
+      "geography": "AU (WA)",
+      "url": "https://innovation.wa.gov.au",
+      "frequency": "annual",
+      "announcementMonths": [10],
+      "notes": "State-level but Perth is Larsen Ventures' home market. Worth checking annually.",
+      "lastSwept": "NOT YET"
+    },
+    {
+      "name": "UK FinTech Awards",
+      "tier": 2,
+      "type": "award",
+      "geography": "UK",
+      "url": "https://ukfintechawards.co.uk",
+      "frequency": "annual",
+      "announcementMonths": [9],
+      "notes": "Industry body signal. Announced September. Check 'Best Startup' and 'Innovation' categories.",
+      "lastSwept": "NOT YET"
+    },
+    {
+      "name": "NZ Hi-Tech Awards",
+      "tier": 2,
+      "type": "award",
+      "geography": "NZ",
+      "url": "https://hitech.org.nz/awards",
+      "frequency": "annual",
+      "announcementMonths": [5],
+      "notes": "Annual, announced May. Check 'Emerging Company' and 'Best New Product' categories.",
+      "lastSwept": "NOT YET"
+    },
+    {
+      "name": "UK DASA (Defence and Security Accelerator)",
+      "tier": 2,
+      "type": "grant",
+      "geography": "UK",
+      "url": "https://www.gov.uk/government/organisations/defence-and-security-accelerator",
+      "frequency": "rolling",
+      "announcementMonths": [2, 5, 8, 11],
+      "notes": "Public grant recipients. Relevant for defence-adjacent or security/cyber companies. Filter for fintech/cybersecurity crossover plays.",
+      "lastSwept": "NOT YET"
+    },
+    {
+      "name": "SparkLabs Seoul",
+      "tier": 2,
+      "type": "accelerator",
+      "geography": "Korea",
+      "url": "https://sparklabs.co.kr",
+      "frequency": "bi-annual",
+      "announcementMonths": [4, 10],
+      "notes": "Korea's leading early-stage accelerator. B2B SaaS, fintech, deeptech. Dense network into chaebols.",
+      "lastSwept": "2026-03"
+    },
+    {
+      "name": "Asia Tech X Singapore (ATxSG)",
+      "tier": 3,
+      "type": "award",
+      "geography": "SG",
+      "url": "https://asiatechxsg.com",
+      "frequency": "annual",
+      "announcementMonths": [6],
+      "notes": "LOW SIGNAL — 2025 awards went to NEC Asia Pacific, Starhub, Seagate, Globant. Large corporates dominate. Skip unless specific startup category emerges.",
+      "lastSwept": "2026-04"
+    }
+  ]
+}
