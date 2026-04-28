@@ -308,5 +308,17 @@
       "Europe"
     ],
     "reason": "Missed the entry window. $43M raised across 2 rounds \u2014 $13M seed (Jun 2024, Atomico/Cherry/Seedcamp) + $30M Series A (Sep 2025, Balderton Capital lead). Next raise will be Series B, too expensive for meaningful equity. Strong thesis (AI-native general ledger for multinationals) and strong execution, but timing was the issue \u2014 in our radar too late."
+  },
+  {
+    "name": "Enrola",
+    "accelerator": "Antler AUS10",
+    "country": "Australia",
+    "tags": [
+      "AI agents",
+      "Sales automation",
+      "B2B SaaS",
+      "Australia"
+    ],
+    "reason": "Crowded category \u2014 AI outbound sales agents is saturated globally (Instantly, Apollo, Clay, Amplemarket, multiple YC companies). Founder met in person, not exciting. Growth pace slow for the category. Passed April 2026."
   }
 ]

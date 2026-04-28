@@ -48,14 +48,6 @@
     "sourceLabel": "Startmate S26"
   },
   {
-    "name": "Enrola",
-    "meta": "Australia \u00b7 Antler AUS10",
-    "desc": "AI sales agents for B2C sales teams \u2014 converts leads via SMS. $0 to $300K ARR in 5 months, 37% MoM growth, 18 paying customers across AU/UK/Ireland/NZ. 77% demo-to-conversion rate. Founders: Jo Thomas (CEO), Yvette Quinby (CTO). Category concern: AI outbound sales agents is crowded globally. The 'agent-to-agent infrastructure' angle is more interesting but not yet the core product.",
-    "trigger": "Holds 30%+ MoM for another 6 months without category compression. Concrete evidence of the infrastructure layer (agent-to-agent) becoming a revenue-generating product, not just a narrative. Competitive displacement story \u2014 what specifically makes Enrola defensible vs US players entering AU?",
-    "source": "accelerator",
-    "sourceLabel": "Antler AUS10"
-  },
-  {
     "name": "Orivfy",
     "meta": "Singapore \u00b7 Startup Grind 2026",
     "desc": "AI authenticity and content verification platform. Detects and explains whether text, images, audio, or video are AI-generated. Provides transparent reasoning, confidence scores, and identifies the likely AI source model. B2B trust infrastructure play \u2014 sits between content platforms/enterprises and synthetic media verification. Regulatory tailwind: EU AI Act, platform liability frameworks tightening globally.",
