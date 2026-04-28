@@ -13,7 +13,9 @@
     "desc": "Document automation for credit analysis in Indonesian banking and lending. Credit documents flowing through their automation layer. Indonesia has 270M people and a massive underserved credit market. Banks still process credit applications largely manually.",
     "trigger": "Confirmed bank integrations and ARR figures. Clarity on whether they're automation tooling (replaceable) or embedded infrastructure (sticky). Founder profile assessment.",
     "source": "accelerator",
-    "sourceLabel": "Accelerating Asia C12"
+    "sourceLabel": "Accelerating Asia C12",
+    "question": "SC Ventures pitch finalist (Mar 2026) \u2014 did they win/get investment? Any named Indonesian bank paying customer confirmed?",
+    "notes": "Website live and active. Product: AI document automation for credit analysis (OCR, fraud detection, risk scoring) \u2014 tooling layer, not infrastructure. Integrates into bank workflows. Founders: Wildiyanto Yawin (CEO, product/tech) + Yohanes Rico (COO, ex-BCA + Modal Rakyat \u2014 deep domain). Third co-founder: Yuliam Chandra. Backed by Accelerating Asia Cohort 12. SC Ventures pitch competition finalist Mar 2026 (judges: Peak XV, Plug and Play, SC Ventures). Tooling concern partially offset by procurement depth required to pass Indonesian bank KYB/security requirements."
   },
   {
     "name": "Integuide",
