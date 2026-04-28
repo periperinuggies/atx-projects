@@ -281,5 +281,19 @@
       "Singapore"
     ],
     "reason": "Not a startup \u2014 founded 2023, UK-domiciled, professional CEO (not founder-led). Founder is not operating as CEO which doesn't fit our founder-operator preference. MAS SFF award is still a signal for the category but Fennech itself is out of scope."
+  },
+  {
+    "name": "fileAI",
+    "accelerator": "Antler 2024 / Antler Elevate",
+    "country": "Singapore",
+    "tags": [
+      "Information flow",
+      "Document automation",
+      "FinTech",
+      "Enterprise AI",
+      "Singapore",
+      "APAC"
+    ],
+    "reason": "Missed the entry window. Founded Dec 2020, $20.2M raised across 6 rounds including two Series A tranches ($6.5M Jan 2024, $8M Feb 2025) led by Illuminate Financial + Antler Elevate + Insignia + Investible. Next raise will be Series B \u2014 too expensive for meaningful equity at our cheque size. Strong thesis and strong product (AI document workflow automation for financial services) but timing was the issue. We were looking at it in 2025 when it was already well into Series A territory."
   }
 ]
