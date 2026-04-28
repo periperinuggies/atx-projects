@@ -16,14 +16,6 @@
     "sourceLabel": "Accelerating Asia C12"
   },
   {
-    "name": "BorderDollar",
-    "meta": "Singapore \u00b7 Antler 2024",
-    "desc": "Cross-border SME invoice financing platform. Sits inside the invoice payment cycle between exporters/importers and their cash flow gap, using unpaid invoices as collateral. $500B+ trade finance gap in Asia (ADB data). ASEAN cross-border trade growing fast.",
-    "trigger": "Confirm paying SME customers beyond pilot stage. Founder background verification \u2014 not publicly available. Capital-intensive model needs confirmation of funding source for loan book (own capital vs third-party investors).",
-    "source": "accelerator",
-    "sourceLabel": "Antler 2024"
-  },
-  {
     "name": "Integuide",
     "meta": "Australia \u00b7 Startmate W25",
     "desc": "Industrial AI knowledge capture \u2014 body-cam recordings of senior technicians converted into searchable AI knowledge bases for junior field staff. Sits in the information flow between human expertise and operational execution. Heavy industry (mining, utilities, manufacturing) institutional memory problem is large and genuine. Founders: Hunter Jay (built Ripe Robotics) + Slava Chalnev (AI safety researcher).",

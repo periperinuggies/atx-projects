@@ -320,5 +320,18 @@
       "Australia"
     ],
     "reason": "Crowded category \u2014 AI outbound sales agents is saturated globally (Instantly, Apollo, Clay, Amplemarket, multiple YC companies). Founder met in person, not exciting. Growth pace slow for the category. Passed April 2026."
+  },
+  {
+    "name": "BorderDollar",
+    "accelerator": "Antler 2024",
+    "country": "Singapore",
+    "tags": [
+      "Payment flow",
+      "Trade finance",
+      "Invoice finance",
+      "Singapore",
+      "APAC"
+    ],
+    "reason": "Presumed dead. Last public activity January 2024 (Antler pre-seed batch). No follow-on raise, no product news, no press coverage in 15+ months. Website returns but is inactive. Cross-border invoice finance is capital-intensive \u2014 difficult to build without significant balance sheet backing beyond a pre-seed."
   }
 ]
