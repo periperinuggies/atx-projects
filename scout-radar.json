@@ -16,14 +16,6 @@
     "sourceLabel": "Accelerating Asia C12"
   },
   {
-    "name": "Light",
-    "meta": "Denmark \u00b7 Seedcamp 2024",
-    "desc": "AI-native general ledger for multinational companies. Unifies accounting, tax, payments, and financial reporting across entities, currencies, and countries \u2014 replacing legacy ERP accounting modules (SAP, Oracle, Dynamics). Sits at the centre of all financial information flow for every company it serves. $13M seed (Atomico, Cherry Ventures, Seedcamp).",
-    "trigger": "First enterprise multinational migrating away from SAP/Oracle \u2014 that's the proof point the category needs. Also watch: does the founder's prior company Juni (wound down, not acquired) affect institutional buyer confidence.",
-    "source": "accelerator",
-    "sourceLabel": "Seedcamp 2024"
-  },
-  {
     "name": "BorderDollar",
     "meta": "Singapore \u00b7 Antler 2024",
     "desc": "Cross-border SME invoice financing platform. Sits inside the invoice payment cycle between exporters/importers and their cash flow gap, using unpaid invoices as collateral. $500B+ trade finance gap in Asia (ADB data). ASEAN cross-border trade growing fast.",

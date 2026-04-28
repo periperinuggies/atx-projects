@@ -295,5 +295,18 @@
       "APAC"
     ],
     "reason": "Missed the entry window. Founded Dec 2020, $20.2M raised across 6 rounds including two Series A tranches ($6.5M Jan 2024, $8M Feb 2025) led by Illuminate Financial + Antler Elevate + Insignia + Investible. Next raise will be Series B \u2014 too expensive for meaningful equity at our cheque size. Strong thesis and strong product (AI document workflow automation for financial services) but timing was the issue. We were looking at it in 2025 when it was already well into Series A territory."
+  },
+  {
+    "name": "Light",
+    "accelerator": "Seedcamp 2024",
+    "country": "Denmark",
+    "tags": [
+      "Information flow",
+      "AI general ledger",
+      "FinTech",
+      "Denmark",
+      "Europe"
+    ],
+    "reason": "Missed the entry window. $43M raised across 2 rounds \u2014 $13M seed (Jun 2024, Atomico/Cherry/Seedcamp) + $30M Series A (Sep 2025, Balderton Capital lead). Next raise will be Series B, too expensive for meaningful equity. Strong thesis (AI-native general ledger for multinationals) and strong execution, but timing was the issue \u2014 in our radar too late."
   }
 ]
