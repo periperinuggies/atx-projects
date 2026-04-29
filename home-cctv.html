@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home CCTV — Larsen Ventures</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0a0a0a;
+    color: #ccc;
+    font-family: system-ui, sans-serif;
+    padding: 16px;
+    min-height: 100vh;
+  }
+
+  /* Lock screen */
+  #lockScreen {
+    position: fixed; inset: 0; background: #0a0a0a; z-index: 9999;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 12px;
+  }
+  #lockScreen h2 { font-size: 0.85rem; font-weight: 500; color: #444; letter-spacing: 0.1em; text-transform: uppercase; }
+  #lockScreen p  { font-size: 0.75rem; color: #333; }
+  #lockScreen input {
+    background: #111; border: 1px solid #2a2a2a; color: #ccc;
+    padding: 8px 14px; border-radius: 4px; font-size: 0.85rem;
+    outline: none; text-align: center;
+  }
+  #lockScreen input:focus { border-color: #444; }
+  #lockScreen button {
+    background: #1a1a1a; border: 1px solid #2a2a2a; color: #888;
+    padding: 7px 20px; border-radius: 4px; font-size: 0.8rem; cursor: pointer;
+  }
+  #lockScreen button:hover { border-color: #444; color: #ccc; }
+  #lockErr { color: #ef4444; font-size: 0.75rem; display: none; }
+
+  /* Menu bar */
+  #menubar {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 14px; flex-wrap: wrap;
+  }
+  #menubar .bar-title {
+    font-size: 0.8rem; font-weight: 500; color: #444;
+    letter-spacing: 0.1em; text-transform: uppercase; flex: 1;
+  }
+  #menubar button {
+    background: #111; border: 1px solid #1f1f1f; color: #555;
+    padding: 4px 12px; border-radius: 4px; font-size: 0.72rem;
+    cursor: pointer; display: flex; align-items: center; gap: 5px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  #menubar button:hover { border-color: #333; color: #ccc; }
+  #menubar button.spinning svg { animation: spin 1s linear infinite; }
+  #menubar .bar-clock { font-size: 0.68rem; color: #333; font-variant-numeric: tabular-nums; }
+  #menubar .bar-sep   { width: 1px; height: 14px; background: #1f1f1f; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Summary bar */
+  #summary { display: flex; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; }
+  .sum-chip {
+    font-size: 0.7rem; padding: 3px 10px; border-radius: 99px;
+    background: #111; border: 1px solid #1f1f1f; color: #555;
+  }
+  .sum-chip.live  { color: #22c55e; border-color: #1a3a25; }
+  .sum-chip.error { color: #ef4444; border-color: #3a1a1a; }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 10px;
+  }
+
+  /* Camera tile */
+  .cam { background: #0f0f0f; border-radius: 6px; overflow: hidden; border: 1px solid #1a1a1a; }
+  .cam-media { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; overflow: hidden; }
+  .cam-media iframe {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    border: none; z-index: 2;
+  }
+
+  /* Label */
+  .label {
+    padding: 6px 10px; display: flex; align-items: center;
+    justify-content: space-between; border-top: 1px solid #111;
+  }
+  .ch-name { font-size: 0.72rem; color: #555; display: flex; align-items: center; gap: 6px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 5px #22c55e88; flex-shrink: 0; }
+  .mode-badge {
+    font-size: 0.65rem; padding: 2px 7px; border-radius: 4px;
+    background: #111; color: #22c55e; border: 1px solid #1a3a25;
+  }
+</style>
+</head>
+<body>
+
+<div id="lockScreen">
+  <h2>Home CCTV</h2>
+  <p>Enter password to continue.</p>
+  <input type="password" id="pwInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+  <button onclick="checkPw()">Unlock</button>
+  <p id="lockErr">Incorrect password.</p>
+</div>
+
+<script>
+function checkPw() {
+  const v = document.getElementById('pwInput').value;
+  if (v.toLowerCase() === 'batcave') {
+    document.getElementById('lockScreen').style.display = 'none';
+    document.getElementById('pwInput').value = '';
+  } else {
+    document.getElementById('lockErr').style.display = 'block';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+</script>
+
+<div id="menubar">
+  <span class="bar-title">Home CCTV &nbsp;·&nbsp; Larsen Ventures</span>
+
+  <button id="btnRefreshAll" onclick="refreshAll(this)">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+      <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+    </svg>
+    Refresh All
+  </button>
+
+  <div class="bar-sep"></div>
+
+  <button onclick="toggleLayout()" id="btnLayout">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+      <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+    </svg>
+    Layout
+  </button>
+
+  <div class="bar-sep"></div>
+  <span class="bar-clock" id="barClock"></span>
+</div>
+
+<div id="summary"></div>
+<div class="grid" id="grid"></div>
+
+<script>
+const STREAMS_BASE = 'https://home-streams.larsenfamily.com.au';
+const CHANNELS = 5;
+const CHANNEL_NAMES = {
+  1:'Driveway', 2:'Side', 3:'Garage', 4:'Front Door',
+  5:'Pool'
+};
+const CHANNEL_IDS = {
+  1:'driveway', 2:'side', 3:'garage', 4:'frontdoor',
+  5:'pool'
+};
+
+function buildGrid() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  for (let ch = 1; ch <= CHANNELS; ch++) {
+    const id  = CHANNEL_IDS[ch];
+    const src = `${STREAMS_BASE}/stream.html?src=${id}`;
+    const div = document.createElement('div');
+    div.className = 'cam';
+    div.innerHTML = `
+      <div class="cam-media">
+        <iframe src="${src}" allow="autoplay" loading="lazy"></iframe>
+      </div>
+      <div class="label">
+        <span class="ch-name">
+          <span class="dot"></span>
+          ${CHANNEL_NAMES[ch]}
+        </span>
+        <span class="mode-badge">LIVE</span>
+      </div>`;
+    grid.appendChild(div);
+  }
+  updateSummary();
+}
+
+function updateSummary() {
+  document.getElementById('summary').innerHTML =
+    `<span class="sum-chip live">✓ ${CHANNELS} streams</span>
+     <span class="sum-chip">${new Date().toLocaleTimeString()}</span>`;
+}
+
+function refreshAll(btn) {
+  btn.classList.add('spinning');
+  buildGrid();
+  setTimeout(() => btn.classList.remove('spinning'), 1000);
+}
+
+let wideLayout = false;
+function toggleLayout() {
+  wideLayout = !wideLayout;
+  document.getElementById('grid').style.gridTemplateColumns =
+    wideLayout ? '1fr' : 'repeat(auto-fill, minmax(380px, 1fr))';
+  document.getElementById('btnLayout').style.color       = wideLayout ? '#22c55e' : '';
+  document.getElementById('btnLayout').style.borderColor = wideLayout ? '#1a3a25' : '';
+}
+
+function updateClock() {
+  document.getElementById('barClock').textContent =
+    new Date().toLocaleTimeString('en-AU', {
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+      timeZone: 'Australia/Perth'
+    }) + ' AWST';
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+buildGrid();
+setInterval(updateSummary, 10000);
+</script>
+</body>
+</html>
