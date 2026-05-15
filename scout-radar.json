@@ -80,5 +80,33 @@
     "sourceLabel": "Innovate UK 2025",
     "desc": "AI and NLP platform automating the pre-contract enquiry process in UK property conveyancing. 'Enquiry Manager' sits in the information flow between buyers' and sellers' solicitors \u2014 the stage that causes most delays in UK property transactions. Backed by Movera (LMS, ONP Solicitors, Cavendish Legal Group portfolio) and LMS (leading UK conveyancing panel manager). Founded 2022. Founder: Chris Harris. Classic B2B information pipe \u2014 every conveyancing enquiry between law firms routes through the platform once integrated.",
     "trigger": "Number of law firms actively using Enquiry Manager (not just trialling). ARR figures. Does the Movera investment come with distribution through their solicitor network (LMS manages panels for major lenders)? If LMS is routing all their panel solicitors through Enquiry Manager, that's a structural pipe."
+  },
+  {
+    "name": "Xplore Intelligence",
+    "country": "UK",
+    "hq": "Edinburgh",
+    "founded": 2025,
+    "stage": "Pre-seed",
+    "raised": "\u00a30",
+    "source": "Tech Nation Breakout 50 2026",
+    "sourceType": "accelerator",
+    "sourceLabel": "Tech Nation",
+    "tags": [
+      "AI governance",
+      "Agent infrastructure",
+      "Enterprise AI",
+      "Compliance",
+      "UK",
+      "Europe"
+    ],
+    "website": "xploreintelligence.co.uk",
+    "founders": [
+      "Alex Shkrebelo (CEO)",
+      "Egor Izgarshev"
+    ],
+    "founderNotes": "Alex: York University, graph-based AI explainability/auditability background. Egor: engineering background, Schlumberger SEED program (MIT/Stanford). Technical founders, no prior exit \u2014 first-time operators.",
+    "thesis": "Agent lifecycle governance infrastructure \u2014 evaluate, retrain, and gate AI agents in regulated enterprise environments. Proprietary eval frameworks trained on customer-specific benchmarks create a data flywheel. Switching cost: once your agent governance is built on Xplore, rebuilding eval chains is expensive.",
+    "question": "Do they have any paying enterprise customers? What regulated industries are they targeting first (financial services, legal, healthcare)? Founders sharp enough to sell into enterprise?",
+    "notes": "From Tech Nation Breakout 50 (May 2026). 2 people, \u00a30 raised, founded 2025 \u2014 extremely early. Most thesis-aligned non-fintech find in the batch. Directly adjacent to Outliers 'Agent Economy Financial Rails' thesis \u2014 this is the governance/compliance layer for AI agents. Website live and product-forward. Egor background includes Schlumberger SEED (MIT/Stanford collaboration). Broad mandate applies here \u2014 non-fintech B2B AI infrastructure."
   }
 ]
