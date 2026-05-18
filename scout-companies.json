@@ -167,21 +167,45 @@
     }
   },
   {
+    "id": "fineksi",
     "name": "Fineksi",
-    "tagline": "AI credit intelligence layer for Indonesian lenders",
-    "country": "Indonesia",
-    "hq": "Jakarta, Indonesia",
-    "founded": 2023,
-    "stage": "Pre-seed",
     "status": "contacted",
-    "raised": "Accelerating Asia C12 backed \u2014 raising (terms TBC)",
-    "arr": "~$360K USD",
-    "growth": "20% MoM, 6x YoY, 99% net retention",
-    "customers": "30+ lenders (P2P, BPR, multifinance, commercial banks)",
-    "source": "Accelerating Asia Cohort 12",
-    "sourceType": "accelerator",
-    "sourceLabel": "Accelerating Asia",
-    "website": "fineksi.com",
+    "country": "Indonesia",
+    "flag": "\ud83c\uddee\ud83c\udde9",
+    "accelerator": "Accelerating Asia C12",
+    "url": "https://fineksi.com",
+    "stage": "Pre-seed \u2014 Accelerating Asia C12 backed",
+    "flow": "information",
+    "region": "sea",
+    "ac": "#34d399",
+    "founderFlag": null,
+    "fundingNote": "Accelerating Asia Cohort 12 (Nov 2025) \u2014 raising (terms TBC)",
+    "comparable": "fileAI (graveyarded \u2014 $20M raised, too late for us) \u2014 but Fineksi goes deeper into credit decisioning. fileAI extracts document data; Fineksi outputs credit recommendations. Moneta is a direct SEA peer in credit AI.",
+    "founders": [
+      {
+        "name": "Wildiyanto Yawin \u2014 CEO",
+        "li": "https://linkedin.com/in/wyawin/"
+      },
+      {
+        "name": "Yuliam Chandra \u2014 CTO",
+        "li": ""
+      },
+      {
+        "name": "Yohanes Rico \u2014 COO",
+        "li": "https://linkedin.com/in/yohanes-rico/"
+      },
+      {
+        "name": "Paramita Wikansari \u2014 CCO",
+        "li": "https://linkedin.com/in/paramita-wikansari-3479845"
+      }
+    ],
+    "whatTheyDo": "AI credit intelligence layer for Indonesian lenders \u2014 automates bank statement analysis, document fraud detection, and credit decisioning. Processes 200+ bank statement formats from 70+ Indonesian banks. Outputs structured cash flow analysis, anomaly/forgery detection, and (roadmap) credit decision recommendations. Deployed across 30+ lenders: P2P, BPR (rural banks), multifinance, and commercial banks. Pay-per-page pricing ($0.10/page for doc analysis) creates usage-based revenue that grows automatically as customers' loan books grow \u2014 negative churn baked in.",
+    "whyFlagged": "Information flow infrastructure embedded in the lending credit workflow. Every loan application flows through Fineksi \u2014 once integrated, switching means rebuilding the entire document processing and fraud detection stack. Cross-lender data moat: credit patterns across 30+ lenders create proprietary risk signals no single-lender tool can replicate. The prize is Finsight Decision (~1% of loan amount) \u2014 a credit decision engine that turns Fineksi from a document tool into a credit infrastructure layer. 99% net retention and 20% MoM growth at $360K ARR validate product-market fit. SC Ventures pitch finalist (Mar 2026) with Standard Chartered, Peak XV, and Plug and Play as judges.",
+    "macroTailwind": "Indonesia NPL losses: $28B/year from fraud and bad credit decisions. 5\u201314 day average loan processing time creates massive competitive pressure on lenders to move faster. Indonesia's $3T+ loan market is largely manual and fragmented \u2014 AI-native credit infrastructure is a greenfield opportunity. SEA expansion (Philippines, Singapore, Vietnam) follows the same structural problem across all emerging APAC lending markets.",
+    "needsToBeTrue": "Finsight Decision (the ~1% of loan amount credit engine) goes live and converts existing pay-per-page customers to the higher-value product. Cross-lender data moat is real and actively improving models \u2014 not just a vision slide. SC Ventures relationship converts to investment or meaningful distribution partnership. SEA expansion executes without over-stretching the team.",
+    "risks": "Tooling vs infrastructure risk \u2014 currently a useful tool, not yet the decision infrastructure layer. Switching costs are lower than true infrastructure until Finsight Decision is live. Regulated-entity procurement in Indonesian banking is relationship-driven and slow. Founder Yuliam Chandra (the strongest credential) \u2014 is he fully hands-on or advisory? fileAI and well-funded US credit AI players could move into the Indonesian market.",
+    "founderProfile": "Four-person founding team, all domain operators. Yawin (CEO): 20+ yrs tech, built tech serving $800M AUM, acquired 2 lending licences. Yuliam Chandra (CTO): 8+ yrs credit at Indonesia's biggest bank, grew company $0\u2192$1B AUM in 4 years \u2014 the standout credential. Yohanes Rico (COO): ex-BCA, Modal Rakyat, Fazz Capital Finance \u2014 lived the exact credit document pain. Paramita (CCO): 10+ yrs fintech, 3x built product 0-1-100. ISO 27001:2022 certified and penetration tested.",
+    "revenueModel": "Pay-per-page ($0.10/page for document analysis) + collateral/condition analysis ($5/inquiry) + Finsight Decision (~1% of loan amount, launching). Tiered SaaS: Small ~$300/mo, Medium ~$1,000/mo, Large ~$3,000/mo. Negative churn: as lenders grow their loan book, document volume grows automatically, increasing ARR without additional sales effort.",
     "tags": [
       "Information flow",
       "Credit intelligence",
@@ -190,30 +214,24 @@
       "Indonesia",
       "SEA"
     ],
-    "founders": [
-      "Wildiyanto Yawin (CEO) \u2014 20+ yrs tech, built tech serving $800M AUM, acquired 2 lending licences",
-      "Yuliam Chandra (CTO) \u2014 8+ yrs credit at Indonesia's biggest bank, grew company $0\u2192$1B AUM in 4 years",
-      "Yohanes Rico (COO) \u2014 20+ yrs tech solutions, ex-BCA, Modal Rakyat, ex-Fazz Capital Finance",
-      "Paramita Wikansari (CCO) \u2014 10+ yrs fintech, 3x built product 0-1-100"
+    "diligence": [
+      "Finsight Decision (~1% of loan amount) \u2014 when does it go live? Any early customers? This is what makes Fineksi infrastructure, not a tool.",
+      "Customer composition: what is the mix of 30+ customers \u2014 P2P, BPR (rural banks), multifinance, commercial banks? How embedded in regulated institutions?",
+      "Retention quality: is 99% net revenue retention (accounting for expansion) or logo retention? NRR >99% is exceptional.",
+      "Cross-lender data moat \u2014 live today or vision slide? How many lenders contributing to shared model?",
+      "SC Ventures (finalist Mar 2026): did they proceed to investment/diligence or purely a visibility win?",
+      "Raise terms: what amount, at what valuation, who else is in the round? Is Accelerating Asia leading or a small ticket?",
+      "SEA expansion timing: what triggers Singapore/Philippines/Vietnam expansion?",
+      "Founder dynamics: is Yuliam (CTO) fully hands-on? How are decisions made across the four founders?",
+      "fileAI question: how does Yawin think about fileAI as competitor vs market validator? What stops fileAI from going deeper into credit decisioning?"
     ],
-    "thesis": "AI credit intelligence infrastructure for SEA lenders. Automates bank statement analysis, document fraud detection, and credit decisioning. Pay-per-page model creates negative churn \u2014 ARR grows automatically as customers' loan books grow. Cross-lender data moat: credit patterns across 30+ lenders create proprietary risk signals no single-lender tool can replicate. Path from document extraction layer ($0.10/page) to credit decision engine (Finsight Decision ~1% of loan amount) is the prize. fileAI (graveyarded \u2014 $20M raised) validates the document automation market; Fineksi builds deeper into credit decisioning territory fileAI cannot follow.",
-    "competitive": "Competes with fileAI (horizontal doc automation \u2014 graveyarded by us, too expensive), generic credit scoring tools. Differentiation: vertical-only (lenders), outputs a credit decision not just structured data, cross-lender model improves with scale. fileAI cannot make credit decisions without becoming a lender.",
-    "contacts": [
-      "Wildiyanto Yawin (CEO) \u2014 yawin@fineksi.com | +65 8328 7750 | linkedin.com/in/wyawin/"
-    ],
-    "contactLog": "Neera contacted via Accelerating Asia (Apr 2026). Meeting with Yawin (CEO) scheduled 19 May 2026.",
-    "ddQuestions": [
-      "Business model depth: Finsight Decision at ~1% of loan amount \u2014 when does that go live? Any customers already using it? This is the product that makes Fineksi infrastructure, not a tool.",
-      "Customer composition: what is the mix of the 30+ customers \u2014 P2P lenders, BPR (rural banks), multifinance, commercial banks? How embedded are they in regulated institutions?",
-      "Retention quality: is the 99% figure net revenue retention (accounting for expansion) or logo retention? NRR >99% is exceptional; logo retention at $360K ARR is less meaningful.",
-      "Cross-lender data moat \u2014 is this live today or a vision slide? How many lenders are contributing to the shared model, and can they demonstrate model improvement from cross-lender data?",
-      "SC Ventures (finalist Mar 2026): did they proceed to investment/diligence or was it purely a visibility win?",
-      "Raise terms: what are they raising, at what valuation, who else is in the round? Is Accelerating Asia leading or a small ticket?",
-      "SEA expansion timing: what triggers the Singapore/Philippines/Vietnam expansion \u2014 ARR threshold, customer type, or already in motion?",
-      "Founder dynamics: Yuliam (CTO) appears to be the strongest credential. Is he fully hands-on or more advisory? How are decisions made across the four founders?",
-      "fileAI question: how does Yawin think about fileAI as competitor vs. market validator? What stops fileAI from going deeper into credit decisioning?"
-    ],
-    "deckReviewed": "May 2026 \u2014 v6.1",
-    "notes": "Strong 4-person operator team, all with domain depth inside Indonesian lending/banking. Business model is elegant \u2014 usage-based pricing aligned with customer success creates negative churn. 99% retention and 20% MoM growth are standout metrics. SC Ventures pitch finalist Mar 2026 (Standard Chartered venture arm, Peak XV, Plug and Play as judges). ISO 27001:2022 certified, penetration tested \u2014 important for regulated-entity sales. Deck confidently positions as 'credit infrastructure of APAC' \u2014 ambitious but credible given the data moat thesis."
+    "lastUpdated": "2026-05-18",
+    "source": "accelerating-asia",
+    "sourceLabel": "Accelerating Asia C12",
+    "funding": {
+      "raised": "Accelerating Asia C12 (Nov 2025)",
+      "latestRound": "Pre-seed",
+      "seeking": "Raising \u2014 terms TBC"
+    }
   }
 ]
