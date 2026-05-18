@@ -8,26 +8,6 @@
     "sourceLabel": "Iterative S25"
   },
   {
-    "name": "Fineksi",
-    "meta": "Indonesia \u00b7 Accelerating Asia C12",
-    "desc": "Document automation for credit analysis in Indonesian banking and lending. Credit documents flowing through their automation layer. Indonesia has 270M people and a massive underserved credit market. Banks still process credit applications largely manually.",
-    "trigger": "Confirmed bank integrations and ARR figures. Clarity on whether they're automation tooling (replaceable) or embedded infrastructure (sticky). Founder profile assessment.",
-    "source": "accelerator",
-    "sourceLabel": "Accelerating Asia C12",
-    "question": "What % of revenue is from pay-per-page vs platform fees? Who are the 30+ customers by segment (P2P, BPR, multifinance)? What is the path to credit decision engine (Finsight Decision at ~1% of loan amount) \u2014 when does that go live? Is the SC Ventures relationship converting to investment?",
-    "notes": "Deck reviewed May 2026. Key upgrade from prior assessment: CTO Yuliam Chandra has 8+ years credit at Indonesia's largest bank AND grew $0\u2192$1B AUM in 4 years \u2014 this is genuine domain depth, not just tech background. Business model is excellent: pay-per-page creates usage-based pricing that scales with customer loan book. 99% net retention is exceptional. Competitive moat: cross-lender model improves with each new lender \u2014 proprietary credit patterns across Indonesia become a data moat no single-lender tool can replicate. Vision: APAC credit infrastructure layer. Neera meeting founder Yawin 19 May 2026.",
-    "raised": "Raising (amount TBC) \u2014 Accelerating Asia C12 backed",
-    "founders": [
-      "Wildiyanto Yawin (CEO) \u2014 20+ yrs tech, built tech serving $800M AUM, acquired 2 lending licences",
-      "Yuliam Chandra (CTO) \u2014 8+ yrs credit at Indonesia's biggest bank, grew company $0\u2192$1B AUM in 4 years",
-      "Yohanes Rico (COO) \u2014 20+ yrs tech solutions, ex-BCA, Modal Rakyat, ex-Fazz Capital",
-      "Paramita Wikansari (CCO) \u2014 10+ yrs fintech, 3x built product 0-1-100, increased revenue 200%"
-    ],
-    "founderNotes": "Strong 4-person founding team, all domain operators. Yuliam Chandra (CTO) is the standout: 8+ years credit at Indonesia's biggest bank, grew company to $1B AUM. This is the domain depth we look for. Yawin (CEO) has lending licence acquisition experience \u2014 rare. SC Ventures pitch finalist Mar 2026.",
-    "traction": "~$360K ARR, 20% MoM growth, 99% net retention, 30+ customers, 6x YoY growth. Pay-per-page model creates negative churn as lenders grow.",
-    "thesis": "AI credit intelligence layer for Indonesian lenders \u2014 automates bank statement analysis, document fraud detection, and credit decisioning. Information flow infrastructure: data flows through Fineksi on every loan application. Negative churn baked in: pay-per-page means ARR grows automatically as customers' loan books grow. Cross-lender data moat builds with scale."
-  },
-  {
     "name": "Integuide",
     "meta": "Australia \u00b7 Startmate W25",
     "desc": "Industrial AI knowledge capture \u2014 body-cam recordings of senior technicians converted into searchable AI knowledge bases for junior field staff. Sits in the information flow between human expertise and operational execution. Heavy industry (mining, utilities, manufacturing) institutional memory problem is large and genuine. Founders: Hunter Jay (built Ripe Robotics) + Slava Chalnev (AI safety researcher).",

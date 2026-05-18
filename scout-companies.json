@@ -165,5 +165,55 @@
       "investors": "Seedcamp (lead), Drysdale Ventures, Motier Ventures, Kima Ventures, Better Angle",
       "latestRound": "Seed"
     }
+  },
+  {
+    "name": "Fineksi",
+    "tagline": "AI credit intelligence layer for Indonesian lenders",
+    "country": "Indonesia",
+    "hq": "Jakarta, Indonesia",
+    "founded": 2023,
+    "stage": "Pre-seed",
+    "status": "contacted",
+    "raised": "Accelerating Asia C12 backed \u2014 raising (terms TBC)",
+    "arr": "~$360K USD",
+    "growth": "20% MoM, 6x YoY, 99% net retention",
+    "customers": "30+ lenders (P2P, BPR, multifinance, commercial banks)",
+    "source": "Accelerating Asia Cohort 12",
+    "sourceType": "accelerator",
+    "sourceLabel": "Accelerating Asia",
+    "website": "fineksi.com",
+    "tags": [
+      "Information flow",
+      "Credit intelligence",
+      "AI underwriting",
+      "Document fraud detection",
+      "Indonesia",
+      "SEA"
+    ],
+    "founders": [
+      "Wildiyanto Yawin (CEO) \u2014 20+ yrs tech, built tech serving $800M AUM, acquired 2 lending licences",
+      "Yuliam Chandra (CTO) \u2014 8+ yrs credit at Indonesia's biggest bank, grew company $0\u2192$1B AUM in 4 years",
+      "Yohanes Rico (COO) \u2014 20+ yrs tech solutions, ex-BCA, Modal Rakyat, ex-Fazz Capital Finance",
+      "Paramita Wikansari (CCO) \u2014 10+ yrs fintech, 3x built product 0-1-100"
+    ],
+    "thesis": "AI credit intelligence infrastructure for SEA lenders. Automates bank statement analysis, document fraud detection, and credit decisioning. Pay-per-page model creates negative churn \u2014 ARR grows automatically as customers' loan books grow. Cross-lender data moat: credit patterns across 30+ lenders create proprietary risk signals no single-lender tool can replicate. Path from document extraction layer ($0.10/page) to credit decision engine (Finsight Decision ~1% of loan amount) is the prize. fileAI (graveyarded \u2014 $20M raised) validates the document automation market; Fineksi builds deeper into credit decisioning territory fileAI cannot follow.",
+    "competitive": "Competes with fileAI (horizontal doc automation \u2014 graveyarded by us, too expensive), generic credit scoring tools. Differentiation: vertical-only (lenders), outputs a credit decision not just structured data, cross-lender model improves with scale. fileAI cannot make credit decisions without becoming a lender.",
+    "contacts": [
+      "Wildiyanto Yawin (CEO) \u2014 yawin@fineksi.com | +65 8328 7750 | linkedin.com/in/wyawin/"
+    ],
+    "contactLog": "Neera contacted via Accelerating Asia (Apr 2026). Meeting with Yawin (CEO) scheduled 19 May 2026.",
+    "ddQuestions": [
+      "Business model depth: Finsight Decision at ~1% of loan amount \u2014 when does that go live? Any customers already using it? This is the product that makes Fineksi infrastructure, not a tool.",
+      "Customer composition: what is the mix of the 30+ customers \u2014 P2P lenders, BPR (rural banks), multifinance, commercial banks? How embedded are they in regulated institutions?",
+      "Retention quality: is the 99% figure net revenue retention (accounting for expansion) or logo retention? NRR >99% is exceptional; logo retention at $360K ARR is less meaningful.",
+      "Cross-lender data moat \u2014 is this live today or a vision slide? How many lenders are contributing to the shared model, and can they demonstrate model improvement from cross-lender data?",
+      "SC Ventures (finalist Mar 2026): did they proceed to investment/diligence or was it purely a visibility win?",
+      "Raise terms: what are they raising, at what valuation, who else is in the round? Is Accelerating Asia leading or a small ticket?",
+      "SEA expansion timing: what triggers the Singapore/Philippines/Vietnam expansion \u2014 ARR threshold, customer type, or already in motion?",
+      "Founder dynamics: Yuliam (CTO) appears to be the strongest credential. Is he fully hands-on or more advisory? How are decisions made across the four founders?",
+      "fileAI question: how does Yawin think about fileAI as competitor vs. market validator? What stops fileAI from going deeper into credit decisioning?"
+    ],
+    "deckReviewed": "May 2026 \u2014 v6.1",
+    "notes": "Strong 4-person operator team, all with domain depth inside Indonesian lending/banking. Business model is elegant \u2014 usage-based pricing aligned with customer success creates negative churn. 99% retention and 20% MoM growth are standout metrics. SC Ventures pitch finalist Mar 2026 (Standard Chartered venture arm, Peak XV, Plug and Play as judges). ISO 27001:2022 certified, penetration tested \u2014 important for regulated-entity sales. Deck confidently positions as 'credit infrastructure of APAC' \u2014 ambitious but credible given the data moat thesis."
   }
 ]
