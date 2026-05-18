@@ -108,5 +108,33 @@
     "thesis": "Agent lifecycle governance infrastructure \u2014 evaluate, retrain, and gate AI agents in regulated enterprise environments. Proprietary eval frameworks trained on customer-specific benchmarks create a data flywheel. Switching cost: once your agent governance is built on Xplore, rebuilding eval chains is expensive.",
     "question": "Do they have any paying enterprise customers? What regulated industries are they targeting first (financial services, legal, healthcare)? Founders sharp enough to sell into enterprise?",
     "notes": "From Tech Nation Breakout 50 (May 2026). 2 people, \u00a30 raised, founded 2025 \u2014 extremely early. Most thesis-aligned non-fintech find in the batch. Directly adjacent to Outliers 'Agent Economy Financial Rails' thesis \u2014 this is the governance/compliance layer for AI agents. Website live and product-forward. Egor background includes Schlumberger SEED (MIT/Stanford collaboration). Broad mandate applies here \u2014 non-fintech B2B AI infrastructure."
+  },
+  {
+    "name": "Paypers",
+    "country": "Thailand",
+    "hq": "Thailand",
+    "founded": 2024,
+    "stage": "Pre-seed",
+    "raised": "Raising $1M",
+    "source": "Iterative W26 Demo Day",
+    "sourceType": "accelerator",
+    "sourceLabel": "Iterative",
+    "tags": [
+      "Information flow",
+      "SME finance",
+      "Tax compliance",
+      "FinTech",
+      "Thailand",
+      "SEA"
+    ],
+    "website": "paypers.co",
+    "founders": [
+      "Flora (CEO)",
+      "Co-founder (infrastructure/blockchain background)"
+    ],
+    "founderNotes": "Flora: previously scaled startup from $0 to $90M GMV in 3 years \u2014 strong operator. Co-founder: 6+ years leading infrastructure/tech for global blockchain companies. Both have relevant domain depth.",
+    "thesis": "Financial data infrastructure for Thai SMEs via Line Messenger \u2014 meeting SMEs where they already communicate. Structures unstructured financial data (receipts, documents) into tax-ready outputs. Moat: first mover capturing SME financial data at scale in Thailand, enabling future SME lending that banks currently cannot underwrite.",
+    "question": "What is current ARR? Who are paying customers \u2014 direct SMEs or accounting firms as channel? What is the roadmap from tax compliance to SME lending? Are they raising now or closed?",
+    "notes": "Iterative W26 Demo Day (May 2026). Exceptional traction: 36,000 sign-ups, 20% WoW revenue growth, 5x revenue in 12 weeks with zero marketing spend, customers paying yearly upfront. Expanding: tax \u2192 AI finance back-office \u2192 SME lending. SEA market: 84% of SMEs are mom-and-pop shops. Thailand TAM for lending alone >$90B/year. Neera has requested a call. Strongest traction signal in the W26 batch."
   }
 ]
