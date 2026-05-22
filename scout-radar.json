@@ -29,7 +29,10 @@
     "desc": "Cross-border payments platform for e-commerce merchants using stablecoin rails to settle in real-time, reducing cross-border fees from 3\u20135% to near-zero. Founders: Yi Zhang (blockchain infrastructure background) and Ivy Fan (managed millions in cross-border capital flows). Based Melbourne + Wyoming. Addresses a real problem but operates in an increasingly crowded stablecoin payments space.",
     "trigger": "Differentiated moat beyond stablecoin routing \u2014 what makes iBnkVault sticky once the e-commerce merchant is onboarded? Watch for: anchor merchant partnerships or a unique corridor that large players aren't serving well.",
     "source": "accelerator",
-    "sourceLabel": "Startmate S26"
+    "sourceLabel": "Startmate S26",
+    "callNotes": "Call with founders 22 May 2026 \u2014 Neera + AD (Andrew Dawkins, LV colleague). Key findings: MVP live, invitation-only. Full product launch expected 1-2 months. Target $1M revenue in 6 months. Licensing: US + Canada operating financial licence in hand; ASIC/DAP Australia approval pending (expected later 2026). Raising $2M (unclear if Seed or Series A \u2014 founders unclear on round type). Valuation: 'will let the investor decide' \u2014 no pre-money stated. Primary target customers: Chinese SME sellers via TikTok/Shopify doing cross-border payments. Secondary: enterprise API for international payment processing.",
+    "callConcerns": "1. Very early \u2014 MVP only, invitation-only, no revenue yet. $1M in 6 months target is ambitious from zero. 2. Differentiation vs Airwallex/Wise claimed as speed, simplicity, stablecoin rails, local bank settlement \u2014 but no quantified evidence yet. 3. Margin erosion risk: Stripe took significant margin on a recent $1.1M transfer \u2014 third-party dependency is a real cost structure problem. 4. Large competitors (Airwallex, Wise, Ripple) could replicate stablecoin feature and absorb iBnk's proposition. 5. Regulatory risk: ASIC/DAP approval still pending. 6. Round confusion (Seed vs Series A) and no valuation guidance suggests early-stage fundraising inexperience. 7. Ivy Fan's LinkedIn still shows Qura.xyz \u2014 split focus concern remains unresolved from prior assessment.",
+    "status": "contacted \u2014 call done 22 May 2026. Team discussing at weekly standup Tue 26 May."
   },
   {
     "name": "Orivfy",
