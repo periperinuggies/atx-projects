@@ -1,251 +1,316 @@
 [
-  {
-    "id": "factoryai",
-    "name": "Factory AI",
-    "status": "watching",
-    "country": "Australia",
-    "flag": "\ud83c\udde6\ud83c\uddfa",
-    "accelerator": "Antler AUS8 + Skalata",
-    "url": "https://f7i.ai",
-    "stage": "Pre-seed \u2014 Antler + Skalata backed",
-    "flow": "information",
-    "region": "aunz",
-    "ac": "#34d399",
-    "founderFlag": null,
-    "fundingNote": "Antler (Jan 2023) + Skalata Ventures (follow-on)",
-    "comparable": "Samsara / Augury \u2014 industrial IoT analytics. But hardware-agnostic and brownfield-ready: works with existing sensors, SCADA, and historians \u2014 no proprietary hardware lock-in or rip-and-replace.",
-    "founders": [
-      {
-        "name": "Jean-Philippe Picard \u2014 CEO",
-        "li": "https://linkedin.com/in/jean-philippe-picard-30a8a030/"
-      },
-      {
-        "name": "Tim Cheung \u2014 CTO",
-        "li": "https://linkedin.com/in/cheungtimothy/"
-      }
-    ],
-    "whatTheyDo": "Sensor-agnostic predictive maintenance and AI-powered CMMS platform for mid-sized manufacturers. Connects to existing sensors, historians, and SCADA systems \u2014 no new hardware required. Uses ML to detect anomalies before they cause failures, then tells maintenance teams exactly which component will fail and when. Deploys in under 14 days in brownfield environments. CMMS (work orders, asset management, maintenance scheduling) bundled at no additional cost.",
-    "whyFlagged": "Information flow pipe between factory floor sensor data and maintenance decision-making. Once Factory AI is embedded in a manufacturer's maintenance workflow \u2014 anomaly alerts, work orders, asset monitoring \u2014 switching means rebuilding sensor connections across every asset, retraining maintenance teams, and migrating historical data. Hardware-agnostic architecture is the critical differentiator: most competitors require proprietary sensors, creating a high-friction entry but also low exit cost. Factory AI removes the entry barrier and builds the exit barrier through data accumulation and workflow integration. Named customers include Arnott's Group, General Mills, Tip Top, and Darrell Lea \u2014 enterprise proof at pre-seed stage. Skalata follow-on is the clearest signal: Skalata's mandate is $500K\u2013$3M ARR companies, confirming real revenue traction.",
-    "macroTailwind": "Unplanned downtime costs AU industrial businesses median $349,000 per hour (ABB Group data). 69% of AU industrial businesses experience unplanned outages at least monthly. Global predictive maintenance market growing at 30%+ CAGR as OT/IT convergence accelerates. Labour shortages in manufacturing driving demand for AI-assisted maintenance \u2014 fewer skilled reliability engineers available, more pressure on software to fill the gap.",
-    "needsToBeTrue": "Revenue model scales from entry-level $12.5K ARR deals to the $200K ARR expansion potential per customer as more assets are onboarded. US customers (already in the pipeline) convert to meaningful ARR without disproportionate CAC. Skalata backing implies confirmed $500K+ ARR threshold \u2014 that number needs to be verified.",
-    "risks": "Manufacturing enterprise sales are relationship-driven and slow \u2014 3-month sales cycle is already short by industry standards but cash intensity before close is real. Competing against well-funded incumbents (Samsara at $23B market cap, Augury, SparkCognition) with deeper resources. Hardware-agnostic claim needs to hold across the full variety of brownfield plant sensor estates \u2014 complexity is underestimated. First-time founders with no prior exit.",
-    "founderProfile": "Jean-Philippe Picard (CEO) and Tim Cheung (CTO). Tim encountered the predictive maintenance pain directly while working with a UK manufacturer experiencing chronic unplanned downtime \u2014 classic problem-first founding. The pair conducted hundreds of conversations with reliability engineers to validate the problem was pervasive before building. Both engaged Antler's residency with deep domain conviction, not a generic AI thesis. Skalata backing provides operator-level mentoring and a bridge to Series A through their portfolio network.",
-    "revenueModel": "SaaS subscription: $35/user/month (Prevent CMMS, annual billing) + Predict anomaly detection platform (enterprise pricing, undisclosed). Entry contracts ~$12.5K ARR expanding to ~$200K per customer as more assets are onboarded. 0% churn across 15 paying customers. 25% reduction in maintenance costs and 70% reduction in breakdowns reported by customers.",
-    "tags": [
-      "Information flow",
-      "Manufacturing / Industrial AI",
-      "Australia",
-      "Domain-expert founder",
-      "B2B SaaS"
-    ],
-    "diligence": [
-      "Confirmed ARR figure \u2014 Skalata mandate implies $500K+, but what is the actual number and trajectory?",
-      "US customers \u2014 how many, what ARR, and what was the go-to-market into North America?",
-      "Average deal expansion rate \u2014 how many of the 15 customers have grown from $12.5K entry to larger contracts?",
-      "Gross margin at current scale \u2014 what does the unit economics look like per customer per month?",
-      "Hardware-agnostic claim in practice \u2014 what is the most complex sensor/historian combination deployed so far?",
-      "Competitive displacement: have any deals been won by replacing Samsara or Augury, or is it all greenfield?",
-      "Follow-on raise: timing, amount, and who is leading the Series A process?"
-    ],
-    "lastUpdated": "2026-04-09",
-    "source": "antler",
-    "sourceLabel": "Antler AUS8",
-    "funding": {
-      "raised": "Antler (Jan 2023) + Skalata Ventures (follow-on)",
-      "latestRound": "Pre-seed + Skalata follow-on",
-      "seeking": "A$2.5M Seed (Feb 2026 \u2014 active raise)"
-    }
-  },
-  {
-    "id": "switchboard",
-    "name": "Switchboard",
-    "status": "contacted",
-    "country": "Australia",
-    "flag": "\ud83c\udde6\ud83c\uddfa",
-    "accelerator": "Skalata SF-III",
-    "url": "https://switchboardcloud.com",
-    "stage": "Pre-seed \u2014 $1.5M AUD raised",
-    "flow": "information",
-    "region": "aunz",
-    "ac": "#60a5fa",
-    "founderFlag": null,
-    "fundingNote": "$1.5M AUD pre-seed (Jun 2024) \u2014 Archangel, Skalata, Startmate, TEN13, Investible",
-    "comparable": "SPS Commerce / TrueCommerce \u2014 EDI and supply chain integration platforms. AU mid-market equivalent with no entrenched local player at this price point.",
-    "founders": [
-      {
-        "name": "Hugh Dixson \u2014 CEO/Founder (BCG \u2192 Uber Ops \u2192 Head of M&A, Ofload)",
-        "li": "https://linkedin.com/in/hughdixson"
-      }
-    ],
-    "whatTheyDo": "Supply chain integration platform connecting businesses to their suppliers, customers, and logistics partners via a single API layer. Automates inventory, order handling, invoicing, and documentation between trading partners \u2014 replacing manual processes and fragmented point-to-point integrations. SOC-2 and ISO-27001 certified. Marketed at 10% the cost of existing solutions.",
-    "whyFlagged": "Pure infrastructure pipe. Once a company's trading partner network (suppliers, customers, 3PLs) is onboarded through Switchboard, switching means re-integrating every partner from scratch. The EDI modernisation play for AU's mid-market \u2014 the US incumbents (SPS Commerce, TrueCommerce) are expensive, legacy, and US-focused. Founder lived the problem directly at Ofload, where a manual data entry error cost $100K in a single incident.",
-    "macroTailwind": "Post-COVID supply chain digitisation pressure; large AU retailers (Woolworths, Coles, Amazon AU) forcing supplier compliance with digital ordering/invoicing; near-shoring driving partner network expansion; AI analytics on supply chain data becoming a boardroom priority.",
-    "needsToBeTrue": "Signs 3\u20135 mid-market anchor customers each with multiple trading partners (network effects only kick in with density). The 10% cost claim holds at scale without margin compression. Hugh translates BCG/Ofload pedigree into enterprise sales execution.",
-    "risks": "Competing against NASDAQ-listed SPS Commerce and IBM Sterling \u2014 they have AU distribution. Network effects take time. Pre-seed means limited proof beyond product. Hugh has not previously founded a company \u2014 strong operator pedigree but no founder track record.",
-    "founderProfile": "Hugh Dixson (CEO, sole founder) \u2014 BCG, Uber operations, then Head of Operations and Head of M&A at Ofload (one of AU's leading digital road freight platforms). Deep supply chain operations background. The founding insight: a $100K error from manual data entry at Ofload. No prior exit, but operator pedigree is strong and the problem is clearly first-hand.",
-    "revenueModel": "SaaS subscription \u2014 per-integration volume or ARR per trading partner network. Network grows as more partners onboard; revenue per customer increases with usage. High switching cost once supply chain integrations are live.",
-    "tags": [
-      "Information flow",
-      "Supply chain infra",
-      "Australia",
-      "Operator founder",
-      "B2B"
-    ],
-    "diligence": [
-      "How many live paying customers with active trading partner integrations?",
-      "Average trading partners per customer \u2014 is network density building?",
-      "Revenue per customer \u2014 what does a typical contract look like?",
-      "Gross margin at current scale \u2014 does the 10% cost claim leave adequate margin?",
-      "Who is closing enterprise deals, and what is the sales cycle length?",
-      "Is there an analytics/AI layer planned on top of the integration data?",
-      "Any Woolworths or Coles supplier mandate for digital integration that Switchboard benefits from directly?"
-    ],
-    "lastUpdated": "2026-03-23",
-    "source": "accelerator",
-    "sourceLabel": "Skalata SF-III",
-    "funding": {
-      "raised": "A$1.5M pre-seed (Jun 2024)",
-      "investors": "Archangel, Skalata, Startmate, TEN13, Investible",
-      "latestRound": "Pre-seed"
-    }
-  },
-  {
-    "id": "topograph",
-    "name": "Topograph",
-    "status": "watching",
-    "country": "France",
-    "flag": "\ud83c\uddeb\ud83c\uddf7",
-    "accelerator": "Seedcamp 2026",
-    "url": "https://topograph.co",
-    "stage": "Seed \u2014 \u20ac2M raised (Mar 2026)",
-    "flow": "information",
-    "region": "europe",
-    "ac": "#60a5fa",
-    "founderFlag": null,
-    "fundingNote": "\u20ac2M seed (Mar 2026) \u2014 Seedcamp (lead), Drysdale Ventures, Motier Ventures, Kima Ventures, Better Angle",
-    "comparable": "Dun & Bradstreet / Kyckr \u2014 but source-native, traceable, and real-time. Once compliance workflows integrate directly to official registers via Topograph, switching means re-building country-by-country data pipelines across 40+ jurisdictions.",
-    "founders": [
-      {
-        "name": "Pierre-Henri Janssens \u2014 CEO & Co-Founder (ex-1POINT6 / BNP Paribas)",
-        "li": "https://linkedin.com/in/pierre-henri-janssens-27b12ba6/"
-      },
-      {
-        "name": "Hugo Dellinger \u2014 CTO & Co-Founder (ex-1POINT6 / BNP Paribas)",
-        "li": null
-      }
-    ],
-    "whatTheyDo": "B2B data infrastructure for global Know-Your-Business (KYB) compliance. Connects directly to official company registers in 40+ countries and delivers real-time, structured business data and supporting documents via a single API endpoint. Every data point is traceable back to its originating official source \u2014 not scraped or repackaged. Used by neobanks, PSPs, BNPL providers, and compliance software vendors to automate multi-jurisdiction business identity verification.",
-    "whyFlagged": "Textbook information flow pipe. Every KYB check \u2014 whether for onboarding, ongoing monitoring, or AML \u2014 flows through Topograph. The platform doesn't make compliance decisions; it is the data layer that compliance tools and financial institutions run on. Switching means rebuilding country-by-country register integrations across 40+ jurisdictions \u2014 a multi-year project for any mid-sized fintech. Seedcamp validation (Revolut, Wise, Pleo alumni) is the strongest European seed signal available. Paying customers already: Hero (neobank), Pledg (BNPL), Lemonway (PSP), Spektr, Dotfile, Ondorse.",
-    "macroTailwind": "EU AML and KYB regulatory pressure escalating \u2014 6th AML Directive tightening requirements, AI-assisted compliance requiring grounded, verifiable data. Cross-border fintech growth (neobanks, BNPL, PSPs) creating structurally growing demand for multi-jurisdiction business identity infrastructure. Manual country-by-country verification becoming commercially indefensible at scale.",
-    "needsToBeTrue": "Expansion to 80+ countries (North America, Asia, ME) delivers on the global-coverage thesis without compromising data quality or traceability. Competitor (Kyckr, Bureau van Dijk/Moody's) doesn't out-invest on register integrations. API usage per customer compounds as fintech clients scale their own customer bases.",
-    "risks": "Capital-intensive to build and maintain register integrations at global scale. Large incumbents (Moody's/Bureau van Dijk, LSEG) could acquire or out-fund. US and Asian expansion earmarked \u2014 early on those corridors. Founder pair, not a broader team yet at \u20ac2M stage.",
-    "founderProfile": "Pierre-Henri Janssens (CEO) and Hugo Dellinger (CTO) were both founding team members of 1POINT6, BNP Paribas's embedded payment services subsidiary, where they encountered the KYB data gap directly while onboarding merchants across multiple countries. Classic operator-founders: lived the problem inside a Tier 1 financial institution before building the solution they couldn't find. Prior company building at BNP Paribas scale is the right credential for selling into regulated financial services.",
-    "revenueModel": "API usage-based pricing \u2014 per query / per register data pull. Fintech customers pay per KYB check, with volume discounts. Compliance software vendors pay for platform integration. Revenue scales directly with customer transaction volumes and geographic expansion. Natural NRR expansion as customers grow and enter new markets.",
-    "tags": [
-      "Information flow",
-      "KYB / Compliance infra",
-      "France / Europe",
-      "API-first",
-      "B2B"
-    ],
-    "diligence": [
-      "Current ARR and MRR growth rate \u2014 is usage compounding with fintech client growth?",
-      "How many active API customers vs total signed up?",
-      "Revenue split: direct fintech clients vs compliance software vendor partnerships?",
-      "Unit economics per country \u2014 does profitability hold as lower-volume jurisdictions are added?",
-      "North America and Asia expansion plan \u2014 register access complexity and timeline?",
-      "Any current or planned relationships with EU regulators or AML authorities that strengthen the moat?",
-      "Are Seedcamp terms convertible or priced? Any pro-rata reserved for next round?"
-    ],
-    "lastUpdated": "2026-04-01",
-    "source": "accelerator",
-    "sourceLabel": "Seedcamp 2026",
-    "funding": {
-      "raised": "\u20ac2M seed (Mar 2026)",
-      "investors": "Seedcamp (lead), Drysdale Ventures, Motier Ventures, Kima Ventures, Better Angle",
-      "latestRound": "Seed"
-    }
-  },
-  {
-    "id": "fineksi",
-    "name": "Fineksi",
-    "status": "contacted",
-    "country": "Indonesia",
-    "flag": "\ud83c\uddee\ud83c\udde9",
-    "accelerator": "Accelerating Asia C12",
-    "url": "https://fineksi.com",
-    "stage": "Pre-seed \u2014 Accelerating Asia C12 backed",
-    "flow": "information",
-    "region": "sea",
-    "ac": "#34d399",
-    "founderFlag": null,
-    "fundingNote": "Accelerating Asia C12 (Nov 2025) + ADB Ventures (in DD, up to $400K) + Hi2Global (US VC, Singapore arm) + Portage/Protege (IC approved) + existing shareholders follow-on. Raising $400\u2013500K minimum. 50% hard committed. Likely oversubscribed.",
-    "comparable": "fileAI (graveyarded \u2014 $20M raised, too late for us) \u2014 but Fineksi goes deeper into credit decisioning. fileAI extracts document data; Fineksi outputs credit recommendations. Moneta is a direct SEA peer in credit AI.",
-    "founders": [
-      {
-        "name": "Wildiyanto Yawin \u2014 CEO",
-        "li": "https://linkedin.com/in/wyawin/"
-      },
-      {
-        "name": "Yuliam Chandra \u2014 CTO",
-        "li": ""
-      },
-      {
-        "name": "Yohanes Rico \u2014 COO",
-        "li": "https://linkedin.com/in/yohanes-rico/"
-      },
-      {
-        "name": "Paramita Wikansari \u2014 CCO",
-        "li": "https://linkedin.com/in/paramita-wikansari-3479845"
-      }
-    ],
-    "whatTheyDo": "AI credit intelligence layer for institutional lenders \u2014 automates bank statement analysis (200+ formats, 70+ Indonesian banks), financial statement analysis, document fraud/forgery detection, and structured credit memo output. Processes 213,000+ documents in past 12 months, 25,000+ borrowers analysed. Covers Character + Capacity of the 5 Cs today; Collateral starting. Full Finsight Decision (all 5 Cs, ~1% of loan amount) is the long-term infrastructure play. Deployed across 30+ lenders including Permata Bank (9th largest Indonesia), ShinHan Bank (top 15 Vietnam), Hana Bank, Panin Dubai. Feb 2026 profitable.",
-    "whyFlagged": "Information flow infrastructure embedded in institutional bank credit workflows. Every loan application flows through Fineksi \u2014 once a bank integrates API/on-premise, switching means rebuilding document processing, fraud detection, and credit memo stack. 105% NRR confirms negative churn is live, not theoretical. Institutional bank customers (>50% of ARR) have real procurement processes \u2014 these aren't cancellable trial arrangements. ADB Ventures in DD adds institutional validation. The 80/20 thesis vs fileAI is defensible: generic OCR does 20% (extraction); Fineksi does the remaining 80% (analysis, ratios, fraud flags, cross-document validation, structured output). Profitable at $360K ARR with 20% MoM growth.",
-    "macroTailwind": "Indonesia NPL losses: $28B/year from fraud and bad credit decisions. 5\u201314 day average loan processing time creates massive competitive pressure on lenders to move faster. Indonesia's $3T+ loan market is largely manual and fragmented \u2014 AI-native credit infrastructure is a greenfield opportunity. SEA expansion (Philippines, Singapore, Vietnam) follows the same structural problem across all emerging APAC lending markets.",
-    "needsToBeTrue": "Finsight Decision (the ~1% of loan amount credit engine) goes live and converts existing pay-per-page customers to the higher-value product. Cross-lender data moat is real and actively improving models \u2014 not just a vision slide. SC Ventures relationship converts to investment or meaningful distribution partnership. SEA expansion executes without over-stretching the team.",
-    "risks": "Finsight Decision (all 5 Cs, ~1% of loan amount) is 'a while away' \u2014 currently only Character + Capacity live. Until that product launches, switching costs are lower than true infrastructure. Valuation not yet disclosed \u2014 pre-money number needs to be reasonable for $360K ARR. Sigma VC (wanted 50% of round) situation needs clarity \u2014 now superseded by ADB Ventures. Indonesia founder fraud context (eFishery, Investree etc.) creates investor trust headwinds, though Fineksi's institutional B2B revenue is structurally different from the fraud cases (API call revenue from banks is hard to fabricate). English communication barrier with Yawin (Jawa Indonesian) \u2014 manageable but worth noting for ongoing relationship.",
-    "founderProfile": "Four-person founding team, all domain operators. Yawin (CEO): 20+ yrs tech, built tech serving $800M AUM, acquired 2 lending licences. Yuliam Chandra (CTO): 8+ yrs credit at Indonesia's biggest bank, grew company $0\u2192$1B AUM in 4 years \u2014 the standout credential. Yohanes Rico (COO): ex-BCA, Modal Rakyat, Fazz Capital Finance \u2014 lived the exact credit document pain. Paramita (CCO): 10+ yrs fintech, 3x built product 0-1-100. ISO 27001:2022 certified and penetration tested.",
-    "revenueModel": "Pay-per-page ($0.10/page doc analysis). Tiered SaaS: Small ~$300/mo, Medium ~$1,000/mo, Large ~$3,000/mo. Revenue breakdown (May 2026): ShinHan Bank Vietnam 20%, Panin Dubai 16%, Permata Bank 7% (upsell path to ~20% = ~$150K ARR), Hana Bank 7%, Komunal (P2P) 7%, balance ~43% across 25+ lenders. 105% net revenue retention (expanding customers outpace churn). Finsight Decision (~1% of loan amount) on roadmap \u2014 requires all 5 Cs live.",
-    "tags": [
-      "Information flow",
-      "Credit intelligence",
-      "AI underwriting",
-      "Document fraud detection",
-      "Indonesia",
-      "SEA"
-    ],
-    "diligence": [
-      "Pre-money valuation \u2014 what are they asking? Sub-$5M would be fair for $360K ARR at 20% MoM; they may ask higher.",
-      "Sigma VC situation \u2014 is their 50% request now off the table given ADB Ventures filling the round?",
-      "Finsight Decision timeline \u2014 what does 'a while away' mean specifically? 12 months? 24 months? What's the technical blocker (Collateral analysis requires property data integrations)?",
-      "ADB Ventures DD status \u2014 what stage are they at, and what is their expected close date?",
-      "Revenue verification \u2014 can they show bank contract agreements or invoice data for Permata, ShinHan, Panin Dubai, Hana Bank? Bank B2B revenue should have a clean paper trail.",
-      "Permata upsell status \u2014 'finalising upsell to ~$150K ARR' means contract drafted or verbal only?",
-      "Cross-lender data model \u2014 is the shared credit intelligence model live and improving, or still single-lender isolated models?",
-      "Indonesia operating risk \u2014 are they incorporated in Singapore (HoldCo confirmed Singapore) with Indonesian operating subsidiary? What is the corporate structure?",
-      "Cap table \u2014 who are the existing shareholders and what are their stakes? Any preference stacks or anti-dilution provisions?",
-      "Gross margins at current scale \u2014 what is the cost per document processed and margin per customer tier?"
-    ],
-    "lastUpdated": "2026-05-21",
-    "source": "accelerating-asia",
-    "sourceLabel": "Accelerating Asia C12",
-    "funding": {
-      "raised": "Accelerating Asia C12 (Nov 2025)",
-      "latestRound": "Pre-seed",
-      "seeking": "Raising \u2014 terms TBC"
+    {
+        "id": "factoryai",
+        "name": "Factory AI",
+        "status": "watching",
+        "country": "Australia",
+        "flag": "🇦🇺",
+        "accelerator": "Antler AUS8 + Skalata",
+        "url": "https://f7i.ai",
+        "stage": "Pre-seed — Antler + Skalata backed",
+        "flow": "information",
+        "region": "aunz",
+        "ac": "#34d399",
+        "founderFlag": null,
+        "fundingNote": "Antler (Jan 2023) + Skalata Ventures (follow-on)",
+        "comparable": "Samsara / Augury — industrial IoT analytics. But hardware-agnostic and brownfield-ready: works with existing sensors, SCADA, and historians — no proprietary hardware lock-in or rip-and-replace.",
+        "founders": [
+            {
+                "name": "Jean-Philippe Picard — CEO",
+                "li": "https://linkedin.com/in/jean-philippe-picard-30a8a030/"
+            },
+            {
+                "name": "Tim Cheung — CTO",
+                "li": "https://linkedin.com/in/cheungtimothy/"
+            }
+        ],
+        "whatTheyDo": "Sensor-agnostic predictive maintenance and AI-powered CMMS platform for mid-sized manufacturers. Connects to existing sensors, historians, and SCADA systems — no new hardware required. Uses ML to detect anomalies before they cause failures, then tells maintenance teams exactly which component will fail and when. Deploys in under 14 days in brownfield environments. CMMS (work orders, asset management, maintenance scheduling) bundled at no additional cost.",
+        "whyFlagged": "Information flow pipe between factory floor sensor data and maintenance decision-making. Once Factory AI is embedded in a manufacturer's maintenance workflow — anomaly alerts, work orders, asset monitoring — switching means rebuilding sensor connections across every asset, retraining maintenance teams, and migrating historical data. Hardware-agnostic architecture is the critical differentiator: most competitors require proprietary sensors, creating a high-friction entry but also low exit cost. Factory AI removes the entry barrier and builds the exit barrier through data accumulation and workflow integration. Named customers include Arnott's Group, General Mills, Tip Top, and Darrell Lea — enterprise proof at pre-seed stage. Skalata follow-on is the clearest signal: Skalata's mandate is $500K–$3M ARR companies, confirming real revenue traction.",
+        "macroTailwind": "Unplanned downtime costs AU industrial businesses median $349,000 per hour (ABB Group data). 69% of AU industrial businesses experience unplanned outages at least monthly. Global predictive maintenance market growing at 30%+ CAGR as OT/IT convergence accelerates. Labour shortages in manufacturing driving demand for AI-assisted maintenance — fewer skilled reliability engineers available, more pressure on software to fill the gap.",
+        "needsToBeTrue": "Revenue model scales from entry-level $12.5K ARR deals to the $200K ARR expansion potential per customer as more assets are onboarded. US customers (already in the pipeline) convert to meaningful ARR without disproportionate CAC. Skalata backing implies confirmed $500K+ ARR threshold — that number needs to be verified.",
+        "risks": "Manufacturing enterprise sales are relationship-driven and slow — 3-month sales cycle is already short by industry standards but cash intensity before close is real. Competing against well-funded incumbents (Samsara at $23B market cap, Augury, SparkCognition) with deeper resources. Hardware-agnostic claim needs to hold across the full variety of brownfield plant sensor estates — complexity is underestimated. First-time founders with no prior exit.",
+        "founderProfile": "Jean-Philippe Picard (CEO) and Tim Cheung (CTO). Tim encountered the predictive maintenance pain directly while working with a UK manufacturer experiencing chronic unplanned downtime — classic problem-first founding. The pair conducted hundreds of conversations with reliability engineers to validate the problem was pervasive before building. Both engaged Antler's residency with deep domain conviction, not a generic AI thesis. Skalata backing provides operator-level mentoring and a bridge to Series A through their portfolio network.",
+        "revenueModel": "SaaS subscription: $35/user/month (Prevent CMMS, annual billing) + Predict anomaly detection platform (enterprise pricing, undisclosed). Entry contracts ~$12.5K ARR expanding to ~$200K per customer as more assets are onboarded. 0% churn across 15 paying customers. 25% reduction in maintenance costs and 70% reduction in breakdowns reported by customers.",
+        "tags": [
+            "Information flow",
+            "Manufacturing / Industrial AI",
+            "Australia",
+            "Domain-expert founder",
+            "B2B SaaS"
+        ],
+        "diligence": [
+            "Confirmed ARR figure — Skalata mandate implies $500K+, but what is the actual number and trajectory?",
+            "US customers — how many, what ARR, and what was the go-to-market into North America?",
+            "Average deal expansion rate — how many of the 15 customers have grown from $12.5K entry to larger contracts?",
+            "Gross margin at current scale — what does the unit economics look like per customer per month?",
+            "Hardware-agnostic claim in practice — what is the most complex sensor/historian combination deployed so far?",
+            "Competitive displacement: have any deals been won by replacing Samsara or Augury, or is it all greenfield?",
+            "Follow-on raise: timing, amount, and who is leading the Series A process?"
+        ],
+        "lastUpdated": "2026-04-09",
+        "source": "antler",
+        "sourceLabel": "Antler AUS8",
+        "funding": {
+            "raised": "Antler (Jan 2023) + Skalata Ventures (follow-on)",
+            "latestRound": "Pre-seed + Skalata follow-on",
+            "seeking": "A$2.5M Seed (Feb 2026 — active raise)"
+        }
     },
-    "fundingRound": {
-      "raising": "$400\u2013500K USD",
-      "committed": "50% hard committed",
-      "investors": [
-        "Accelerating Asia",
-        "ADB Ventures (in DD, up to $400K)",
-        "Hi2Global",
-        "Portage/Protege (IC approved)",
-        "Existing shareholders follow-on"
-      ],
-      "valuation": "TBC \u2014 not disclosed"
+    {
+        "id": "switchboard",
+        "name": "Switchboard",
+        "status": "contacted",
+        "country": "Australia",
+        "flag": "🇦🇺",
+        "accelerator": "Skalata SF-III",
+        "url": "https://switchboardcloud.com",
+        "stage": "Pre-seed — $1.5M AUD raised",
+        "flow": "information",
+        "region": "aunz",
+        "ac": "#60a5fa",
+        "founderFlag": null,
+        "fundingNote": "$1.5M AUD pre-seed (Jun 2024) — Archangel, Skalata, Startmate, TEN13, Investible",
+        "comparable": "SPS Commerce / TrueCommerce — EDI and supply chain integration platforms. AU mid-market equivalent with no entrenched local player at this price point.",
+        "founders": [
+            {
+                "name": "Hugh Dixson — CEO/Founder (BCG → Uber Ops → Head of M&A, Ofload)",
+                "li": "https://linkedin.com/in/hughdixson"
+            }
+        ],
+        "whatTheyDo": "Supply chain integration platform connecting businesses to their suppliers, customers, and logistics partners via a single API layer. Automates inventory, order handling, invoicing, and documentation between trading partners — replacing manual processes and fragmented point-to-point integrations. SOC-2 and ISO-27001 certified. Marketed at 10% the cost of existing solutions.",
+        "whyFlagged": "Pure infrastructure pipe. Once a company's trading partner network (suppliers, customers, 3PLs) is onboarded through Switchboard, switching means re-integrating every partner from scratch. The EDI modernisation play for AU's mid-market — the US incumbents (SPS Commerce, TrueCommerce) are expensive, legacy, and US-focused. Founder lived the problem directly at Ofload, where a manual data entry error cost $100K in a single incident.",
+        "macroTailwind": "Post-COVID supply chain digitisation pressure; large AU retailers (Woolworths, Coles, Amazon AU) forcing supplier compliance with digital ordering/invoicing; near-shoring driving partner network expansion; AI analytics on supply chain data becoming a boardroom priority.",
+        "needsToBeTrue": "Signs 3–5 mid-market anchor customers each with multiple trading partners (network effects only kick in with density). The 10% cost claim holds at scale without margin compression. Hugh translates BCG/Ofload pedigree into enterprise sales execution.",
+        "risks": "Competing against NASDAQ-listed SPS Commerce and IBM Sterling — they have AU distribution. Network effects take time. Pre-seed means limited proof beyond product. Hugh has not previously founded a company — strong operator pedigree but no founder track record.",
+        "founderProfile": "Hugh Dixson (CEO, sole founder) — BCG, Uber operations, then Head of Operations and Head of M&A at Ofload (one of AU's leading digital road freight platforms). Deep supply chain operations background. The founding insight: a $100K error from manual data entry at Ofload. No prior exit, but operator pedigree is strong and the problem is clearly first-hand.",
+        "revenueModel": "SaaS subscription — per-integration volume or ARR per trading partner network. Network grows as more partners onboard; revenue per customer increases with usage. High switching cost once supply chain integrations are live.",
+        "tags": [
+            "Information flow",
+            "Supply chain infra",
+            "Australia",
+            "Operator founder",
+            "B2B"
+        ],
+        "diligence": [
+            "How many live paying customers with active trading partner integrations?",
+            "Average trading partners per customer — is network density building?",
+            "Revenue per customer — what does a typical contract look like?",
+            "Gross margin at current scale — does the 10% cost claim leave adequate margin?",
+            "Who is closing enterprise deals, and what is the sales cycle length?",
+            "Is there an analytics/AI layer planned on top of the integration data?",
+            "Any Woolworths or Coles supplier mandate for digital integration that Switchboard benefits from directly?"
+        ],
+        "lastUpdated": "2026-03-23",
+        "source": "accelerator",
+        "sourceLabel": "Skalata SF-III",
+        "funding": {
+            "raised": "A$1.5M pre-seed (Jun 2024)",
+            "investors": "Archangel, Skalata, Startmate, TEN13, Investible",
+            "latestRound": "Pre-seed"
+        }
     },
-    "contactLog": "Neera contacted via Accelerating Asia (Apr 2026). Call with Yawin (CEO) 19 May 2026 \u2014 answered key DD questions. Long deck reviewed 21 May 2026. Next step: data room requested."
-  }
+    {
+        "id": "topograph",
+        "name": "Topograph",
+        "status": "watching",
+        "country": "France",
+        "flag": "🇫🇷",
+        "accelerator": "Seedcamp 2026",
+        "url": "https://topograph.co",
+        "stage": "Seed — €2M raised (Mar 2026)",
+        "flow": "information",
+        "region": "europe",
+        "ac": "#60a5fa",
+        "founderFlag": null,
+        "fundingNote": "€2M seed (Mar 2026) — Seedcamp (lead), Drysdale Ventures, Motier Ventures, Kima Ventures, Better Angle",
+        "comparable": "Dun & Bradstreet / Kyckr — but source-native, traceable, and real-time. Once compliance workflows integrate directly to official registers via Topograph, switching means re-building country-by-country data pipelines across 40+ jurisdictions.",
+        "founders": [
+            {
+                "name": "Pierre-Henri Janssens — CEO & Co-Founder (ex-1POINT6 / BNP Paribas)",
+                "li": "https://linkedin.com/in/pierre-henri-janssens-27b12ba6/"
+            },
+            {
+                "name": "Hugo Dellinger — CTO & Co-Founder (ex-1POINT6 / BNP Paribas)",
+                "li": null
+            }
+        ],
+        "whatTheyDo": "B2B data infrastructure for global Know-Your-Business (KYB) compliance. Connects directly to official company registers in 40+ countries and delivers real-time, structured business data and supporting documents via a single API endpoint. Every data point is traceable back to its originating official source — not scraped or repackaged. Used by neobanks, PSPs, BNPL providers, and compliance software vendors to automate multi-jurisdiction business identity verification.",
+        "whyFlagged": "Textbook information flow pipe. Every KYB check — whether for onboarding, ongoing monitoring, or AML — flows through Topograph. The platform doesn't make compliance decisions; it is the data layer that compliance tools and financial institutions run on. Switching means rebuilding country-by-country register integrations across 40+ jurisdictions — a multi-year project for any mid-sized fintech. Seedcamp validation (Revolut, Wise, Pleo alumni) is the strongest European seed signal available. Paying customers already: Hero (neobank), Pledg (BNPL), Lemonway (PSP), Spektr, Dotfile, Ondorse.",
+        "macroTailwind": "EU AML and KYB regulatory pressure escalating — 6th AML Directive tightening requirements, AI-assisted compliance requiring grounded, verifiable data. Cross-border fintech growth (neobanks, BNPL, PSPs) creating structurally growing demand for multi-jurisdiction business identity infrastructure. Manual country-by-country verification becoming commercially indefensible at scale.",
+        "needsToBeTrue": "Expansion to 80+ countries (North America, Asia, ME) delivers on the global-coverage thesis without compromising data quality or traceability. Competitor (Kyckr, Bureau van Dijk/Moody's) doesn't out-invest on register integrations. API usage per customer compounds as fintech clients scale their own customer bases.",
+        "risks": "Capital-intensive to build and maintain register integrations at global scale. Large incumbents (Moody's/Bureau van Dijk, LSEG) could acquire or out-fund. US and Asian expansion earmarked — early on those corridors. Founder pair, not a broader team yet at €2M stage.",
+        "founderProfile": "Pierre-Henri Janssens (CEO) and Hugo Dellinger (CTO) were both founding team members of 1POINT6, BNP Paribas's embedded payment services subsidiary, where they encountered the KYB data gap directly while onboarding merchants across multiple countries. Classic operator-founders: lived the problem inside a Tier 1 financial institution before building the solution they couldn't find. Prior company building at BNP Paribas scale is the right credential for selling into regulated financial services.",
+        "revenueModel": "API usage-based pricing — per query / per register data pull. Fintech customers pay per KYB check, with volume discounts. Compliance software vendors pay for platform integration. Revenue scales directly with customer transaction volumes and geographic expansion. Natural NRR expansion as customers grow and enter new markets.",
+        "tags": [
+            "Information flow",
+            "KYB / Compliance infra",
+            "France / Europe",
+            "API-first",
+            "B2B"
+        ],
+        "diligence": [
+            "Current ARR and MRR growth rate — is usage compounding with fintech client growth?",
+            "How many active API customers vs total signed up?",
+            "Revenue split: direct fintech clients vs compliance software vendor partnerships?",
+            "Unit economics per country — does profitability hold as lower-volume jurisdictions are added?",
+            "North America and Asia expansion plan — register access complexity and timeline?",
+            "Any current or planned relationships with EU regulators or AML authorities that strengthen the moat?",
+            "Are Seedcamp terms convertible or priced? Any pro-rata reserved for next round?"
+        ],
+        "lastUpdated": "2026-04-01",
+        "source": "accelerator",
+        "sourceLabel": "Seedcamp 2026",
+        "funding": {
+            "raised": "€2M seed (Mar 2026)",
+            "investors": "Seedcamp (lead), Drysdale Ventures, Motier Ventures, Kima Ventures, Better Angle",
+            "latestRound": "Seed"
+        }
+    },
+    {
+        "id": "fineksi",
+        "name": "Fineksi",
+        "status": "contacted",
+        "country": "Indonesia",
+        "flag": "🇮🇩",
+        "accelerator": "Accelerating Asia C12",
+        "url": "https://fineksi.com",
+        "stage": "Pre-seed — Accelerating Asia C12 backed",
+        "flow": "information",
+        "region": "sea",
+        "ac": "#34d399",
+        "founderFlag": null,
+        "fundingNote": "Accelerating Asia C12 (Nov 2025) + ADB Ventures (in DD, up to $400K) + Hi2Global (US VC, Singapore arm) + Portage/Protege (IC approved) + existing shareholders follow-on. Raising $400–500K minimum. 50% hard committed. Likely oversubscribed.",
+        "comparable": "fileAI (graveyarded — $20M raised, too late for us) — but Fineksi goes deeper into credit decisioning. fileAI extracts document data; Fineksi outputs credit recommendations. Moneta is a direct SEA peer in credit AI.",
+        "founders": [
+            {
+                "name": "Wildiyanto Yawin — CEO",
+                "li": "https://linkedin.com/in/wyawin/"
+            },
+            {
+                "name": "Yuliam Chandra — CTO",
+                "li": ""
+            },
+            {
+                "name": "Yohanes Rico — COO",
+                "li": "https://linkedin.com/in/yohanes-rico/"
+            },
+            {
+                "name": "Paramita Wikansari — CCO",
+                "li": "https://linkedin.com/in/paramita-wikansari-3479845"
+            }
+        ],
+        "whatTheyDo": "AI credit intelligence layer for institutional lenders — automates bank statement analysis (200+ formats, 70+ Indonesian banks), financial statement analysis, document fraud/forgery detection, and structured credit memo output. Processes 213,000+ documents in past 12 months, 25,000+ borrowers analysed. Covers Character + Capacity of the 5 Cs today; Collateral starting. Full Finsight Decision (all 5 Cs, ~1% of loan amount) is the long-term infrastructure play. Deployed across 30+ lenders including Permata Bank (9th largest Indonesia), ShinHan Bank (top 15 Vietnam), Hana Bank, Panin Dubai. Feb 2026 profitable.",
+        "whyFlagged": "Information flow infrastructure embedded in institutional bank credit workflows. Every loan application flows through Fineksi — once a bank integrates API/on-premise, switching means rebuilding document processing, fraud detection, and credit memo stack. 105% NRR confirms negative churn is live, not theoretical. Institutional bank customers (>50% of ARR) have real procurement processes — these aren't cancellable trial arrangements. ADB Ventures in DD adds institutional validation. The 80/20 thesis vs fileAI is defensible: generic OCR does 20% (extraction); Fineksi does the remaining 80% (analysis, ratios, fraud flags, cross-document validation, structured output). Profitable at $360K ARR with 20% MoM growth.",
+        "macroTailwind": "Indonesia NPL losses: $28B/year from fraud and bad credit decisions. 5–14 day average loan processing time creates massive competitive pressure on lenders to move faster. Indonesia's $3T+ loan market is largely manual and fragmented — AI-native credit infrastructure is a greenfield opportunity. SEA expansion (Philippines, Singapore, Vietnam) follows the same structural problem across all emerging APAC lending markets.",
+        "needsToBeTrue": "Finsight Decision (the ~1% of loan amount credit engine) goes live and converts existing pay-per-page customers to the higher-value product. Cross-lender data moat is real and actively improving models — not just a vision slide. SC Ventures relationship converts to investment or meaningful distribution partnership. SEA expansion executes without over-stretching the team.",
+        "risks": "Finsight Decision (all 5 Cs, ~1% of loan amount) is 'a while away' — currently only Character + Capacity live. Until that product launches, switching costs are lower than true infrastructure. Valuation not yet disclosed — pre-money number needs to be reasonable for $360K ARR. Sigma VC (wanted 50% of round) situation needs clarity — now superseded by ADB Ventures. Indonesia founder fraud context (eFishery, Investree etc.) creates investor trust headwinds, though Fineksi's institutional B2B revenue is structurally different from the fraud cases (API call revenue from banks is hard to fabricate). English communication barrier with Yawin (Jawa Indonesian) — manageable but worth noting for ongoing relationship.",
+        "founderProfile": "Four-person founding team, all domain operators. Yawin (CEO): 20+ yrs tech, built tech serving $800M AUM, acquired 2 lending licences. Yuliam Chandra (CTO): 8+ yrs credit at Indonesia's biggest bank, grew company $0→$1B AUM in 4 years — the standout credential. Yohanes Rico (COO): ex-BCA, Modal Rakyat, Fazz Capital Finance — lived the exact credit document pain. Paramita (CCO): 10+ yrs fintech, 3x built product 0-1-100. ISO 27001:2022 certified and penetration tested.",
+        "revenueModel": "Pay-per-page ($0.10/page doc analysis). Tiered SaaS: Small ~$300/mo, Medium ~$1,000/mo, Large ~$3,000/mo. Revenue breakdown (May 2026): ShinHan Bank Vietnam 20%, Panin Dubai 16%, Permata Bank 7% (upsell path to ~20% = ~$150K ARR), Hana Bank 7%, Komunal (P2P) 7%, balance ~43% across 25+ lenders. 105% net revenue retention (expanding customers outpace churn). Finsight Decision (~1% of loan amount) on roadmap — requires all 5 Cs live.",
+        "tags": [
+            "Information flow",
+            "Credit intelligence",
+            "AI underwriting",
+            "Document fraud detection",
+            "Indonesia",
+            "SEA"
+        ],
+        "diligence": [
+            "Pre-money valuation — what are they asking? Sub-$5M would be fair for $360K ARR at 20% MoM; they may ask higher.",
+            "Sigma VC situation — is their 50% request now off the table given ADB Ventures filling the round?",
+            "Finsight Decision timeline — what does 'a while away' mean specifically? 12 months? 24 months? What's the technical blocker (Collateral analysis requires property data integrations)?",
+            "ADB Ventures DD status — what stage are they at, and what is their expected close date?",
+            "Revenue verification — can they show bank contract agreements or invoice data for Permata, ShinHan, Panin Dubai, Hana Bank? Bank B2B revenue should have a clean paper trail.",
+            "Permata upsell status — 'finalising upsell to ~$150K ARR' means contract drafted or verbal only?",
+            "Cross-lender data model — is the shared credit intelligence model live and improving, or still single-lender isolated models?",
+            "Indonesia operating risk — are they incorporated in Singapore (HoldCo confirmed Singapore) with Indonesian operating subsidiary? What is the corporate structure?",
+            "Cap table — who are the existing shareholders and what are their stakes? Any preference stacks or anti-dilution provisions?",
+            "Gross margins at current scale — what is the cost per document processed and margin per customer tier?"
+        ],
+        "lastUpdated": "2026-05-21",
+        "source": "accelerating-asia",
+        "sourceLabel": "Accelerating Asia C12",
+        "funding": {
+            "raised": "Accelerating Asia C12 (Nov 2025)",
+            "latestRound": "Pre-seed",
+            "seeking": "Raising — terms TBC"
+        },
+        "fundingRound": {
+            "raising": "$400–500K USD",
+            "committed": "50% hard committed",
+            "investors": [
+                "Accelerating Asia",
+                "ADB Ventures (in DD, up to $400K)",
+                "Hi2Global",
+                "Portage/Protege (IC approved)",
+                "Existing shareholders follow-on"
+            ],
+            "valuation": "TBC — not disclosed"
+        },
+        "contactLog": "Neera contacted via Accelerating Asia (Apr 2026). Call with Yawin (CEO) 19 May 2026 — answered key DD questions. Long deck reviewed 21 May 2026. Next step: data room requested."
+    },
+    {
+        "id": "greenroom-robotics",
+        "name": "Greenroom Robotics",
+        "status": "in-diligence",
+        "country": "Australia",
+        "flag": "🇦🇺",
+        "accelerator": "Independent — 2025 WA Innovator of the Year",
+        "url": "https://greenroomrobotics.com",
+        "stage": "Post-Seed — first external raise (bootstrapped 9 years)",
+        "flow": "information",
+        "region": "aunz",
+        "ac": "#f59e0b",
+        "founderFlag": null,
+        "fundingNote": "No external funding raised to date. Raising AUD $10M–$20M Seed round at $93.5M pre-money.",
+        "comparable": "Saronic / Sea Machines — maritime autonomy. Hardware-agnostic software-only play vs Saronic's hardware+software approach. Closest AU-founded peer with no direct local competitor.",
+        "founders": [
+            {
+                "name": "James Keane — CEO/Co-Founder (RAN Lt, Naval Architecture + Masters Systems Eng + Business)",
+                "li": "https://linkedin.com/in/james-keane"
+            },
+            {
+                "name": "Harry Hubbert — COO/Co-Founder (RAN Lt, Naval Architecture)",
+                "li": "https://linkedin.com/in/harry-hubbert-56a6b4146/"
+            },
+            {
+                "name": "Zac Pullen — CTO/Co-Founder (Oceans Engineering)",
+                "li": "https://linkedin.com/in/zac-pullen"
+            }
+        ],
+        "whatTheyDo": "Hardware-agnostic maritime autonomy software platform. Four products: GAMA (autonomous navigation and vessel control — the 'digital helmsman'), Lookout+ (AI vision stack for hazard detection and ISR, fully passive, GPS-denied capable), MarOps (maritime operations digitisation), and MIS-SIM (bi-directional mission simulator). Software converts any existing vessel — including 30-year-old boats — into a fully autonomous ship. Deployed on 100+ vessel classes globally including Royal Australian Navy, US Department of War (Army, Navy, Marine Corps), Austal, and ~30 commercial vessels. Compatible with >50% of the world's fleet via UMAA-compliant open architecture.",
+        "whyFlagged": "Bootstrapped 9 years to real revenue ($5.9M FY25, profitable) with zero external investment — near-impossible discipline signal. Now at the inflection: Feb 2026 was first $1M+ product month, qualified pipeline >$100M, known leads >$1B. The AUKUS structural tailwind (AU/UK/US interoperable autonomous defence systems) is a multi-decade mandate, not a trend. Software-only model (70% gross margin) operating in a sector historically dominated by expensive hardware integrators — Greenroom displaces Sea Machines and Robo Sys clients on price, UX, and agnosticism. US entry underway with DoW engagements across all three branches — rare for an Australian SME.",
+        "macroTailwind": "85,000+ certified maritime officer shortfall projected globally by 2026 (ICS). AUKUS Pillar 2 mandates interoperable autonomous systems across AU/UK/US allied fleets — Greenroom's software is AUKUS-cleared and UMAA-compliant. Global maritime autonomy market TAM $28.1B by 2027. Regulatory frameworks for autonomous vessels now in place across major jurisdictions after years of lag — market enablement period is over.",
+        "needsToBeTrue": "US DoW engagements convert to contracted revenue at meaningful scale. Services-to-software revenue mix transition holds (81% services in FY25 → 35% services / 65% software in FY27F). Lead investor commits and round closes without significant delay — round is currently leaderless. Pipeline >$100M converts at sufficient rate to justify the $2.8M projected FY26 EBIT loss during growth phase.",
+        "risks": "No lead investor confirmed — round leaderless, creates execution risk and potential for valuation pressure. Austal (original strategic lead) has been to board twice and still won't commit. US DoD procurement cycles are long and unpredictable. Services revenue transition adds near-term risk to topline growth. James Keane holds 43% — key-person dependency on CEO. David Revay holds 8.14% as Principal Software Engineer — unusual concentration, story TBC. Defence sector requires trust-building; any data breach or autonomy failure carries reputational risk disproportionate to the event.",
+        "founderProfile": "Three co-founders who met at the Australian Maritime College in Launceston, Tasmania — all naval architects with Royal Australian Navy officer experience. Founders went full-time in the business in 2022 (5 years after founding). CEO James Keane: disciplined, methodical, detail-oriented with Navy/SOCOM autonomous systems background. IC note after 3 meetings: 'focus on planning, precision and execution.' COO Harry Hubbert: deep defence engineering and innovation background, primary external face. CTO Zac Pullen: full-stack technical leader. 10 of 35 staff are veterans with established ADF networks.",
+        "revenueModel": "Software licences (perpetual and annual SaaS) + specialist services (operations, regulations advisory, engineering integration). GAMA: Perpetual Tier 1 $33k → Tier 3 $199k–$2M. Lookout+: Annual Tier 1 $19k → Tier 3 $131k–$400k. MarOps: Annual Tier 1 $250 → Tier 3 $45k. MIS-SIM: Perpetual Tier 1 $33k → Tier 3 $199k–$2M. Near-term strategy: high adoption via competitive pricing → upsell to ARR and fleet-level enterprise deals. No churn on any meaningful commercial contract to date.",
+        "tags": [
+            "Defence Tech",
+            "Maritime Autonomy",
+            "AI / Robotics Software",
+            "Australia",
+            "Bootstrapped",
+            "AUKUS",
+            "B2B SaaS",
+            "Veteran-founded"
+        ],
+        "diligence": [
+            "Lead investor status — who leads the round and when does it close?",
+            "Updated FY26 YTD actuals — IC noted Part 2 to follow with current numbers",
+            "US DoW contract pipeline specifics — which branches, contract values, close probability?",
+            "David Revay (8.14% shareholder, Principal Software Engineer) — what's the story behind that holding?",
+            "IP holding structure — is all core IP formally assigned to Greenroom Holdings pre-raise?",
+            "Austal strategic position — still interested as investor or just customer going forward?",
+            "ESOP pool mechanics — is the 1.7M ESOP pool pre or post new money?",
+            "Quarterly KPI reporting format — what metrics will investors receive?"
+        ],
+        "lastUpdated": "2026-06-09",
+        "source": "direct",
+        "sourceLabel": "Introduced by Matt McFarlane (Angel Lead)",
+        "funding": {
+            "raised": "Bootstrapped — zero external funding to date",
+            "latestRound": "Seed (first raise) — in market now",
+            "seeking": "AUD $10M–$20M at $93.5M pre-money. Larsen Ventures: $2M for ~2% post-money + Board Observer seat."
+        }
+    }
 ]
