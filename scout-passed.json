@@ -10,35 +10,35 @@
             "Philippines",
             "APAC"
         ],
-        "reason": "Founder friction — offering May dates for meetings, making engagement unnecessarily difficult. Life is too short for reluctant founders. Company and thesis remain sound but the relationship dynamic is the earliest signal of how they'll run the company.",
+        "reason": "Founder friction \u2014 offering May dates for meetings, making engagement unnecessarily difficult. Life is too short for reluctant founders. Company and thesis remain sound but the relationship dynamic is the earliest signal of how they'll run the company.",
         "profile": {
             "url": "https://lenderlink.ph",
-            "stage": "Seed — $1.25M raised (Apr 2025, Kaya Founders)",
-            "fundingNote": "$1.25M pre-seed (Apr 2025) — Kaya Founders, Iterative",
+            "stage": "Seed \u2014 $1.25M raised (Apr 2025, Kaya Founders)",
+            "fundingNote": "$1.25M pre-seed (Apr 2025) \u2014 Kaya Founders, Iterative",
             "whatTheyDo": "Credit data exchange platform sitting between lenders, credit bureaus, and collection agencies in the Philippines. A single API accessing 36M+ verified credit records with a pay-per-hit model and revenue share back to contributors. 60% higher hit rate than incumbent bureaus at half the cost.",
-            "whyFlagged": "Textbook flow play. Credit data flows through LenderLink every time a lender queries a borrower. They're not the lender or bureau — they're the pipe. Switching means rebuilding integrations with 36M records. Philippines has 100M+ people, near-zero formal credit penetration, $14B consumer lending market growing 4x in a decade.",
+            "whyFlagged": "Textbook flow play. Credit data flows through LenderLink every time a lender queries a borrower. They're not the lender or bureau \u2014 they're the pipe. Switching means rebuilding integrations with 36M records. Philippines has 100M+ people, near-zero formal credit penetration, $14B consumer lending market growing 4x in a decade.",
             "founderProfile": "All four founders were executives at Finscore, a telco-data credit risk company for the Philippines. Built it, scaled it, exited. Gold standard: serial winners with prior exit in the exact same domain, returning to the same market with a sharper thesis.",
             "founders": [
                 {
-                    "name": "Christo Georgiev — CEO (ex-Finscore)",
+                    "name": "Christo Georgiev \u2014 CEO (ex-Finscore)",
                     "li": "https://linkedin.com/in/christo-georgiev-40bb0156/"
                 },
                 {
-                    "name": "Dimitar Manolov — CTO (ex-Finscore)",
+                    "name": "Dimitar Manolov \u2014 CTO (ex-Finscore)",
                     "li": null
                 },
                 {
-                    "name": "Dimo Hristov — Chief DevOps (ex-Finscore)",
+                    "name": "Dimo Hristov \u2014 Chief DevOps (ex-Finscore)",
                     "li": null
                 },
                 {
-                    "name": "Petya Dimitrova — Chief Data & Product (ex-Finscore)",
+                    "name": "Petya Dimitrova \u2014 Chief Data & Product (ex-Finscore)",
                     "li": null
                 }
             ],
             "revenueModel": "Pay-per-hit (lenders only pay on a successful match) + revenue share to contributing lenders. Two-sided marketplace with structural switching costs on both sides.",
-            "risks": "Regulatory risk — credit data is sensitive. Each new market needs local contributors recruited from scratch. Incumbent credit bureaus could build competing APIs.",
-            "macroTailwind": "SEA digital lending growing fast — Philippines central bank actively pushing financial inclusion. Regional BNPL and neobank growth creating demand for credit data infrastructure."
+            "risks": "Regulatory risk \u2014 credit data is sensitive. Each new market needs local contributors recruited from scratch. Incumbent credit bureaus could build competing APIs.",
+            "macroTailwind": "SEA digital lending growing fast \u2014 Philippines central bank actively pushing financial inclusion. Regional BNPL and neobank growth creating demand for credit data infrastructure."
         }
     },
     {
@@ -53,22 +53,22 @@
             "Malaysia",
             "APAC"
         ],
-        "reason": "Wrong model for the lens. Melanie Hawgood (CEO) is impressive and the domain expertise is genuine (husband worked in insurance last-mile for years). AU contract via The Good Guys and Appliances Online is real traction. But the product is physical operations — drivers, device collection, repair, returns. That's a logistics business, not a pipe. Not raising capital currently. Passed April 2026.",
+        "reason": "Wrong model for the lens. Melanie Hawgood (CEO) is impressive and the domain expertise is genuine (husband worked in insurance last-mile for years). AU contract via The Good Guys and Appliances Online is real traction. But the product is physical operations \u2014 drivers, device collection, repair, returns. That's a logistics business, not a pipe. Not raising capital currently. Passed April 2026.",
         "profile": {
             "url": "https://nexacore.com.my",
-            "stage": "Seed — raising RM2M",
+            "stage": "Seed \u2014 raising RM2M",
             "fundingNote": null,
             "whatTheyDo": "Insurtech Third Party Administrator (TPA) for device protection and extended warranty claims in Southeast Asia. Sits between insurers, telcos, and retailers on one side and device repair/replacement networks on the other. Every claim flows through the platform. Nexacore digitises and automates what is still largely a paper-based, manual claims process.",
-            "whyFlagged": "Classic TPA model — doesn't take insurance risk, just processes the flow. Every approved claim is a payment moving through Nexacore. Insurers integrate once; replacing them means rebuilding the entire claims workflow. Partnership with InsureMO (Nov 2025) unlocks rollout across UAE, India, AU, NZ, SG, MY simultaneously.",
-            "founderProfile": "Melanie Hawgood (CEO & Co-Founder) — insurance industry background, domain expert in device protection and extended warranty claims. Lived the problem from inside the TPA industry. Husband worked in insurance last-mile (device repair/returns) for years — deep domain depth. AU contract via The Good Guys + Appliances Online is genuine market entry traction.",
+            "whyFlagged": "Classic TPA model \u2014 doesn't take insurance risk, just processes the flow. Every approved claim is a payment moving through Nexacore. Insurers integrate once; replacing them means rebuilding the entire claims workflow. Partnership with InsureMO (Nov 2025) unlocks rollout across UAE, India, AU, NZ, SG, MY simultaneously.",
+            "founderProfile": "Melanie Hawgood (CEO & Co-Founder) \u2014 insurance industry background, domain expert in device protection and extended warranty claims. Lived the problem from inside the TPA industry. Husband worked in insurance last-mile (device repair/returns) for years \u2014 deep domain depth. AU contract via The Good Guys + Appliances Online is genuine market entry traction.",
             "founders": [
                 {
-                    "name": "Melanie Hawgood — CEO & Co-Founder",
+                    "name": "Melanie Hawgood \u2014 CEO & Co-Founder",
                     "li": null
                 }
             ],
-            "revenueModel": "TPA fee per claim processed + platform fee to insurers/telcos. Claims are recurring — every device with active cover generates a potential claim event.",
-            "risks": "Physical operations business — drivers, device collection, repair, returns. Requires humans, vehicles, and logistics infrastructure. Not a pipe play despite the information flow framing.",
+            "revenueModel": "TPA fee per claim processed + platform fee to insurers/telcos. Claims are recurring \u2014 every device with active cover generates a potential claim event.",
+            "risks": "Physical operations business \u2014 drivers, device collection, repair, returns. Requires humans, vehicles, and logistics infrastructure. Not a pipe play despite the information flow framing.",
             "macroTailwind": "Device insurance growing as smartphone penetration hits emerging markets. Telcos bundling device protection as a revenue line. APAC device protection market largely undigitised."
         }
     },
@@ -83,30 +83,30 @@
             "Salesforce",
             "Australia"
         ],
-        "reason": "Salesforce-only dependency. Salesforce itself is being disrupted by AI agents — companies are building their own CRM functionality via agents rather than buying Salesforce seats. The expert marketplace thesis relies on Salesforce remaining dominant. Single-vendor concentration was always the key risk; the AI agent wave makes it structural.",
+        "reason": "Salesforce-only dependency. Salesforce itself is being disrupted by AI agents \u2014 companies are building their own CRM functionality via agents rather than buying Salesforce seats. The expert marketplace thesis relies on Salesforce remaining dominant. Single-vendor concentration was always the key risk; the AI agent wave makes it structural.",
         "profile": {
             "url": "https://getbalo.com",
-            "stage": "Pre-seed — $712K raised (Oct 2025)",
-            "fundingNote": "$712K pre-seed (Oct 2025) — DJ Kim (lead) + angels",
+            "stage": "Pre-seed \u2014 $712K raised (Oct 2025)",
+            "fundingNote": "$712K pre-seed (Oct 2025) \u2014 DJ Kim (lead) + angels",
             "whatTheyDo": "On-demand expert marketplace for enterprise software support, starting with Salesforce. Connects businesses to vetted top-1% Salesforce experts (250+ globally, less than 4% acceptance rate) for urgent or complex support tasks. Pay-as-you-go model. 14 Salesforce product categories. 230+ companies in 23 countries, $1.3M total transactions, $360K net revenue.",
             "whyFlagged": "Information flow pipe embedded in enterprise software operations. 95% repeat revenue and 42% MoM growth at $1.3M ARR. Profitable at 10 months post-launch. Expert network quality (less than 4% acceptance rate) creates real switching cost. 250+ vetted experts, 600+ waitlisted.",
-            "founderProfile": "Michael Joo (CEO) — 13 years in the Salesforce ecosystem, from developer to building Salesforce agencies. Spearheaded 200+ Salesforce implementations. Classic operator-founder. Yomi Joseph (CTO) — 10+ years building digital products for Target Australia and Tabcorp. Both came into Antler residency with the same startup idea independently.",
+            "founderProfile": "Michael Joo (CEO) \u2014 13 years in the Salesforce ecosystem, from developer to building Salesforce agencies. Spearheaded 200+ Salesforce implementations. Classic operator-founder. Yomi Joseph (CTO) \u2014 10+ years building digital products for Target Australia and Tabcorp. Both came into Antler residency with the same startup idea independently.",
             "founders": [
                 {
-                    "name": "Michael Joo — CEO (13 yrs Salesforce, 200+ implementations)",
+                    "name": "Michael Joo \u2014 CEO (13 yrs Salesforce, 200+ implementations)",
                     "li": "https://linkedin.com/in/mjoo0113/"
                 },
                 {
-                    "name": "Yomi Joseph — CTO (ex-Target AU, Tabcorp)",
+                    "name": "Yomi Joseph \u2014 CTO (ex-Target AU, Tabcorp)",
                     "li": "https://linkedin.com/in/yomijoseph2000/"
                 },
                 {
-                    "name": "Luke Sheehan — CGO",
+                    "name": "Luke Sheehan \u2014 CGO",
                     "li": null
                 }
             ],
             "revenueModel": "~40% take rate on expert sessions. $1.3M+ total transactions, $360K net revenue. 95% repeat project-based work.",
-            "risks": "Single-vendor concentration (Salesforce). AI agents enabling companies to build their own CRM without Salesforce seats — structural platform risk that accelerated the graveyard decision.",
+            "risks": "Single-vendor concentration (Salesforce). AI agents enabling companies to build their own CRM without Salesforce seats \u2014 structural platform risk that accelerated the graveyard decision.",
             "macroTailwind": "Enterprise software market growing from $230B to $500B by 2030. Salesforce has 150,000+ customers globally. Shift from large SI retainers to outcome-based flexible expert support."
         }
     },
@@ -127,15 +127,15 @@
             "stage": "Pre-seed",
             "fundingNote": null,
             "whatTheyDo": "B2B SaaS platform automating trade promotion management for FMCG brands. Multi-million dollar promotional campaigns run by P&G and Nestle across Woolworths/Coles are currently planned via manual spreadsheets. Promosync replaces that with AI-driven campaign planning, ROI optimisation, and near-real-time performance analytics.",
-            "whyFlagged": "Information flow pipe inside the FMCG/retailer promotional data exchange. Sits between FMCG suppliers and major retailer scan data — once a brand's promotional history, category data, and retailer relationships are loaded, migration is catastrophic. First AU-native player in a space dominated by US incumbents that don't serve AU well.",
-            "founderProfile": "Henry Choo (CEO) — 15+ years in FMCG trade promotion management at P&G and Nestle. Pure domain operator. Divyanshu Chauhan (CTO) — serial technical builder at Shippit (raised $30M+), InDebted (Series B), and CSIRO. Strong combination.",
+            "whyFlagged": "Information flow pipe inside the FMCG/retailer promotional data exchange. Sits between FMCG suppliers and major retailer scan data \u2014 once a brand's promotional history, category data, and retailer relationships are loaded, migration is catastrophic. First AU-native player in a space dominated by US incumbents that don't serve AU well.",
+            "founderProfile": "Henry Choo (CEO) \u2014 15+ years in FMCG trade promotion management at P&G and Nestle. Pure domain operator. Divyanshu Chauhan (CTO) \u2014 serial technical builder at Shippit (raised $30M+), InDebted (Series B), and CSIRO. Strong combination.",
             "founders": [
                 {
-                    "name": "Henry Choo — CEO (15 yrs P&G + Nestle)",
+                    "name": "Henry Choo \u2014 CEO (15 yrs P&G + Nestle)",
                     "li": "https://linkedin.com/in/iamhenrychoo"
                 },
                 {
-                    "name": "Divyanshu Chauhan — CTO (ex-Shippit, InDebted, CSIRO)",
+                    "name": "Divyanshu Chauhan \u2014 CTO (ex-Shippit, InDebted, CSIRO)",
                     "li": "https://linkedin.com/in/divyanshu-chauhan"
                 }
             ],
@@ -154,7 +154,7 @@
             "B2B SaaS",
             "Australia"
         ],
-        "reason": "Busy space with big incumbent players (Apt, Paragon, established telehealth platforms). Limited growth ceiling given competition. Telehealth too crowded — don't love the sector. Good founder, wrong market for us."
+        "reason": "Busy space with big incumbent players (Apt, Paragon, established telehealth platforms). Limited growth ceiling given competition. Telehealth too crowded \u2014 don't love the sector. Good founder, wrong market for us."
     },
     {
         "name": "Spektr",
@@ -167,7 +167,7 @@
             "Denmark",
             "Europe"
         ],
-        "reason": "Missed it — raised 5M euros two years ago. Next raise will be too expensive to get meaningful equity. Would have been a strong Watch candidate at earlier stage (serial exit founders, excellent compliance infrastructure thesis)."
+        "reason": "Missed it \u2014 raised 5M euros two years ago. Next raise will be too expensive to get meaningful equity. Would have been a strong Watch candidate at earlier stage (serial exit founders, excellent compliance infrastructure thesis)."
     },
     {
         "name": "Prelude",
@@ -180,7 +180,7 @@
             "France",
             "Europe"
         ],
-        "reason": "Missed it — raised $8M seed. Next raise will be too expensive. Strong flow infrastructure play vs Twilio but we're too late for the right entry price."
+        "reason": "Missed it \u2014 raised $8M seed. Next raise will be too expensive. Strong flow infrastructure play vs Twilio but we're too late for the right entry price."
     },
     {
         "name": "Chhaya",
@@ -192,7 +192,7 @@
             "Bangladesh",
             "South Asia"
         ],
-        "reason": "Geography change — South Asia removed from investment scope. Strong micro-insurance platform and 10x revenue growth, but outside revised geography (SEA, Korea, Japan, Europe, UK, AU/NZ)."
+        "reason": "Geography change \u2014 South Asia removed from investment scope. Strong micro-insurance platform and 10x revenue growth, but outside revised geography (SEA, Korea, Japan, Europe, UK, AU/NZ)."
     },
     {
         "name": "Chamak",
@@ -204,11 +204,11 @@
             "Bangladesh",
             "South Asia"
         ],
-        "reason": "Geography change — South Asia removed from investment scope. Also noted: founder profile concern (recent graduates without deep trade finance background)."
+        "reason": "Geography change \u2014 South Asia removed from investment scope. Also noted: founder profile concern (recent graduates without deep trade finance background)."
     },
     {
         "name": "Cybrilla / Fintech Primitives",
-        "accelerator": "Surge / Peak XV — Cohort 11",
+        "accelerator": "Surge / Peak XV \u2014 Cohort 11",
         "country": "India",
         "tags": [
             "FinTech",
@@ -217,11 +217,11 @@
             "India",
             "South Asia"
         ],
-        "reason": "Geography change — India removed from investment scope. Strong mutual fund API infrastructure play with SEBI RTA licence and ONDC milestone; would be a Watch candidate if geography fit."
+        "reason": "Geography change \u2014 India removed from investment scope. Strong mutual fund API infrastructure play with SEBI RTA licence and ONDC milestone; would be a Watch candidate if geography fit."
     },
     {
         "name": "Ignosis",
-        "accelerator": "Surge / Peak XV — Cohort 11",
+        "accelerator": "Surge / Peak XV \u2014 Cohort 11",
         "country": "India",
         "tags": [
             "FinTech",
@@ -230,7 +230,7 @@
             "India",
             "South Asia"
         ],
-        "reason": "Geography change — India removed from investment scope. Strong Account Aggregator infrastructure play on RBI rails, backed by Kunal Shah (CRED) and Razorpay Ventures."
+        "reason": "Geography change \u2014 India removed from investment scope. Strong Account Aggregator infrastructure play on RBI rails, backed by Kunal Shah (CRED) and Razorpay Ventures."
     },
     {
         "name": "Co-architecture",
@@ -242,7 +242,7 @@
             "Labour",
             "Australia"
         ],
-        "reason": "Wrong cohort (founded 2021, outside 2025/2026 filter) and wrong model. Labour marketplace for architects — not a pipe. Once an architect finds a job they leave the platform. Low switching cost, cyclical underlying sector."
+        "reason": "Wrong cohort (founded 2021, outside 2025/2026 filter) and wrong model. Labour marketplace for architects \u2014 not a pipe. Once an architect finds a job they leave the platform. Low switching cost, cyclical underlying sector."
     },
     {
         "name": "Zabidou",
@@ -255,7 +255,7 @@
             "Quality assurance",
             "Australia"
         ],
-        "reason": "Hardware/physical inspection — computer vision on production lines. Strong metrics ($172K ARR, $3.4M pipeline, Vossloh deployment) and credible founder, but physical hardware deployment is out of scope. Not a pipe play."
+        "reason": "Hardware/physical inspection \u2014 computer vision on production lines. Strong metrics ($172K ARR, $3.4M pipeline, Vossloh deployment) and credible founder, but physical hardware deployment is out of scope. Not a pipe play."
     },
     {
         "name": "Nexobot",
@@ -267,7 +267,7 @@
             "Hardware",
             "Australia"
         ],
-        "reason": "Robotics — physical robotic sorting systems for logistics. RaaS model with good margins ($130K ARR, 84% gross margin). Dominic Lindsay is a credible founder. But it's a robot. Hardware is out of scope regardless of the model."
+        "reason": "Robotics \u2014 physical robotic sorting systems for logistics. RaaS model with good margins ($130K ARR, 84% gross margin). Dominic Lindsay is a credible founder. But it's a robot. Hardware is out of scope regardless of the model."
     },
     {
         "name": "Fennech",
@@ -280,7 +280,7 @@
             "UK",
             "Singapore"
         ],
-        "reason": "Not a startup — founded 2023, UK-domiciled, professional CEO (not founder-led). Founder is not operating as CEO which doesn't fit our founder-operator preference. MAS SFF award is still a signal for the category but Fennech itself is out of scope."
+        "reason": "Not a startup \u2014 founded 2023, UK-domiciled, professional CEO (not founder-led). Founder is not operating as CEO which doesn't fit our founder-operator preference. MAS SFF award is still a signal for the category but Fennech itself is out of scope."
     },
     {
         "name": "fileAI",
@@ -294,7 +294,7 @@
             "Singapore",
             "APAC"
         ],
-        "reason": "Missed the entry window. Founded Dec 2020, $20.2M raised across 6 rounds including two Series A tranches ($6.5M Jan 2024, $8M Feb 2025) led by Illuminate Financial + Antler Elevate + Insignia + Investible. Next raise will be Series B — too expensive for meaningful equity at our cheque size. Strong thesis and strong product (AI document workflow automation for financial services) but timing was the issue. We were looking at it in 2025 when it was already well into Series A territory."
+        "reason": "Missed the entry window. Founded Dec 2020, $20.2M raised across 6 rounds including two Series A tranches ($6.5M Jan 2024, $8M Feb 2025) led by Illuminate Financial + Antler Elevate + Insignia + Investible. Next raise will be Series B \u2014 too expensive for meaningful equity at our cheque size. Strong thesis and strong product (AI document workflow automation for financial services) but timing was the issue. We were looking at it in 2025 when it was already well into Series A territory."
     },
     {
         "name": "Light",
@@ -307,7 +307,7 @@
             "Denmark",
             "Europe"
         ],
-        "reason": "Missed the entry window. $43M raised across 2 rounds — $13M seed (Jun 2024, Atomico/Cherry/Seedcamp) + $30M Series A (Sep 2025, Balderton Capital lead). Next raise will be Series B, too expensive for meaningful equity. Strong thesis (AI-native general ledger for multinationals) and strong execution, but timing was the issue — in our radar too late."
+        "reason": "Missed the entry window. $43M raised across 2 rounds \u2014 $13M seed (Jun 2024, Atomico/Cherry/Seedcamp) + $30M Series A (Sep 2025, Balderton Capital lead). Next raise will be Series B, too expensive for meaningful equity. Strong thesis (AI-native general ledger for multinationals) and strong execution, but timing was the issue \u2014 in our radar too late."
     },
     {
         "name": "Enrola",
@@ -319,7 +319,7 @@
             "B2B SaaS",
             "Australia"
         ],
-        "reason": "Crowded category — AI outbound sales agents is saturated globally (Instantly, Apollo, Clay, Amplemarket, multiple YC companies). Founder met in person, not exciting. Growth pace slow for the category. Passed April 2026."
+        "reason": "Crowded category \u2014 AI outbound sales agents is saturated globally (Instantly, Apollo, Clay, Amplemarket, multiple YC companies). Founder met in person, not exciting. Growth pace slow for the category. Passed April 2026."
     },
     {
         "name": "BorderDollar",
@@ -332,7 +332,7 @@
             "Singapore",
             "APAC"
         ],
-        "reason": "Presumed dead. Last public activity January 2024 (Antler pre-seed batch). No follow-on raise, no product news, no press coverage in 15+ months. Website returns but is inactive. Cross-border invoice finance is capital-intensive — difficult to build without significant balance sheet backing beyond a pre-seed."
+        "reason": "Presumed dead. Last public activity January 2024 (Antler pre-seed batch). No follow-on raise, no product news, no press coverage in 15+ months. Website returns but is inactive. Cross-border invoice finance is capital-intensive \u2014 difficult to build without significant balance sheet backing beyond a pre-seed."
     },
     {
         "name": "Amytis",
@@ -344,18 +344,18 @@
             "UK",
             "B2B SaaS"
         ],
-        "reason": "Product, not a pipe. Amytis is a virtual workspace that unifies scientific data, literature, experiments, and protocols — useful tooling for scientists, not infrastructure through which data or money flows between parties. No switching cost at the platform layer. Also pre-revenue; BGV's first investment is seed-level funding for a product still in development. Tech-for-good cohort implies mission alignment over commercial infrastructure thesis.",
+        "reason": "Product, not a pipe. Amytis is a virtual workspace that unifies scientific data, literature, experiments, and protocols \u2014 useful tooling for scientists, not infrastructure through which data or money flows between parties. No switching cost at the platform layer. Also pre-revenue; BGV's first investment is seed-level funding for a product still in development. Tech-for-good cohort implies mission alignment over commercial infrastructure thesis.",
         "profile": {
             "url": "https://www.amytis.io",
-            "stage": "Pre-seed — BGV Autumn 2025 (first investment, Aug 2025)",
+            "stage": "Pre-seed \u2014 BGV Autumn 2025 (first investment, Aug 2025)",
             "fundingNote": "BGV Autumn 2025 Tech for Good cohort",
             "whatTheyDo": "Virtual workspace for life sciences integrating data, literature, experiments, and protocols into one interactive project graph with AI tools. Aimed at scientists as a productivity and insight layer.",
-            "whyFlagged": "Information flow adjacent — research data flowing through a central platform could create switching costs if deeply embedded in lab workflows. TechScaler Ones to Watch 2025 mention suggests some early recognition.",
+            "whyFlagged": "Information flow adjacent \u2014 research data flowing through a central platform could create switching costs if deeply embedded in lab workflows. TechScaler Ones to Watch 2025 mention suggests some early recognition.",
             "founderProfile": "Scotland-based founding team. No serial exit or deep domain operator credentials identified in public sources.",
             "founders": [],
-            "revenueModel": "SaaS subscription (inferred — product in development, no revenue model publicly disclosed).",
+            "revenueModel": "SaaS subscription (inferred \u2014 product in development, no revenue model publicly disclosed).",
             "risks": "Research workspace market is highly competitive (Notion, Benchling, Labguru). Low switching cost if data can be exported. BGV's Tech for Good mandate may constrain commercial aggressiveness.",
-            "macroTailwind": "Life sciences digitalisation is real and growing, but researcher tooling is a product sale — not infrastructure."
+            "macroTailwind": "Life sciences digitalisation is real and growing, but researcher tooling is a product sale \u2014 not infrastructure."
         }
     },
     {
@@ -368,16 +368,16 @@
             "UK",
             "B2B SaaS"
         ],
-        "reason": "Wrong model. Appally automates workplace adjustment processes for disabled and neurodivergent employees — a workflow and HR product, not a pipe. Sits at the HR tool layer, not as infrastructure between parties where switching would be structurally painful. No identified traction or revenue. Pre-seed BGV cohort only.",
+        "reason": "Wrong model. Appally automates workplace adjustment processes for disabled and neurodivergent employees \u2014 a workflow and HR product, not a pipe. Sits at the HR tool layer, not as infrastructure between parties where switching would be structurally painful. No identified traction or revenue. Pre-seed BGV cohort only.",
         "profile": {
             "url": null,
-            "stage": "Pre-seed — BGV Autumn 2025",
+            "stage": "Pre-seed \u2014 BGV Autumn 2025",
             "fundingNote": "BGV Autumn 2025 Tech for Good cohort",
-            "whatTheyDo": "AI-powered SaaS that automates workplace adjustments for disabled and neurodivergent employees — digitising a largely manual, admin-heavy process between employers and HR teams.",
+            "whatTheyDo": "AI-powered SaaS that automates workplace adjustments for disabled and neurodivergent employees \u2014 digitising a largely manual, admin-heavy process between employers and HR teams.",
             "whyFlagged": "B2B SaaS targeting UK enterprise HR. UK disability employment regulation creates structural demand.",
             "founderProfile": "Not publicly available.",
             "founders": [],
-            "revenueModel": "SaaS (inferred — product stage).",
+            "revenueModel": "SaaS (inferred \u2014 product stage).",
             "risks": "HR software market is crowded. Disability accommodation automation is a niche. Sustainability of mission-driven business model unclear.",
             "macroTailwind": "UK Equality Act 2010 duty to make reasonable adjustments creates compliance demand. Neurodiversity awareness rising in enterprise."
         }
@@ -392,16 +392,16 @@
             "HR tech",
             "UK"
         ],
-        "reason": "Consumer/social platform, not a pipe. Branch supports women navigating careers and motherhood post-maternity — a content, community, and coaching platform. Not B2B infrastructure. No payment or information flow between institutional parties. Fails model, B2B, and pipe criteria.",
+        "reason": "Consumer/social platform, not a pipe. Branch supports women navigating careers and motherhood post-maternity \u2014 a content, community, and coaching platform. Not B2B infrastructure. No payment or information flow between institutional parties. Fails model, B2B, and pipe criteria.",
         "profile": {
             "url": null,
-            "stage": "Pre-seed — BGV Autumn 2025",
+            "stage": "Pre-seed \u2014 BGV Autumn 2025",
             "fundingNote": "BGV Autumn 2025 Tech for Good cohort",
-            "whatTheyDo": "Platform supporting women navigating careers and motherhood when returning from maternity leave — career coaching, community, and resources.",
+            "whatTheyDo": "Platform supporting women navigating careers and motherhood when returning from maternity leave \u2014 career coaching, community, and resources.",
             "whyFlagged": "Social impact angle. BGV cohort member.",
             "founderProfile": "Not publicly available.",
             "founders": [],
-            "revenueModel": "Unknown — likely freemium/subscription or employer-sponsored model.",
+            "revenueModel": "Unknown \u2014 likely freemium/subscription or employer-sponsored model.",
             "risks": "Consumer-style product with unclear monetisation path. Not B2B infrastructure.",
             "macroTailwind": "Maternal return-to-work is a genuine UK workplace issue."
         }
@@ -416,12 +416,12 @@
             "Voice AI",
             "UK"
         ],
-        "reason": "B2G product, not B2B infrastructure. Cluso is an AI voice survey platform for local government civic consultation — sells to councils, not enterprises. Even if information flows through it, it's a discrete survey product (not infrastructure the buyer depends on for ongoing operations). No network effects between parties. Low switching cost — councils can change survey tools without rebuilding workflows.",
+        "reason": "B2G product, not B2B infrastructure. Cluso is an AI voice survey platform for local government civic consultation \u2014 sells to councils, not enterprises. Even if information flows through it, it's a discrete survey product (not infrastructure the buyer depends on for ongoing operations). No network effects between parties. Low switching cost \u2014 councils can change survey tools without rebuilding workflows.",
         "profile": {
             "url": null,
-            "stage": "Pre-seed — BGV Autumn 2025",
+            "stage": "Pre-seed \u2014 BGV Autumn 2025",
             "fundingNote": "BGV Autumn 2025 Tech for Good cohort",
-            "whatTheyDo": "AI-powered voice survey platform for local government consultations — democratises civic participation by enabling voice-based input from residents at scale.",
+            "whatTheyDo": "AI-powered voice survey platform for local government consultations \u2014 democratises civic participation by enabling voice-based input from residents at scale.",
             "whyFlagged": "AI-native civic data aggregation. UK local government is a captive, underserved market.",
             "founderProfile": "Not publicly available.",
             "founders": [],
@@ -440,16 +440,16 @@
             "Consumer AI",
             "UK"
         ],
-        "reason": "Hardware-adjacent consumer product. Dabalox is a conversational AI 'heat coach' for the UK heat pump market — a consumer-facing AI assistant, not B2B infrastructure. Sits in the clean energy/consumer advisory space. Not a pipe. Heat pump market is early adoption in UK; consumer AI assistant on top of it is a thin wedge with no structural switching cost.",
+        "reason": "Hardware-adjacent consumer product. Dabalox is a conversational AI 'heat coach' for the UK heat pump market \u2014 a consumer-facing AI assistant, not B2B infrastructure. Sits in the clean energy/consumer advisory space. Not a pipe. Heat pump market is early adoption in UK; consumer AI assistant on top of it is a thin wedge with no structural switching cost.",
         "profile": {
             "url": null,
-            "stage": "Pre-seed — BGV Autumn 2025",
+            "stage": "Pre-seed \u2014 BGV Autumn 2025",
             "fundingNote": "BGV Autumn 2025 Tech for Good cohort",
-            "whatTheyDo": "Conversational AI assistant (heat coach) that guides UK homeowners through heat pump adoption — information, advice, and installation support for net zero transition.",
+            "whatTheyDo": "Conversational AI assistant (heat coach) that guides UK homeowners through heat pump adoption \u2014 information, advice, and installation support for net zero transition.",
             "whyFlagged": "UK heat pump market is policy-supported; information gap between homeowners and heat pump installers is real.",
             "founderProfile": "Not publicly available.",
             "founders": [],
-            "revenueModel": "Unknown — potentially installer referral fees or energy company partnerships.",
+            "revenueModel": "Unknown \u2014 potentially installer referral fees or energy company partnerships.",
             "risks": "Consumer advisory AI has low defensibility. UK heat pump adoption is growing slowly despite government subsidies. Revenue model unclear.",
             "macroTailwind": "UK government heat pump target (600K/year by 2028) creates market. Boiler Upgrade Scheme subsidies are pulling demand."
         }
@@ -464,10 +464,10 @@
             "Cardiology",
             "UK"
         ],
-        "reason": "Medical diagnostics product, not a pipe. Cardiovolt.ai is an AI cardiovascular diagnostics platform — a clinical decision-support tool. Even if it sits between patient data and clinicians, it's a diagnostics product, not infrastructure between institutional parties with payment or information flow switching costs. Also Imperial VCC is a student competition — these are pre-revenue prototype-stage companies. PHLYXR (same domain) appears to be an earlier identity for the same entity.",
+        "reason": "Medical diagnostics product, not a pipe. Cardiovolt.ai is an AI cardiovascular diagnostics platform \u2014 a clinical decision-support tool. Even if it sits between patient data and clinicians, it's a diagnostics product, not infrastructure between institutional parties with payment or information flow switching costs. Also Imperial VCC is a student competition \u2014 these are pre-revenue prototype-stage companies. PHLYXR (same domain) appears to be an earlier identity for the same entity.",
         "profile": {
             "url": "https://cardiovolt.ai",
-            "stage": "Pre-seed — Imperial VCC 2025 finalist",
+            "stage": "Pre-seed \u2014 Imperial VCC 2025 finalist",
             "fundingNote": "Imperial Venture Catalyst Challenge 2025 finalist",
             "whatTheyDo": "AI-powered cardiovascular diagnostics platform. PHLYXR appears to be an earlier brand identity that now redirects to cardiovolt.ai.",
             "whyFlagged": "AI diagnostics in cardiology is a high-value clinical problem. UK NHS pipeline could be significant if regulatory pathway is navigated.",
@@ -488,17 +488,17 @@
             "B2B SaaS",
             "UK"
         ],
-        "reason": "Wrong model and pre-revenue. Reporti is a live events safety platform (not a B2B reporting/analytics tool as initially logged). Attendees report safety issues and share location without mobile service or app downloads. Product not pipe — discrete event-time tool with no structural switching cost or institutional dependency. Founder (Gracie Broom) is a design graduate with no prior exit. Explicitly stated 'still collecting data' — zero paying customers at time of Imperial VCC win (Nov 2025).",
+        "reason": "Wrong model and pre-revenue. Reporti is a live events safety platform (not a B2B reporting/analytics tool as initially logged). Attendees report safety issues and share location without mobile service or app downloads. Product not pipe \u2014 discrete event-time tool with no structural switching cost or institutional dependency. Founder (Gracie Broom) is a design graduate with no prior exit. Explicitly stated 'still collecting data' \u2014 zero paying customers at time of Imperial VCC win (Nov 2025).",
         "profile": {
             "url": "https://reporti.pro",
-            "stage": "Pre-revenue — Imperial VCC 2025 winner (£30,000 prize)",
-            "fundingNote": "Imperial VCC 2025 winner — prize funding only",
+            "stage": "Pre-revenue \u2014 Imperial VCC 2025 winner (\u00a330,000 prize)",
+            "fundingNote": "Imperial VCC 2025 winner \u2014 prize funding only",
             "whatTheyDo": "Browser-based live events safety platform allowing attendees to report safety issues, share locations, and receive guidance without needing mobile service or app downloads.",
             "whyFlagged": "Won Imperial's top entrepreneurship prize. B2B potential selling to event organisers and venues.",
-            "founderProfile": "Gracie Broom — Global Innovation Design MSc, Imperial College. Design background, no prior exit. First company.",
+            "founderProfile": "Gracie Broom \u2014 Global Innovation Design MSc, Imperial College. Design background, no prior exit. First company.",
             "founders": [
                 {
-                    "name": "Gracie Broom — Founder",
+                    "name": "Gracie Broom \u2014 Founder",
                     "li": null
                 }
             ],
@@ -517,12 +517,12 @@
             "CleanTech",
             "UK"
         ],
-        "reason": "Physical product/materials company. Muju Earth is a sustainable materials or earth-friendly product startup — not a software pipe and almost certainly hardware/physical goods. Fails model on first criterion. Imperial VCC student competition means pre-revenue prototype stage.",
+        "reason": "Physical product/materials company. Muju Earth is a sustainable materials or earth-friendly product startup \u2014 not a software pipe and almost certainly hardware/physical goods. Fails model on first criterion. Imperial VCC student competition means pre-revenue prototype stage.",
         "profile": {
             "url": null,
-            "stage": "Pre-seed — Imperial VCC 2025 finalist",
+            "stage": "Pre-seed \u2014 Imperial VCC 2025 finalist",
             "fundingNote": "Imperial Venture Catalyst Challenge 2025 finalist",
-            "whatTheyDo": "Sustainable materials or earth-friendly product startup — limited public information available beyond accelerator listing.",
+            "whatTheyDo": "Sustainable materials or earth-friendly product startup \u2014 limited public information available beyond accelerator listing.",
             "whyFlagged": "Imperial College materials science depth; UK sustainability market has government tailwinds.",
             "founderProfile": "Imperial College academic founders (inferred).",
             "founders": [],
@@ -541,13 +541,13 @@
             "MedTech",
             "UK"
         ],
-        "reason": "Healthcare product, not a pipe. Arcus Dental is a dental health technology startup — clinical product or device, not B2B infrastructure with payment/information flow switching costs. Imperial VCC student competition means pre-revenue. Dental tech is also a slow-moving NHS/private practice sales cycle with regulatory complexity.",
+        "reason": "Healthcare product, not a pipe. Arcus Dental is a dental health technology startup \u2014 clinical product or device, not B2B infrastructure with payment/information flow switching costs. Imperial VCC student competition means pre-revenue. Dental tech is also a slow-moving NHS/private practice sales cycle with regulatory complexity.",
         "profile": {
             "url": "https://arcusdental.co.uk",
-            "stage": "Pre-seed — Imperial VCC 2025 finalist",
+            "stage": "Pre-seed \u2014 Imperial VCC 2025 finalist",
             "fundingNote": "Imperial Venture Catalyst Challenge 2025 finalist",
-            "whatTheyDo": "Dental health technology startup — specific product focus unclear from public information.",
-            "whyFlagged": "Imperial College engineering/medical depth. Dental tech is a large market (UK dental industry ~£4B).",
+            "whatTheyDo": "Dental health technology startup \u2014 specific product focus unclear from public information.",
+            "whyFlagged": "Imperial College engineering/medical depth. Dental tech is a large market (UK dental industry ~\u00a34B).",
             "founderProfile": "Imperial College academic founders (inferred).",
             "founders": [],
             "revenueModel": "Not available.",
@@ -565,31 +565,231 @@
             "Hardware",
             "Europe"
         ],
-        "reason": "Energy infrastructure/hardware play, not a software pipe. Condor Energy is building an energy system for reliable, cheap, sustainable electricity — almost certainly a physical energy technology. Fails model on hardware and physical infrastructure. France-headquartered founders in YC W26 likely means US incorporation and focus during the batch, further reducing geography fit. No SEA/Korea/Japan geography alignment.",
+        "reason": "Energy infrastructure/hardware play, not a software pipe. Condor Energy is building an energy system for reliable, cheap, sustainable electricity \u2014 almost certainly a physical energy technology. Fails model on hardware and physical infrastructure. France-headquartered founders in YC W26 likely means US incorporation and focus during the batch, further reducing geography fit. No SEA/Korea/Japan geography alignment.",
         "profile": {
             "url": null,
-            "stage": "Pre-seed — YC W26",
+            "stage": "Pre-seed \u2014 YC W26",
             "fundingNote": "YCombinator W26",
-            "whatTheyDo": "Energy system for reliable, cheap, and sustainable electricity. Founders: Jean Costa de Beauregard, Clément Grivel, Florian Pérocheau (all French).",
-            "whyFlagged": "YC W26 batch member — YC quality filter is real. Energy infrastructure is a large market with strong tailwinds.",
-            "founderProfile": "Jean Costa de Beauregard, Clément Grivel, Florian Pérocheau — French founders. No prior exit identified from public sources.",
+            "whatTheyDo": "Energy system for reliable, cheap, and sustainable electricity. Founders: Jean Costa de Beauregard, Cl\u00e9ment Grivel, Florian P\u00e9rocheau (all French).",
+            "whyFlagged": "YC W26 batch member \u2014 YC quality filter is real. Energy infrastructure is a large market with strong tailwinds.",
+            "founderProfile": "Jean Costa de Beauregard, Cl\u00e9ment Grivel, Florian P\u00e9rocheau \u2014 French founders. No prior exit identified from public sources.",
             "founders": [
                 {
                     "name": "Jean Costa de Beauregard",
                     "li": null
                 },
                 {
-                    "name": "Clément Grivel",
+                    "name": "Cl\u00e9ment Grivel",
                     "li": null
                 },
                 {
-                    "name": "Florian Pérocheau",
+                    "name": "Florian P\u00e9rocheau",
                     "li": null
                 }
             ],
-            "revenueModel": "Energy systems — hardware/infrastructure revenue model (inferred).",
-            "risks": "Hardware excluded from lens. YC W26 founders typically incorporate in US and focus on US market during batch — geography misalignment. Energy infrastructure requires massive capex.",
+            "revenueModel": "Energy systems \u2014 hardware/infrastructure revenue model (inferred).",
+            "risks": "Hardware excluded from lens. YC W26 founders typically incorporate in US and focus on US market during batch \u2014 geography misalignment. Energy infrastructure requires massive capex.",
             "macroTailwind": "European energy transition and energy security concerns post-Ukraine creating demand for alternative energy infrastructure."
         }
+    },
+    {
+        "name": "Arda Biomaterials",
+        "accelerator": "Imperial EarthScale Cohort 2",
+        "country": "UK",
+        "tags": [
+            "Biomaterials",
+            "Hardware",
+            "Sustainability",
+            "UK"
+        ],
+        "reason": "Physical product \u2014 sustainable leather-like biomaterial from brewery spent grain. Hardware/physical product excluded from lens on first criterion."
+    },
+    {
+        "name": "Cellcraft",
+        "accelerator": "Imperial EarthScale Cohort 2",
+        "country": "UK",
+        "tags": [
+            "Information flow",
+            "BioTech",
+            "AI SaaS",
+            "Bioreactor",
+            "UK"
+        ],
+        "reason": "Interesting model (AI OS for bioreactors, information flow, B2B SaaS) but fails on traction and founder profile. No confirmed paying customers or ARR found at time of review (Jul 2026 \u2014 product launched Apr 2026). CTO Clarisse Beurrier is on Forbes 30U30 Europe and clearly capable, but no prior exit. Too early-stage; no seed capital confirmed beyond accelerator programme. Monitor for Seed raise with customer evidence.",
+        "profile": {
+            "url": "https://www.cellcraft.com",
+            "stage": "Pre-revenue \u2014 Imperial EarthScale 2026",
+            "fundingNote": "No confirmed external funding at time of review",
+            "whatTheyDo": "Cellcraft IQ \u2014 world's first plug-and-play AI operating system for bioreactors. Hardware-agnostic software connecting via standard industrial protocols in under 12 weeks. Targets biopharma, fermentation, cultivated meat, and cell therapy sectors.",
+            "whyFlagged": "Information flow model \u2014 AI OS sitting between bioreactor sensor data and process optimisation decisions. Hardware-agnostic (plug-and-play over standard protocols). Large TAM across biopharma, fermentation, cultivated meat. Cambridge-based team with Imperial EarthScale backing.",
+            "founderProfile": "Clarisse Beurrier (CTO, co-founder) \u2014 Forbes 30U30 Europe Social Impact 2026. Deep domain expertise in bioprocess engineering. No prior exit identified.",
+            "founders": [
+                {
+                    "name": "Clarisse Beurrier \u2014 CTO & Co-founder (Forbes 30U30 Europe 2026)",
+                    "li": null
+                }
+            ],
+            "revenueModel": "B2B SaaS \u2014 subscription for bioreactor automation and optimisation platform (inferred).",
+            "risks": "Pre-revenue at review. First-time founders. Bioreactor OS is niche \u2014 selling into biopharma procurement takes time. Sensor/protocol integration complexity across diverse hardware estates.",
+            "macroTailwind": "Biopharma manufacturing efficiency is a multi-billion dollar problem. Cultivated meat and fermentation markets scaling rapidly. Labour cost pressures in biomanufacturing driving automation demand."
+        }
+    },
+    {
+        "name": "Radiant Matter",
+        "accelerator": "Imperial EarthScale Cohort 2",
+        "country": "UK",
+        "tags": [
+            "Materials",
+            "Hardware",
+            "Fashion",
+            "Sustainability",
+            "UK"
+        ],
+        "reason": "Physical product \u2014 biodegradable cellulose sequins (BioSequin) for fashion. Hardware/physical product excluded from lens."
+    },
+    {
+        "name": "SAGES",
+        "accelerator": "Imperial EarthScale Cohort 2",
+        "country": "UK",
+        "tags": [
+            "Materials",
+            "Hardware",
+            "Dyes",
+            "Sustainability",
+            "UK"
+        ],
+        "reason": "Physical product \u2014 biodegradable non-toxic dyes from food waste. Hardware/physical product excluded from lens."
+    },
+    {
+        "name": "Anzen Technologies",
+        "accelerator": "Imperial EarthScale Cohort 2",
+        "country": "UK",
+        "tags": [
+            "Hardware",
+            "CleanTech",
+            "Heat pump",
+            "UK"
+        ],
+        "reason": "Hardware \u2014 solid-state thermoelectric heat pump. Physical product excluded from lens."
+    },
+    {
+        "name": "Blast Studio",
+        "accelerator": "Imperial EarthScale Cohort 2",
+        "country": "UK",
+        "tags": [
+            "Materials",
+            "Hardware",
+            "Sustainability",
+            "UK"
+        ],
+        "reason": "Physical product \u2014 recycled coffee cup panels (Cupsan) for furniture and interiors. Hardware/physical product excluded from lens."
+    },
+    {
+        "name": "Kestrix",
+        "accelerator": "Imperial EarthScale Cohort 2",
+        "country": "UK",
+        "tags": [
+            "Information flow",
+            "PropTech",
+            "Drones",
+            "AI",
+            "UK"
+        ],
+        "reason": "Three strikes: (1) Founded 2022 \u2014 outside 2025/2026 cohort window. (2) Stage: grant-funded only (PS120k Carbon13 + PS240k Innovate UK grant) \u2014 no confirmed ARR from paying enterprise customers. (3) First-time founder (Lucy Lyons, Oxford MSc). Drone-based delivery model also adds operational complexity that blurs the pipe thesis. Core software platform is interesting but requires revisiting at Seed stage with confirmed revenue.",
+        "profile": {
+            "url": "https://www.kestrix.io",
+            "stage": "Pre-seed \u2014 ~$654K total raised (Carbon13 + Innovate UK grant + Pi Labs accelerator)",
+            "fundingNote": "PS120k Carbon13 (early 2025) + PS240k Innovate UK grant",
+            "whatTheyDo": "Uses thermal drone imagery and AI to map heat loss from buildings and generate targeted retrofit plans. Serves housing providers, councils, and utilities.",
+            "whyFlagged": "Information flow pipe \u2014 thermal data processed into retrofit recommendations sold to councils and housing providers. Backed by Pi Labs (leading PropTech VC).",
+            "founderProfile": "Lucy Lyons (CEO, co-founder) \u2014 Oxford MSc Sustainability, Enterprise and the Environment. Co-founded 2022. No prior exit.",
+            "founders": [
+                {
+                    "name": "Lucy Lyons \u2014 CEO & Co-founder (Oxford MSc Sustainability)",
+                    "li": null
+                }
+            ],
+            "revenueModel": "SaaS + services \u2014 platform subscription for thermal scan, plan generation, and verification.",
+            "risks": "Founded 2022 (pre-cohort). Grant-funded at this stage. Drone operations depend on third-party service providers. UK building retrofit market is government-policy dependent.",
+            "macroTailwind": "UK net zero by 2050 requires 29M homes retrofitted. PS100bn+ annually lost through building heat loss."
+        }
+    },
+    {
+        "name": "Nellie Technologies",
+        "accelerator": "Imperial EarthScale Cohort 2",
+        "country": "UK",
+        "tags": [
+            "Materials",
+            "Hardware",
+            "Carbon capture",
+            "Sustainability",
+            "UK"
+        ],
+        "reason": "Physical product \u2014 biological CO2 capture into long-lasting biogenic materials. Hardware/materials excluded from lens."
+    },
+    {
+        "name": "CircKit",
+        "accelerator": "Imperial EarthScale Cohort 2",
+        "country": "UK",
+        "tags": [
+            "Information flow",
+            "AI SaaS",
+            "Fashion",
+            "Compliance",
+            "UK"
+        ],
+        "reason": "Passes model (AI SaaS, information flow, B2B, UK) but fails on traction and founder profile. Founder Joe Darwen background is in international trade and online marketplaces \u2014 not a serial exit or deep domain operator in fashion/sustainability tech. No confirmed funding round found (pre-seed profile Jul 2025 only). No ARR or paying customer data found. Monitor if a Seed round closes with named brand customers.",
+        "profile": {
+            "url": "https://circkit.com",
+            "stage": "Pre-seed \u2014 Imperial EarthScale 2026",
+            "fundingNote": "No confirmed external funding at time of review",
+            "whatTheyDo": "AI-powered circular toolkit for fashion and footwear brands. Unifies product impact data, cost, and compliance reporting at the design stage. Enables LCA generation, EU mandatory sustainability reporting, and circular product design.",
+            "whyFlagged": "Information flow \u2014 compliance and LCA data flows through CircKit between design teams, supply chains, and regulatory reporting. EU CSRD and Digital Product Passport mandates create structural demand.",
+            "founderProfile": "Joe Darwen (CEO, founder) \u2014 international trade and online marketplace background. No prior exit in fashion/sustainability tech.",
+            "founders": [
+                {
+                    "name": "Joe Darwen \u2014 Founder & CEO",
+                    "li": null
+                }
+            ],
+            "revenueModel": "B2B SaaS \u2014 platform subscription for fashion and footwear brands.",
+            "risks": "Pre-revenue at review. Founder lacks deep domain operator credentials. EU sustainability reporting market is crowded with better-funded players.",
+            "macroTailwind": "EU CSRD, CSDDD, and Digital Product Passport mandates create compliance demand. 91% of fashion environmental impact occurs before point of sale."
+        }
+    },
+    {
+        "name": "Danu Robotics",
+        "accelerator": "Imperial EarthScale Cohort 2",
+        "country": "UK",
+        "tags": [
+            "Robotics",
+            "Hardware",
+            "Waste sorting",
+            "UK"
+        ],
+        "reason": "Hardware \u2014 AI-guided robotic waste sorting retrofit systems. Physical hardware excluded from lens."
+    },
+    {
+        "name": "PulpaTronics",
+        "accelerator": "Imperial EarthScale Cohort 2",
+        "country": "UK",
+        "tags": [
+            "Hardware",
+            "RFID",
+            "Sustainability",
+            "UK"
+        ],
+        "reason": "Hardware \u2014 metal-free RFID tags from paper-based conductive circuits. Physical product excluded from lens."
+    },
+    {
+        "name": "Orli",
+        "accelerator": "Bethnal Green Ventures Spring 2026",
+        "country": "UK",
+        "tags": [
+            "HealthTech",
+            "UK",
+            "Pre-seed"
+        ],
+        "reason": "Insufficient information and too early. Only known detail: health-tech startup, PS60k BGV Tech for Good grant. No product description, no founder detail, no traction data publicly available. Pass until more information surfaces."
     }
 ]
