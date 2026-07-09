@@ -136,7 +136,7 @@ document.getElementById('pwInput').addEventListener('keyup',function(e){
 <!-- Main content -->
 <header>
   <h1><i class="fa-solid fa-heart-pulse" style="color:#ec4899"></i> &nbsp;PROJECT VITALS — NEERA</h1>
-  <div class="meta">Age 47 · Female · City Beach WA · Last updated March 2026</div>
+  <div class="meta">Age 47 · Female · City Beach WA · Last updated July 2026</div>
 </header>
 
 <!-- Key flags -->
@@ -642,6 +642,59 @@ document.getElementById('pwInput').addEventListener('keyup',function(e){
 </div>
 
 <!-- Lung function -->
+<p class="sec"><i class="fa-solid fa-lungs"></i> Lung Function — Spirometry <span class="updated" style="margin-left:8px">08/07/2026 · Interim result</span></p>
+
+<div class="infoBanner">
+  <i class="fa-solid fa-circle-info"></i>
+  <p>Spirometry test — 08/07/2026. Test quality: Grade A (FEV1 and FVC). Reference equation: GLI 2012. No post-bronchodilator test performed — reversibility unknown. Report marked <strong>Interim / Not Reviewed</strong> — awaiting clinician sign-off.</p>
+</div>
+
+<div class="mGrid" style="margin-bottom:20px;">
+  <div class="mCard alert">
+    <div class="mIcon alert"><i class="fa-solid fa-circle-exclamation"></i></div>
+    <div class="mLabel">FEV1 — Forced Exp. Volume</div>
+    <div class="mVal alert">50%</div>
+    <div class="mUnit">1.31L · Predicted: 2.59L · Z: −3.67</div>
+    <div class="mRef">Moderate obstruction confirmed. Below LLN. Previous (Dec 2025): <strong>45%</strong> — FEV1 has improved +5% predicted. Still well below normal (&gt;80%). Target: continue improving with Trimbow + Dupixent.</div>
+  </div>
+  <div class="mCard warn">
+    <div class="mIcon warn"><i class="fa-solid fa-triangle-exclamation"></i></div>
+    <div class="mLabel">FVC — Forced Vital Capacity</div>
+    <div class="mVal warn">73%</div>
+    <div class="mUnit">2.34L · Predicted: 3.20L · Z: −2.09</div>
+    <div class="mRef">Below LLN. Consistent with Dec 2025 (73%). In the context of obstruction, likely reflects air trapping rather than true restriction. Stable.</div>
+  </div>
+  <div class="mCard alert">
+    <div class="mIcon alert"><i class="fa-solid fa-circle-exclamation"></i></div>
+    <div class="mLabel">FEV1/FVC Ratio</div>
+    <div class="mVal alert">0.56</div>
+    <div class="mUnit">Predicted: 0.81 · Z: −3.27 · 68% predicted</div>
+    <div class="mRef">Confirms obstruction. Below LLN (&lt;0.70 is obstructive threshold). No change from Dec 2025 oscillometry context.</div>
+  </div>
+  <div class="mCard warn">
+    <div class="mIcon warn"><i class="fa-solid fa-triangle-exclamation"></i></div>
+    <div class="mLabel">PEF — Peak Expiratory Flow</div>
+    <div class="mVal warn">62%</div>
+    <div class="mUnit">3.99 L/s · Predicted: 6.42 L/s · Z: −2.54</div>
+    <div class="mRef">Reduced — consistent with obstruction. Ref: &gt;80% predicted.</div>
+  </div>
+</div>
+
+<div class="infoBanner" style="border-color:#16a34a;background:#0a1f0a;">
+  <i class="fa-solid fa-chart-line" style="color:#22c55e;"></i>
+  <p><strong style="color:#22c55e;">Trend: FEV1 improved from 45% (Dec 2025) → 50% (Jul 2026).</strong> +5% predicted in ~7 months. This is a meaningful and encouraging result — consistent with Trimbow + Dupixent taking effect. Still a long way from normal, but the direction is right. Keep doing what you're doing.</p>
+</div>
+
+<div class="advCard" style="margin-bottom:24px;max-width:600px;">
+  <h3><i class="fa-solid fa-notes-medical" style="color:#3b82f6"></i> <span style="color:#f1f5f9;">Next Steps — Respiratory</span></h3>
+  <ul>
+    <li>Request a <strong>post-bronchodilator test</strong> at next appointment — standard follow-up to confirm whether obstruction is partially reversible with a reliever inhaler.</li>
+    <li>Ask about <strong>full lung volumes</strong> (body plethysmography or DLCO) — needed to rule out restriction alongside obstruction, given reduced FVC.</li>
+    <li>Follow up once report is formally reviewed by clinician (currently interim/not signed off).</li>
+    <li>Continue Trimbow + Dupixent — the data supports they are working.</li>
+  </ul>
+</div>
+
 <p class="sec"><i class="fa-solid fa-lungs"></i> Lung Function — Oscillometry (tremoflo) <span class="updated" style="margin-left:8px">Thorasys WA Health · 15/12/2025</span></p>
 
 <div class="infoBanner">
@@ -655,15 +708,15 @@ document.getElementById('pwInput').addEventListener('keyup',function(e){
     <div class="mIcon alert"><i class="fa-solid fa-circle-exclamation"></i></div>
     <div class="mLabel">FEV1 — Forced Exp. Volume</div>
     <div class="mVal alert">45%</div>
-    <div class="mUnit">% predicted</div>
-    <div class="mRef">Severe obstruction territory. Improved from previous result. Target &gt;80%.</div>
+    <div class="mUnit">% predicted · Dec 2025</div>
+    <div class="mRef">Severe obstruction territory. <strong>Latest Jul 2026: 50%</strong> — improving on Trimbow. Target &gt;80%.</div>
   </div>
   <div class="mCard warn">
     <div class="mIcon warn"><i class="fa-solid fa-triangle-exclamation"></i></div>
     <div class="mLabel">FVC — Forced Vital Capacity</div>
     <div class="mVal warn">73%</div>
-    <div class="mUnit">% predicted</div>
-    <div class="mRef">Mildly reduced. Improved from previous. Ref: &gt;80%.</div>
+    <div class="mUnit">% predicted · Dec 2025</div>
+    <div class="mRef">Mildly reduced. Stable — same result Jul 2026. Ref: &gt;80%.</div>
   </div>
   <div class="mCard ok">
     <div class="mIcon ok"><i class="fa-solid fa-circle-check"></i></div>
