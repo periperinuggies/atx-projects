@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scout — Program Radar</title>
+<style>
+  :root {
+    --bg: #0f1115; --panel: #171a21; --border: #2a2f3a; --text: #e6e8eb;
+    --muted: #8b93a1; --accent: #4f9dff; --good: #2fbf71; --warn: #e0a12c; --bad: #e05252;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  header { padding: 24px 28px 16px; border-bottom: 1px solid var(--border); }
+  header h1 { margin: 0 0 4px; font-size: 22px; }
+  header p { margin: 0; color: var(--muted); font-size: 13px; }
+  .note { background: #2a2210; border: 1px solid #4a3a10; color: #e0c070; padding: 10px 14px; border-radius: 6px; font-size: 12.5px; margin: 14px 28px 0; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; padding: 16px 28px; border-bottom: 1px solid var(--border); align-items: center; background: var(--panel); }
+  .controls input, .controls select { background: #0f1115; color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; font-size: 13px; }
+  .controls input[type=text] { min-width: 220px; }
+  .controls label { font-size: 12px; color: var(--muted); margin-right: 4px; }
+  .tabs { display: flex; gap: 8px; padding: 12px 28px 0; }
+  .tab { padding: 8px 16px; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 13px; color: var(--muted); border: 1px solid transparent; }
+  .tab.active { background: var(--panel); color: var(--text); border: 1px solid var(--border); border-bottom: 1px solid var(--panel); }
+  .stats { padding: 10px 28px; font-size: 12px; color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 10px 12px; background: var(--panel); border-bottom: 2px solid var(--border); cursor: pointer; white-space: nowrap; position: sticky; top: 0; }
+  th:hover { color: var(--accent); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:hover td { background: #1b1f28; }
+  .score { font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-block; min-width: 30px; text-align: center; }
+  .score.high { background: rgba(47,191,113,.15); color: var(--good); }
+  .score.mid { background: rgba(224,161,44,.15); color: var(--warn); }
+  .score.low { background: rgba(224,82,82,.15); color: var(--bad); }
+  .tag { display: inline-block; font-size: 11px; padding: 2px 7px; border-radius: 10px; margin: 1px 3px 1px 0; background: #232838; color: var(--muted); }
+  .flag { color: var(--bad); font-size: 11.5px; }
+  .status-active { color: var(--good); }
+  .status-dead { color: var(--bad); font-weight: 600; }
+  .status-unclear { color: var(--warn); }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .name-cell { min-width: 170px; }
+  .name-cell .parent { color: var(--muted); font-size: 11px; }
+  .wrap-cell { max-width: 260px; white-space: normal; }
+  .container { padding-bottom: 60px; }
+  ::-webkit-scrollbar { height: 8px; width: 8px; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Scout — Program Radar</h1>
+  <p>Accelerators, incubators, awards &amp; grants across Larsen Ventures' target geographies. Filter, sort, slice. Data refreshed manually via Chappie sweeps.</p>
+</header>
+
+<div class="note" id="statusNote"></div>
+
+<div class="tabs">
+  <div class="tab active" data-tab="programs">Accelerators / Incubators</div>
+  <div class="tab" data-tab="awards">Awards / Grants</div>
+</div>
+
+<div class="controls">
+  <input type="text" id="searchBox" placeholder="Search name, alumni, operator...">
+  <label>Geo</label><select id="geoFilter"><option value="">All</option></select>
+  <label>Type</label><select id="typeFilter"><option value="">All</option></select>
+  <label>Status</label><select id="statusFilter"><option value="">All</option></select>
+  <label><input type="checkbox" id="hideFlags"> Hide red-flagged</label>
+</div>
+
+<div class="stats" id="statsLine"></div>
+
+<div class="container">
+  <table id="dataTable">
+    <thead><tr id="tableHead"></tr></thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+</div>
+
+<script>
+let DATA = null;
+let currentTab = 'programs';
+let sortKey = 'compositeScore';
+let sortDir = -1;
+
+const programCols = [
+  {key:'name', label:'Program'},
+  {key:'geo', label:'Geo'},
+  {key:'type', label:'Type'},
+  {key:'focus', label:'Focus'},
+  {key:'stage', label:'Stage'},
+  {key:'cheque', label:'Cheque'},
+  {key:'lastCohortDate', label:'Last Cohort'},
+  {key:'batchSize', label:'Batch Size'},
+  {key:'totalPortfolio', label:'Portfolio'},
+  {key:'notableAlumni', label:'Notable Alumni'},
+  {key:'activityStatus', label:'Status'},
+  {key:'compositeScore', label:'Score'},
+];
+
+const awardCols = [
+  {key:'name', label:'Award/Grant'},
+  {key:'geo', label:'Geo'},
+  {key:'type', label:'Type'},
+  {key:'focus', label:'Focus'},
+  {key:'fundingAmount', label:'Funding/Prize'},
+  {key:'frequency', label:'Frequency'},
+  {key:'lastCycle', label:'Last Cycle'},
+  {key:'organiser', label:'Organiser'},
+  {key:'payToPlayFlag', label:'Pay-to-Play?'},
+];
+
+function scoreProgram(p) {
+  // Composite score 0-100, built from what we can actually verify per program.
+  let score = 40; // baseline for being a real, verified, live program
+  const status = (p.activityStatus||'').toLowerCase();
+  if (status.includes('defunded') || status.includes('discontinued') || status.includes('pivoted')) return 5;
+  if (status.includes('zombie') || status.includes('possible zombie')) score -= 20;
+  if (status.includes('unclear')) score -= 10;
+  if (status === 'active' || status.startsWith('active')) score += 15;
+
+  const alumni = (p.notableAlumni||'').toLowerCase();
+  if (alumni.includes('raised') || alumni.includes('million') || alumni.includes('280m') || alumni.includes('funded')) score += 15;
+  if (/unicorn|ipo|acquired/.test(alumni)) score += 10;
+
+  const portfolio = (p.totalPortfolio||'');
+  if (/\d{2,}/.test(portfolio)) score += 5; // has a real countable portfolio number
+  if (/\$?\d+[mb]\+?/i.test(portfolio)) score += 10; // total capital figure present
+
+  if (p.redFlags && p.redFlags.length > 0) score -= (p.redFlags.length * 8);
+  if (p.operators && p.operators.length > 5 && !p.operators.toLowerCase().includes('not confirmed')) score += 5;
+
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
+async function loadData() {
+  const res = await fetch('programs_data.json');
+  DATA = await res.json();
+  DATA.programs.forEach(p => p.compositeScore = scoreProgram(p));
+  document.getElementById('statusNote').innerHTML =
+    `<strong>Coverage note (v1):</strong> This is a first working slice — AU/NZ accelerators/incubators + AU/UK/SG awards/grants only, fully live-verified via web search. ` +
+    `SEA, Korea/Japan, UK accelerators, and Scandinavia/Western Europe are still pending (in progress). Generated ${DATA.generated}.`;
+  populateFilters();
+  render();
+}
+
+function populateFilters() {
+  const rows = currentTab === 'programs' ? DATA.programs : DATA.awardsGrants;
+  const geoSel = document.getElementById('geoFilter');
+  const typeSel = document.getElementById('typeFilter');
+  const statusSel = document.getElementById('statusFilter');
+  const geos = [...new Set(rows.map(r => r.geo))].sort();
+  const types = [...new Set(rows.map(r => r.type))].sort();
+  geoSel.innerHTML = '<option value="">All Geo</option>' + geos.map(g=>`<option value="${g}">${g}</option>`).join('');
+  typeSel.innerHTML = '<option value="">All Types</option>' + types.map(t=>`<option value="${t}">${t}</option>`).join('');
+  if (currentTab === 'programs') {
+    const statuses = [...new Set(rows.map(r => r.activityStatus))].sort();
+    statusSel.innerHTML = '<option value="">All Status</option>' + statuses.map(s=>`<option value="${s}">${s}</option>`).join('');
+    statusSel.style.display = '';
+  } else {
+    statusSel.style.display = 'none';
+  }
+}
+
+function scoreClass(s) {
+  if (s >= 65) return 'high';
+  if (s >= 40) return 'mid';
+  return 'low';
+}
+
+function statusClass(s) {
+  s = (s||'').toLowerCase();
+  if (s.includes('defund') || s.includes('discontinu') || s.includes('pivot')) return 'status-dead';
+  if (s.includes('zombie') || s.includes('unclear')) return 'status-unclear';
+  return 'status-active';
+}
+
+function render() {
+  const cols = currentTab === 'programs' ? programCols : awardCols;
+  const head = document.getElementById('tableHead');
+  head.innerHTML = cols.map(c => `<th data-key="${c.key}">${c.label}${sortKey===c.key ? (sortDir>0?' ▲':' ▼') : ''}</th>`).join('');
+  head.querySelectorAll('th').forEach(th => th.onclick = () => {
+    const k = th.dataset.key;
+    if (sortKey === k) sortDir *= -1; else { sortKey = k; sortDir = 1; }
+    render();
+  });
+
+  let rows = currentTab === 'programs' ? [...DATA.programs] : [...DATA.awardsGrants];
+
+  const search = document.getElementById('searchBox').value.toLowerCase();
+  const geo = document.getElementById('geoFilter').value;
+  const type = document.getElementById('typeFilter').value;
+  const status = document.getElementById('statusFilter').value;
+  const hideFlags = document.getElementById('hideFlags').checked;
+
+  if (search) {
+    rows = rows.filter(r => JSON.stringify(r).toLowerCase().includes(search));
+  }
+  if (geo) rows = rows.filter(r => r.geo === geo);
+  if (type) rows = rows.filter(r => r.type === type);
+  if (status && currentTab === 'programs') rows = rows.filter(r => r.activityStatus === status);
+  if (hideFlags) {
+    rows = rows.filter(r => currentTab === 'programs' ? (!r.redFlags || r.redFlags.length===0) : !r.payToPlayFlag);
+  }
+
+  rows.sort((a,b) => {
+    let av = a[sortKey], bv = b[sortKey];
+    if (typeof av === 'number' && typeof bv === 'number') return (av-bv)*sortDir;
+    av = (av||'').toString().toLowerCase(); bv = (bv||'').toString().toLowerCase();
+    if (av < bv) return -1*sortDir;
+    if (av > bv) return 1*sortDir;
+    return 0;
+  });
+
+  document.getElementById('statsLine').textContent = `${rows.length} of ${currentTab === 'programs' ? DATA.programs.length : DATA.awardsGrants.length} shown`;
+
+  const body = document.getElementById('tableBody');
+  if (currentTab === 'programs') {
+    body.innerHTML = rows.map(p => `
+      <tr>
+        <td class="name-cell"><a href="${p.url||'#'}" target="_blank">${p.name}</a>${p.parentNetwork?`<div class="parent">via ${p.parentNetwork}</div>`:''}</td>
+        <td>${p.geo}<br><span class="parent">${p.country||''}</span></td>
+        <td>${p.type}</td>
+        <td class="wrap-cell">${p.focus||''}</td>
+        <td>${p.stage||''}</td>
+        <td class="wrap-cell">${p.cheque||''}</td>
+        <td class="wrap-cell">${p.lastCohortDate||''}</td>
+        <td>${p.batchSize||'—'}</td>
+        <td class="wrap-cell">${p.totalPortfolio||'—'}</td>
+        <td class="wrap-cell">${p.notableAlumni||'—'}${p.redFlags && p.redFlags.length ? '<br>'+p.redFlags.map(f=>`<div class="flag">⚑ ${f}</div>`).join(''):''}</td>
+        <td class="${statusClass(p.activityStatus)}">${p.activityStatus}</td>
+        <td><span class="score ${scoreClass(p.compositeScore)}">${p.compositeScore}</span></td>
+      </tr>
+    `).join('');
+  } else {
+    body.innerHTML = rows.map(a => `
+      <tr>
+        <td class="name-cell"><a href="${a.url||'#'}" target="_blank">${a.name}</a></td>
+        <td>${a.geo}</td>
+        <td>${a.type}</td>
+        <td class="wrap-cell">${a.focus||''}</td>
+        <td class="wrap-cell">${a.fundingAmount||''}</td>
+        <td>${a.frequency||''}</td>
+        <td class="wrap-cell">${a.lastCycle||''}</td>
+        <td class="wrap-cell">${a.organiser||''}</td>
+        <td class="${a.payToPlayFlag?'status-dead':'status-active'}">${a.payToPlayFlag ? '⚑ FLAGGED' : 'Clean'}</td>
+      </tr>
+    `).join('');
+  }
+}
+
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  currentTab = t.dataset.tab;
+  sortKey = currentTab === 'programs' ? 'compositeScore' : 'name';
+  sortDir = -1;
+  populateFilters();
+  render();
+});
+
+['searchBox'].forEach(id => document.getElementById(id).oninput = render);
+['geoFilter','typeFilter','statusFilter','hideFlags'].forEach(id => document.getElementById(id).onchange = render);
+
+loadData();
+</script>
+</body>
+</html>

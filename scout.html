@@ -1,269 +1,1470 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Scout — Program Radar</title>
-<style>
-  :root {
-    --bg: #0f1115; --panel: #171a21; --border: #2a2f3a; --text: #e6e8eb;
-    --muted: #8b93a1; --accent: #4f9dff; --good: #2fbf71; --warn: #e0a12c; --bad: #e05252;
-  }
-  * { box-sizing: border-box; }
-  body { margin:0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-  header { padding: 24px 28px 16px; border-bottom: 1px solid var(--border); }
-  header h1 { margin: 0 0 4px; font-size: 22px; }
-  header p { margin: 0; color: var(--muted); font-size: 13px; }
-  .note { background: #2a2210; border: 1px solid #4a3a10; color: #e0c070; padding: 10px 14px; border-radius: 6px; font-size: 12.5px; margin: 14px 28px 0; }
-  .controls { display: flex; flex-wrap: wrap; gap: 10px; padding: 16px 28px; border-bottom: 1px solid var(--border); align-items: center; background: var(--panel); }
-  .controls input, .controls select { background: #0f1115; color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; font-size: 13px; }
-  .controls input[type=text] { min-width: 220px; }
-  .controls label { font-size: 12px; color: var(--muted); margin-right: 4px; }
-  .tabs { display: flex; gap: 8px; padding: 12px 28px 0; }
-  .tab { padding: 8px 16px; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 13px; color: var(--muted); border: 1px solid transparent; }
-  .tab.active { background: var(--panel); color: var(--text); border: 1px solid var(--border); border-bottom: 1px solid var(--panel); }
-  .stats { padding: 10px 28px; font-size: 12px; color: var(--muted); }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { text-align: left; padding: 10px 12px; background: var(--panel); border-bottom: 2px solid var(--border); cursor: pointer; white-space: nowrap; position: sticky; top: 0; }
-  th:hover { color: var(--accent); }
-  td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
-  tr:hover td { background: #1b1f28; }
-  .score { font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-block; min-width: 30px; text-align: center; }
-  .score.high { background: rgba(47,191,113,.15); color: var(--good); }
-  .score.mid { background: rgba(224,161,44,.15); color: var(--warn); }
-  .score.low { background: rgba(224,82,82,.15); color: var(--bad); }
-  .tag { display: inline-block; font-size: 11px; padding: 2px 7px; border-radius: 10px; margin: 1px 3px 1px 0; background: #232838; color: var(--muted); }
-  .flag { color: var(--bad); font-size: 11.5px; }
-  .status-active { color: var(--good); }
-  .status-dead { color: var(--bad); font-weight: 600; }
-  .status-unclear { color: var(--warn); }
-  a { color: var(--accent); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  .name-cell { min-width: 170px; }
-  .name-cell .parent { color: var(--muted); font-size: 11px; }
-  .wrap-cell { max-width: 260px; white-space: normal; }
-  .container { padding-bottom: 60px; }
-  ::-webkit-scrollbar { height: 8px; width: 8px; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scout — Larsen Ventures</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0c10;
+      --surface: #12151c;
+      --border: #1c2030;
+      --text: #f1f5f9;
+      --muted: #64748b;
+      --subtle: #1e2535;
+      --ac: #a78bfa;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 48px 24px 80px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    /* Nav */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 56px;
+    }
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-back:hover { color: var(--text); }
+    .nav-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: rgba(167,139,250,0.1);
+      border: 1px solid rgba(167,139,250,0.2);
+      color: #a78bfa;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 64px;
+    }
+    .header-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #a78bfa;
+      margin-bottom: 14px;
+    }
+    .header h1 {
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 60%, #34d399 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 14px;
+      line-height: 1.05;
+    }
+    .header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 560px;
+      line-height: 1.6;
+    }
+    .header-meta {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .meta-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #34d399;
+    }
+
+    /* Section label */
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+      padding-left: 2px;
+    }
+
+    /* Thesis block */
+    .thesis-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 32px;
+      margin-bottom: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .thesis-block::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #a78bfa, #60a5fa, #34d399);
+    }
+    .thesis-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+    .thesis-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .thesis-item {
+      background: var(--subtle);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+    .thesis-item-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #a78bfa;
+      margin-bottom: 6px;
+    }
+    .thesis-item-value {
+      font-size: 0.84rem;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    /* Accelerator card */
+    .acc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .acc-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--card-ac, #a78bfa);
+      opacity: 0.6;
+    }
+    .acc-card:hover {
+      border-color: color-mix(in srgb, var(--card-ac, #a78bfa) 40%, transparent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .acc-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .acc-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .acc-geo {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 99px;
+      background: color-mix(in srgb, var(--card-ac, #a78bfa) 12%, transparent);
+      color: var(--card-ac, #a78bfa);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .acc-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .acc-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tag {
+      font-size: 0.69rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: var(--subtle);
+      color: #94a3b8;
+      border: 1px solid var(--border);
+    }
+    .acc-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .acc-cohort {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .acc-link {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--card-ac, #a78bfa);
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .acc-link:hover { opacity: 0.7; }
+
+    /* Company card */
+    .co-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .co-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--card-ac, #34d399);
+    }
+    .co-card:hover {
+      border-color: color-mix(in srgb, var(--card-ac, #34d399) 40%, transparent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .co-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .co-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .co-stage-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 99px;
+      background: color-mix(in srgb, var(--card-ac, #34d399) 12%, transparent);
+      color: var(--card-ac, #34d399);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .co-meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .co-meta-item {
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .co-section-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--card-ac, #34d399);
+      margin-bottom: 4px;
+    }
+    .co-text {
+      font-size: 0.83rem;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+    .co-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .co-block {
+      background: var(--subtle);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .co-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .co-footer {
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .co-accelerator {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .co-link {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--card-ac, #34d399);
+      text-decoration: none;
+    }
+    .co-link:hover { opacity: 0.7; }
+
+    /* Pattern card */
+    .pattern-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .pattern-num {
+      font-size: 2rem;
+      font-weight: 900;
+      color: rgba(167,139,250,0.15);
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .pattern-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: -6px;
+    }
+    .pattern-text {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .pattern-examples {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      padding-top: 6px;
+      border-top: 1px solid var(--border);
+    }
+    .example-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: rgba(167,139,250,0.08);
+      color: #a78bfa;
+      border: 1px solid rgba(167,139,250,0.15);
+    }
+
+    /* Radar card */
+    .radar-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .radar-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #f59e0b;
+      flex-shrink: 0;
+      margin-top: 4px;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(245,158,11,0.4); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(245,158,11,0); }
+    }
+    .radar-content {}
+    .radar-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .radar-text {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .radar-trigger {
+      margin-top: 8px;
+      font-size: 0.72rem;
+      color: #f59e0b;
+      font-weight: 600;
+    }
+
+    /* Empty state */
+    .empty-state {
+      background: var(--surface);
+      border: 1px dashed #2a3040;
+      border-radius: 16px;
+      padding: 40px 24px;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .empty-state p {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .empty-state .em-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+
+    /* Collapsible sections */
+    details { margin-bottom: 0; }
+    details summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      list-style: none;
+      padding: 14px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 0;
+      transition: border-color 0.2s, background 0.2s;
+      user-select: none;
+    }
+    details summary::-webkit-details-marker { display: none; }
+    details summary:hover { border-color: rgba(167,139,250,0.3); background: #14172020; }
+    details[open] summary {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-bottom-color: transparent;
+      background: #14172080;
+    }
+    .summary-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .summary-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .summary-count {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 99px;
+      background: rgba(167,139,250,0.1);
+      color: #a78bfa;
+    }
+    .summary-chevron {
+      font-size: 0.75rem;
+      color: var(--muted);
+      transition: transform 0.2s;
+    }
+    details[open] .summary-chevron { transform: rotate(180deg); }
+    .collapsible-body {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: none;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .collapsible-body .section-label {
+      margin-top: 20px;
+      margin-bottom: 14px;
+    }
+    .collapsible-body .section-label:first-child { margin-top: 0; }
+    .collapsible-body .grid { margin-bottom: 8px; }
+
+    /* Updated badge */
+    .updated {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+      display: block;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 56px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: #374151;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    footer a { color: #4b5563; text-decoration: none; }
+    footer a:hover { color: var(--muted); }
+
+    @media (max-width: 640px) {
+      .grid { grid-template-columns: 1fr; }
+      .thesis-grid { grid-template-columns: 1fr; }
+      .co-grid { grid-template-columns: 1fr; }
+      body { padding: 32px 16px 60px; }
+    }
+  </style>
 </head>
 <body>
+<div class="wrap">
 
-<header>
-  <h1>Scout — Program Radar</h1>
-  <p>Accelerators, incubators, awards &amp; grants across Larsen Ventures' target geographies. Filter, sort, slice. Data refreshed manually via Chappie sweeps.</p>
-</header>
+  <!-- Nav -->
+  <div class="nav">
+    <a class="nav-back" href="/">← ATX Projects</a>
+    <span class="nav-badge">Internal — Larsen Ventures</span>
+  </div>
 
-<div class="note" id="statusNote"></div>
+  <!-- Header -->
+  <div class="header">
+    <div class="header-eyebrow">Larsen Ventures · Deal Flow Intelligence</div>
+    <h1>Scout</h1>
+    <p>Tracking accelerator programmes globally to surface early-stage companies that fit our investment lens — before they're obvious.</p>
+    <div class="header-meta">
+      <div class="meta-item"><span class="meta-dot" style="background:#a78bfa"></span> Seed + Series A</div>
+      <div class="meta-item"><span class="meta-dot" style="background:#60a5fa"></span> SEA · Korea · Japan · Europe · UK · AU/NZ</div>
+      <div class="meta-item"><span class="meta-dot" style="background:#34d399"></span> Flow infrastructure plays</div>
+    </div>
+  </div>
 
-<div class="tabs">
-  <div class="tab active" data-tab="programs">Accelerators / Incubators</div>
-  <div class="tab" data-tab="awards">Awards / Grants</div>
-</div>
+  <!-- Investment Thesis -->
+  <details style="margin-bottom:24px;">
+    <summary>
+      <div class="summary-left">
+        <span class="summary-label">Investment Thesis</span>
+        <span class="summary-count">8 criteria</span>
+      </div>
+      <span class="summary-chevron">▼</span>
+    </summary>
+    <div class="collapsible-body" style="padding:0;">
+  <div class="thesis-block" style="border-radius:0 0 12px 12px; border:none; margin-bottom:0;">
+    <div class="thesis-title">What we're looking for</div>
+    <div class="thesis-grid">
+      <div class="thesis-item">
+        <div class="thesis-item-label">Model</div>
+        <div class="thesis-item-value">Companies that insert themselves into an existing flow — payment clip or information flow. The pipe, not the end product. Once embedded, painful to remove.</div>
+      </div>
+      <div class="thesis-item">
+        <div class="thesis-item-label">Stage</div>
+        <div class="thesis-item-value">Seed and Series A with traction. Paying customers and revenue moving — not just an idea. Fewer customers, higher revenue per customer preferred.</div>
+      </div>
+      <div class="thesis-item">
+        <div class="thesis-item-label">Market</div>
+        <div class="thesis-item-value">Underserved or traditionally-served markets ripe for disruption. Global portability required — same solution must work across multiple markets.</div>
+      </div>
+      <div class="thesis-item">
+        <div class="thesis-item-label">Sectors</div>
+        <div class="thesis-item-value">Fintech in any vertical. Any tech where money or information flows through the platform. No hardware, gambling, alcohol, or adult content.</div>
+      </div>
+      <div class="thesis-item">
+        <div class="thesis-item-label">Moat</div>
+        <div class="thesis-item-value">Switching costs (embedded in flow, painful to remove) + first mover in an underserved market incumbents ignored. Better tech alone is not a moat.</div>
+      </div>
+      <div class="thesis-item">
+        <div class="thesis-item-label">Founder</div>
+        <div class="thesis-item-value">Serial winner or deep domain operator. Lived the problem, knows the market, has done it before. Second-time founder with successful exit is the ideal profile.</div>
+      </div>
+      <div class="thesis-item">
+        <div class="thesis-item-label">Geography</div>
+        <div class="thesis-item-value">Southeast Asia, South Korea, Japan, Europe, UK, AU/NZ. No USA, India, Bangladesh, South America, China, or Middle East.</div>
+      </div>
+      <div class="thesis-item">
+        <div class="thesis-item-label">Structure</div>
+        <div class="thesis-item-value">B2B preferred. B2B with channel partnerships is ideal. B2C considered if the flow model is strong. Equity-focused, cheque size flexible.</div>
+      </div>
+    </div>
+  </div>
+    </div>
+  </details>
 
-<div class="controls">
-  <input type="text" id="searchBox" placeholder="Search name, alumni, operator...">
-  <label>Geo</label><select id="geoFilter"><option value="">All</option></select>
-  <label>Type</label><select id="typeFilter"><option value="">All</option></select>
-  <label>Status</label><select id="statusFilter"><option value="">All</option></select>
-  <label><input type="checkbox" id="hideFlags"> Hide red-flagged</label>
-</div>
+  <!-- Accelerator Programs -->
+  <details style="margin-bottom:24px;">
+    <summary>
+      <div class="summary-left">
+        <span class="summary-label">Programmes Tracked</span>
+        <span class="summary-count">29 programmes · 5 regions</span>
+      </div>
+      <span class="summary-chevron">▼</span>
+    </summary>
+    <div class="collapsible-body">
+  <p class="section-label">Programmes Tracked — <span style="color:#f1f5f9">30</span></p>
+  <span class="updated">Accelerators · Incubators · Venture Studios · Corporate Programmes · University Spinouts · Last reviewed: March 2026</span>
 
-<div class="stats" id="statsLine"></div>
+  <div style="background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.15);border-radius:12px;padding:14px 18px;margin-bottom:28px;font-size:0.82rem;color:#94a3b8;line-height:1.6;">
+    <strong style="color:#a78bfa;">Programme filter:</strong> We track the programme, not the cohort label. For university-linked programmes, we only look at genuine commercial spinouts — real companies with paying customers and founders with domain expertise. Student entrepreneurship projects, class assignments, and idea-stage pitches are excluded regardless of the institution.
+  </div>
 
-<div class="container">
-  <table id="dataTable">
-    <thead><tr id="tableHead"></tr></thead>
-    <tbody id="tableBody"></tbody>
-  </table>
-</div>
+  <p class="section-label" style="margin-top:8px;">🌏 APAC — Singapore / Southeast Asia</p>
+  <div class="grid">
 
-<script>
-let DATA = null;
-let currentTab = 'programs';
-let sortKey = 'compositeScore';
-let sortDir = -1;
+    <div class="acc-card" style="--card-ac:#34d399">
+      <div class="acc-top"><div class="acc-name">Iterative</div><div class="acc-geo">Singapore</div></div>
+      <div class="acc-desc">YC-style accelerator for South and Southeast Asia. 10% equity, $150k USD. Strong B2B SaaS focus, high bar for traction at entry. Proven alumni track record — one of the highest-signal sources in SEA.</div>
+      <div class="acc-tags"><span class="tag">B2B SaaS</span><span class="tag">SEA / Korea / Japan</span><span class="tag">Pre-seed / Seed</span><span class="tag">⭐ High signal</span></div>
+      <div class="acc-footer"><span class="acc-cohort">2x per year · ~20 companies</span><a class="acc-link" href="https://iterative.vc" target="_blank">iterative.vc →</a></div>
+    </div>
 
-const programCols = [
-  {key:'name', label:'Program'},
-  {key:'geo', label:'Geo'},
-  {key:'type', label:'Type'},
-  {key:'focus', label:'Focus'},
-  {key:'stage', label:'Stage'},
-  {key:'cheque', label:'Cheque'},
-  {key:'lastCohortDate', label:'Last Cohort'},
-  {key:'batchSize', label:'Batch Size'},
-  {key:'totalPortfolio', label:'Portfolio'},
-  {key:'notableAlumni', label:'Notable Alumni'},
-  {key:'activityStatus', label:'Status'},
-  {key:'compositeScore', label:'Score'},
-];
+    <div class="acc-card" style="--card-ac:#60a5fa">
+      <div class="acc-top"><div class="acc-name">Accelerating Asia</div><div class="acc-geo">Singapore</div></div>
+      <div class="acc-desc">Impact-focused accelerator for high-growth startups in Southeast Asia. Strong network in underserved markets — healthcare, fintech, agri, education. Solid follow-on funding record.</div>
+      <div class="acc-tags"><span class="tag">Impact</span><span class="tag">SEA</span><span class="tag">Seed</span><span class="tag">⭐ High signal</span></div>
+      <div class="acc-footer"><span class="acc-cohort">2x per year · ~15 companies</span><a class="acc-link" href="https://acceleratingasia.com" target="_blank">acceleratingasia.com →</a></div>
+    </div>
 
-const awardCols = [
-  {key:'name', label:'Award/Grant'},
-  {key:'geo', label:'Geo'},
-  {key:'type', label:'Type'},
-  {key:'focus', label:'Focus'},
-  {key:'fundingAmount', label:'Funding/Prize'},
-  {key:'frequency', label:'Frequency'},
-  {key:'lastCycle', label:'Last Cycle'},
-  {key:'organiser', label:'Organiser'},
-  {key:'payToPlayFlag', label:'Pay-to-Play?'},
-];
+    <div class="acc-card" style="--card-ac:#f472b6">
+      <div class="acc-top"><div class="acc-name">Antler</div><div class="acc-geo">Global · APAC HQ Singapore</div></div>
+      <div class="acc-desc">Founder-matching and early-stage VC in 30+ cities. Strong APAC presence across Singapore, Australia, SEA, Korea. Invests at day zero through to Series A. High volume, variable quality.</div>
+      <div class="acc-tags"><span class="tag">Pre-seed</span><span class="tag">Global</span><span class="tag">Founder-first</span><span class="tag">High volume</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Rolling · Multiple cities</span><a class="acc-link" href="https://antler.co" target="_blank">antler.co →</a></div>
+    </div>
 
-function scoreProgram(p) {
-  // Composite score 0-100, built from what we can actually verify per program.
-  let score = 40; // baseline for being a real, verified, live program
-  const status = (p.activityStatus||'').toLowerCase();
-  if (status.includes('defunded') || status.includes('discontinued') || status.includes('pivoted')) return 5;
-  if (status.includes('zombie') || status.includes('possible zombie')) score -= 20;
-  if (status.includes('unclear')) score -= 10;
-  if (status === 'active' || status.startsWith('active')) score += 15;
+    <div class="acc-card" style="--card-ac:#a78bfa">
+      <div class="acc-top"><div class="acc-name">Surge (Sequoia)</div><div class="acc-geo">SEA</div></div>
+      <div class="acc-desc">Sequoia Capital's rapid scale-up programme for Southeast Asia. $1M–$2M investment, 16-week programme. Direct pipeline to Sequoia Series A. High bar, high conversion.</div>
+      <div class="acc-tags"><span class="tag">Seed</span><span class="tag">SEA</span><span class="tag">Sequoia-backed</span><span class="tag">⭐ High signal</span></div>
+      <div class="acc-footer"><span class="acc-cohort">2x per year · ~20 companies</span><a class="acc-link" href="https://surgeahead.com" target="_blank">surgeahead.com →</a></div>
+    </div>
 
-  const alumni = (p.notableAlumni||'').toLowerCase();
-  if (alumni.includes('raised') || alumni.includes('million') || alumni.includes('280m') || alumni.includes('funded')) score += 15;
-  if (/unicorn|ipo|acquired/.test(alumni)) score += 10;
+    <div class="acc-card" style="--card-ac:#38bdf8">
+      <div class="acc-top"><div class="acc-name">500 Global</div><div class="acc-geo">Global · SEA focus</div></div>
+      <div class="acc-desc">One of the world's most active early-stage VCs. Strong SEA portfolio (500 TukTuks, 500 Durians). Broad sector coverage — fintech and marketplace plays well represented.</div>
+      <div class="acc-tags"><span class="tag">Pre-seed / Seed</span><span class="tag">SEA</span><span class="tag">Fintech</span><span class="tag">High volume</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Rolling · Regional programmes</span><a class="acc-link" href="https://500.co" target="_blank">500.co →</a></div>
+    </div>
 
-  const portfolio = (p.totalPortfolio||'');
-  if (/\d{2,}/.test(portfolio)) score += 5; // has a real countable portfolio number
-  if (/\$?\d+[mb]\+?/i.test(portfolio)) score += 10; // total capital figure present
+    <div class="acc-card" style="--card-ac:#34d399">
+      <div class="acc-top"><div class="acc-name">Google for Startups — SEA</div><div class="acc-geo">Southeast Asia</div></div>
+      <div class="acc-desc">Google's equity-free accelerator for Seed–Series A startups in Southeast Asia. Provides access to Google tech, credits, mentors, and global network. Non-dilutive — good indicator of validated founders.</div>
+      <div class="acc-tags"><span class="tag">Seed / Series A</span><span class="tag">SEA</span><span class="tag">Non-dilutive</span><span class="tag">Google network</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Annual · ~10–15 companies</span><a class="acc-link" href="https://startup.google.com/programs/accelerator/southeast-asia/" target="_blank">startup.google.com →</a></div>
+    </div>
 
-  if (p.redFlags && p.redFlags.length > 0) score -= (p.redFlags.length * 8);
-  if (p.operators && p.operators.length > 5 && !p.operators.toLowerCase().includes('not confirmed')) score += 5;
+    <div class="acc-card" style="--card-ac:#60a5fa">
+      <div class="acc-top"><div class="acc-name">Plug and Play</div><div class="acc-geo">Singapore · Japan · APAC</div></div>
+      <div class="acc-desc">Global corporate innovation platform with strong APAC presence in Singapore, Japan, and Indonesia. Connects startups to corporate partners — strong fintech, supply chain, and insurtech verticals.</div>
+      <div class="acc-tags"><span class="tag">Corporate</span><span class="tag">APAC</span><span class="tag">Fintech / InsurTech</span><span class="tag">Seed / Series A</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Rolling · Vertical-specific</span><a class="acc-link" href="https://plugandplaytechcenter.com" target="_blank">plugandplaytechcenter.com →</a></div>
+    </div>
 
-  return Math.max(0, Math.min(100, Math.round(score)));
-}
+  </div>
 
-async function loadData() {
-  const res = await fetch('programs_data.json');
-  DATA = await res.json();
-  DATA.programs.forEach(p => p.compositeScore = scoreProgram(p));
-  document.getElementById('statusNote').innerHTML =
-    `<strong>Coverage note (v1):</strong> This is a first working slice — AU/NZ accelerators/incubators + AU/UK/SG awards/grants only, fully live-verified via web search. ` +
-    `SEA, Korea/Japan, UK accelerators, and Scandinavia/Western Europe are still pending (in progress). Generated ${DATA.generated}.`;
-  populateFilters();
-  render();
-}
+  <p class="section-label" style="margin-top:8px;">🇦🇺 Australia / New Zealand</p>
+  <div class="grid">
 
-function populateFilters() {
-  const rows = currentTab === 'programs' ? DATA.programs : DATA.awardsGrants;
-  const geoSel = document.getElementById('geoFilter');
-  const typeSel = document.getElementById('typeFilter');
-  const statusSel = document.getElementById('statusFilter');
-  const geos = [...new Set(rows.map(r => r.geo))].sort();
-  const types = [...new Set(rows.map(r => r.type))].sort();
-  geoSel.innerHTML = '<option value="">All Geo</option>' + geos.map(g=>`<option value="${g}">${g}</option>`).join('');
-  typeSel.innerHTML = '<option value="">All Types</option>' + types.map(t=>`<option value="${t}">${t}</option>`).join('');
-  if (currentTab === 'programs') {
-    const statuses = [...new Set(rows.map(r => r.activityStatus))].sort();
-    statusSel.innerHTML = '<option value="">All Status</option>' + statuses.map(s=>`<option value="${s}">${s}</option>`).join('');
-    statusSel.style.display = '';
-  } else {
-    statusSel.style.display = 'none';
+    <div class="acc-card" style="--card-ac:#facc15">
+      <div class="acc-top"><div class="acc-name">Startmate</div><div class="acc-geo">Australia · NZ</div></div>
+      <div class="acc-desc">Australia's leading accelerator. Strong fintech, marketplace, and B2B SaaS output. Alumni include Canva (early), Clipchamp, Assignar. Best source of AU-origin companies with global expansion ambitions.</div>
+      <div class="acc-tags"><span class="tag">Seed</span><span class="tag">AU / NZ</span><span class="tag">B2B SaaS</span><span class="tag">⭐ High signal</span></div>
+      <div class="acc-footer"><span class="acc-cohort">2x per year · ~20 companies</span><a class="acc-link" href="https://startmate.com" target="_blank">startmate.com →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#a78bfa">
+      <div class="acc-top"><div class="acc-name">Skalata Ventures</div><div class="acc-geo">Australia</div></div>
+      <div class="acc-desc">Specialist pre-Series A fund for AU/NZ B2B SaaS companies. Focused exclusively on the $500k–$3M ARR growth phase — bridging seed and Series A. High-touch, operator-led mentoring.</div>
+      <div class="acc-tags"><span class="tag">B2B SaaS</span><span class="tag">AU / NZ</span><span class="tag">Pre-Series A</span><span class="tag">Growth stage</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Rolling</span><a class="acc-link" href="https://skalata.com.au" target="_blank">skalata.com.au →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#38bdf8">
+      <div class="acc-top"><div class="acc-name">Forge (Creative HQ)</div><div class="acc-geo">New Zealand</div></div>
+      <div class="acc-desc">NZ's leading startup accelerator. Produces solid B2B SaaS and govtech plays with AU/NZ market entry, often expanding into APAC. Small cohorts, high attention per company.</div>
+      <div class="acc-tags"><span class="tag">B2B SaaS</span><span class="tag">NZ</span><span class="tag">GovTech</span><span class="tag">Seed</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Annual · ~10 companies</span><a class="acc-link" href="https://creativehq.co.nz/forge" target="_blank">creativehq.co.nz →</a></div>
+    </div>
+
+  </div>
+
+  <p class="section-label" style="margin-top:8px;">🇰🇷 🇯🇵 Korea / Japan</p>
+  <div class="acc-grid">
+
+    <div class="acc-card" style="--card-ac:#f97316">
+      <div class="acc-top"><div class="acc-name">SparkLabs Seoul</div><div class="acc-geo">South Korea</div></div>
+      <div class="acc-desc">Korea's leading early-stage accelerator. Strong B2B SaaS, fintech, and deeptech output. Dense network into Korean chaebols and APAC enterprise buyers. Produces globally-minded founders from Korea's top universities and Samsung/Kakao/Naver alumni.</div>
+      <div class="acc-tags"><span class="tag">B2B SaaS</span><span class="tag">Korea</span><span class="tag">Fintech</span><span class="tag">Seed</span></div>
+      <div class="acc-footer"><span class="acc-cohort">2x per year · ~10 companies · 2024–2026</span><a class="acc-link" href="https://sparklabs.co.kr" target="_blank">sparklabs.co.kr →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#a78bfa">
+      <div class="acc-top"><div class="acc-name">TIPS (Korea)</div><div class="acc-geo">South Korea</div></div>
+      <div class="acc-desc">Government-backed accelerator network — the largest startup support programme in Korea with 300+ participating companies. Private-sector led selection with government co-investment. Produces B2B infrastructure, fintech, and platform plays at pace.</div>
+      <div class="acc-tags"><span class="tag">B2B</span><span class="tag">Korea</span><span class="tag">Fintech</span><span class="tag">Pre-seed / Seed</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Rolling · 300+ companies/year · 2024–2026</span><a class="acc-link" href="https://www.jointips.or.kr" target="_blank">jointips.or.kr →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#34d399">
+      <div class="acc-top"><div class="acc-name">D.CAMP (Banks Foundation)</div><div class="acc-geo">South Korea</div></div>
+      <div class="acc-desc">Korea's most prominent startup hub backed by eight major Korean banks. Fintech-heavy output given banking consortium backing — strong pipeline of payment infrastructure and financial data plays into Korean enterprise market.</div>
+      <div class="acc-tags"><span class="tag">Fintech</span><span class="tag">Korea</span><span class="tag">B2B</span><span class="tag">Seed</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Annual · dcamp.kr</span><a class="acc-link" href="https://dcamp.kr" target="_blank">dcamp.kr →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#60a5fa">
+      <div class="acc-top"><div class="acc-name">Global Brain (Japan)</div><div class="acc-geo">Japan</div></div>
+      <div class="acc-desc">One of Japan's most active early-stage VCs running structured accelerator programmes. Invests across B2B SaaS, fintech, and deeptech. Strong corporate LP network (KDDI, Panasonic, Mizuho) creates enterprise distribution for portfolio companies.</div>
+      <div class="acc-tags"><span class="tag">B2B SaaS</span><span class="tag">Japan</span><span class="tag">Fintech</span><span class="tag">Seed / Series A</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Ongoing · global-brain.co.jp</span><a class="acc-link" href="https://global-brain.co.jp" target="_blank">global-brain.co.jp →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#f472b6">
+      <div class="acc-top"><div class="acc-name">500 Startups Japan</div><div class="acc-geo">Japan</div></div>
+      <div class="acc-desc">Japan-specific programme of 500 Global. Focuses on B2B SaaS and enterprise software with Japanese market entry. Unique access to Japanese corporate buyers — the hardest market to crack for foreign founders.</div>
+      <div class="acc-tags"><span class="tag">B2B SaaS</span><span class="tag">Japan</span><span class="tag">Enterprise</span><span class="tag">Seed</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Annual · 500.co/japan</span><a class="acc-link" href="https://500.co/accelerators" target="_blank">500.co →</a></div>
+    </div>
+
+  </div>
+
+    <p class="section-label" style="margin-top:8px;">🇬🇧 🇪🇺 Europe / UK</p>
+  <div class="grid">
+
+    <div class="acc-card" style="--card-ac:#60a5fa">
+      <div class="acc-top"><div class="acc-name">Seedcamp</div><div class="acc-geo">London · Europe</div></div>
+      <div class="acc-desc">Europe's most respected early-stage fund and accelerator. Investing since 2007, backed hundreds of companies including Revolut, UiPath, Wise. Operates like an accelerator but functions as first institutional money — very high signal.</div>
+      <div class="acc-tags"><span class="tag">Pre-seed / Seed</span><span class="tag">Europe</span><span class="tag">Fintech</span><span class="tag">⭐ High signal</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Rolling · ~100 investments/year</span><a class="acc-link" href="https://seedcamp.com" target="_blank">seedcamp.com →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#fb923c">
+      <div class="acc-top"><div class="acc-name">Entrepreneur First — UK</div><div class="acc-geo">London</div></div>
+      <div class="acc-desc">London cohorts recruit exceptional technical individuals before founding. Produces deep-tech, B2B SaaS, and AI infrastructure companies. Strong founder pedigree — Imperial, Oxford, Cambridge alumni common.</div>
+      <div class="acc-tags"><span class="tag">Deep tech / AI</span><span class="tag">UK</span><span class="tag">Talent-first</span><span class="tag">⭐ High signal</span></div>
+      <div class="acc-footer"><span class="acc-cohort">2x per year</span><a class="acc-link" href="https://joinef.com" target="_blank">joinef.com →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#a78bfa">
+      <div class="acc-top"><div class="acc-name">Startup Wise Guys</div><div class="acc-geo">Tallinn · Europe-wide</div></div>
+      <div class="acc-desc">Europe's leading B2B accelerator. Fintech, cybersecurity, SaaS, PropTech, sustainability, defence. Strong Eastern European and Nordic pipeline. Unusually good for non-obvious geographies.</div>
+      <div class="acc-tags"><span class="tag">B2B SaaS</span><span class="tag">Fintech</span><span class="tag">Cybersecurity</span><span class="tag">EU / Baltics</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Multiple cohorts/year · EU-wide</span><a class="acc-link" href="https://startupwiseguys.com" target="_blank">startupwiseguys.com →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#f472b6">
+      <div class="acc-top"><div class="acc-name">Founders Factory</div><div class="acc-geo">London</div></div>
+      <div class="acc-desc">Hybrid venture studio and accelerator backed by major corporates (L'Oréal, Aviva, easyJet, etc.). Fintech, climate, health, deep tech. Provides both funding and operational support. Good for corporate-distribution plays.</div>
+      <div class="acc-tags"><span class="tag">Venture studio</span><span class="tag">Fintech</span><span class="tag">UK</span><span class="tag">Corporate-backed</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Rolling · Vertical-specific</span><a class="acc-link" href="https://foundersfactory.com" target="_blank">foundersfactory.com →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#38bdf8">
+      <div class="acc-top"><div class="acc-name">Station F</div><div class="acc-geo">Paris · France</div></div>
+      <div class="acc-desc">World's largest startup campus — 1,000+ startups, 30+ programmes including FLINKS (fintech) and incubators from Meta, Microsoft, Vente-Privée. Strong EU fintech and SaaS output.</div>
+      <div class="acc-tags"><span class="tag">Multi-programme</span><span class="tag">France / EU</span><span class="tag">Fintech / SaaS</span><span class="tag">Seed</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Rolling · 30+ resident programmes</span><a class="acc-link" href="https://stationf.co" target="_blank">stationf.co →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#34d399">
+      <div class="acc-top"><div class="acc-name">eFounders / Hexa</div><div class="acc-geo">Paris · Europe</div></div>
+      <div class="acc-desc">Europe's top SaaS venture studio. Built Aircall, Spendesk, Slite, Front, Mailjet. Co-builds B2B SaaS companies from scratch with operators. Deep expertise in payment flows and enterprise software infrastructure.</div>
+      <div class="acc-tags"><span class="tag">Venture studio</span><span class="tag">B2B SaaS</span><span class="tag">France</span><span class="tag">⭐ High signal</span></div>
+      <div class="acc-footer"><span class="acc-cohort">2–3 new ventures/year</span><a class="acc-link" href="https://efounders.com" target="_blank">efounders.com →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#facc15">
+      <div class="acc-top"><div class="acc-name">SETsquared Partnership</div><div class="acc-geo">UK (Bath, Bristol, Exeter, Southampton, Surrey)</div></div>
+      <div class="acc-desc">World's #1 ranked university business incubator network. Deep-tech, B2B SaaS, and engineering spinouts from five leading UK universities. Produces founders with serious academic credentials — our preferred profile.</div>
+      <div class="acc-tags"><span class="tag">University spinout</span><span class="tag">UK</span><span class="tag">Deep tech</span><span class="tag">Seed</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Rolling</span><a class="acc-link" href="https://setsquared.co.uk" target="_blank">setsquared.co.uk →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#60a5fa">
+      <div class="acc-top"><div class="acc-name">Imperial College — EI Hub</div><div class="acc-geo">London</div></div>
+      <div class="acc-desc">Imperial's enterprise and innovation arm. Consistently produces deep-tech, medtech, and B2B SaaS spinouts. High academic pedigree — our preferred founder profile. Strong IP foundations and technical moats.</div>
+      <div class="acc-tags"><span class="tag">University spinout</span><span class="tag">UK</span><span class="tag">Deep tech</span><span class="tag">Seed / Series A</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Rolling · Annual cohorts</span><a class="acc-link" href="https://imperial.ac.uk/enterprise" target="_blank">imperial.ac.uk/enterprise →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#f97316">
+      <div class="acc-top"><div class="acc-name">Level39</div><div class="acc-geo">London (Canary Wharf)</div></div>
+      <div class="acc-desc">Europe's largest fintech, cybersecurity, and retail technology accelerator in the heart of London's financial district. Direct access to banks, asset managers, and insurers. Strong B2B fintech pipeline.</div>
+      <div class="acc-tags"><span class="tag">Fintech</span><span class="tag">Cybersecurity</span><span class="tag">UK</span><span class="tag">Corporate access</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Rolling · Resident programme</span><a class="acc-link" href="https://level39.co" target="_blank">level39.co →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#a78bfa">
+      <div class="acc-top"><div class="acc-name">APX (Axel Springer + Porsche)</div><div class="acc-geo">Berlin</div></div>
+      <div class="acc-desc">Early-stage VC backed by Axel Springer and Porsche. B2B SaaS, marketplace, and media tech. Strong corporate distribution through two major European corporates. Good for European market entry plays.</div>
+      <div class="acc-tags"><span class="tag">B2B SaaS</span><span class="tag">Germany / EU</span><span class="tag">Corporate-backed</span><span class="tag">Seed</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Rolling</span><a class="acc-link" href="https://apx.ac" target="_blank">apx.ac →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#38bdf8">
+      <div class="acc-top"><div class="acc-name">Startupbootcamp</div><div class="acc-geo">London · Amsterdam · Berlin</div></div>
+      <div class="acc-desc">Sector-specific accelerators across fintech, insurtech, smart city, and digital health in major EU hubs. Strong corporate partnerships. Good for spotting EU plays with underserved-market angles.</div>
+      <div class="acc-tags"><span class="tag">Fintech / InsurTech</span><span class="tag">EU</span><span class="tag">Seed</span><span class="tag">Corporate-linked</span></div>
+      <div class="acc-footer"><span class="acc-cohort">Annual per vertical</span><a class="acc-link" href="https://startupbootcamp.org" target="_blank">startupbootcamp.org →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#f472b6">
+      <div class="acc-top"><div class="acc-name">Bethnal Green Ventures</div><div class="acc-geo">London</div></div>
+      <div class="acc-desc">UK's leading impact tech accelerator. Focus on tech for good — health, education, work, democracy, climate. Produces B2B SaaS and platform plays with structural tailwinds. Good for information-flow plays in traditionally paper-based sectors.</div>
+      <div class="acc-tags"><span class="tag">Impact tech</span><span class="tag">UK</span><span class="tag">B2B SaaS</span><span class="tag">Seed</span></div>
+      <div class="acc-footer"><span class="acc-cohort">2x per year · ~12 companies</span><a class="acc-link" href="https://bethnalgreenventures.com" target="_blank">bethnalgreenventures.com →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#34d399">
+      <div class="acc-top"><div class="acc-name">Y Combinator</div><div class="acc-geo">Global — APAC / EU filter</div></div>
+      <div class="acc-desc">The benchmark accelerator. We filter for non-US founders building for SEA, Korea, Japan, or European markets. YC alumni in payments infra, data middleware, and B2B SaaS consistently outperform. High density of our target profile.</div>
+      <div class="acc-tags"><span class="tag">Seed</span><span class="tag">Global</span><span class="tag">Filter: non-US founders</span><span class="tag">⭐ Highest signal</span></div>
+      <div class="acc-footer"><span class="acc-cohort">2x per year · ~250 companies</span><a class="acc-link" href="https://ycombinator.com" target="_blank">ycombinator.com →</a></div>
+    </div>
+
+    <div class="acc-card" style="--card-ac:#fb923c">
+      <div class="acc-top"><div class="acc-name">Entrepreneur First</div><div class="acc-geo">Singapore · London</div></div>
+      <div class="acc-desc">Talent-first model across three markets. Recruits exceptional individuals before they have ideas or cofounders. Produces highly technical B2B SaaS and deep-tech companies. Our preferred academic/operator founder profile.</div>
+      <div class="acc-tags"><span class="tag">Deep tech / B2B SaaS</span><span class="tag">Global</span><span class="tag">Talent-first</span><span class="tag">⭐ High signal</span></div>
+      <div class="acc-footer"><span class="acc-cohort">2x per year per city</span><a class="acc-link" href="https://joinef.com" target="_blank">joinef.com →</a></div>
+    </div>
+
+  </div>
+
+    </div>
+  </details>
+
+  <!-- Success Patterns -->
+  <details style="margin-bottom:24px;">
+    <summary>
+      <div class="summary-left">
+        <span class="summary-label">Success Patterns</span>
+        <span class="summary-count">6 patterns</span>
+      </div>
+      <span class="summary-chevron">▼</span>
+    </summary>
+    <div class="collapsible-body">
+  <p class="section-label">Success Patterns</p>
+  <span class="updated">What the breakout alumni had in common — and the conditions that made them work</span>
+  <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+
+    <div class="pattern-card">
+      <div class="pattern-num">01</div>
+      <div class="pattern-title">They owned the pipe, not the product</div>
+      <div class="pattern-text">The most durable alumni weren't building the thing people used — they built the layer everything else ran through. Wonde doesn't teach kids. Clever doesn't run apps. SeedFlex doesn't run the merchant's business. They own the flow. The end-user product gets replaced; the pipe rarely does.</div>
+      <div class="pattern-examples">
+        <span class="example-tag">Wonde</span>
+        <span class="example-tag">Clever</span>
+        <span class="example-tag">SeedFlex</span>
+        <span class="example-tag">Stripe</span>
+      </div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-num">02</div>
+      <div class="pattern-title">Underserved market + timing window</div>
+      <div class="pattern-text">The breakouts didn't beat incumbents in crowded markets — they moved into spaces incumbents were ignoring or had written off as too small or too hard. Bare into funerals. SeedFlex into SEA merchant lending. The window matters: enter when the market is just large enough to prove the model but before capital floods in.</div>
+      <div class="pattern-examples">
+        <span class="example-tag">Bare Cremations</span>
+        <span class="example-tag">SeedFlex</span>
+        <span class="example-tag">EdStart</span>
+        <span class="example-tag">JustFund</span>
+      </div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-num">03</div>
+      <div class="pattern-title">Founders who lived the problem</div>
+      <div class="pattern-text">Almost every breakout had a founder who spent years inside the industry before starting the company. They weren't disrupting from the outside — they had been frustrated by the problem for a long time. This gives them distribution (they know the buyers), credibility (they speak the language), and conviction (they've validated the pain personally).</div>
+      <div class="pattern-examples">
+        <span class="example-tag">Domain expertise</span>
+        <span class="example-tag">Operator background</span>
+        <span class="example-tag">Prior exit</span>
+      </div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-num">04</div>
+      <div class="pattern-title">Macro tailwind they didn't create</div>
+      <div class="pattern-text">The best outcomes rode structural forces that were already in motion — rising defence budgets, AI adoption normalising, digital payments penetration in emerging markets, regulatory pressure on legacy industries, post-COVID remote infrastructure build-out. The company didn't cause the wave. They were positioned for it.</div>
+      <div class="pattern-examples">
+        <span class="example-tag">AI normalisation</span>
+        <span class="example-tag">Defence budgets ↑</span>
+        <span class="example-tag">Fintech regulation</span>
+        <span class="example-tag">Digital payments SEA</span>
+      </div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-num">05</div>
+      <div class="pattern-title">Unit economics worked before scaling</div>
+      <div class="pattern-text">The breakout Series A companies had positive unit economics at the customer level before they hit the accelerator. They weren't buying growth. Revenue per customer was high relative to CAC, churn was low because switching was painful, and the path to profitability was a function of volume, not a pivot. SeedFlex turned profitable in Malaysia before expanding.</div>
+      <div class="pattern-examples">
+        <span class="example-tag">Low churn</span>
+        <span class="example-tag">High LTV/CAC</span>
+        <span class="example-tag">Profitable at unit level</span>
+      </div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-num">06</div>
+      <div class="pattern-title">Global model, local entry</div>
+      <div class="pattern-text">Companies that scaled internationally started with a tight geographic wedge — one country, one vertical, one customer type — but were built from day one with a model that could replicate. The playbook wasn't different in each market; the go-to-market was. Prove it in AU or SG, then export the model. Single-market architecture is a ceiling.</div>
+      <div class="pattern-examples">
+        <span class="example-tag">Wonde: UK → AU</span>
+        <span class="example-tag">SeedFlex: MY → ID</span>
+        <span class="example-tag">GO1: AU → Global</span>
+      </div>
+    </div>
+
+  </div>
+
+    </div>
+  </details>
+
+  <!-- ============================================================ -->
+  <!-- COMPANIES — data-driven, filterable, sortable               -->
+  <!-- ============================================================ -->
+
+  <style>
+    /* Filter bar */
+    .filter-bar { display:flex; flex-wrap:wrap; gap:16px; margin-bottom:24px; align-items:flex-start; }
+    .filter-group { display:flex; flex-direction:column; gap:6px; }
+    .filter-label { font-size:0.65rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); }
+    .filter-pills { display:flex; flex-wrap:wrap; gap:5px; }
+    .filter-pill {
+      font-size:0.73rem; font-weight:600; padding:4px 12px; border-radius:99px;
+      background:var(--subtle); border:1px solid var(--border); color:var(--muted);
+      cursor:pointer; transition:all 0.15s;
+    }
+    .filter-pill:hover { border-color:#a78bfa44; color:var(--text); }
+    .filter-pill.active { background:rgba(167,139,250,0.12); border-color:rgba(167,139,250,0.35); color:#a78bfa; }
+    .sort-select {
+      font-size:0.73rem; font-weight:600; padding:5px 10px; border-radius:8px;
+      background:var(--subtle); border:1px solid var(--border); color:var(--muted);
+      cursor:pointer; outline:none;
+    }
+    .sort-select:focus { border-color:#a78bfa44; }
+    /* Status badge */
+    .status-badge {
+      display:inline-flex; align-items:center; gap:5px;
+      font-size:0.68rem; font-weight:700; padding:3px 10px; border-radius:99px;
+      border:1px solid; letter-spacing:0.03em;
+    }
+    .status-dot { width:5px; height:5px; border-radius:50%; }
+    /* Comparable */
+    .co-comparable {
+      background:rgba(167,139,250,0.06); border:1px solid rgba(167,139,250,0.15);
+      border-radius:10px; padding:11px 14px;
+    }
+    .co-comparable-label { font-size:0.65rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#a78bfa; margin-bottom:4px; }
+    .co-comparable-text { font-size:0.81rem; color:#94a3b8; line-height:1.55; }
+    /* LinkedIn pills */
+    .li-pill {
+      display:inline-flex; align-items:center; gap:5px;
+      font-size:0.7rem; font-weight:600; padding:3px 10px; border-radius:6px;
+      background:rgba(14,118,168,0.1); border:1px solid rgba(14,118,168,0.25); color:#38bdf8;
+      text-decoration:none; transition:opacity 0.15s;
+    }
+    .li-pill:hover { opacity:0.75; }
+    .li-nolink {
+      font-size:0.7rem; font-weight:600; padding:3px 10px; border-radius:6px;
+      background:var(--subtle); border:1px solid var(--border); color:var(--muted);
+    }
+    /* Diligence */
+    .diligence-details { margin-top:4px; }
+    .diligence-details summary {
+      font-size:0.72rem; font-weight:700; color:var(--muted); cursor:pointer; padding:6px 0;
+      list-style:none; display:flex; align-items:center; gap:6px;
+    }
+    .diligence-details summary::-webkit-details-marker { display:none; }
+    .diligence-details[open] summary { color:#f59e0b; }
+    .diligence-list { margin-top:8px; display:flex; flex-direction:column; gap:6px; }
+    .diligence-item {
+      display:flex; gap:8px; font-size:0.79rem; color:#94a3b8; line-height:1.5;
+      padding:8px 12px; background:rgba(245,158,11,0.05); border:1px solid rgba(245,158,11,0.12); border-radius:8px;
+    }
+    .diligence-item::before { content:'?'; color:#f59e0b; font-weight:800; flex-shrink:0; }
+    /* Funding note */
+    .funding-note {
+      font-size:0.72rem; font-weight:600; color:#34d399;
+      background:rgba(52,211,153,0.06); border:1px solid rgba(52,211,153,0.2);
+      padding:4px 10px; border-radius:6px; display:inline-block;
+    }
+    /* Founder flag warning */
+    .founder-flag {
+      font-size:0.75rem; font-weight:600; color:#f97316;
+      background:rgba(249,115,22,0.08); border:1px solid rgba(249,115,22,0.2);
+      padding:8px 12px; border-radius:8px; margin-top:6px; line-height:1.5;
+    }
+    /* No results */
+    #noResults { display:none; text-align:center; padding:40px; color:var(--muted); font-size:0.85rem; }
+    /* Passed cards */
+    .passed-card {
+      background:var(--surface); border:1px solid var(--border); border-radius:12px;
+      padding:16px 20px; display:flex; gap:14px; align-items:flex-start;
+    }
+    .passed-x { color:#64748b; font-weight:800; font-size:1rem; flex-shrink:0; margin-top:1px; }
+    .passed-name { font-size:0.88rem; font-weight:700; color:#e2e8f0; margin-bottom:3px; }
+    .passed-meta { font-size:0.72rem; color:#94a3b8; margin-bottom:6px; }
+    .passed-reason { font-size:0.8rem; color:#cbd5e1; line-height:1.55; }
+    .passed-tags { display:flex; flex-wrap:wrap; gap:4px; margin-bottom:8px; }
+    .passed-tag { font-size:0.65rem; font-weight:600; padding:2px 7px; border-radius:5px; background:rgba(167,139,250,0.08); color:#a78bfa; border:1px solid rgba(167,139,250,0.2); }
+    .passed-expand { margin-top:10px; }
+    .passed-expand summary { font-size:0.73rem; font-weight:600; color:#a78bfa; cursor:pointer; list-style:none; display:inline-flex; align-items:center; gap:5px; opacity:0.8; transition:opacity 0.15s; }
+    .passed-expand summary:hover { opacity:1; }
+    .passed-expand summary::-webkit-details-marker { display:none; }
+    .passed-expand[open] summary { opacity:1; }
+    .passed-profile { margin-top:12px; padding-top:12px; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:10px; }
+    .passed-profile-row { font-size:0.79rem; color:#94a3b8; line-height:1.55; }
+    .passed-profile-row strong { color:#cbd5e1; font-weight:600; display:block; margin-bottom:2px; font-size:0.68rem; letter-spacing:0.06em; text-transform:uppercase; }
+    .passed-profile-founders { display:flex; flex-wrap:wrap; gap:5px; margin-top:2px; }
+    .update-hint { font-size:0.72rem; color:var(--muted); margin-bottom:24px; padding:10px 14px; background:var(--subtle); border:1px solid var(--border); border-radius:8px; }
+    .update-hint a { color:#a78bfa; text-decoration:none; }
+  </style>
+
+  <!-- Filter bar -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+    <p class="section-label" style="margin-bottom:0;">Companies to Watch</p>
+    <span id="companiesCount" style="font-size:0.72rem;color:var(--muted);"></span>
+  </div>
+  <p class="update-hint">Status is updated by Chappie. To change a status — <a href="https://t.me/+YOUR_LINK">tell Chappie on Telegram</a>. Funding alerts fire automatically to the group chat.</p>
+
+  <div class="filter-bar">
+    <div class="filter-group">
+      <span class="filter-label">Status</span>
+      <div class="filter-pills">
+        <button class="filter-pill active" data-filter="status" data-value="all">All</button>
+        <button class="filter-pill" data-filter="status" data-value="watching">Watching</button>
+        <button class="filter-pill" data-filter="status" data-value="contacted">Contacted</button>
+        <button class="filter-pill" data-filter="status" data-value="in-diligence">In Diligence</button>
+        <button class="filter-pill" data-filter="status" data-value="invested">Invested</button>
+      </div>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Flow type</span>
+      <div class="filter-pills">
+        <button class="filter-pill active" data-filter="flow" data-value="all">All</button>
+        <button class="filter-pill" data-filter="flow" data-value="payment">Payment</button>
+        <button class="filter-pill" data-filter="flow" data-value="information">Information</button>
+        <button class="filter-pill" data-filter="flow" data-value="both">Both</button>
+      </div>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Region</span>
+      <div class="filter-pills">
+        <button class="filter-pill active" data-filter="region" data-value="all">All</button>
+        <button class="filter-pill" data-filter="region" data-value="apac">SEA</button>
+        <button class="filter-pill" data-filter="region" data-value="korea">Korea / Japan</button>
+        <button class="filter-pill" data-filter="region" data-value="aunz">AU / NZ</button>
+        <button class="filter-pill" data-filter="region" data-value="europe">Europe / UK</button>
+      </div>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Sort</span>
+      <div class="filter-pills">
+        <select class="sort-select" id="sortSelect">
+          <option value="newest">Newest first</option>
+          <option value="name">Name A–Z</option>
+          <option value="validated">Most validated</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div id="companiesGrid" style="display:flex;flex-direction:column;gap:16px;margin-bottom:48px;"></div>
+  <div id="noResults">No companies match these filters.</div>
+
+  <!-- Outliers -->
+  <p class="section-label">Outliers — <span style="color:#f1f5f9" id="outliersCount"></span></p>
+  <span class="updated">Exceptional founders outside the pipe filter, and emerging thesis spaces we’re actively watching</span>
+  <div id="outliersList" style="display:flex;flex-direction:column;gap:12px;margin-bottom:48px;"></div>
+
+  <!-- On the Radar -->
+  <p class="section-label">On the Radar — <span style="color:#f1f5f9" id="radarCount"></span></p>
+  <span class="updated">Interesting but waiting for a trigger before flagging</span>
+  <div id="radarList" style="display:flex;flex-direction:column;gap:12px;margin-bottom:48px;"></div>
+
+  <!-- Graveyard -->
+  <p class="section-label">Graveyard</p>
+  <span class="updated">Companies we looked at and decided against — with the reason, so we don't revisit them</span>
+  <div id="passedList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:48px;">
+
+  </div>
+
+  <script>
+  // ─────────────────────────────────────────────
+  // STATUS CONFIG
+  // ─────────────────────────────────────────────
+  const STATUS = {
+    watching:     { label: 'Watching',     color: '#60a5fa', bg: 'rgba(96,165,250,0.1)'  },
+    contacted:    { label: 'Contacted',    color: '#a78bfa', bg: 'rgba(167,139,250,0.1)' },
+    'in-diligence': { label: 'In Diligence', color: '#f59e0b', bg: 'rgba(245,158,11,0.1)' },
+    passed:       { label: 'Passed',       color: '#64748b', bg: 'rgba(100,116,139,0.1)' },
+    invested:     { label: 'Invested',     color: '#34d399', bg: 'rgba(52,211,153,0.1)'  },
+  };
+
+  // ─────────────────────────────────────────────
+  // RENDER HELPERS
+  // ─────────────────────────────────────────────
+  function statusBadge(s) {
+    const st = STATUS[s] || STATUS.watching;
+    return `<span class="status-badge" style="color:${st.color};background:${st.bg};border-color:${st.color}44;">
+      <span class="status-dot" style="background:${st.color};"></span>${st.label}
+    </span>`;
   }
-}
 
-function scoreClass(s) {
-  if (s >= 65) return 'high';
-  if (s >= 40) return 'mid';
-  return 'low';
-}
+  function founderPills(founders) {
+    return founders.map(f =>
+      f.li
+        ? `<a class="li-pill" href="${f.li}" target="_blank">🔗 ${f.name}</a>`
+        : `<span class="li-nolink">${f.name}</span>`
+    ).join(' ');
+  }
 
-function statusClass(s) {
-  s = (s||'').toLowerCase();
-  if (s.includes('defund') || s.includes('discontinu') || s.includes('pivot')) return 'status-dead';
-  if (s.includes('zombie') || s.includes('unclear')) return 'status-unclear';
-  return 'status-active';
-}
+  function tagPills(tags) {
+    return tags.map(t => `<span class="tag">${t}</span>`).join('');
+  }
 
-function render() {
-  const cols = currentTab === 'programs' ? programCols : awardCols;
-  const head = document.getElementById('tableHead');
-  head.innerHTML = cols.map(c => `<th data-key="${c.key}">${c.label}${sortKey===c.key ? (sortDir>0?' ▲':' ▼') : ''}</th>`).join('');
-  head.querySelectorAll('th').forEach(th => th.onclick = () => {
-    const k = th.dataset.key;
-    if (sortKey === k) sortDir *= -1; else { sortKey = k; sortDir = 1; }
-    render();
+  function diligenceBlock(questions) {
+    const items = questions.map(q => `<div class="diligence-item">${q}</div>`).join('');
+    return `<details class="diligence-details">
+      <summary>📋 Diligence checklist (${questions.length} questions)</summary>
+      <div class="diligence-list">${items}</div>
+    </details>`;
+  }
+
+  function renderCompany(c) {
+    return `
+    <div class="co-card" id="co-${c.id}"
+      data-status="${c.status}"
+      data-flow="${c.flow}"
+      data-region="${c.region}"
+      data-name="${c.name}"
+      data-updated="${c.lastUpdated}"
+      style="--card-ac:${c.ac};">
+
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <img src="https://logo.clearbit.com/${c.url.replace('https://','').replace('http://','').split('/')[0]}" alt="" style="width:24px;height:24px;border-radius:5px;object-fit:contain;background:#1e2535;flex-shrink:0;" onerror="this.style.display='none'">
+          <div class="co-name">${c.name}</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          ${statusBadge(c.status)}
+          <div class="co-stage-badge">${c.stage}</div>
+        </div>
+      </div>
+
+      <div class="co-meta">
+        <div class="co-meta-item">${c.flag} ${c.country}</div>
+        <div class="co-meta-item">🏛 ${c.sourceLabel || c.accelerator}</div>
+        ${c.sources && c.sources.length > 1 ? `<div class="co-meta-item" style="color:#f59e0b;">⬡ ${c.sources.length} sources validated</div>` : ''}
+        <div class="co-meta-item">🌐 <a href="${c.url}" target="_blank" style="color:${c.ac};">${c.url.replace('https://','')}</a></div>
+        ${c.fundingNote ? `<div class="co-meta-item"><span class="funding-note">💰 ${c.fundingNote}</span></div>` : ''}
+        ${c.funding && c.funding.seeking ? `<div class="co-meta-item"><span style="font-size:0.7rem;font-weight:600;color:#f59e0b;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);padding:3px 9px;border-radius:5px;">🟡 Raising: ${c.funding.seeking}</span></div>` : ''}
+      </div>
+
+      <div>
+        <div class="co-section-title">What they do</div>
+        <div class="co-text">${c.whatTheyDo}</div>
+      </div>
+
+      <div class="co-grid">
+        <div class="co-block">
+          <div class="co-section-title">Why flagged</div>
+          <div class="co-text">${c.whyFlagged}</div>
+        </div>
+        <div class="co-block">
+          <div class="co-section-title">What needs to be true</div>
+          <div class="co-text">${c.needsToBeTrue}</div>
+        </div>
+        <div class="co-block">
+          <div class="co-section-title">Macro tailwind</div>
+          <div class="co-text">${c.macroTailwind}</div>
+        </div>
+        <div class="co-block">
+          <div class="co-section-title">Risks</div>
+          <div class="co-text">${c.risks}</div>
+        </div>
+      </div>
+
+      <div class="co-comparable">
+        <div class="co-comparable-label">Comparable</div>
+        <div class="co-comparable-text">${c.comparable}</div>
+      </div>
+
+      <div>
+        <div class="co-section-title" style="margin-bottom:8px;">Founders</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">${founderPills(c.founders)}</div>
+        <div class="co-text" style="margin-top:10px;">${c.founderProfile}</div>
+        ${c.founderFlag ? `<div class="founder-flag">${c.founderFlag}</div>` : ''}
+      </div>
+
+      <div>
+        <div class="co-section-title">Revenue model</div>
+        <div class="co-text">${c.revenueModel}</div>
+      </div>
+
+      ${diligenceBlock(c.diligence)}
+
+      <div style="display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border);">
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">${tagPills(c.tags)}</div>
+        <div style="font-size:0.68rem;color:var(--muted);">Updated ${c.lastUpdated}</div>
+      </div>
+    </div>`;
+  }
+
+  // ─────────────────────────────────────────────
+  // FILTER STATE
+  // ─────────────────────────────────────────────
+  let COMPANIES = [];
+  let RADAR = [];
+  let PASSED = [];
+  let OUTLIERS = [];
+  let activeFilters = { status: 'all', flow: 'all', region: 'all' };
+  let activeSort = 'newest';
+
+  function applyFilters() {
+    let filtered = COMPANIES.filter(c => {
+      if (activeFilters.status !== 'all' && c.status !== activeFilters.status) return false;
+      if (activeFilters.flow !== 'all' && c.flow !== activeFilters.flow) return false;
+      if (activeFilters.region !== 'all' && c.region !== activeFilters.region) return false;
+      return true;
+    });
+    if (activeSort === 'name') filtered.sort((a,b) => a.name.localeCompare(b.name));
+    else if (activeSort === 'validated') filtered.sort((a,b) => (b.sources||[]).length - (a.sources||[]).length);
+    else filtered.sort((a,b) => b.lastUpdated.localeCompare(a.lastUpdated));
+
+    const grid = document.getElementById('companiesGrid');
+    const noRes = document.getElementById('noResults');
+    const count = document.getElementById('companiesCount');
+    grid.innerHTML = filtered.map(renderCompany).join('');
+    noRes.style.display = filtered.length === 0 ? 'block' : 'none';
+    count.textContent = `${filtered.length} of ${COMPANIES.length} shown`;
+  }
+
+  // Filter pills
+  document.querySelectorAll('.filter-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+      document.querySelectorAll(`.filter-pill[data-filter="${f}"]`).forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilters[f] = btn.dataset.value;
+      applyFilters();
+    });
   });
 
-  let rows = currentTab === 'programs' ? [...DATA.programs] : [...DATA.awardsGrants];
-
-  const search = document.getElementById('searchBox').value.toLowerCase();
-  const geo = document.getElementById('geoFilter').value;
-  const type = document.getElementById('typeFilter').value;
-  const status = document.getElementById('statusFilter').value;
-  const hideFlags = document.getElementById('hideFlags').checked;
-
-  if (search) {
-    rows = rows.filter(r => JSON.stringify(r).toLowerCase().includes(search));
-  }
-  if (geo) rows = rows.filter(r => r.geo === geo);
-  if (type) rows = rows.filter(r => r.type === type);
-  if (status && currentTab === 'programs') rows = rows.filter(r => r.activityStatus === status);
-  if (hideFlags) {
-    rows = rows.filter(r => currentTab === 'programs' ? (!r.redFlags || r.redFlags.length===0) : !r.payToPlayFlag);
-  }
-
-  rows.sort((a,b) => {
-    let av = a[sortKey], bv = b[sortKey];
-    if (typeof av === 'number' && typeof bv === 'number') return (av-bv)*sortDir;
-    av = (av||'').toString().toLowerCase(); bv = (bv||'').toString().toLowerCase();
-    if (av < bv) return -1*sortDir;
-    if (av > bv) return 1*sortDir;
-    return 0;
+  // Sort
+  document.getElementById('sortSelect').addEventListener('change', e => {
+    activeSort = e.target.value;
+    applyFilters();
   });
 
-  document.getElementById('statsLine').textContent = `${rows.length} of ${currentTab === 'programs' ? DATA.programs.length : DATA.awardsGrants.length} shown`;
-
-  const body = document.getElementById('tableBody');
-  if (currentTab === 'programs') {
-    body.innerHTML = rows.map(p => `
-      <tr>
-        <td class="name-cell"><a href="${p.url||'#'}" target="_blank">${p.name}</a>${p.parentNetwork?`<div class="parent">via ${p.parentNetwork}</div>`:''}</td>
-        <td>${p.geo}<br><span class="parent">${p.country||''}</span></td>
-        <td>${p.type}</td>
-        <td class="wrap-cell">${p.focus||''}</td>
-        <td>${p.stage||''}</td>
-        <td class="wrap-cell">${p.cheque||''}</td>
-        <td class="wrap-cell">${p.lastCohortDate||''}</td>
-        <td>${p.batchSize||'—'}</td>
-        <td class="wrap-cell">${p.totalPortfolio||'—'}</td>
-        <td class="wrap-cell">${p.notableAlumni||'—'}${p.redFlags && p.redFlags.length ? '<br>'+p.redFlags.map(f=>`<div class="flag">⚑ ${f}</div>`).join(''):''}</td>
-        <td class="${statusClass(p.activityStatus)}">${p.activityStatus}</td>
-        <td><span class="score ${scoreClass(p.compositeScore)}">${p.compositeScore}</span></td>
-      </tr>
-    `).join('');
-  } else {
-    body.innerHTML = rows.map(a => `
-      <tr>
-        <td class="name-cell"><a href="${a.url||'#'}" target="_blank">${a.name}</a></td>
-        <td>${a.geo}</td>
-        <td>${a.type}</td>
-        <td class="wrap-cell">${a.focus||''}</td>
-        <td class="wrap-cell">${a.fundingAmount||''}</td>
-        <td>${a.frequency||''}</td>
-        <td class="wrap-cell">${a.lastCycle||''}</td>
-        <td class="wrap-cell">${a.organiser||''}</td>
-        <td class="${a.payToPlayFlag?'status-dead':'status-active'}">${a.payToPlayFlag ? '⚑ FLAGGED' : 'Clean'}</td>
-      </tr>
-    `).join('');
+  // ─────────────────────────────────────────────
+  // RENDER RADAR
+  // ─────────────────────────────────────────────
+  function renderRadar() {
+    document.getElementById('radarCount').textContent = RADAR.length;
+    document.getElementById('radarCount').textContent = RADAR.length;
+    document.getElementById('radarList').innerHTML = RADAR.map(r => {
+      const sourceBadge = r.sourceLabel ? `<span style="font-size:0.63rem;font-weight:600;padding:2px 7px;border-radius:5px;background:${r.source==='award'?'rgba(245,158,11,0.1)':'rgba(96,165,250,0.1)'};color:${r.source==='award'?'#f59e0b':'#60a5fa'};border:1px solid ${r.source==='award'?'rgba(245,158,11,0.25)':'rgba(96,165,250,0.25)'};margin-left:6px;">${r.source==='award'?'🏆':'🏛'} ${r.sourceLabel}</span>` : '';
+      return `
+      <div class="radar-card">
+        <div class="radar-dot"></div>
+        <div class="radar-content">
+          <div class="radar-name" style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;">${r.name} <span style="color:var(--muted);font-weight:400">— ${r.meta}</span>${sourceBadge}</div>
+          <div class="radar-text">${r.desc}</div>
+          <div class="radar-trigger">⚡ Trigger to Watch: ${r.trigger}</div>
+        </div>
+      </div>`;
+    }).join('');
   }
-}
 
-document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-  t.classList.add('active');
-  currentTab = t.dataset.tab;
-  sortKey = currentTab === 'programs' ? 'compositeScore' : 'name';
-  sortDir = -1;
-  populateFilters();
-  render();
-});
+  // ─────────────────────────────────────────────
+  // RENDER PASSED
+  // ─────────────────────────────────────────────
+  function renderPassed() {
+    if (PASSED.length === 0) return;
+    document.getElementById('passedList').innerHTML = PASSED.map(p => {
+      const tags = p.tags ? p.tags.map(t => `<span class="passed-tag">${t}</span>`).join('') : '';
+      let profileHtml = '';
+      if (p.profile) {
+        const pr = p.profile;
+        const founders = pr.founders ? pr.founders.map(f =>
+          f.li ? `<a class="li-pill" href="${f.li}" target="_blank">🔗 ${f.name}</a>`
+               : `<span class="li-nolink">${f.name}</span>`
+        ).join('') : '';
+        profileHtml = `
+          <details class="passed-expand">
+            <summary>▸ View full profile</summary>
+            <div class="passed-profile">
+              ${pr.stage ? `<div class="passed-profile-row"><strong>Stage</strong>${pr.stage}${pr.fundingNote ? ' · ' + pr.fundingNote : ''}</div>` : ''}
+              ${pr.whatTheyDo ? `<div class="passed-profile-row"><strong>What they do</strong>${pr.whatTheyDo}</div>` : ''}
+              ${pr.whyFlagged ? `<div class="passed-profile-row"><strong>Why we flagged it</strong>${pr.whyFlagged}</div>` : ''}
+              ${founders ? `<div class="passed-profile-row"><strong>Founders</strong><div class="passed-profile-founders">${founders}</div></div>` : ''}
+              ${pr.founderProfile ? `<div class="passed-profile-row"><strong>Founder profile</strong>${pr.founderProfile}</div>` : ''}
+              ${pr.revenueModel ? `<div class="passed-profile-row"><strong>Revenue model</strong>${pr.revenueModel}</div>` : ''}
+              ${pr.risks ? `<div class="passed-profile-row"><strong>Risks (why we passed)</strong>${pr.risks}</div>` : ''}
+              ${pr.macroTailwind ? `<div class="passed-profile-row"><strong>Macro tailwind</strong>${pr.macroTailwind}</div>` : ''}
+            </div>
+          </details>`;
+      }
+      return `
+      <div class="passed-card">
+        <div class="passed-x">✕</div>
+        <div style="flex:1;">
+          <div class="passed-name">${p.name}</div>
+          <div class="passed-meta">${p.accelerator} · ${p.country}</div>
+          ${tags ? `<div class="passed-tags">${tags}</div>` : ''}
+          <div class="passed-reason">${p.reason}</div>
+          ${profileHtml}
+        </div>
+      </div>`;
+    }).join('');
+  }
 
-['searchBox'].forEach(id => document.getElementById(id).oninput = render);
-['geoFilter','typeFilter','statusFilter','hideFlags'].forEach(id => document.getElementById(id).onchange = render);
+  // ─────────────────────────────────────────────
+  // RENDER OUTLIERS
+  // ─────────────────────────────────────────────
+  function renderOutliers() {
+    document.getElementById('outliersCount').textContent = OUTLIERS.length;
+    document.getElementById('outliersList').innerHTML = OUTLIERS.map(o => {
+      if (o.kind === 'thesis') {
+        return `
+        <div class="radar-card" style="border-left:3px solid #f59e0b;">
+          <div class="radar-dot" style="background:#f59e0b;"></div>
+          <div class="radar-content">
+            <div class="radar-name" style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
+              💡 ${o.name}
+              <span style="font-size:0.63rem;font-weight:600;padding:2px 7px;border-radius:5px;background:rgba(245,158,11,0.1);color:#f59e0b;border:1px solid rgba(245,158,11,0.25);">Thesis Space</span>
+              <span style="font-size:0.63rem;font-weight:600;padding:2px 7px;border-radius:5px;background:rgba(96,165,250,0.1);color:#60a5fa;border:1px solid rgba(96,165,250,0.25);">Source: ${o.sourceLabel}</span>
+            </div>
+            <div class="radar-text" style="margin-top:8px;">${o.summary}</div>
+            <details style="margin-top:8px;">
+              <summary style="font-size:0.72rem;font-weight:600;color:#f59e0b;cursor:pointer;list-style:none;">▸ Why it matters &amp; what to look for</summary>
+              <div style="margin-top:8px;display:flex;flex-direction:column;gap:8px;">
+                <div class="radar-text"><strong style="color:#cbd5e1;">Why it matters:</strong> ${o.whyItMatters}</div>
+                <div class="radar-text"><strong style="color:#cbd5e1;">What to look for:</strong> ${o.whatToLookFor}</div>
+                ${o.timeline ? `<div class="radar-text"><strong style="color:#cbd5e1;">Timeline:</strong> ${o.timeline}</div>` : ''}
+                ${o.related ? `<div class="radar-text"><strong style="color:#cbd5e1;">Related companies:</strong> ${o.related}</div>` : ''}
+              </div>
+            </details>
+            <div class="radar-trigger">⚡ Auto-Watch trigger: ${o.trigger}</div>
+          </div>
+        </div>`;
+      }
+      // Company-type outlier (exceptional founder outside the pipe filter)
+      return `
+      <div class="radar-card" style="border-left:3px solid #a78bfa;">
+        <div class="radar-dot" style="background:#a78bfa;"></div>
+        <div class="radar-content">
+          <div class="radar-name" style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
+            ${o.name} — ${o.country}
+            <span style="font-size:0.63rem;font-weight:600;padding:2px 7px;border-radius:5px;background:rgba(167,139,250,0.1);color:#a78bfa;border:1px solid rgba(167,139,250,0.25);">Outlier</span>
+          </div>
+          <div class="radar-text">${o.summary}</div>
+          <div class="radar-trigger">⚡ ${o.trigger}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
 
-loadData();
-</script>
+  // ─────────────────────────────────────────────
+  // LOAD DATA FROM JSON & INIT
+  // ─────────────────────────────────────────────
+  Promise.all([
+    fetch('scout-companies.json').then(r => r.json()),
+    fetch('scout-radar.json').then(r => r.json()),
+    fetch('scout-passed.json').then(r => r.json()),
+    fetch('scout-outliers.json').then(r => r.json()),
+  ]).then(([companies, radar, passed, outliers]) => {
+    COMPANIES = companies;
+    RADAR = radar;
+    PASSED = passed;
+    OUTLIERS = outliers;
+    applyFilters();
+    renderOutliers();
+    renderRadar();
+    renderPassed();
+  }).catch(err => {
+    console.error('Failed to load Scout data:', err);
+  });
+  </script>
+
+  <footer>
+    <p>Scout · Larsen Ventures · Internal use only</p>
+    <p>Built with <a href="/">Chappie</a> · Perth, WA</p>
+  </footer>
+
+</div>
 </body>
 </html>
