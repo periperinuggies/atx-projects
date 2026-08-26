@@ -138,16 +138,20 @@
       "accessNotes": "Paywalled — same access approach as the other two AFR lists",
       "pullMethod": "Manual — annual pull, high-priority cross-check against Scout's B2B pipe/seed-Series A lens given the clean growth-rate filter",
       "sourceNotes": "afr.com/lists-and-awards/fast-starters confirmed live; example entry found (Kismet Healthcare, 4630% CAGR) demonstrates the ranking methodology is genuinely metric-driven, not editorial pick."
-    }
-  ],
-  "candidatesNotYetVerified": [
-    {
-      "name": "Startup Muster",
-      "note": "Referenced by FinTech Australia as Australia's national startup survey (annual, not a news feed) — worth checking as an annual milestone/data-release trigger rather than a recurring news source. Not deep-dived this pass."
     },
     {
-      "name": "Which-50",
-      "note": "AU digital economy trade press, mentioned in search results as adjacent to InnovationAus/Fintech Australia coverage set — not independently verified live this pass, flag for next iteration."
+      "name": "Startup Muster",
+      "url": "https://startupmuster.com/",
+      "country": "Australia",
+      "type": "Annual national founder survey + report, industry-backed",
+      "focus": "Sector-agnostic — Australia's largest startup ecosystem survey, covers founder demographics, funding sources, tech stack trends, ecosystem health metrics rather than individual company profiles",
+      "cadence": "Annual — survey runs Jul/Aug, free national report published November",
+      "fundingCoverage": "Indirect — aggregate ecosystem-level funding trends, not individual round announcements. Value is macro context (e.g. what % of founders are raising, from whom) rather than company discovery",
+      "signalQuality": "High for ecosystem health signal — nearly shut down in early 2026 but rescued by 22+ organisations, 10 universities, and the Australian government, which is itself a signal of how seriously the ecosystem treats this data. Genuinely independent, not vendor-sponsored content",
+      "accessNotes": "Free — national report published openly",
+      "pullMethod": "Manual/automatic — free and unpaywalled, could plausibly be pulled directly by Chappie each November rather than requiring Andrew/Neera's involvement",
+      "sourceNotes": "startupmuster.com confirmed live, 2026 survey open. Near-shutdown and rescue confirmed via businessnewsaustralia.com, startupdaily.net, and innovationaus.com (three independent sources, consistent on the 22-organisation/10-university/government rescue detail)."
     }
-  ]
+  ],
+  "candidatesNotYetVerified": []
 }
