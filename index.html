@@ -108,9 +108,12 @@
     /* Grid */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 16px;
       margin-bottom: 40px;
+    }
+    @media (max-width: 1200px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     /* Card */
@@ -425,32 +428,6 @@
   <p class="section-label">Larsen Ventures</p>
   <div class="grid">
 
-    <div class="card c9">
-      <div class="card-top">
-        <span class="emoji">📈</span>
-        <span class="badge">Paper Trial</span>
-      </div>
-      <div class="card-title">ARGUS — Equity Intelligence</div>
-      <p class="card-desc">AI-native US equity trading system. 54-module knowledge base, 44 live data sources, multilingual signal arbitrage (Korean/Chinese/Japanese), SEC 8-K edge monitoring, FRED macro regime gate, RAG memory layer. 19-ticker watchlist. Trial to 23 Apr 2026.</p>
-      <div class="card-footer">
-        <a class="btn btn-live" href="#" onclick="warmup('https://trading.larsenfamily.com.au','ARGUS Dashboard');return false;">🌐 ARGUS Dashboard</a>
-        <a class="btn btn-github" href="https://github.com/periperinuggies" target="_blank">⌥ GitHub</a>
-      </div>
-    </div>
-
-    <div class="card c10">
-      <div class="card-top">
-        <span class="emoji">🔥</span>
-        <span class="badge">Paper Trial</span>
-      </div>
-      <div class="card-title">PROMETHEUS — Prediction Markets</div>
-      <p class="card-desc">Quant sports betting engine for Betfair Exchange. Dixon-Coles probabilistic model, Club Elo + xPTS signal blending, CLV (closing line value) infrastructure, weather & fatigue adjustments, Kelly criterion sizing. EPL live — tennis engine built.</p>
-      <div class="card-footer">
-        <a class="btn btn-paper" href="#" onclick="warmup('https://predictions.larsenfamily.com.au','PROMETHEUS Dashboard');return false;">🔥 PROMETHEUS Dashboard</a>
-      </div>
-    </div>
-
-
     <div class="card c4">
       <div class="card-top">
         <span class="emoji">🔭</span>
@@ -682,6 +659,37 @@
       <div class="card-footer">
         <a class="btn btn-live" href="https://t.me/JimTimerBot" target="_blank">🤖 Open in Telegram</a>
         <a class="btn btn-github" href="https://github.com/periperinuggies/JimTimer" target="_blank">⌥ GitHub</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Old Projects -->
+  <p class="section-label">Old Projects</p>
+  <div class="grid">
+
+    <div class="card c9">
+      <div class="card-top">
+        <span class="emoji">📈</span>
+        <span class="badge">Paper Trial</span>
+      </div>
+      <div class="card-title">ARGUS — Equity Intelligence</div>
+      <p class="card-desc">AI-native US equity trading system. 54-module knowledge base, 44 live data sources, multilingual signal arbitrage (Korean/Chinese/Japanese), SEC 8-K edge monitoring, FRED macro regime gate, RAG memory layer. 19-ticker watchlist. Trial to 23 Apr 2026.</p>
+      <div class="card-footer">
+        <a class="btn btn-live" href="#" onclick="warmup('https://trading.larsenfamily.com.au','ARGUS Dashboard');return false;">🌐 ARGUS Dashboard</a>
+        <a class="btn btn-github" href="https://github.com/periperinuggies" target="_blank">⌥ GitHub</a>
+      </div>
+    </div>
+
+    <div class="card c10">
+      <div class="card-top">
+        <span class="emoji">🔥</span>
+        <span class="badge">Paper Trial</span>
+      </div>
+      <div class="card-title">PROMETHEUS — Prediction Markets</div>
+      <p class="card-desc">Quant sports betting engine for Betfair Exchange. Dixon-Coles probabilistic model, Club Elo + xPTS signal blending, CLV (closing line value) infrastructure, weather & fatigue adjustments, Kelly criterion sizing. EPL live — tennis engine built.</p>
+      <div class="card-footer">
+        <a class="btn btn-paper" href="#" onclick="warmup('https://predictions.larsenfamily.com.au','PROMETHEUS Dashboard');return false;">🔥 PROMETHEUS Dashboard</a>
       </div>
     </div>
 
