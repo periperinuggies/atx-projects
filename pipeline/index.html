@@ -103,6 +103,7 @@ let sortKey = 'compositeScore';
 let sortDir = -1;
 
 const programCols = [
+  {key:'compositeScore', label:'Score'},
   {key:'name', label:'Program'},
   {key:'geo', label:'Geo'},
   {key:'type', label:'Type'},
@@ -114,10 +115,10 @@ const programCols = [
   {key:'totalPortfolio', label:'Portfolio'},
   {key:'notableAlumni', label:'Notable Alumni'},
   {key:'activityStatus', label:'Status'},
-  {key:'compositeScore', label:'Score'},
 ];
 
 const awardCols = [
+  {key:'compositeScore', label:'Score'},
   {key:'name', label:'Award/Grant'},
   {key:'geo', label:'Geo'},
   {key:'type', label:'Type'},
@@ -127,10 +128,10 @@ const awardCols = [
   {key:'lastCycle', label:'Last Cycle'},
   {key:'organiser', label:'Organiser'},
   {key:'payToPlayFlag', label:'Pay-to-Play?'},
-  {key:'compositeScore', label:'Score'},
 ];
 
 const stateCols = [
+  {key:'compositeScore', label:'Score'},
   {key:'jurisdiction', label:'Jurisdiction'},
   {key:'name', label:'Program'},
   {key:'type', label:'Type'},
@@ -139,20 +140,20 @@ const stateCols = [
   {key:'focus', label:'Focus'},
   {key:'administeringBody', label:'Administering Body'},
   {key:'lastConfirmedActivity', label:'Last Confirmed'},
-  {key:'compositeScore', label:'Score'},
 ];
 
 const federalCols = [
+  {key:'compositeScore', label:'Score'},
   {key:'name', label:'Program'},
   {key:'type', label:'Type'},
   {key:'status', label:'Status'},
   {key:'fundingAmount', label:'Funding'},
   {key:'focus', label:'Focus'},
   {key:'administeringBody', label:'Administering Body'},
-  {key:'compositeScore', label:'Score'},
 ];
 
 const defenceCols = [
+  {key:'compositeScore', label:'Score'},
   {key:'name', label:'Program'},
   {key:'type', label:'Type'},
   {key:'status', label:'Status'},
@@ -160,7 +161,6 @@ const defenceCols = [
   {key:'focus', label:'Focus'},
   {key:'administeringBody', label:'Administering Body'},
   {key:'lastConfirmedActivity', label:'Last Confirmed'},
-  {key:'compositeScore', label:'Score'},
 ];
 
 function flattenStateRows(data) {
@@ -522,6 +522,7 @@ function render() {
   if (currentTab === 'programs') {
     body.innerHTML = rows.map(p => `
       <tr>
+        <td><span class="score ${scoreClass(p.compositeScore)}">${p.compositeScore}</span></td>
         <td class="name-cell"><a href="${p.url||'#'}" target="_blank">${p.name}</a>${p.parentNetwork?`<div class="parent">via ${p.parentNetwork}</div>`:''}</td>
         <td>${p.geo}<br><span class="parent">${p.country||''}</span></td>
         <td>${p.type}</td>
@@ -533,13 +534,13 @@ function render() {
         <td class="wrap-cell">${p.totalPortfolio||'—'}</td>
         <td class="wrap-cell">${p.notableAlumni||'—'}${p.redFlags && p.redFlags.length ? '<br>'+p.redFlags.map(f=>`<div class="flag">⚑ ${f}</div>`).join(''):''}</td>
         <td class="${statusClass(p.activityStatus)}">${p.activityStatus}</td>
-        <td><span class="score ${scoreClass(p.compositeScore)}">${p.compositeScore}</span></td>
       </tr>
       <tr><td colspan="${colspan}" style="padding:4px 12px;border-bottom:1px solid var(--border);">${ddCell(p.deepDive ? Object.assign({}, p.deepDive, {__sourceNotes: p.sourceNotes}) : null)}</td></tr>
     `).join('');
   } else if (currentTab === 'awards') {
     body.innerHTML = rows.map(a => `
       <tr>
+        <td><span class="score ${scoreClass(a.compositeScore)}">${a.compositeScore}</span></td>
         <td class="name-cell"><a href="${a.url||'#'}" target="_blank">${a.name}</a></td>
         <td>${a.geo}</td>
         <td>${a.type}</td>
@@ -549,13 +550,13 @@ function render() {
         <td class="wrap-cell">${a.lastCycle||''}</td>
         <td class="wrap-cell">${a.organiser||''}</td>
         <td class="${a.payToPlayFlag?'status-dead':'status-active'}">${a.payToPlayFlag ? '⚑ FLAGGED' : 'Clean'}</td>
-        <td><span class="score ${scoreClass(a.compositeScore)}">${a.compositeScore}</span></td>
       </tr>
       <tr><td colspan="${colspan}" style="padding:4px 12px;border-bottom:1px solid var(--border);">${ddCell(a.deepDive ? Object.assign({}, a.deepDive, {__sourceNotes: a.sourceNotes}) : null)}</td></tr>
     `).join('');
   } else if (currentTab === 'state') {
     body.innerHTML = rows.map(p => `
       <tr>
+        <td><span class="score ${scoreClass(p.compositeScore)}">${p.compositeScore}</span></td>
         <td class="wrap-cell">${p.jurisdiction}${isHomeState(p.jurisdiction) ? '<span class="home-badge">HOME</span>' : ''}</td>
         <td class="name-cell"><a href="${p.url||'#'}" target="_blank">${p.name}</a></td>
         <td>${p.type||''}</td>
@@ -564,26 +565,26 @@ function render() {
         <td class="wrap-cell">${p.focus||''}</td>
         <td class="wrap-cell">${p.administeringBody||''}</td>
         <td class="wrap-cell">${p.lastConfirmedActivity||''}${p.notes?`<br><span class="unverified">${p.notes}</span>`:''}</td>
-        <td><span class="score ${scoreClass(p.compositeScore)}">${p.compositeScore}</span></td>
       </tr>
       <tr><td colspan="${colspan}" style="padding:4px 12px;border-bottom:1px solid var(--border);">${ddCell(p.deepDive ? Object.assign({}, p.deepDive, {__sourceNotes: p.sourceNotes}) : null)}</td></tr>
     `).join('');
   } else if (currentTab === 'federal') {
     body.innerHTML = rows.map(p => `
       <tr>
+        <td><span class="score ${scoreClass(p.compositeScore)}">${p.compositeScore}</span></td>
         <td class="name-cell"><a href="${p.url||'#'}" target="_blank">${p.name}</a></td>
         <td>${p.type||''}</td>
         <td class="${govStatusClass(p.status)} wrap-cell">${p.status||''}</td>
         <td class="wrap-cell">${p.fundingAmount||''}</td>
         <td class="wrap-cell">${p.focus||''}</td>
         <td class="wrap-cell">${p.administeringBody||''}${p.notes?`<br><span class="unverified">${p.notes}</span>`:''}</td>
-        <td><span class="score ${scoreClass(p.compositeScore)}">${p.compositeScore}</span></td>
       </tr>
       <tr><td colspan="${colspan}" style="padding:4px 12px;border-bottom:1px solid var(--border);">${ddCell(p.deepDive ? Object.assign({}, p.deepDive, {__sourceNotes: p.sourceNotes}) : null)}</td></tr>
     `).join('');
   } else {
     body.innerHTML = rows.map(p => `
       <tr>
+        <td><span class="score ${scoreClass(p.compositeScore)}">${p.compositeScore}</span></td>
         <td class="name-cell"><a href="${p.url||'#'}" target="_blank">${p.name}</a><span class="defence-badge">DEFENCE</span></td>
         <td>${p.type||''}</td>
         <td class="${govStatusClass(p.status)} wrap-cell">${p.status||''}</td>
@@ -591,7 +592,6 @@ function render() {
         <td class="wrap-cell">${p.focus||''}</td>
         <td class="wrap-cell">${p.administeringBody||''}</td>
         <td class="wrap-cell">${p.lastConfirmedActivity||''}${p.notes?`<br><span class="unverified">${p.notes}</span>`:''}</td>
-        <td><span class="score ${scoreClass(p.compositeScore)}">${p.compositeScore}</span></td>
       </tr>
       <tr><td colspan="${colspan}" style="padding:4px 12px;border-bottom:1px solid var(--border);">${ddCell(p.deepDive ? Object.assign({}, p.deepDive, {__sourceNotes: p.sourceNotes}) : null)}</td></tr>
     `).join('');
