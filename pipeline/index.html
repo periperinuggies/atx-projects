@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pipeline — Program &amp; Grants Radar</title>
+<style>
+  :root {
+    --bg: #0f1115; --panel: #171a21; --border: #2a2f3a; --text: #e6e8eb;
+    --muted: #8b93a1; --accent: #4f9dff; --good: #2fbf71; --warn: #e0a12c; --bad: #e05252;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  header { padding: 24px 28px 16px; border-bottom: 1px solid var(--border); }
+  header h1 { margin: 0 0 4px; font-size: 22px; }
+  header p { margin: 0; color: var(--muted); font-size: 13px; }
+  .note { background: #2a2210; border: 1px solid #4a3a10; color: #e0c070; padding: 10px 14px; border-radius: 6px; font-size: 12.5px; margin: 14px 28px 0; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; padding: 16px 28px; border-bottom: 1px solid var(--border); align-items: center; background: var(--panel); }
+  .controls input, .controls select { background: #0f1115; color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; font-size: 13px; }
+  .controls input[type=text] { min-width: 220px; }
+  .controls label { font-size: 12px; color: var(--muted); margin-right: 4px; }
+  .tabs { display: flex; gap: 8px; padding: 12px 28px 0; }
+  .tab { padding: 8px 16px; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 13px; color: var(--muted); border: 1px solid transparent; }
+  .tab.active { background: var(--panel); color: var(--text); border: 1px solid var(--border); border-bottom: 1px solid var(--panel); }
+  .stats { padding: 10px 28px; font-size: 12px; color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 10px 12px; background: var(--panel); border-bottom: 2px solid var(--border); cursor: pointer; white-space: nowrap; position: sticky; top: 0; }
+  th:hover { color: var(--accent); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:hover td { background: #1b1f28; }
+  .score { font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-block; min-width: 30px; text-align: center; }
+  .score.high { background: rgba(47,191,113,.15); color: var(--good); }
+  .score.mid { background: rgba(224,161,44,.15); color: var(--warn); }
+  .score.low { background: rgba(224,82,82,.15); color: var(--bad); }
+  .tag { display: inline-block; font-size: 11px; padding: 2px 7px; border-radius: 10px; margin: 1px 3px 1px 0; background: #232838; color: var(--muted); }
+  .flag { color: var(--bad); font-size: 11.5px; }
+  .status-active { color: var(--good); }
+  .status-dead { color: var(--bad); font-weight: 600; }
+  .status-unclear { color: var(--warn); }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .name-cell { min-width: 170px; }
+  .name-cell .parent { color: var(--muted); font-size: 11px; }
+  .wrap-cell { max-width: 260px; white-space: normal; }
+  .container { padding-bottom: 60px; }
+  .status-closed { color: var(--bad); font-weight: 600; }
+  .unverified { color: var(--warn); font-size: 11px; }
+  .home-badge { background: rgba(47,191,113,.15); color: var(--good); font-size: 10.5px; padding: 1px 6px; border-radius: 8px; margin-left: 6px; }
+  .defence-badge { background: rgba(79,157,255,.15); color: var(--accent); font-size: 10.5px; padding: 1px 6px; border-radius: 8px; margin-left: 6px; }
+  .dd-toggle { cursor: pointer; color: var(--accent); font-size: 11.5px; user-select: none; }
+  .dd-toggle:hover { text-decoration: underline; }
+  .dd-row td { background: #12141a; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+  .dd-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 20px; }
+  .dd-field { }
+  .dd-field h4 { margin: 0 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  .dd-field p { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--text); }
+  .dd-sources { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 11px; color: var(--muted); }
+  .dd-empty { font-size: 12px; color: var(--muted); font-style: italic; }
+  ::-webkit-scrollbar { height: 8px; width: 8px; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Pipeline</h1>
+  <p>Accelerators, incubators, awards, state/federal grants &amp; defence innovation programs across Larsen Ventures' target geographies. Filter, sort, slice. Data refreshed manually via Chappie sweeps.</p>
+  <p style="margin-top:6px; font-size:11.5px; color:var(--muted);">Standalone data product, independently branded and maintained. Roadmap: this dataset is intended to eventually feed Scout's front end, replacing Scout's current program-radar surface — not yet wired up.</p>
+</header>
+
+<div class="note" id="statusNote"></div>
+
+<div class="tabs">
+  <div class="tab active" data-tab="programs">Accelerators / Incubators</div>
+  <div class="tab" data-tab="awards">Awards / Grants</div>
+  <div class="tab" data-tab="state">State &amp; Territory Grants/Awards</div>
+  <div class="tab" data-tab="federal">Federal Programs</div>
+  <div class="tab" data-tab="defence">Defence Innovation Programs</div>
+</div>
+
+<div class="controls">
+  <input type="text" id="searchBox" placeholder="Search name, alumni, operator...">
+  <label>Geo</label><select id="geoFilter"><option value="">All</option></select>
+  <label>Type</label><select id="typeFilter"><option value="">All</option></select>
+  <label>Status</label><select id="statusFilter"><option value="">All</option></select>
+  <label id="jurisLabel" style="display:none;">Jurisdiction</label><select id="jurisFilter" style="display:none;"><option value="">All</option></select>
+  <label><input type="checkbox" id="hideFlags"> Hide red-flagged</label>
+</div>
+
+<div class="stats" id="statsLine"></div>
+
+<div class="container">
+  <table id="dataTable">
+    <thead><tr id="tableHead"></tr></thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+</div>
+
+<script>
+let DATA = null;
+let currentTab = 'programs';
+let sortKey = 'compositeScore';
+let sortDir = -1;
+
+const programCols = [
+  {key:'name', label:'Program'},
+  {key:'geo', label:'Geo'},
+  {key:'type', label:'Type'},
+  {key:'focus', label:'Focus'},
+  {key:'stage', label:'Stage'},
+  {key:'cheque', label:'Cheque'},
+  {key:'lastCohortDate', label:'Last Cohort'},
+  {key:'batchSize', label:'Batch Size'},
+  {key:'totalPortfolio', label:'Portfolio'},
+  {key:'notableAlumni', label:'Notable Alumni'},
+  {key:'activityStatus', label:'Status'},
+  {key:'compositeScore', label:'Score'},
+];
+
+const awardCols = [
+  {key:'name', label:'Award/Grant'},
+  {key:'geo', label:'Geo'},
+  {key:'type', label:'Type'},
+  {key:'focus', label:'Focus'},
+  {key:'fundingAmount', label:'Funding/Prize'},
+  {key:'frequency', label:'Frequency'},
+  {key:'lastCycle', label:'Last Cycle'},
+  {key:'organiser', label:'Organiser'},
+  {key:'payToPlayFlag', label:'Pay-to-Play?'},
+  {key:'compositeScore', label:'Score'},
+];
+
+const stateCols = [
+  {key:'jurisdiction', label:'Jurisdiction'},
+  {key:'name', label:'Program'},
+  {key:'type', label:'Type'},
+  {key:'status', label:'Status'},
+  {key:'fundingAmount', label:'Funding/Prize'},
+  {key:'focus', label:'Focus'},
+  {key:'administeringBody', label:'Administering Body'},
+  {key:'lastConfirmedActivity', label:'Last Confirmed'},
+  {key:'compositeScore', label:'Score'},
+];
+
+const federalCols = [
+  {key:'name', label:'Program'},
+  {key:'type', label:'Type'},
+  {key:'status', label:'Status'},
+  {key:'fundingAmount', label:'Funding'},
+  {key:'focus', label:'Focus'},
+  {key:'administeringBody', label:'Administering Body'},
+  {key:'compositeScore', label:'Score'},
+];
+
+const defenceCols = [
+  {key:'name', label:'Program'},
+  {key:'type', label:'Type'},
+  {key:'status', label:'Status'},
+  {key:'fundingAmount', label:'Funding'},
+  {key:'focus', label:'Focus'},
+  {key:'administeringBody', label:'Administering Body'},
+  {key:'lastConfirmedActivity', label:'Last Confirmed'},
+  {key:'compositeScore', label:'Score'},
+];
+
+function flattenStateRows(data) {
+  const rows = [];
+  (data.stateProgramsByJurisdiction||[]).forEach(j => {
+    j.programs.forEach(p => {
+      rows.push(Object.assign({jurisdiction: j.jurisdiction}, p));
+    });
+  });
+  return rows;
+}
+
+function isHomeState(jurisdiction) {
+  return (jurisdiction||'').toLowerCase().includes('western australia');
+}
+
+function govStatusClass(s) {
+  s = (s||'').toLowerCase();
+  if (s.includes('closed')) return 'status-closed';
+  if (s.includes('unverified') || s.includes('unclear') || s.includes('check')) return 'status-unclear';
+  return 'status-active';
+}
+
+// ============================================================
+// SCORING RUBRICS (v2, 26 Aug 2026) — explicit weighted formulas.
+// Prioritisation signal for Scout's check-in crons: higher score =
+// more important to track/revisit. Each rubric documented inline.
+// ============================================================
+
+// --- Accelerators/Incubators/Funds (programs tab) ---
+// Weights: Track record 30 | Currency 25 | Cheque/terms clarity 15 |
+// Longevity/credibility 15 | Strategic fit to Scout lens 15
+function scoreProgram(p) {
+  const status = (p.activityStatus||'').toLowerCase();
+  const alumni = (p.notableAlumni||'').toLowerCase();
+  const portfolio = (p.totalPortfolio||'').toLowerCase();
+  const cheque = (p.cheque||'').toLowerCase();
+  const operators = (p.operators||'').toLowerCase();
+
+  // Dead/superseded programs floor immediately — not worth cron cycles
+  if (status.includes('defunct') || status.includes('discontinued') || status.includes('pivoted') || status.includes('superseded')) return 5;
+
+  // Track record (0-30): alumni outcomes, capital raised, portfolio depth
+  let trackRecord = 5;
+  if (/\$?\d+[mb]\+?/i.test(portfolio) || /\$?\d+[mb]\+?/i.test(alumni)) trackRecord += 12; // hard capital figure
+  if (alumni.includes('raised') || alumni.includes('funded') || alumni.includes('million')) trackRecord += 6;
+  if (/unicorn|ipo|acquired/.test(alumni)) trackRecord += 7;
+  if (/\d{2,}/.test(portfolio)) trackRecord += 5; // countable portfolio size
+  trackRecord = Math.min(30, trackRecord);
+
+  // Currency (0-25): confirmed active cohort recently vs stale/zombie
+  let currency = 8;
+  if (status.includes('zombie') || status.includes('likely dormant') || status.includes('likely legacy')) currency = 0;
+  else if (status.includes('unclear') || status.includes('ambiguous')) currency = 8;
+  else if (status.startsWith('active')) currency = 22;
+  if (/202[5-6]/.test(p.lastCohortDate||'')) currency = Math.min(25, currency + 5);
+  currency = Math.min(25, currency);
+
+  // Cheque/terms clarity (0-15): known, reasonable, non-predatory
+  let chequeScore = 3;
+  if (cheque && !cheque.includes('not confirmed') && !cheque.includes('not disclosed') && !cheque.includes('undisclosed')) chequeScore = 12;
+  if (/\$|aud|nzd|usd/i.test(cheque) && /\d/.test(cheque)) chequeScore = 15;
+  chequeScore = Math.min(15, chequeScore);
+
+  // Longevity/credibility (0-15): years running, backing quality
+  let longevity = 5;
+  const longevityText = (portfolio + ' ' + (p.sourceNotes||'')).toLowerCase();
+  if (/\b(10|1[0-9]|20)\s*year/.test(longevityText) || /decade/.test(longevityText)) longevity += 7;
+  if (operators && !operators.includes('not confirmed')) longevity += 3;
+  longevity = Math.min(15, longevity);
+
+  // Strategic fit to Scout lens (0-15): geo + stage match, red flags penalise
+  let fit = 10;
+  if (p.redFlags && p.redFlags.length > 0) fit -= (p.redFlags.length * 6);
+  if ((p.geo||'').includes('AU') || (p.geo||'').includes('NZ')) fit += 3;
+  fit = Math.max(0, Math.min(15, fit));
+
+  return Math.max(0, Math.min(100, Math.round(trackRecord + currency + chequeScore + longevity + fit)));
+}
+
+// --- Awards/Grants (competitions, non-equity recognition) ---
+// Weights: Prestige/signal value 35 | Reach relevance 25 | Currency 20 | Effort-to-value 20
+function scoreAward(a) {
+  const org = (a.organiser||'').toLowerCase();
+  const status = (a.activityStatus||'').toLowerCase();
+  const notes = (a.notes||'').toLowerCase();
+
+  if (a.payToPlayFlag) return 10; // pay-to-play / unclear lineage floors hard
+
+  // Prestige/signal value (0-35)
+  let prestige = 10;
+  if (/afr|telstra|csiro|smartcompany|ausindustry|government/i.test(org)) prestige += 15;
+  if (/\b1[5-9]\s*year|\b2[0-9]\s*year|decade/.test(notes + ' ' + (a.trackRecordEvidence||''))) prestige += 5;
+  if (/credible|objective|methodology/i.test(notes)) prestige += 5;
+  prestige = Math.min(35, prestige);
+
+  // Reach relevance (0-25) — geo + B2B/tech fit vs generalist SME
+  let reach = 15;
+  if (/generalist|sme|business generalist/i.test((a.focus||'').toLowerCase())) reach -= 5;
+  if (/tech|startup|innovation/i.test((a.focus||'').toLowerCase())) reach += 8;
+  reach = Math.max(0, Math.min(25, reach));
+
+  // Currency (0-20)
+  let currency = 10;
+  if (status.includes('active')) currency = 18;
+  if (/unconfirmed|unclear/.test(status)) currency = 6;
+  currency = Math.min(20, currency);
+
+  // Effort-to-value (0-20) — low friction entry vs high payoff; recognition-only lowers value
+  let effort = 12;
+  if (/cash prize|\$[0-9]/i.test(a.fundingAmount||'')) effort += 6;
+  if (/recognition only/i.test((a.fundingAmount||'').toLowerCase())) effort -= 3;
+  effort = Math.max(0, Math.min(20, effort));
+
+  return Math.max(0, Math.min(100, Math.round(prestige + reach + currency + effort)));
+}
+
+// --- State/Federal/Defence grants (non-dilutive funding programs) ---
+// Weights: $ materiality 35 | Eligibility fit 25 | Program stability 20 | Application friction 20 (inverse)
+function scoreGrant(p) {
+  const status = (p.status||p.activityStatus||'').toLowerCase();
+  const funding = (p.fundingAmount||'').toLowerCase();
+
+  if (status.includes('defunct') || status.includes('superseded')) return 5;
+
+  // $ materiality (0-35) — parse largest $ figure mentioned as a rough proxy
+  let materiality = 8;
+  const bigMatch = funding.match(/\$?\s?([\d.]+)\s*(b|billion|m|million|k)/i);
+  if (bigMatch) {
+    const num = parseFloat(bigMatch[1]);
+    const unit = bigMatch[2].toLowerCase();
+    let usd = num;
+    if (unit.startsWith('b')) usd = num * 1000;
+    else if (unit.startsWith('m')) usd = num;
+    else if (unit.startsWith('k')) usd = num / 1000;
+    if (usd >= 1000) materiality = 35;
+    else if (usd >= 100) materiality = 30;
+    else if (usd >= 10) materiality = 24;
+    else if (usd >= 1) materiality = 16;
+    else materiality = 10;
+  }
+
+  // Eligibility fit (0-25) — realistic match to LV seed/Series A portfolio profile
+  let fit = 14;
+  const focus = (p.focus||'').toLowerCase();
+  if (/sme|startup|early-stage|small business/.test(focus)) fit += 6;
+  if (/turnover.{0,10}<\$?20m|turnover.{0,10}<\$?[0-9]+m/.test((p.notes||'').toLowerCase())) fit += 3;
+  if (/maritime|robotics|ai|defence|cyber|space/.test(focus) ) fit += 2; // GRR/portfolio relevance proxy
+  fit = Math.min(25, fit);
+
+  // Program stability (0-20) — ongoing vs one-off, recent confirmed activity
+  let stability = 8;
+  if (status.includes('active')) stability = 16;
+  if (/rolling|ongoing|standing/.test(status)) stability = 20;
+  if (/\[stale\]|needs.{0,15}check|unclear/i.test(status)) stability = Math.min(stability, 8);
+  stability = Math.min(20, stability);
+
+  // Application friction (0-20, inverse-weighted — painful/slow processes score lower)
+  let friction = 14;
+  const notes = (p.notes||'').toLowerCase();
+  if (/challenge-specific|round-dependent|by invitation|competitive|merit-assessed/.test(notes)) friction -= 5;
+  if (/rolling|no standing window/.test(status + ' ' + notes)) friction -= 3;
+  friction = Math.max(0, Math.min(20, friction));
+
+  return Math.max(0, Math.min(100, Math.round(materiality + fit + stability + friction)));
+}
+
+let GOV_DATA = null;
+
+async function loadData() {
+  const [res, govRes] = await Promise.all([
+    fetch('programs_data.json'),
+    fetch('govgrants_data.json')
+  ]);
+  DATA = await res.json();
+  GOV_DATA = await govRes.json();
+  DATA.programs.forEach(p => p.compositeScore = scoreProgram(p));
+  DATA.awardsGrants.forEach(a => a.compositeScore = scoreAward(a));
+  (GOV_DATA.federalPrograms||[]).forEach(p => p.compositeScore = scoreGrant(p));
+  (GOV_DATA.defenceProgramsFederalAndState||[]).forEach(p => p.compositeScore = scoreGrant(p));
+  (GOV_DATA.stateProgramsByJurisdiction||[]).forEach(j => (j.programs||[]).forEach(p => p.compositeScore = scoreGrant(p)));
+  updateStatusNote();
+  populateFilters();
+  render();
+}
+
+function updateStatusNote() {
+  if (['programs','awards'].includes(currentTab)) {
+    document.getElementById('statusNote').innerHTML =
+      `<strong>Coverage note (v1):</strong> This is a first working slice — AU/NZ accelerators/incubators + AU/UK/SG awards/grants only, fully live-verified via web search. ` +
+      `SEA, Korea/Japan, UK accelerators, and Scandinavia/Western Europe are still pending (in progress). Generated ${DATA.generated}.`;
+  } else {
+    document.getElementById('statusNote').innerHTML =
+      `<strong>Coverage note (gov v1):</strong> Built ${GOV_DATA.generated} covering AU state/territory grants, awards, federal programs, and defence innovation vehicles. ` +
+      `Figures without a confirmed primary-source citation are marked [unverified] — treat as directional. VIC/TAS show genuine coverage gaps flagged for follow-up, not confirmed absence.`;
+  }
+}
+
+function populateFilters() {
+  const geoSel = document.getElementById('geoFilter');
+  const typeSel = document.getElementById('typeFilter');
+  const statusSel = document.getElementById('statusFilter');
+  const jurisSel = document.getElementById('jurisFilter');
+  const jurisLabel = document.getElementById('jurisLabel');
+
+  if (['programs','awards'].includes(currentTab)) {
+    const rows = currentTab === 'programs' ? DATA.programs : DATA.awardsGrants;
+    const geos = [...new Set(rows.map(r => r.geo))].sort();
+    const types = [...new Set(rows.map(r => r.type))].sort();
+    geoSel.style.display = ''; typeSel.style.display = '';
+    geoSel.innerHTML = '<option value="">All Geo</option>' + geos.map(g=>`<option value="${g}">${g}</option>`).join('');
+    typeSel.innerHTML = '<option value="">All Types</option>' + types.map(t=>`<option value="${t}">${t}</option>`).join('');
+    jurisSel.style.display = 'none'; jurisLabel.style.display = 'none';
+    if (currentTab === 'programs') {
+      const statuses = [...new Set(rows.map(r => r.activityStatus))].sort();
+      statusSel.innerHTML = '<option value="">All Status</option>' + statuses.map(s=>`<option value="${s}">${s}</option>`).join('');
+      statusSel.style.display = '';
+    } else {
+      statusSel.style.display = 'none';
+    }
+  } else {
+    geoSel.style.display = 'none'; typeSel.style.display = 'none'; statusSel.style.display = 'none';
+    if (currentTab === 'state') {
+      const rows = flattenStateRows(GOV_DATA);
+      const jurisdictions = [...new Set(rows.map(r => r.jurisdiction))].sort();
+      jurisSel.innerHTML = '<option value="">All Jurisdictions</option>' + jurisdictions.map(j=>`<option value="${j}">${j}</option>`).join('');
+      jurisSel.style.display = ''; jurisLabel.style.display = '';
+    } else {
+      jurisSel.style.display = 'none'; jurisLabel.style.display = 'none';
+    }
+  }
+}
+
+function scoreClass(s) {
+  if (s >= 65) return 'high';
+  if (s >= 40) return 'mid';
+  return 'low';
+}
+
+function statusClass(s) {
+  s = (s||'').toLowerCase();
+  if (s.includes('defund') || s.includes('discontinu') || s.includes('pivot')) return 'status-dead';
+  if (s.includes('zombie') || s.includes('unclear')) return 'status-unclear';
+  return 'status-active';
+}
+
+let ddCounter = 0;
+function ddId() { return 'dd' + (ddCounter++); }
+
+function renderDeepDive(dd) {
+  if (!dd) return '<div class="dd-empty">No deep-dive detail recorded for this entry yet.</div>';
+  const fields = [
+    ['Application Status', dd.applicationStatus],
+    ['Funding Verified', dd.fundingVerified],
+    ['Track Record Evidence', dd.trackRecordEvidence],
+    ['Red Flag Check', dd.redFlagCheck],
+  ];
+  return `<div class="dd-grid">${fields.map(([label, val]) => `
+    <div class="dd-field"><h4>${label}</h4><p>${val || '—'}</p></div>
+  `).join('')}</div>`;
+}
+
+function ddToggleRow(id, colspan, sourceNotes) {
+  return `
+    <tr class="dd-row" id="${id}" style="display:none;">
+      <td colspan="${colspan}">
+        <div id="${id}-content"></div>
+        ${sourceNotes ? `<div class="dd-sources"><strong>Sources:</strong> ${sourceNotes}</div>` : ''}
+      </td>
+    </tr>
+  `;
+}
+
+function toggleDD(id, dd) {
+  const row = document.getElementById(id);
+  const content = document.getElementById(id + '-content');
+  const btn = document.getElementById(id + '-btn');
+  const isOpen = row.style.display !== 'none';
+  if (isOpen) {
+    row.style.display = 'none';
+    if (btn) btn.textContent = '▸ Deep Dive';
+  } else {
+    if (content && !content.dataset.rendered) {
+      content.innerHTML = renderDeepDive(dd);
+      content.dataset.rendered = '1';
+    }
+    row.style.display = '';
+    if (btn) btn.textContent = '▾ Deep Dive';
+  }
+}
+
+function colsForTab() {
+  if (currentTab === 'programs') return programCols;
+  if (currentTab === 'awards') return awardCols;
+  if (currentTab === 'state') return stateCols;
+  if (currentTab === 'federal') return federalCols;
+  return defenceCols;
+}
+
+function rowsForTab() {
+  if (currentTab === 'programs') return [...DATA.programs];
+  if (currentTab === 'awards') return [...DATA.awardsGrants];
+  if (currentTab === 'state') return flattenStateRows(GOV_DATA);
+  if (currentTab === 'federal') return [...GOV_DATA.federalPrograms];
+  return [...GOV_DATA.defenceProgramsFederalAndState];
+}
+
+function render() {
+  const cols = colsForTab();
+  const head = document.getElementById('tableHead');
+  head.innerHTML = cols.map(c => `<th data-key="${c.key}">${c.label}${sortKey===c.key ? (sortDir>0?' ▲':' ▼') : ''}</th>`).join('');
+  head.querySelectorAll('th').forEach(th => th.onclick = () => {
+    const k = th.dataset.key;
+    if (sortKey === k) sortDir *= -1; else { sortKey = k; sortDir = 1; }
+    render();
+  });
+
+  let rows = rowsForTab();
+
+  const search = document.getElementById('searchBox').value.toLowerCase();
+  const geo = document.getElementById('geoFilter').value;
+  const type = document.getElementById('typeFilter').value;
+  const status = document.getElementById('statusFilter').value;
+  const juris = document.getElementById('jurisFilter').value;
+  const hideFlags = document.getElementById('hideFlags').checked;
+
+  if (search) {
+    rows = rows.filter(r => JSON.stringify(r).toLowerCase().includes(search));
+  }
+  if (['programs','awards'].includes(currentTab)) {
+    if (geo) rows = rows.filter(r => r.geo === geo);
+    if (type) rows = rows.filter(r => r.type === type);
+    if (status && currentTab === 'programs') rows = rows.filter(r => r.activityStatus === status);
+    if (hideFlags) {
+      rows = rows.filter(r => currentTab === 'programs' ? (!r.redFlags || r.redFlags.length===0) : !r.payToPlayFlag);
+    }
+  }
+  if (currentTab === 'state' && juris) rows = rows.filter(r => r.jurisdiction === juris);
+
+  rows.sort((a,b) => {
+    let av = a[sortKey], bv = b[sortKey];
+    if (typeof av === 'number' && typeof bv === 'number') return (av-bv)*sortDir;
+    av = (av||'').toString().toLowerCase(); bv = (bv||'').toString().toLowerCase();
+    if (av < bv) return -1*sortDir;
+    if (av > bv) return 1*sortDir;
+    return 0;
+  });
+
+  document.getElementById('statsLine').textContent = `${rows.length} shown`;
+
+  const body = document.getElementById('tableBody');
+  const colspan = cols.length;
+  const ddCell = (dd) => {
+    const id = ddId();
+    window.__DD = window.__DD || {};
+    window.__DD[id] = dd || null;
+    return `<div class="dd-toggle" id="${id}-btn" onclick="toggleDD('${id}', window.__DD['${id}'])">▸ Deep Dive</div>` + ddToggleRow(id, colspan, dd && dd.__sourceNotes);
+  };
+  if (currentTab === 'programs') {
+    body.innerHTML = rows.map(p => `
+      <tr>
+        <td class="name-cell"><a href="${p.url||'#'}" target="_blank">${p.name}</a>${p.parentNetwork?`<div class="parent">via ${p.parentNetwork}</div>`:''}</td>
+        <td>${p.geo}<br><span class="parent">${p.country||''}</span></td>
+        <td>${p.type}</td>
+        <td class="wrap-cell">${p.focus||''}</td>
+        <td>${p.stage||''}</td>
+        <td class="wrap-cell">${p.cheque||''}</td>
+        <td class="wrap-cell">${p.lastCohortDate||''}</td>
+        <td>${p.batchSize||'—'}</td>
+        <td class="wrap-cell">${p.totalPortfolio||'—'}</td>
+        <td class="wrap-cell">${p.notableAlumni||'—'}${p.redFlags && p.redFlags.length ? '<br>'+p.redFlags.map(f=>`<div class="flag">⚑ ${f}</div>`).join(''):''}</td>
+        <td class="${statusClass(p.activityStatus)}">${p.activityStatus}</td>
+        <td><span class="score ${scoreClass(p.compositeScore)}">${p.compositeScore}</span></td>
+      </tr>
+      <tr><td colspan="${colspan}" style="padding:4px 12px;border-bottom:1px solid var(--border);">${ddCell(p.deepDive ? Object.assign({}, p.deepDive, {__sourceNotes: p.sourceNotes}) : null)}</td></tr>
+    `).join('');
+  } else if (currentTab === 'awards') {
+    body.innerHTML = rows.map(a => `
+      <tr>
+        <td class="name-cell"><a href="${a.url||'#'}" target="_blank">${a.name}</a></td>
+        <td>${a.geo}</td>
+        <td>${a.type}</td>
+        <td class="wrap-cell">${a.focus||''}</td>
+        <td class="wrap-cell">${a.fundingAmount||''}</td>
+        <td>${a.frequency||''}</td>
+        <td class="wrap-cell">${a.lastCycle||''}</td>
+        <td class="wrap-cell">${a.organiser||''}</td>
+        <td class="${a.payToPlayFlag?'status-dead':'status-active'}">${a.payToPlayFlag ? '⚑ FLAGGED' : 'Clean'}</td>
+        <td><span class="score ${scoreClass(a.compositeScore)}">${a.compositeScore}</span></td>
+      </tr>
+      <tr><td colspan="${colspan}" style="padding:4px 12px;border-bottom:1px solid var(--border);">${ddCell(a.deepDive ? Object.assign({}, a.deepDive, {__sourceNotes: a.sourceNotes}) : null)}</td></tr>
+    `).join('');
+  } else if (currentTab === 'state') {
+    body.innerHTML = rows.map(p => `
+      <tr>
+        <td class="wrap-cell">${p.jurisdiction}${isHomeState(p.jurisdiction) ? '<span class="home-badge">HOME</span>' : ''}</td>
+        <td class="name-cell"><a href="${p.url||'#'}" target="_blank">${p.name}</a></td>
+        <td>${p.type||''}</td>
+        <td class="${govStatusClass(p.status)} wrap-cell">${p.status||''}</td>
+        <td class="wrap-cell">${p.fundingAmount||''}</td>
+        <td class="wrap-cell">${p.focus||''}</td>
+        <td class="wrap-cell">${p.administeringBody||''}</td>
+        <td class="wrap-cell">${p.lastConfirmedActivity||''}${p.notes?`<br><span class="unverified">${p.notes}</span>`:''}</td>
+        <td><span class="score ${scoreClass(p.compositeScore)}">${p.compositeScore}</span></td>
+      </tr>
+      <tr><td colspan="${colspan}" style="padding:4px 12px;border-bottom:1px solid var(--border);">${ddCell(p.deepDive ? Object.assign({}, p.deepDive, {__sourceNotes: p.sourceNotes}) : null)}</td></tr>
+    `).join('');
+  } else if (currentTab === 'federal') {
+    body.innerHTML = rows.map(p => `
+      <tr>
+        <td class="name-cell"><a href="${p.url||'#'}" target="_blank">${p.name}</a></td>
+        <td>${p.type||''}</td>
+        <td class="${govStatusClass(p.status)} wrap-cell">${p.status||''}</td>
+        <td class="wrap-cell">${p.fundingAmount||''}</td>
+        <td class="wrap-cell">${p.focus||''}</td>
+        <td class="wrap-cell">${p.administeringBody||''}${p.notes?`<br><span class="unverified">${p.notes}</span>`:''}</td>
+        <td><span class="score ${scoreClass(p.compositeScore)}">${p.compositeScore}</span></td>
+      </tr>
+      <tr><td colspan="${colspan}" style="padding:4px 12px;border-bottom:1px solid var(--border);">${ddCell(p.deepDive ? Object.assign({}, p.deepDive, {__sourceNotes: p.sourceNotes}) : null)}</td></tr>
+    `).join('');
+  } else {
+    body.innerHTML = rows.map(p => `
+      <tr>
+        <td class="name-cell"><a href="${p.url||'#'}" target="_blank">${p.name}</a><span class="defence-badge">DEFENCE</span></td>
+        <td>${p.type||''}</td>
+        <td class="${govStatusClass(p.status)} wrap-cell">${p.status||''}</td>
+        <td class="wrap-cell">${p.fundingAmount||''}</td>
+        <td class="wrap-cell">${p.focus||''}</td>
+        <td class="wrap-cell">${p.administeringBody||''}</td>
+        <td class="wrap-cell">${p.lastConfirmedActivity||''}${p.notes?`<br><span class="unverified">${p.notes}</span>`:''}</td>
+        <td><span class="score ${scoreClass(p.compositeScore)}">${p.compositeScore}</span></td>
+      </tr>
+      <tr><td colspan="${colspan}" style="padding:4px 12px;border-bottom:1px solid var(--border);">${ddCell(p.deepDive ? Object.assign({}, p.deepDive, {__sourceNotes: p.sourceNotes}) : null)}</td></tr>
+    `).join('');
+  }
+}
+
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  currentTab = t.dataset.tab;
+  sortKey = currentTab === 'programs' ? 'compositeScore' : 'name';
+  sortDir = -1;
+  updateStatusNote();
+  populateFilters();
+  render();
+});
+
+['searchBox'].forEach(id => document.getElementById(id).oninput = render);
+['geoFilter','typeFilter','statusFilter','jurisFilter','hideFlags'].forEach(id => document.getElementById(id).onchange = render);
+
+loadData();
+</script>
+</body>
+</html>

@@ -1,0 +1,540 @@
+{
+  "generated": "2026-08-26",
+  "version": "v1-state-grants-awards-defence",
+  "note": "Part of the Pipeline dataset. Grant/award programs use different selection criteria to the accelerator list (government eligibility rules, not founder-merit selection), kept in a separate section within Pipeline. WA-first ordering reflects home bias.",
+  "stateProgramsByJurisdiction": [
+    {
+      "jurisdiction": "Western Australia",
+      "programs": [
+        {
+          "name": "Innovation Booster Grant (IBG)",
+          "url": "https://www.wa.gov.au/organisation/department-of-jobs-tourism-science-and-innovation/new-industries-fund-innovation-booster-grant",
+          "type": "Grant",
+          "status": "active",
+          "fundingAmount": "Up to $50,000 (20% co-contribution required, reduced for regional/female-founded/First Nations)",
+          "focus": "Sector-agnostic commercialisation — R&D, product dev, tech transfer/IP, commercialisation services",
+          "administeringBody": "Dept. of Energy and Economic Diversification",
+          "lastConfirmedActivity": "2026 recipients announced — 25 WA businesses funded ($40-50K each)",
+          "notes": "Part of $40M New Industries and Innovation Fund (2025-29).",
+          "activityStatus": "active, current round closed, next round flagged",
+          "deepDive": {
+            "applicationStatus": "wa.gov.au (primary, 10 Mar 2026) confirms 2026 round opened, closed 30 Mar 2026. A follow-up wa.gov.au publication (8 Apr 2026) confirms applications are 'currently closed' with the next round 'planned for Aug/Sep 2026' — i.e. there should be a live/upcoming round around when this deep-dive is being read (26 Aug 2026).",
+            "fundingVerified": "Up to $50,000 per grant (wa.gov.au primary), confirmed for supporting-services/expertise costs (refine, test, protect, validate, certify innovation) — not a direct cash-to-founder grant, it funds external service engagement.",
+            "trackRecordEvidence": "A prior round example found via Mirage News: total $1,274,686 awarded to 26 recipients in that round (avg ~$49K, near the cap for most). Breakdown: 10 female-founded, 6 First Nations-founded, 5 regional — genuinely diverse allocation, worth noting for any diversity-focused portfolio thesis.",
+            "redFlagCheck": "None — worth flagging the Aug/Sep 2026 next-round timing to Andrew given it lines up with when this is being reviewed."
+          },
+          "sourceNotes": " Deep-dive 26 Aug 2026: wa.gov.au/government/announcements + /publications (primary, both), miragenews.com (secondary, prior-round outcome data), pattens.com (secondary, dates)."
+        },
+        {
+          "name": "WA Innovators of the Year",
+          "url": "https://www.wa.gov.au/organisation/department-of-energy-and-economic-diversification/wa-innovators-of-the-year-2026-finalists",
+          "type": "Award",
+          "status": "active",
+          "fundingAmount": "$310,000 total prize pool across categories",
+          "focus": "6 categories: Emerging Innovation, Growth Innovation, Advanced Manufacturing, Community Benefit & Wellbeing, Energy Innovation, Great for the State (2 more categories — Government Innovation, Young Innovators — announced later in cycle)",
+          "administeringBody": "WA Government, sponsored by Malka Foundation (major), Business News, Wesfarmers, Woodside, Bankwest et al.",
+          "lastConfirmedActivity": "23 finalists announced 7 Aug 2026; winners ceremony 2 Nov 2026",
+          "notes": "20th year running (launched 2006).",
+          "activityStatus": "active, strong prize pool confirmed",
+          "deepDive": {
+            "applicationStatus": "2026 applications closed 11am AWST, Wed 27 May 2026 (wa.gov.au primary). Finalists already announced (separate wa.gov.au finalists page, ~3 weeks old at this check) — program has moved past application stage into judging/announcement phase for 2026.",
+            "fundingVerified": "Total prize pool up to $310,000 across 8 award categories (2026) — one specific category example: winner gets $60,000 cash (excl. GST) plus PhD student support benefits, runner-up gets $15,000. This is a genuinely substantial prize pool for a state-level awards program.",
+            "trackRecordEvidence": "Sponsor-backed (multiple named sponsors per wa.gov.au) — a long-running, well-resourced WA Government innovation recognition program via the Department of Energy and Economic Diversification, under the New Industries and Innovation Fund (NIIF) banner.",
+            "redFlagCheck": "None. Structurally this is a recognition award (not a competitive grant application in the CBG/IBG sense) — but the cash component is real and substantial, unlike some awards in the awardsGrants set that are purely reputational."
+          },
+          "sourceNotes": " Deep-dive 26 Aug 2026: wa.gov.au/organisation/department-of-energy-and-economic-diversification (primary, multiple pages: application info, finalists, prize pool announcement)."
+        },
+        {
+          "name": "Commercialisation Bridge Grant (CBG)",
+          "url": "https://www.wa.gov.au/organisation/department-of-energy-and-economic-diversification/new-industries-and-innovation-fund-commercialisation-bridge-grant",
+          "type": "Grant",
+          "status": "CLOSED — monitor for reopening",
+          "fundingAmount": "[unverified — not stated on current page since closed]",
+          "focus": "Bridges gap between early commercialisation and breakthrough growth",
+          "administeringBody": "Dept. of Energy and Economic Diversification",
+          "lastConfirmedActivity": "Confirmed closed as of Aug 2026",
+          "notes": "Part of same $40M New Industries and Innovation Fund (2025-29) as IBG — fund runs through 2029, likely to reopen in a future tranche.",
+          "activityStatus": "active, funding range now confirmed",
+          "deepDive": {
+            "applicationStatus": "wa.gov.au (primary, 24 Mar 2026 + 8 Dec 2025 pages) confirms CBG is administered by the Department of Energy and Economic Diversification under the New Industries and Innovation Fund (NIIF) — same parent fund as WA Innovators of the Year and IBG, all three are siblings under one WA state innovation umbrella.",
+            "fundingVerified": "Range confirmed via a secondary source (australiangrants.org, 22 Jul 2026): between $50,000 and $250,000 — explicitly positioned as the next funding tier up from the Innovation Booster Grant ($50K cap), for founders who've already achieved early commercial validation and need a larger injection to scale ('bridge' the gap to break-through growth).",
+            "trackRecordEvidence": "Genuinely coherent WA state ladder now visible across all 3 NIIF programs: IBG (up to $50K, pre-validation/service costs) → CBG ($50K-$250K, post-validation scale-up) → Innovators of the Year (up to $310K prize pool, recognition). Worth presenting this as a staged pathway rather than 3 unrelated grants.",
+            "redFlagCheck": "None. The $50K-$250K figure is [secondary source] — recommend a direct wa.gov.au fetch to confirm the exact range before quoting to a founder, since the primary pages found this pass describe the program's purpose but not the dollar range directly."
+          },
+          "sourceNotes": " Deep-dive 26 Aug 2026: wa.gov.au/government/publications + /organisation/department-of-energy-and-economic-diversification (primary, program description), australiangrants.org (secondary, $50K-$250K range — unconfirmed on a primary WA gov page this pass)."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "New South Wales",
+      "programs": [
+        {
+          "name": "MVP Ventures Program",
+          "url": "https://www.nsw.gov.au/grants-and-funding/mvp-ventures-program",
+          "type": "Grant",
+          "status": "active [per AirTree summary, Aug 2026 — verify live status before applying]",
+          "fundingAmount": "Stream 1: up to $50,000 (50% co-contribution); Stream 2 (women/regional/Indigenous-owned): up to $75,000 (25% co-contribution)",
+          "focus": "Commercialisation of innovative products/services — prototyping, piloting, new tech implementation",
+          "administeringBody": "NSW Government",
+          "lastConfirmedActivity": "[unverified — sourced via AirTree secondary summary, not fetched directly from nsw.gov.au this pass]",
+          "notes": "Source: AirTree open-source VC grants list.",
+          "activityStatus": "active, Round 3 confirmed current",
+          "deepDive": {
+            "applicationStatus": "nsw.gov.au (primary, 16 Mar 2026) confirms two funding streams for the 2025-2026 program, designed to reduce financial barriers and boost participation from under-represented groups. Round 3 opened 9 March 2026 (grants.com.au + pattens.com, both secondary but consistent).",
+            "fundingVerified": "$20,000 to $75,000 per project depending on funding stream, covering up to 50-75% of eligible project costs (secondary sources, consistent across grants.com.au, pattens.com, granthelper.com.au — three independent secondary sources agreeing on the same range is a reasonable confidence signal even without a primary-source dollar figure this pass).",
+            "trackRecordEvidence": "Positioned under the NSW Innovation Blueprint — helps commercialise innovative products/processes and progress readiness for private investment. Explicit under-represented-groups focus baked into the funding stream design, similar in spirit to WA's IBG diversity outcomes.",
+            "redFlagCheck": "None. Recommend confirming the exact $ range on nsw.gov.au directly (primary) before quoting, since that figure currently rests on 3 consistent secondary sources rather than the primary page."
+          },
+          "sourceNotes": " Deep-dive 26 Aug 2026: nsw.gov.au/business-and-economy/innovation/grants-and-programs/mvp-ventures-program (primary, program structure), grants.com.au + pattens.com + granthelper.com.au (secondary, consistent $20K-$75K figure)."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "Victoria",
+      "programs": [
+        {
+          "name": "Innovation Victoria (merged LaunchVic + Breakthrough Victoria)",
+          "url": "https://launchvic.org/innovation-victoria/",
+          "type": "State innovation agency (ecosystem body, not a single direct grant)",
+          "status": "active — confirmed via primary source, operational from early H2 2026",
+          "fundingAmount": "N/A at agency level — program-level funding below",
+          "focus": "Single front door for founders/researchers/investors; combines LaunchVic's ecosystem/founder programs with Breakthrough Victoria's patient-capital investment activity",
+          "administeringBody": "Victorian Government (CEO Rod Bristow, ex-Breakthrough Victoria)",
+          "lastConfirmedActivity": "launchvic.org confirms operational; existing LaunchVic + Breakthrough Victoria agreements/grants continue unchanged, future rounds set by Innovation Victoria going forward",
+          "notes": "Context: Melbourne now ranks #3 globally for startup creation rate (124%), VIC startups raised $2.4B in 2025 (leading the country), 68,000+ people employed (+86% since 2020), per launchvic.org. Largest, most active state ecosystem checked so far — confirms the expectation this would be a bigger pool than WA.",
+          "activityStatus": "active, merger confirmed with continuity guarantee",
+          "deepDive": {
+            "applicationStatus": "Merger confirmed real and current: launchvic.org's own page (15 May 2026) states existing agreements, funding arrangements and obligations 'remain exactly as they are' through the transition — i.e. this is an organisational rebrand/merger, not a program shutdown. dynamicbusiness.com (19 May 2026) confirms LaunchVic and Breakthrough Victoria continue operating as usual until Innovation Victoria is fully established.",
+            "fundingVerified": "Breakthrough Victoria fund confirmed at $2 billion (foodanddrinkbusiness.com.au, 18 Jul 2026) — this is the single largest state-level fund figure found across the entire state-grants set so far, worth flagging prominently. Separately, startupdaily.net (3 Jul 2026) quotes: Breakthrough Victoria has committed more than $500 million across 100+ investments, attracting a further $1.5 billion in additional investor funding on top of that.",
+            "trackRecordEvidence": "LaunchVic's own claimed track record (per the same startupdaily.net quote): helped grow the number of Victorian startups 'nearly 20-fold' since its founding — a striking, if self-reported, ecosystem-growth claim worth treating as [estimated/self-reported] rather than independently verified.",
+            "redFlagCheck": "None on substance, but worth being precise in the final write-up: $2B is the FUND SIZE (committed capital), not the amount deployed — the $500M figure is what's actually been invested to date. Don't conflate the two when presenting to Andrew."
+          },
+          "sourceNotes": " Deep-dive 26 Aug 2026: launchvic.org/innovation-victoria (primary, 15 May 2026), dynamicbusiness.com (secondary, 19 May 2026), foodanddrinkbusiness.com.au (secondary, 18 Jul 2026, $2B fund size), startupdaily.net (secondary, 3 Jul 2026, $500M deployed + 20x growth claim)."
+        },
+        {
+          "name": "LaunchVic Grant Rounds (program/investor-facing, not direct-to-founder)",
+          "url": "https://launchvic.org/grants/",
+          "type": "Grant (indirect — funds program providers/investor groups, not individual startups)",
+          "status": "active — rolling portfolio of rounds rather than one static grant",
+          "fundingAmount": "Varies by round. Confirmed: AI/DeepTech pre-accelerator round up to $400,000 per program (announced Dec 2025); Hugh Victor McKay Fund, $2M co-investment fund for VIC AgTech startups; women-led startup co-investment (LaunchVic invests alongside VCs/angels — e.g. Advance VC secured a $300K grant this way)",
+          "focus": "Ecosystem-building — backs accelerators, VC funds, angel networks and community programs operating in Victoria, rather than issuing grants directly to individual founders",
+          "administeringBody": "LaunchVic (now under Innovation Victoria)",
+          "lastConfirmedActivity": "launchvic.org confirms active grant rounds; DJSIR separately confirmed a $3.75M boost to the VIC startup ecosystem via LaunchVic, and a further $5M+ supporting up to 165 early-stage startups",
+          "notes": "Key distinction from WA's IBG/CBG model: this is NOT a direct-to-founder cash grant — it funds the accelerators/VCs/programs that then support founders. Closest direct-founder-cash equivalent to WA's IBG is Breakthrough Victoria's investment activity (folded into Innovation Victoria above).",
+          "activityStatus": "active, current round confirmed with sector focus",
+          "deepDive": {
+            "applicationStatus": "launchvic.org's own /grants/ page (primary) confirms the structural point already in the entry name: LaunchVic runs grant rounds FOR program providers and investor groups, not individual startups directly. Current/most recent round (3 Dec 2025 announcement, still the active round per pattens.com 11 Feb 2026) specifically targets AI and DeepTech startup support programs.",
+            "fundingVerified": "Up to $400,000 per program (not per startup) — for program providers to help early-stage AI/DeepTech founders test ideas, access mentorship, and reach early customers. This is grant funding for the accelerator/program layer itself, which matters for how Scout should read this: LaunchVic money flows to program operators (potentially funding some of the AU accelerators already in the main programs_data.json), not directly into portfolio companies.",
+            "trackRecordEvidence": "This was LaunchVic's 10th funding grant round overall (per launchvic.org's 'previously funded' page, 18 Jun 2026) — prior rounds were often 'open' with no specific sector focus; this AI/DeepTech-specific round is a deliberate strategic narrowing.",
+            "redFlagCheck": "None, but important categorisation note: this program funds intermediaries (accelerators/programs), not founders directly — worth clearly labelling differently from the founder-facing WA/NSW grants in the final table so Andrew doesn't mistake it for a direct-to-startup cheque."
+          },
+          "sourceNotes": " Deep-dive 26 Aug 2026: launchvic.org/grants/ + /funding-news/ + /grants/previously-funded/ (all primary), pattens.com (secondary, confirms round still current 11 Feb 2026)."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "Queensland",
+      "programs": [
+        {
+          "name": "Ignite Ideas Fund",
+          "url": "https://advance.qld.gov.au/entrepreneurs-and-startups-industry-small-business/ignite-ideas-fund",
+          "type": "Grant",
+          "status": "active — rounds typically open Q2-Q3 calendar year [unverified current round status]",
+          "fundingAmount": "Tier 1: up to $100,000 (12mo projects); Tier 2: $100,000-$200,000 (24mo projects), ex-GST",
+          "focus": "Commercialising an already-developed innovative product/service, first market entry",
+          "administeringBody": "Queensland Government (Advance Queensland)",
+          "lastConfirmedActivity": "[unverified — sourced via AirTree secondary summary]",
+          "notes": "Eligibility: QLD-headquartered, ≤50 FTE.",
+          "activityStatus": "active, tiered structure and recent funding confirmed",
+          "deepDive": {
+            "applicationStatus": "advance.qld.gov.au (primary) confirms a two-tier structure with a sequencing rule: an org that previously received a Tier 1 grant for a different project must complete it successfully before submitting a new Tier 2 application. Organisations limited to one application per funding round. Round 13 applications are currently closed (pattens.com, 11 Feb 2026).",
+            "fundingVerified": "Tier 1: up to $100,000 (excl. GST). Tier 2: greater than $100,000 up to $200,000 (excl. GST) — confirmed clean tiered structure, not a single flat cheque.",
+            "trackRecordEvidence": "Crisafulli Government statement (statements.qld.gov.au, 5 Feb 2026): more than $2.6 million awarded through the latest combined rounds of Ignite Ideas Fund + the related Ignite Spark Program — a genuine recent-deployment data point, though it bundles two related-but-distinct programs together so the Ignite Ideas-only figure isn't isolated.",
+            "redFlagCheck": "None. Note the related but separate 'Ignite+' program (business.gov.au) which wraps additional support services around existing Ignite Spark/Ideas recipients rather than being a new cheque — don't double-count it as a distinct funding source."
+          },
+          "sourceNotes": " Deep-dive 26 Aug 2026: advance.qld.gov.au/grants-and-programs/ignite-ideas-fund (primary), statements.qld.gov.au (primary, QLD Government media statement, 5 Feb 2026), business.gov.au (primary, Ignite+ related-program clarification), pattens.com (secondary, Round 13 status + tier amounts)."
+        },
+        {
+          "name": "Backing Female Founders Program / Female Founders Co-investment Fund",
+          "url": "https://advance.qld.gov.au/entrepreneurs-and-startups/backing-female-founders-program",
+          "type": "Grant (co-investment)",
+          "status": "active [unverified current round]",
+          "fundingAmount": "$50,000-$200,000, matched 1:3 ratio over 12 months",
+          "focus": "Majority female-owned/led, innovation-driven, early-stage capital raise",
+          "administeringBody": "Queensland Government (Advance Queensland)",
+          "lastConfirmedActivity": "[unverified — sourced via AirTree secondary summary]",
+          "notes": "≤50 FTE, ≤$500K raised to date.",
+          "activityStatus": "active, structure clarified — two related but distinct programs",
+          "deepDive": {
+            "applicationStatus": "Confirmed these are genuinely two related but distinct QLD Government programs under one banner: (1) Female Founders Co-Investment Fund (advance.qld.gov.au, qld.gov.au/FemaleFoundersFund primary) — supports women-led innovation-driven enterprises (IDEs) closing an early-stage capital raise via government co-investment; (2) Backing Female Founders Program (innovation.qld.gov.au primary, 19 Jun 2026) — the broader program umbrella.",
+            "fundingVerified": "Not itemised this pass — dollar amount/co-investment ratio for the Co-Investment Fund not surfaced in search snippets; recommend a direct qld.gov.au/FemaleFoundersFund fetch before quoting a figure.",
+            "trackRecordEvidence": "innovation.qld.gov.au's own page explicitly cites 'The State of Australian Startup Funding 2023' report (Cut Through Venture/Folklore Ventures) as its evidence base for the program's existence/rationale — i.e. QLD Government is using an independent, credible national funding-gap dataset to justify this program, which is a good design signal (evidence-based policy rather than ad hoc).",
+            "redFlagCheck": "None, but the co-investment dollar figure is a genuine gap in this pass — flag as [unverified] until confirmed directly."
+          },
+          "sourceNotes": " Deep-dive 26 Aug 2026: advance.qld.gov.au/grants-and-programs/female-founders-co-investment-fund + qld.gov.au/FemaleFoundersFund + innovation.qld.gov.au/grants-and-programs/backing-female-founders-program (all primary), business.gov.au (primary, cross-listing)."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "South Australia",
+      "programs": [
+        {
+          "name": "Seed-Start Program",
+          "url": "https://statedevelopment.sa.gov.au/science-and-research-excellence/rif/stream-2/seed-start",
+          "type": "Grant",
+          "status": "active [unverified current round]",
+          "fundingAmount": "Seed: $50,000-$100,000 (2:1 govt:founder match, up to 2yr); Start: $100,000-$500,000 (1:1 match, up to 3yr)",
+          "focus": "Commercialisation of a unique product/service with national/global growth potential",
+          "administeringBody": "SA Dept. for State Development",
+          "lastConfirmedActivity": "[unverified — sourced via AirTree secondary summary]",
+          "notes": "SA's main early-stage startup grant. Eligibility: turnover <$1M for past 3 FY.",
+          "activityStatus": "active, competitive grants program confirmed",
+          "deepDive": {
+            "applicationStatus": "statedevelopment.sa.gov.au (primary, 21 Apr 2026) confirms Seed-Start sits under Stream 2 of SA's Research and Innovation Fund (RIF) — a competitive grants program (not automatic/formulaic) for high-growth-potential businesses.",
+            "fundingVerified": "Not itemised this pass — funding assists with costs of delivering a clearly defined project generating revenue growth, export income, local employment or other social benefits to SA, but no specific dollar cap/range surfaced in search snippets this pass.",
+            "trackRecordEvidence": "Adjacent SA innovation-ecosystem signal found: the Research and Innovation Fund committed a further $2 million to SOUTHSTART (Adelaide's flagship startup event) covering March 2026, 2027, and 2028 (statedevelopment.sa.gov.au, dated 2023 but describing a multi-year forward commitment) — suggests the RIF is an active, multi-year-committed fund rather than one-off grant money, a reasonable positive signal for Seed-Start's own funding continuity.",
+            "redFlagCheck": "Dollar range for Seed-Start itself is [unverified] this pass — recommend direct fetch of statedevelopment.sa.gov.au/science-and-research-excellence/rif/stream-2/seed-start before quoting to a founder. Also caution: don't confuse with the separate 'SA Health Seed Funding' program ($10K cap) which is a completely different, health-research-specific grant that surfaced in the same search — different department, different purpose."
+          },
+          "sourceNotes": " Deep-dive 26 Aug 2026: statedevelopment.sa.gov.au/science-and-research-excellence/rif/stream-2/seed-start + /startup-ecosystem (both primary), business.gov.au (primary, cross-listing, no new figures)."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "Tasmania",
+      "programs": [
+        {
+          "name": "Business Growth Loan Scheme",
+          "url": "https://www.stategrowth.tas.gov.au/grants_and_funding_opportunities/loans/business_growth_loan_scheme",
+          "type": "Concessional loan (not a grant)",
+          "status": "active — confirmed via business.gov.au + stategrowth.tas.gov.au primary sources. Open until 18 Dec 2026 or until the $60M pool is exhausted, whichever first",
+          "fundingAmount": "$100,000-$5,000,000 loan pool, $60M total scheme size",
+          "focus": "Business development/expansion/new projects that support Tasmania's economic growth — general business support, not startup/commercialisation-specific",
+          "administeringBody": "Dept. of State Growth (TAS) / Building Tasmania",
+          "lastConfirmedActivity": "Confirmed active and open via stategrowth.tas.gov.au, building.tas.gov.au and business.gov.au (all primary/federal-aggregator sources agree)",
+          "notes": "This is a LOAN, not a grant — fundamentally different instrument from WA's IBG/CBG or the other states' commercialisation grants. Confirms the original hunch: TAS has real capital available ($60M) but structured as debt, not non-dilutive grant funding, which is a materially worse instrument for early-stage/pre-revenue startups than the grant model most other states use.",
+          "activityStatus": "active, fund size and loan range both confirmed",
+          "deepDive": {
+            "applicationStatus": "stategrowth.tas.gov.au (primary) + building.tas.gov.au (primary, 14 Jul 2026) both confirm the scheme is open, with business.gov.au (primary) confirming it stays open until 18 December 2026 OR until the funding pool is exhausted, whichever comes first — i.e. genuinely time/capital-limited, not indefinite.",
+            "fundingVerified": "Total scheme pool: $60 million (confirmed across 3 independent primary Tasmanian Government sources — stategrowth.tas.gov.au, building.tas.gov.au, and cross-referenced via business.gov.au). Individual loan range: $100,000 to $5 million per business (business.gov.au primary) — this is a LOAN scheme, not a grant, worth being precise about that distinction in the final write-up since it's a materially different instrument (repayable capital vs non-dilutive grant).",
+            "trackRecordEvidence": "Structurally positioned to support Tasmanian businesses to 'develop, expand or undertake new projects' aligned with state strategic objectives — a genuine growth-capital instrument at a scale ($100K-$5M) well above the typical seed/pre-seed grants seen elsewhere in this state-grants set.",
+            "redFlagCheck": "None, but flag clearly: this is debt, not equity or grant funding — a business taking this on incurs repayment obligations. Should be labelled distinctly from the pure-grant entries in the final table (e.g. TAS's other two programs) to avoid conflating instrument types."
+          },
+          "sourceNotes": " Deep-dive 26 Aug 2026: stategrowth.tas.gov.au/grants_and_funding_opportunities/loans/business_growth_loan_scheme + building.tas.gov.au (both primary, 14 Jul 2026), business.gov.au (primary, loan range + deadline), pattens.com (secondary, confirms same figures)."
+        },
+        {
+          "name": "Tasmanian Small Business Grant",
+          "url": "https://www.business.tas.gov.au/grants-tasmania/grant-recipients",
+          "type": "Grant",
+          "status": "Historical rounds confirmed (round 2 opened 21 Dec 2022, closed 10 Feb 2023) — status of any 2026 round [unverified], check business.tas.gov.au directly",
+          "fundingAmount": "Up to $250,000 (two streams: incubator programs, accelerator programs)",
+          "focus": "Supporting incubator/accelerator program delivery in Tasmania — program-facing, similar structure to LaunchVic's model (funds the program, not always direct-to-founder)",
+          "administeringBody": "Business Tasmania",
+          "lastConfirmedActivity": "Most recent confirmed round closed Feb 2023 — no 2025/2026 round confirmed this pass, genuinely stale/possibly lapsed",
+          "notes": "This appears to be the closest TAS analogue to a real startup grant, but the most recent confirmed round is over 3 years old. Treat as likely dormant unless a fresh round is confirmed — do not present as currently open.",
+          "activityStatus": "unclear — genuine data gap this pass",
+          "deepDive": {
+            "applicationStatus": "Could not confirm this specific program's current status directly. Search surfaced business.tas.gov.au/grants-tasmania (primary, 26 May 2026) as the general TAS grants hub, and australiangrants.org's broader 'Business Grants Tasmania 2026' guide (secondary) which lists federal, state, and council-level programs together — but no direct hit on a program named exactly 'Tasmanian Small Business Grant'.",
+            "fundingVerified": "Not confirmed. A related but distinct program surfaced instead: 'Sole Trader Grants Tasmania' (australiangrants.org, secondary) worth $1,000-$25,000 across several named programs (Deliver-e Small Business Grant, Small Business Advice and Financial Guidance Program). This may or may not be the same program under a different name — genuine ambiguity, not resolved this pass.",
+            "trackRecordEvidence": "None found this pass specific to this exact program name.",
+            "redFlagCheck": "Recommend a direct fetch of business.tas.gov.au/grants-tasmania to confirm whether 'Tasmanian Small Business Grant' still exists as a named program, or whether it's been rebranded/folded into the Deliver-e Small Business Grant or similar. Flagging as [unverified] rather than guessing which program this maps to."
+          },
+          "sourceNotes": " Deep-dive 26 Aug 2026: business.tas.gov.au/grants-tasmania (primary, general hub, no direct program match), australiangrants.org (secondary, possible alternate-name match not confirmed)."
+        },
+        {
+          "name": "Industry Growth Program — Tasmania entry point",
+          "url": "https://www.business.tas.gov.au/grants-tasmania/grants/industry-growth-program",
+          "type": "Advisory service + grant pathway (federal program, TAS-specific access point)",
+          "status": "active",
+          "fundingAmount": "Same as federal IGP: Early-Stage Commercialisation $50,000-$250,000; Commercialisation and Growth $100,000-$5,000,000 (after required advisory report)",
+          "focus": "Innovative SME/startup commercialisation and growth, National Reconstruction Fund priority areas (resources, ag, medical, renewables, defence, enabling tech)",
+          "administeringBody": "Australian Government (National Reconstruction Fund), TAS-facing delivery via Business Tasmania",
+          "lastConfirmedActivity": "business.tas.gov.au primary source confirms this is the current, correct pathway for TAS founders",
+          "notes": "Genuinely the strongest live option for TAS-based startups right now — but it is a federal program with a TAS front door, not a TAS-specific grant. TAS's overall picture: no dedicated, currently-open, direct-to-founder state grant — confirms the original read (weakest state ecosystem of the 8), but the full picture is nuanced: a $60M loan scheme (debt, not equity/grant), a probably-lapsed small business grant, and reliance on the federal IGP as the main commercialisation pathway.",
+          "activityStatus": "unclear — search did not surface relevant results this pass",
+          "deepDive": {
+            "applicationStatus": "Search for this specific entry returned entirely unrelated content (Tasmania skilled migration/visa nomination pathways — a different 'Industry Growth Program' naming collision with immigration policy, not the startup grant program). No genuine data found this pass.",
+            "fundingVerified": "Not found this pass.",
+            "trackRecordEvidence": "Not found this pass.",
+            "redFlagCheck": "Genuine gap — recommend a direct fetch of stategrowth.tas.gov.au (confirmed live as TAS's Department of State Growth homepage) to locate the actual TAS entry point into the federal Industry Growth Program (already deep-dived under chunk 3/federal), since the search query collided with an unrelated migration-nomination topic. Do not present this entry as verified either way until re-checked directly."
+          },
+          "sourceNotes": " Deep-dive 26 Aug 2026: search query collision with TAS skilled migration content — no useful primary or secondary source found this pass for the actual program. stategrowth.tas.gov.au confirmed as the right department homepage to check directly next time."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "Northern Territory",
+      "programs": [
+        {
+          "name": "Business Innovation Program (BIP)",
+          "url": "[not independently verified — sourced via AirTree]",
+          "type": "Grant + mentoring",
+          "status": "Open year-round per secondary aggregator (fundfluent.io, Jun 2026) — confirmed a live, ongoing program not a closed round",
+          "fundingAmount": "Up to AUD $42,000 (updated figure, fundfluent.io Jun 2026) — covers R&D and prototyping support plus co-working space access",
+          "focus": "Developing/commercialising innovative concepts, NT-based",
+          "administeringBody": "NT Government / Start NT (Darwin Innovation Hub)",
+          "lastConfirmedActivity": "fundfluent.io secondary aggregator, Jun 2026, confirms open year-round status and updated $42K figure — still recommend a direct innovation.nt.gov.au check before treating cap as final",
+          "notes": "Related smaller program: Business Growth Program ($2,000-$10,000, reimburses professional advice costs). Funding cap figure updated this pass from $30K to $42K — secondary source only, flag as [unverified against primary] until confirmed on innovation.nt.gov.au directly.",
+          "activityStatus": "active, structure confirmed, funding amount unconfirmed",
+          "deepDive": {
+            "applicationStatus": "nt.gov.au/industry/business-grants-funding/business-innovation-program (primary) and innovation.nt.gov.au/ecosystem/government-support (primary) both confirm BIP is live and open to NT start-ups/entrepreneurs with innovative ideas. Terms and Conditions PDF (nt.gov.au, primary) confirms application is via online portal at nt.gov.au/BIP or GrantsNT, and confirms the program provides advisory, funding AND investment opportunities (i.e. broader than a pure cash grant — includes non-financial support).",
+            "fundingVerified": "Not confirmed — no specific dollar figure or range surfaced across 4 sources this pass, despite 2 being primary NT Government pages.",
+            "trackRecordEvidence": "Not found this pass.",
+            "redFlagCheck": "Genuine gap on funding amount despite good primary-source coverage on program structure. Recommend direct fetch of nt.gov.au/BIP application portal itself (rather than the descriptive pages found this pass) to get the actual dollar figures before quoting to a founder."
+          },
+          "sourceNotes": " Deep-dive 26 Aug 2026: nt.gov.au/industry/business-grants-funding/business-innovation-program + nt.gov.au T&Cs PDF + innovation.nt.gov.au/ecosystem/government-support (all primary, structure confirmed, no dollar figure), pattens.com (secondary, no additional figures)."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "Australian Capital Territory",
+      "programs": [
+        {
+          "name": "Innovation Connect Grant (ICON)",
+          "url": "https://cbrin.com.au/icon/",
+          "type": "Grant",
+          "status": "Confirmed active, competitive rounds — next round closed 10 Apr 2026 per australiangrants.org (Jul 2026), reopens periodically. Delivery partner CBRIN confirmed as ACT's central innovation hub (est. 2014, ACT Government initiative).",
+          "fundingAmount": "$10,000-$30,000, matched funding",
+          "focus": "Canberra-based early-stage/tech-focused startups, turnover <$2M or pre-revenue",
+          "administeringBody": "ACT Government (delivered via CBRIN — Canberra Innovation Network)",
+          "lastConfirmedActivity": "cbrin.com.au primary source + australiangrants.org secondary corroboration, both current in 2026 — program confirmed genuinely active, not dormant",
+          "notes": "One grant per founder/business lifetime limit. Confirmed live/credible this pass — upgraded from earlier [unverified] status.",
+          "activityStatus": "active, funding range strongly confirmed across multiple sources",
+          "deepDive": {
+            "applicationStatus": "Confirmed via 4 independent sources (csiro.au primary being the strongest — CSIRO co-lists this despite it being a Canberra Innovation Network/ACT Government program) that ICON is a live, matched-funding program delivered by the Canberra Innovation Network (CBRIN) in partnership with the ACT Government. One source (grants.com.au) cites a stale closing date (10 October 2024) — clearly an outdated cached listing, not current; the program itself remains active per the other 3 more recent sources.",
+            "fundingVerified": "$10,000 to $30,000 (GST exclusive) per grant, matched funding — this figure is consistent across all 4 sources including the primary csiro.au listing, giving genuinely high confidence despite no single source being a live ACT Government page directly.",
+            "trackRecordEvidence": "Explicitly targets early-stage innovative entrepreneurs and startups to 'kick-start their growth journey' (csiro.au) — positioned as ACT's equivalent to WA's Innovation Booster Grant or CSIRO's own Kick-Start (same matched-funding mechanic, similar dollar range, different jurisdiction).",
+            "redFlagCheck": "Minor: one secondary source (grants.com.au) has a stale 2024 closing date cached — don't cite that specific date, but the $10K-$30K figure and program's continued existence are well-corroborated."
+          },
+          "sourceNotes": " Deep-dive 26 Aug 2026: csiro.au/en/work-with-us/funding-programs/funding/funding-finder/icon-grant-program (primary/co-listed), pattens.com + grants.com.au + australiangrants.org (secondary, consistent $10K-$30K figure across all three, one stale date noted)."
+        }
+      ]
+    }
+  ],
+  "federalPrograms": [
+    {
+      "name": "Export Market Development Grants (EMDG)",
+      "url": "https://www.austrade.gov.au/australian/export/export-grants",
+      "type": "Grant",
+      "status": "active",
+      "fundingAmount": "Tier 1: $20K-$30K; Tier 2: $20K-$50K; Tier 3: $20K-$80K (matched per FY)",
+      "focus": "Export market growth, 3 tiers by export maturity",
+      "administeringBody": "Austrade",
+      "notes": "Eligibility: turnover <$20M.",
+      "activityStatus": "active, current round and total pool confirmed",
+      "deepDive": {
+        "applicationStatus": "business.gov.au (primary) confirms current round (Round 4) covers both FY2025-26 and FY2026-27, with austrade.gov.au (primary) noting applications for Round 4 specifically are now closed — i.e. the round's funding window spans 2 years but the application intake itself has closed for now.",
+        "fundingVerified": "Up to $104.5 million available in 2025-26 AND a further up to $104.5 million in 2026-27 (business.gov.au primary) — so ~$209M total across the two-year round. Individual SME cap: total funding limit of $770,000 over up to 8 financial years (pwc.com.au, secondary but a credible professional-services source).",
+        "trackRecordEvidence": "Austrade (per pattens.com, secondary, 20 Jul 2026) states it has supported more than 51,000 SMEs marketing goods/services into over 180 countries historically — a genuinely large historical reach for this program, one of the oldest and most established Australian export-support mechanisms.",
+        "redFlagCheck": "One structural note worth flagging in the final write-up: pattens.com (20 Jul 2026) references an EMDG Review examining 'what comes after first-in-first-served' — suggesting the allocation mechanism itself may be under policy review/reform. Worth monitoring for a mechanism change, though nothing concrete confirmed yet."
+      },
+      "sourceNotes": " Deep-dive 26 Aug 2026: business.gov.au/grants-and-programs/export-market-development-grants-emdg (primary), austrade.gov.au (primary, Round 4 status), pwc.com.au (secondary, $770K cap), pattens.com (secondary, 51,000 SME track record + review flag)."
+    },
+    {
+      "name": "Business Research and Innovation Initiative (BRII)",
+      "url": "https://business.gov.au/grants-and-programs/business-research-and-innovation-initiative",
+      "type": "Grant",
+      "status": "Runs in periodic challenge-based rounds, no standing window — check current status",
+      "fundingAmount": "Feasibility: up to $100,000 (3mo); Proof of concept (by invitation): up to $1M",
+      "focus": "Innovative solutions to government-identified policy/service delivery challenges",
+      "administeringBody": "Australian Government",
+      "notes": "Eligibility: turnover <$20M for 3 prior FY.",
+      "activityStatus": "active, funding is challenge-specific and round-dependent",
+      "deepDive": {
+        "applicationStatus": "business.gov.au (primary) confirms BRII provides startups/SMEs with grant funding specifically to develop innovative solutions to NAMED government policy/service delivery challenges — i.e. this isn't a general-purpose grant, funding rounds are tied to specific problem statements. industry.gov.au (primary, 13 Jul 2026) shows one specific challenge (occupational licencing information sharing / AMR scheme uptake) with funding for that round now closed.",
+        "fundingVerified": "Funding amount varies by challenge/round rather than being a fixed program-wide figure: grants.com.au (secondary) cites $6 million total for one specific 18-month Feasibility-to-next-stage round (restricted to applicants who already succeeded at the Feasibility stage); energy.gov.au (primary) cites a separate, distinct $7.5 million round specifically for low-emissions/renewables innovative ideas.",
+        "trackRecordEvidence": "The challenge-specific, staged (Feasibility → Proof of Concept) structure is a genuinely different model from most grants in this dataset — closer to an innovation-procurement mechanism (government defines the problem, seeks startup solutions) than an open-ended startup grant.",
+        "redFlagCheck": "None on substance, but important for the final table: BRII funding amounts should NOT be quoted as a single figure — they vary meaningfully by which government challenge/round is currently open ($6M vs $7.5M are two different, unrelated rounds found this pass alone)."
+      },
+      "sourceNotes": " Deep-dive 26 Aug 2026: business.gov.au/grants-and-programs/business-research-and-innovation-initiative (primary), industry.gov.au (primary, 13 Jul 2026, AMR/licencing challenge closed), energy.gov.au (primary, $7.5M low-emissions round), grants.com.au (secondary, $6M feasibility-stage figure)."
+    },
+    {
+      "name": "Cooperative Research Centres Projects (CRC-P) Grants",
+      "url": "https://business.gov.au/grants-and-programs/cooperative-research-centres-projects-crcp-grants",
+      "type": "Grant",
+      "status": "Runs in numbered rounds with set open/close dates — check current round",
+      "fundingAmount": "$100,000-$3M matched, projects up to 3 years",
+      "focus": "Short-term industry-led collaborative R&D (min. 2 industry orgs incl. 1 SME + 1 research org)",
+      "administeringBody": "Australian Government",
+      "notes": "Accessible entry point into the larger CRC program.",
+      "activityStatus": "active, Round 19 confirmed with clear cadence",
+      "deepDive": {
+        "applicationStatus": "business.gov.au (primary) confirms the CRC-P round closes 12 May 2026 5:00pm AEST; pattens.com (secondary, 18 Mar 2026) confirms this is specifically Round 19, formally opened 18 Mar 2026, with funding expected to commence mid-2026 post-assessment. Note: this is distinct from the related but separate 'Cooperative Research Centres (CRC) Grants' (non-Projects variant, business.gov.au primary) which is Round 27, has a much longer Stage 2 close of 17 Sep 2026, outcomes not until early 2027, funding starting July 2027 — a bigger, slower-moving sibling program, don't conflate the two.",
+        "fundingVerified": "Up to $3 million per project over a maximum of 3 years (research-support.uq.edu.au, secondary but citing the Department of Industry, Science and Resources directly) — calls for applications run twice per year.",
+        "trackRecordEvidence": "Requires industry-entity leadership with university/research-organisation involvement — genuinely collaborative structure by design (per the program name itself and UQ's research-support description), not a pure startup grant.",
+        "redFlagCheck": "None, but flag the CRC-P vs CRC (non-P) naming confusion clearly in the final table — they're different programs with very different timelines and likely different funding caps, easy to conflate given near-identical names."
+      },
+      "sourceNotes": " Deep-dive 26 Aug 2026: business.gov.au/grants-and-programs/cooperative-research-centres-projects-crcp-grants + /cooperative-research-centres-crc-grants (both primary, confirms 2 distinct sibling programs), research-support.uq.edu.au (secondary, $3M/3yr figure), pattens.com (secondary, Round 19 dates)."
+    }
+  ],
+  "defenceProgramsFederalAndState": [
+    {
+      "name": "Defence Industry Development Grants Program (DIDGP)",
+      "url": "https://www.defence.gov.au/business-industry/resources-support/defence-industry-development-grants-program",
+      "type": "Grant",
+      "status": "active — most recent round confirmed",
+      "fundingAmount": "Up to $1M per grant; latest national round: $22M+ awarded to 60 businesses (2 Jul 2026 announcement). Earlier SA-specific round: $2.78M to 10 SA companies (May 2025).",
+      "focus": "SME sovereign capability building, global competitiveness, technical superiority, national security",
+      "administeringBody": "Dept. of Defence",
+      "lastConfirmedActivity": "Minister's media release 2 Jul 2026 confirming $22M+/60 businesses in latest round",
+      "notes": "Source: minister.defence.gov.au media release, confirmed government primary source.",
+      "activityStatus": "active, strong recent deployment confirmed",
+      "deepDive": {
+        "applicationStatus": "defence.gov.au (primary) confirms open, with stream-specific closing dates — Exports stream closes Sat 31 Oct 2026. grants.com.au (secondary, 18 Mar 2026) confirms multiple streams with staggered 2026 closing dates.",
+        "fundingVerified": "Not itemised by individual grant size this pass, but strong aggregate figures: minister.defence.gov.au (primary, 23 Jan 2026) confirms $17M+ allocated to 44 businesses in the latest round at that point, bringing cumulative total to $51M+ across 4 delivery streams. A later minister.defence.gov.au release (primary, 2 Jul 2026) confirms a further $22M+ awarded to 60 businesses in the next round — so cumulative total is now well past $70M+ across the program's life.",
+        "trackRecordEvidence": "Two separate ministerial media releases 5 months apart, both confirming fresh funding rounds — genuinely active and continuously deploying capital, not a dormant or slow-moving program. Framed explicitly around sovereign capability and defence self-reliance under the Albanese Government.",
+        "redFlagCheck": "None. This is one of the more genuinely active, well-evidenced programs across the whole dataset — two independent ministerial announcements in 2026 alone."
+      },
+      "sourceNotes": " Deep-dive 26 Aug 2026: defence.gov.au/business-industry/resources-support/defence-industry-development-grants-program (primary), minister.defence.gov.au (primary, 2 releases: 23 Jan 2026 + 2 Jul 2026), grants.com.au (secondary)."
+    },
+    {
+      "name": "Defence Science Centre (DSC) Grants — WA-specific",
+      "url": "https://www.wa.gov.au/organisation/defence-west/defence-science-centre-grants-programs",
+      "type": "Grant",
+      "status": "active",
+      "fundingAmount": "Research Higher Degree Student Grant: $7,500-$15,000; Collaborative Research Grant round 2025-26 awarded $1.1M total across 6 grants to WA university researchers",
+      "focus": "WA university-based defence-relevant research, student placements with defence industry",
+      "administeringBody": "Defence West (WA Government)",
+      "lastConfirmedActivity": "Mirage News, 17 Jul 2026 — $1.1M/6 grants announced. Also separate 2026 round announced ~6 days prior to this research (Aug 2026): up to $200,000 for collaborative WA defence research, 2026 focus theme 'Logistics Under Conflict'",
+      "notes": "This is the concrete WA-specific defence innovation program — smaller scale than DIDGP but directly relevant given Andrew's WA-home-bias and existing GRR (maritime defence robotics) position.",
+      "activityStatus": "active, current round confirmed",
+      "deepDive": {
+        "applicationStatus": "wa.gov.au (primary, 2 Apr 2026) confirms the 2026 Research Higher Degree Student Grant round has closed. A separate, more current find via miragenews.com (secondary, 6 days old at check time — i.e. ~20 Aug 2026): 'Defence Tech Grant' applications now OPEN, so DSC is running multiple concurrent grant streams, not just the student grant.",
+        "fundingVerified": "Up to $200,000 available for collaborative defence research projects in WA (miragenews.com, secondary, for the currently-open Defence Tech Grant stream) — the 2026 round's priority focus is 'Logistics Under Conflict.'",
+        "trackRecordEvidence": "DSC is jointly funded by the WA Government and the Australian Government's Defence Science and Technology Group (DST) — confirmed via wa.gov.au primary — and works with all 4 WA public universities, pooling academic capability across the state's entire university sector rather than being tied to one institution.",
+        "redFlagCheck": "None. Note there are at least 2 distinct grant streams under one DSC banner (Research Higher Degree Student Grants vs the open Defence Tech Grant) — treat as one program with multiple funding lines rather than assuming a single cheque size applies across the board."
+      },
+      "sourceNotes": " Deep-dive 26 Aug 2026: wa.gov.au/organisation/defence-west/defence-science-centre + /defence-science-centre-grants-programs (primary), djtsi.wa.gov.au (primary, FAQ), miragenews.com (secondary, current Defence Tech Grant open, $200K figure)."
+    },
+    {
+      "name": "Next Generation Technologies Fund (NGTF)",
+      "url": "https://www.dst.defence.gov.au/nextgentechfund",
+      "type": "Fund (multi-year, various grant/RFP mechanisms)",
+      "status": "active — long-running, $1.2B fund",
+      "fundingAmount": "Program-level fund is $1.2 billion; individual SME-directed initiatives up to ~$6M cited in one secondary source [unverified against primary for current 2026 figure]",
+      "focus": "Game-changing/emerging technologies for Defence — broad remit (AI, quantum, hypersonics, biotech, cyber, space, etc.)",
+      "administeringBody": "Defence Science and Technology Group (DSTG)",
+      "lastConfirmedActivity": "Confirmed still active via dst.defence.gov.au primary page; specific current call amounts not independently verified this pass — check dst.defence.gov.au for live open calls",
+      "notes": "Works alongside Defence Innovation Hub — NGTF funds earlier-TRL/emerging tech, Innovation Hub funds more mature capability proposals.",
+      "activityStatus": "[stale] active but core sources dated 2023 — needs fresh 2026 check, may be subsumed under ASCA",
+      "deepDive": {
+        "applicationStatus": "Concerning pattern this pass: the most substantive primary sources found are old — dst.defence.gov.au/nextgentechfund dated 28 Apr 2023, and the NGTF Brochure PDF references then-Minister Christopher Pyne, who left the Defence Industry portfolio years ago (dates this document to ~2016-2018 era, likely just still hosted on the same URL). A 'call for applications' page (dst.defence.gov.au/icera) is dated 29 Apr 2022.",
+        "fundingVerified": "$1.2 billion total fund size (dst.defence.gov.au, though from a 2023-dated page). A secondary source (bulletpoint.com.au, 12 Mar 2023) cites 'up to $6M may be awarded to the Defence SME sector' under one specific initiative round, and headlines a separate '$730M grant' figure — these numbers don't obviously reconcile with each other or with the $1.2B headline, and none of the sources found this pass are from 2026.",
+        "trackRecordEvidence": "Cannot confirm current 2026 activity level from this pass's sources — genuinely unclear whether NGTF is still the primary vehicle or whether ASCA (deep-dived next, and clearly the more recently active brand) has effectively superseded it. Worth checking whether NGTF's role has been absorbed into ASCA's mandate.",
+        "redFlagCheck": "Real flag: recommend treating this entry as [stale] until a fresh dst.defence.gov.au or defence.gov.au check confirms NGTF is still separately active in 2026, distinct from ASCA. The Pyne-era brochure and 2022/2023-dated pages are a genuine warning sign of a program that may have been rebranded/folded into newer defence innovation vehicles."
+      },
+      "sourceNotes": " Deep-dive 26 Aug 2026: dst.defence.gov.au/nextgentechfund (primary but dated 2023), dst.defence.gov.au/icera (primary but dated 2022), NGTF Brochure PDF (primary but Pyne-era, likely stale by years), bulletpoint.com.au (secondary, 2023, inconsistent $ figures). No 2026-dated source found — flag as needing direct re-verification."
+    },
+    {
+      "name": "Defence Innovation Hub",
+      "url": "https://www.innovationhub.defence.gov.au/",
+      "type": "Grant/contract program",
+      "status": "superseded by ASCA — do not treat as standalone active program",
+      "fundingAmount": "[unverified current figures this pass — historically funds proposals from concept through to capability acquisition pathway]",
+      "focus": "Industry- and research-sourced capability proposals with a clear Defence application",
+      "administeringBody": "Dept. of Defence",
+      "lastConfirmedActivity": "[unverified — site confirmed live, current round/funding levels not independently pulled this pass]",
+      "notes": "Recommend a dedicated deeper pass if a specific GRR-relevant opportunity needs chasing.",
+      "activityStatus": "DEFUNCT — merged into ASCA (innovationhub.defence.gov.au redirects to asca.gov.au)",
+      "deepDive": {
+        "applicationStatus": "Confirmed dead as a standalone program: innovationhub.defence.gov.au now redirects straight to asca.gov.au (search result explicitly shows 'Redirecting to https://asca.gov.au'). This is a clean, confirmed absorption — not an ambiguous zombie case like muru-D or BlueChilli in the accelerator set, this is a direct technical redirect confirming the program has been folded into ASCA.",
+        "fundingVerified": "N/A — superseded. Do not quote historical Defence Innovation Hub funding figures as current; any active project should now be understood as running under ASCA.",
+        "trackRecordEvidence": "A related 'Defence Innovation Hub Industry Information Guide' page still exists at a different subpath (innovationhub.defence.gov.au/defence-innovation-hub-industry-information-guide) describing innovation-contract funding mechanics (funds R&D activities, not indirect overheads/profits) — this may be legacy documentation not yet fully migrated/removed, rather than evidence the program is still separately active.",
+        "redFlagCheck": "This entry should be RELABELLED in the final table as merged into ASCA, not listed as a separate live program — recommend removing it as a standalone row or clearly marking 'now ASCA' to avoid Andrew or Scout treating it as a second live defence innovation funding door when it's actually the same one."
+      },
+      "sourceNotes": " Deep-dive 26 Aug 2026: innovationhub.defence.gov.au (primary — confirmed redirect to asca.gov.au), innovationhub.defence.gov.au/defence-innovation-hub-industry-information-guide (primary, legacy content still hosted)."
+    },
+    {
+      "name": "Advanced Strategic Capabilities Accelerator (ASCA)",
+      "url": "https://www.asca.gov.au/",
+      "type": "Accelerator/grant hybrid (federal defence)",
+      "status": "active — major current program, launched under $3.4B decade-long investment",
+      "fundingAmount": "$3.4 billion committed over the next decade (program-level). Individual awards seen: $2.9M AUD contract to Space Machines Company (space threat detection, confirmed Jan 2026 via spacewar.com); $8M additional investment in AUKUS Electronic Warfare Innovation Challenge stage 2 (confirmed via asca.gov.au)",
+      "focus": "Asymmetric capabilities for ADF — currently running challenges incl. Emerging and Disruptive Technologies (EDT) Program (Decision Advantage), Electronic Warfare, and general Request for Information rounds on Denied/Degraded/Intermittent/Limited (DDIL) environments",
+      "administeringBody": "Dept. of Defence (ASCA is a dedicated statutory-style accelerator body, modelled loosely on DARPA/UK's ADS)",
+      "lastConfirmedActivity": "AUKUS Electronic Warfare stage 2 investment and DDIL RFI both confirmed active as of ~March 2026 per qdsa.au and asca.gov.au",
+      "notes": "This is arguably THE most important defence innovation vehicle to track given scale ($3.4B) and current activity level — recommend a dedicated follow-up sweep of live ASCA challenge statements specifically for maritime/robotics relevance to GRR thesis.",
+      "activityStatus": "active, genuinely current, large individual project sizes confirmed",
+      "deepDive": {
+        "applicationStatus": "asca.gov.au (primary) confirms active mission: accelerating asymmetric capability development/transition to the ADF via innovation. Actively running 'Mission Syracuse' scheme (research-support.uq.edu.au, secondary, referencing a Jun 2025 stage-one deadline — so this specific mission may have since closed, but confirms ASCA is actively running named, staged mission programs).",
+        "fundingVerified": "Individual project sizes are large: ex2.com.au (secondary) reports Defence investing $61.5 million with two undisclosed companies (Adelaide + Brisbane) under ASCA specifically to develop technology countering adversary IAMD systems — a single ASCA-funded initiative dwarfing most other grant figures in this entire dataset.",
+        "trackRecordEvidence": "This $61.5M figure, plus the existence of the Defence Innovation Hub URL now redirecting straight to asca.gov.au (found in the next entry's research), strongly suggests ASCA has become the primary/consolidated vehicle for Australian defence innovation funding, likely having absorbed or superseded both the Defence Innovation Hub and possibly parts of NGTF's role.",
+        "redFlagCheck": "None on ASCA itself — genuinely well-evidenced and current. But this reshapes how the whole defence chunk should be read: ASCA looks like the live centre of gravity, with DIDGP running in parallel as the industry-grants complement, while NGTF and Defence Innovation Hub may be legacy/absorbed."
+      },
+      "sourceNotes": " Deep-dive 26 Aug 2026: asca.gov.au (primary), research-support.uq.edu.au (secondary, Mission Syracuse), ex2.com.au (secondary, $61.5M IAMD project)."
+    },
+    {
+      "name": "AUKUS Maritime Innovation Challenge (Pillar II)",
+      "url": "https://www.asca.gov.au/activities/innovation-incubation/aukus-electronic-warfare-innovation-challenge",
+      "type": "Innovation challenge (tri-national: AU/UK/US)",
+      "status": "Active — 2025 round ran, next cycle timing to confirm",
+      "fundingAmount": "Total challenge pool: US$8M (~A$12.45M) shared among 3-10 winning proposals across all 3 nations",
+      "focus": "Maritime capability — directly relevant to GRR (maritime/defence robotics)",
+      "administeringBody": "Tri-national: UK DASA administers UK entry point; ASCA for Australian entrants",
+      "lastConfirmedActivity": "UK FAQ doc references Nov 2026 multinational maritime exercise as part of Stage 2 — 2025/2026 cycle confirmed live",
+      "notes": "HIGH RELEVANCE FLAG: directly maritime-focused, tri-national funding pool, and Australian entry point exists via ASCA. Given the existing GRR (Greenroom Robotics — maritime/defence robotics) position, this is worth flagging to Andrew/Neera as a program GRR itself (or a GRR competitor/partner) might already be tracking or eligible for.",
+      "activityStatus": "active, recent award round confirmed",
+      "deepDive": {
+        "applicationStatus": "defence.gov.au (primary, 10 Jul 2026) confirms this is specifically the '2025 AUKUS Maritime Innovation Challenge' — i.e. named/dated by intake year, with the current news being the awarding of that round's results in mid-2026. australiandefence.com.au (secondary) confirms a staged structure: Stage 2 entrants who sign an AUKUS partner contract must develop to prototype and demonstrate at a multi-national maritime exercise by end of 2026.",
+        "fundingVerified": "$6.2 million awarded to 3 Australian companies in this round (confirmed via defence.gov.au primary + 2 secondary sources, consistent figure). One secondary source (naval-technology.com) separately cites a related but distinct '$4.3m in AUKUS undersea technology contracts' — likely a different/earlier tranche, not the same $6.2M figure; don't conflate the two.",
+        "trackRecordEvidence": "This is the second event in the series (naval-technology.com, secondary) — first held in 2024. Focus area: undersea communications and cutting-edge technologies supporting AUKUS Pillar II maritime capability.",
+        "redFlagCheck": "None. Note for clarity in the final write-up: two distinct dollar figures exist in the wild ($6.2M current round vs $4.3M cited elsewhere) — keep them separate, don't sum them without confirming they're not overlapping."
+      },
+      "sourceNotes": " Deep-dive 26 Aug 2026: defence.gov.au/news-events/releases (primary, 10 Jul 2026), cresthavenanalytics.com + naval-technology.com + australiandefence.com.au (secondary, consistent core facts, one distinct earlier $4.3M figure noted separately)."
+    },
+    {
+      "name": "South Australia — Defence SA / Osborne ecosystem",
+      "url": "https://invest.sa.gov.au/sectors/defence",
+      "type": "State defence industry development body (not a single grant, but the ecosystem entry point)",
+      "status": "active — major, growing (AUKUS SSN-AUKUS submarine build at Osborne through the 2030s-40s)",
+      "fundingAmount": "N/A — Defence SA itself doesn't issue direct SME grants under this name; it channels/promotes federal programs (e.g. it publicised the SA share of DIDGP: $2.78M to 10 SA companies, May 2025) and coordinates workforce/supply-chain development",
+      "focus": "Naval shipbuilding (Osborne Naval Shipyard — Hunter class frigates, Collins LOTE, AUKUS SSN submarines), plus broader aerospace/info warfare/cyber",
+      "administeringBody": "SA Dept. for State Development / Defence SA",
+      "lastConfirmedActivity": "2026 Integrated Investment Program confirms continued Osborne buildout; SA Defence Industry Workforce and Skills Action Plan active",
+      "notes": "SA doesn't appear to run its own separate SME defence innovation grant distinct from federal DIDGP — its value-add is ecosystem/workforce coordination and being the physical hub where AUKUS submarine + Hunter-class frigate work concentrates. Confirms the original hunch (SA has real defence industry depth) but the funding mechanism is federal, channeled through SA-based recipients.",
+      "activityStatus": "active, massive and growing investment confirmed",
+      "deepDive": {
+        "applicationStatus": "This is best understood as a defence-industrial ecosystem/investment zone rather than a discrete grant program with an application process — confirmed via invest.sa.gov.au (primary): Osborne Naval Shipyard hosts Hunter class frigate, nuclear-powered submarine, Collins class Life of Type Extension, and Air Warfare Destroyer combat management system upgrade projects simultaneously.",
+        "fundingVerified": "Multiple large figures found, need to be kept distinct rather than summed: (1) navalnews.com + asa.gov.au (both primary/near-primary, 17 Feb 2026) — Australian Naval Infrastructure projects an estimated $30 billion over coming decades for the Osborne construction yard itself, including ~$2B for enabling works and $500M+ for the Skills and Training Academy. (2) defencesa.com (primary, ~1 month before this check) — a further, separate $4.6 billion Australian Government investment specifically in the Nuclear-Powered Submarine Construction Yard at Osborne, described as strengthening SA's AUKUS role.",
+        "trackRecordEvidence": "invest.sa.gov.au (primary) notes the opportunity set extends beyond naval shipbuilding into aerospace, information warfare, cyber and systems — i.e. Osborne/Defence SA is the anchor but the broader ecosystem has genuine diversification beyond submarines/frigates.",
+        "redFlagCheck": "None on substance, but a categorisation flag for the final table: this entry is structurally different from every other program in the govgrants dataset — it's a multi-decade, multi-billion-dollar state-and-federal infrastructure/industrial ecosystem, not a grant a startup applies for directly. Worth a distinct visual treatment (e.g. 'ecosystem' tag) rather than presenting it alongside $50K-$400K program entries as if comparable."
+      },
+      "sourceNotes": " Deep-dive 26 Aug 2026: invest.sa.gov.au/sectors/defence (primary), defencesa.com/news-events-and-media (primary, $4.6B announcement), navalnews.com + asa.gov.au (primary/near-primary, $30B projection, 17 Feb 2026)."
+    }
+  ],
+  "referenceListsNotYetIngested": [
+    {
+      "name": "AirTree Open Source VC — Government grants for Australian startups",
+      "url": "https://www.airtree.vc/open-source-vc/government-grants-for-australian-startups",
+      "note": "Crowd-sourced/maintained list, national + state coverage. Used as primary source for several state entries above. Living document — re-check periodically for updates rather than treating as one-off."
+    },
+    {
+      "name": "AirTree Open Source VC — New Zealand's top startup grants",
+      "url": "https://www.airtree.vc/open-source-vc/new-zealands-top-startup-grants",
+      "note": "NZ equivalent list. Confirms Ārohia Trailblazer/Evidence Grants and NZTA Innovation Fund (Hoe ki angitū) both CLOSED as of Dec 2025 (NZ science/innovation reset). Live NZ programs: Flexi-wage (WINZ), R&D Tax Incentive (15% credit), New to R&D Grant (up to $400K), R&D Experience Grant (~$12K/intern), R&D Career Grant ($30-35K/6mo grad hire), He Ara Whakahihiko Capability Fund (~$8.6M across 2027 round, Māori science/innovation)."
+    },
+    {
+      "name": "CORRECTION (26 Aug 2026 dedicated NZ source-verification pass) — Callaghan Innovation disestablishment: destination is NOT simply 'everything to MBIE'",
+      "url": "https://www.mbie.govt.nz/science-and-technology/science-and-innovation/refocusing-the-science-innovation-and-technology-system",
+      "note": "Primary source (mbie.govt.nz official refocusing page) confirms the transfer actually splits two ways, corroborated by beehive.govt.nz (NZIAT official launch release, days-old as of this pass) and nziat.co.nz (institute's own site): (1) Founder and Start-up Support Programme + administration of innovation/R&D grants + R&D Tax Incentive responsibility → MBIE directly, now branded 'Innovation Services' at funds.business.govt.nz / business.govt.nz/tax-and-money/innovation-funding. (2) Technology Incubator Programme + NZ Product Accelerator + HealthTech Activator → New Zealand Institute for Advanced Technology (NZIAT) — a newly-created body that just officially launched in Auckland (per beehive.govt.nz release, ~5 days before this pass), NOT MBIE. NZIAT's own site (nziat.co.nz) confirms HealthTech Activator and NZ Product Accelerator pages are still hosted on legacy callaghaninnovation.govt.nz/hta.callaghaninnovation.govt.nz domains pending full transition — so those specific two links are correctly still pointing at Callaghan domains for now (transitional, not broken), while Founder/Startup Support and R&D Tax Incentive should point to MBIE/business.govt.nz. Ministry of Business, Innovation & Employment's 2 Mar 2026 board announcement also confirms NZIAT board member Grant O'Connor's dual role (ex-Creative HQ CEO, current NZGCP deputy chair) — small, tightly-networked ecosystem, useful context for cross-referencing NZ entries generally."
+    },
+    {
+      "name": "AirTree Open Source VC — Fundraising in Australia (investor list)",
+      "url": "https://www.airtree.vc/open-source-vc/fundraising-in-australia-updated-open-source-investor-list",
+      "note": "Crowd-sourced VC/angel/venture debt/accelerator/grant directory for AU. Useful as a standing Pipeline reference — not grant-specific but complements this dataset. Flagged for future use, not ingested into structured data this pass."
+    }
+  ],
+  "acceleratorAddendum": {
+    "note": "Plus Eight (Perth) missed in original AU/NZ accelerator sweep — flagged by Andrew 2026-08-26. Should be added to the main Pipeline accelerator dataset (programs_data.json), not this grants dataset.",
+    "entry": {
+      "name": "Plus Eight",
+      "url": "https://pluseight.spacecubed.com",
+      "geo": "AU/NZ",
+      "country": "Australia (WA — Perth)",
+      "type": "Accelerator",
+      "focus": "Sector-agnostic, seed-stage, companies with validated product + proof of demand",
+      "operators": "Spacecubed",
+      "activityStatus": "active — described as 'Australia's largest seed-funded accelerator program'",
+      "notes": "WA-based — directly relevant given home-market bias. Needs a full detail pass (cheque size, cohort frequency, batch size, notable alumni) before scoring, same rigour as other accelerator entries."
+    }
+  }
+}

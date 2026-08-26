@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pipeline — Government Grants, Awards &amp; Defence Innovation Radar</title>
+<style>
+  :root {
+    --bg: #0f1115; --panel: #171a21; --border: #2a2f3a; --text: #e6e8eb;
+    --muted: #8b93a1; --accent: #4f9dff; --good: #2fbf71; --warn: #e0a12c; --bad: #e05252;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  header { padding: 24px 28px 16px; border-bottom: 1px solid var(--border); display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; }
+  header h1 { margin: 0 0 4px; font-size: 22px; }
+  header p { margin: 0; color: var(--muted); font-size: 13px; }
+  .navlink { font-size: 13px; }
+  .navlink a { color: var(--accent); }
+  .note { background: #2a2210; border: 1px solid #4a3a10; color: #e0c070; padding: 10px 14px; border-radius: 6px; font-size: 12.5px; margin: 14px 28px 0; }
+  .tabs { display: flex; gap: 8px; padding: 12px 28px 0; flex-wrap: wrap; }
+  .tab { padding: 8px 16px; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 13px; color: var(--muted); border: 1px solid transparent; }
+  .tab.active { background: var(--panel); color: var(--text); border: 1px solid var(--border); border-bottom: 1px solid var(--panel); }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; padding: 16px 28px; border-bottom: 1px solid var(--border); align-items: center; background: var(--panel); }
+  .controls input, .controls select { background: #0f1115; color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; font-size: 13px; }
+  .controls input[type=text] { min-width: 220px; }
+  .controls label { font-size: 12px; color: var(--muted); margin-right: 4px; }
+  .stats { padding: 10px 28px; font-size: 12px; color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 10px 12px; background: var(--panel); border-bottom: 2px solid var(--border); cursor: pointer; white-space: nowrap; position: sticky; top: 0; }
+  th:hover { color: var(--accent); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:hover td { background: #1b1f28; }
+  .tag { display: inline-block; font-size: 11px; padding: 2px 7px; border-radius: 10px; margin: 1px 3px 1px 0; background: #232838; color: var(--muted); }
+  .status-active { color: var(--good); }
+  .status-closed { color: var(--bad); font-weight: 600; }
+  .status-unclear { color: var(--warn); }
+  .unverified { color: var(--warn); font-size: 11px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .name-cell { min-width: 170px; }
+  .wrap-cell { max-width: 280px; white-space: normal; }
+  .container { padding-bottom: 60px; }
+  .flag-note { max-width: 320px; white-space: normal; color: var(--muted); font-size: 12px; }
+  .home-badge { background: rgba(47,191,113,.15); color: var(--good); font-size: 10.5px; padding: 1px 6px; border-radius: 8px; margin-left: 6px; }
+  .defence-badge { background: rgba(79,157,255,.15); color: var(--accent); font-size: 10.5px; padding: 1px 6px; border-radius: 8px; margin-left: 6px; }
+  ::-webkit-scrollbar { height: 8px; width: 8px; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Pipeline — Government Grants, Awards &amp; Defence Innovation Radar</h1>
+    <p>State/territory grants, innovator-of-the-year awards, and defence innovation programs — Australia + NZ.</p>
+  </div>
+  <div class="navlink"><a href="index.html">&larr; Back to Accelerator Program Radar</a></div>
+</header>
+
+<div class="note" id="statusNote"></div>
+
+<div class="tabs">
+  <div class="tab active" data-tab="state">State &amp; Territory Grants/Awards</div>
+  <div class="tab" data-tab="federal">Federal Programs</div>
+  <div class="tab" data-tab="defence">Defence Innovation Programs</div>
+</div>
+
+<div class="controls">
+  <input type="text" id="searchBox" placeholder="Search name, focus, body...">
+  <label>Jurisdiction</label><select id="jurisFilter"><option value="">All</option></select>
+  <label>Status</label><select id="statusFilter"><option value="">All</option></select>
+</div>
+
+<div class="stats" id="statsLine"></div>
+
+<div class="container">
+  <table id="dataTable">
+    <thead><tr id="tableHead"></tr></thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+</div>
+
+<script>
+let DATA = null;
+let currentTab = 'state';
+let sortKey = 'name';
+let sortDir = 1;
+
+const stateCols = [
+  {key:'jurisdiction', label:'Jurisdiction'},
+  {key:'name', label:'Program'},
+  {key:'type', label:'Type'},
+  {key:'status', label:'Status'},
+  {key:'fundingAmount', label:'Funding/Prize'},
+  {key:'focus', label:'Focus'},
+  {key:'administeringBody', label:'Administering Body'},
+  {key:'lastConfirmedActivity', label:'Last Confirmed'},
+];
+
+const federalCols = [
+  {key:'name', label:'Program'},
+  {key:'type', label:'Type'},
+  {key:'status', label:'Status'},
+  {key:'fundingAmount', label:'Funding'},
+  {key:'focus', label:'Focus'},
+  {key:'administeringBody', label:'Administering Body'},
+];
+
+const defenceCols = [
+  {key:'name', label:'Program'},
+  {key:'type', label:'Type'},
+  {key:'status', label:'Status'},
+  {key:'fundingAmount', label:'Funding'},
+  {key:'focus', label:'Focus'},
+  {key:'administeringBody', label:'Administering Body'},
+  {key:'lastConfirmedActivity', label:'Last Confirmed'},
+];
+
+function flattenStateRows(data) {
+  const rows = [];
+  data.stateProgramsByJurisdiction.forEach(j => {
+    j.programs.forEach(p => {
+      rows.push(Object.assign({jurisdiction: j.jurisdiction}, p));
+    });
+  });
+  return rows;
+}
+
+function statusClass(s) {
+  s = (s||'').toLowerCase();
+  if (s.includes('closed')) return 'status-closed';
+  if (s.includes('unverified') || s.includes('unclear') || s.includes('check')) return 'status-unclear';
+  return 'status-active';
+}
+
+function isHomeState(jurisdiction) {
+  return (jurisdiction||'').toLowerCase().includes('western australia');
+}
+
+async function loadData() {
+  const res = await fetch('govgrants_data.json');
+  DATA = await res.json();
+  document.getElementById('statusNote').innerHTML =
+    `<strong>Coverage note (v1):</strong> Built ${DATA.generated} in response to a gap flagged by Andrew (WA Innovation Booster Grant, WA Innovators of the Year, WA Commercialisation Bridge Grant were missing from the accelerator sweep) — extended to all AU states/territories, federal programs, and defence innovation vehicles. ` +
+    `Figures without a confirmed primary-source citation are marked [unverified] — treat those as directional, not confirmed. Some jurisdictions (VIC, TAS) show genuine coverage gaps flagged for follow-up, not confirmed absence of programs.`;
+  populateFilters();
+  render();
+}
+
+function populateFilters() {
+  let rows;
+  if (currentTab === 'state') rows = flattenStateRows(DATA);
+  else if (currentTab === 'federal') rows = DATA.federalPrograms;
+  else rows = DATA.defenceProgramsFederalAndState;
+
+  const jurisSel = document.getElementById('jurisFilter');
+  const statusSel = document.getElementById('statusFilter');
+
+  if (currentTab === 'state') {
+    const jurisdictions = [...new Set(rows.map(r => r.jurisdiction))].sort();
+    jurisSel.innerHTML = '<option value="">All Jurisdictions</option>' + jurisdictions.map(j=>`<option value="${j}">${j}</option>`).join('');
+    jurisSel.style.display = '';
+  } else {
+    jurisSel.style.display = 'none';
+  }
+  statusSel.innerHTML = '<option value="">All Status</option>';
+}
+
+function render() {
+  const cols = currentTab === 'state' ? stateCols : (currentTab === 'federal' ? federalCols : defenceCols);
+  const head = document.getElementById('tableHead');
+  head.innerHTML = cols.map(c => `<th data-key="${c.key}">${c.label}${sortKey===c.key ? (sortDir>0?' ▲':' ▼') : ''}</th>`).join('');
+  head.querySelectorAll('th').forEach(th => th.onclick = () => {
+    const k = th.dataset.key;
+    if (sortKey === k) sortDir *= -1; else { sortKey = k; sortDir = 1; }
+    render();
+  });
+
+  let rows;
+  if (currentTab === 'state') rows = flattenStateRows(DATA);
+  else if (currentTab === 'federal') rows = [...DATA.federalPrograms];
+  else rows = [...DATA.defenceProgramsFederalAndState];
+
+  const search = document.getElementById('searchBox').value.toLowerCase();
+  const juris = document.getElementById('jurisFilter').value;
+
+  if (search) {
+    rows = rows.filter(r => JSON.stringify(r).toLowerCase().includes(search));
+  }
+  if (juris && currentTab === 'state') rows = rows.filter(r => r.jurisdiction === juris);
+
+  rows.sort((a,b) => {
+    let av = (a[sortKey]||'').toString().toLowerCase();
+    let bv = (b[sortKey]||'').toString().toLowerCase();
+    if (av < bv) return -1*sortDir;
+    if (av > bv) return 1*sortDir;
+    return 0;
+  });
+
+  document.getElementById('statsLine').textContent = `${rows.length} programs shown`;
+
+  const body = document.getElementById('tableBody');
+  if (currentTab === 'state') {
+    body.innerHTML = rows.map(p => `
+      <tr>
+        <td class="wrap-cell">${p.jurisdiction}${isHomeState(p.jurisdiction) ? '<span class="home-badge">HOME</span>' : ''}</td>
+        <td class="name-cell"><a href="${p.url||'#'}" target="_blank">${p.name}</a></td>
+        <td>${p.type||''}</td>
+        <td class="${statusClass(p.status)} wrap-cell">${p.status||''}</td>
+        <td class="wrap-cell">${p.fundingAmount||''}</td>
+        <td class="wrap-cell">${p.focus||''}</td>
+        <td class="wrap-cell">${p.administeringBody||''}</td>
+        <td class="wrap-cell">${p.lastConfirmedActivity||''}${p.notes?`<br><span class="unverified">${p.notes}</span>`:''}</td>
+      </tr>
+    `).join('');
+  } else if (currentTab === 'federal') {
+    body.innerHTML = rows.map(p => `
+      <tr>
+        <td class="name-cell"><a href="${p.url||'#'}" target="_blank">${p.name}</a></td>
+        <td>${p.type||''}</td>
+        <td class="${statusClass(p.status)} wrap-cell">${p.status||''}</td>
+        <td class="wrap-cell">${p.fundingAmount||''}</td>
+        <td class="wrap-cell">${p.focus||''}</td>
+        <td class="wrap-cell">${p.administeringBody||''}${p.notes?`<br><span class="unverified">${p.notes}</span>`:''}</td>
+      </tr>
+    `).join('');
+  } else {
+    body.innerHTML = rows.map(p => `
+      <tr>
+        <td class="name-cell"><a href="${p.url||'#'}" target="_blank">${p.name}</a><span class="defence-badge">DEFENCE</span></td>
+        <td>${p.type||''}</td>
+        <td class="${statusClass(p.status)} wrap-cell">${p.status||''}</td>
+        <td class="wrap-cell">${p.fundingAmount||''}</td>
+        <td class="wrap-cell">${p.focus||''}</td>
+        <td class="wrap-cell">${p.administeringBody||''}</td>
+        <td class="wrap-cell">${p.lastConfirmedActivity||''}${p.notes?`<br><span class="unverified">${p.notes}</span>`:''}</td>
+      </tr>
+    `).join('');
+  }
+}
+
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  currentTab = t.dataset.tab;
+  sortKey = 'name';
+  sortDir = 1;
+  populateFilters();
+  render();
+});
+
+document.getElementById('searchBox').oninput = render;
+document.getElementById('jurisFilter').onchange = render;
+
+loadData();
+</script>
+</body>
+</html>
