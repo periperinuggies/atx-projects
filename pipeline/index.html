@@ -76,6 +76,7 @@
   <div class="tab" data-tab="state">State &amp; Territory Grants/Awards</div>
   <div class="tab" data-tab="federal">Federal Programs</div>
   <div class="tab" data-tab="defence">Defence Innovation Programs</div>
+  <div class="tab" data-tab="newssources">PR / News Sources</div>
 </div>
 
 <div class="controls">
@@ -161,6 +162,17 @@ const defenceCols = [
   {key:'focus', label:'Focus'},
   {key:'administeringBody', label:'Administering Body'},
   {key:'lastConfirmedActivity', label:'Last Confirmed'},
+];
+
+const newsSourceCols = [
+  {key:'name', label:'Source'},
+  {key:'country', label:'Country'},
+  {key:'type', label:'Type'},
+  {key:'focus', label:'Focus'},
+  {key:'cadence', label:'Cadence'},
+  {key:'fundingCoverage', label:'Funding Coverage'},
+  {key:'signalQuality', label:'Signal Quality'},
+  {key:'accessNotes', label:'Access'},
 ];
 
 function flattenStateRows(data) {
@@ -329,14 +341,17 @@ function scoreGrant(p) {
 }
 
 let GOV_DATA = null;
+let NEWS_DATA = null;
 
 async function loadData() {
-  const [res, govRes] = await Promise.all([
+  const [res, govRes, newsRes] = await Promise.all([
     fetch('programs_data.json'),
-    fetch('govgrants_data.json')
+    fetch('govgrants_data.json'),
+    fetch('news_sources_data.json')
   ]);
   DATA = await res.json();
   GOV_DATA = await govRes.json();
+  NEWS_DATA = await newsRes.json();
   DATA.programs.forEach(p => p.compositeScore = scoreProgram(p));
   DATA.awardsGrants.forEach(a => a.compositeScore = scoreAward(a));
   (GOV_DATA.federalPrograms||[]).forEach(p => p.compositeScore = scoreGrant(p));
@@ -352,6 +367,10 @@ function updateStatusNote() {
     document.getElementById('statusNote').innerHTML =
       `<strong>Coverage note (v1):</strong> This is a first working slice — AU/NZ accelerators/incubators + AU/UK/SG awards/grants only, fully live-verified via web search. ` +
       `SEA, Korea/Japan, UK accelerators, and Scandinavia/Western Europe are still pending (in progress). Generated ${DATA.generated}.`;
+  } else if (currentTab === 'newssources') {
+    document.getElementById('statusNote').innerHTML =
+      `<strong>Coverage note (first light, AU/NZ only):</strong> Standalone reference tab — not wired to any cron or to Scout. Catalogues recurring press/data sources that surface startup funding rounds and milestones, ` +
+      `as groundwork for a future PR/news scan. SEA, Korea/Japan, and Europe/UK sources intentionally excluded this pass. Generated ${NEWS_DATA.generated}.`;
   } else {
     document.getElementById('statusNote').innerHTML =
       `<strong>Coverage note (gov v1):</strong> Built ${GOV_DATA.generated} covering AU state/territory grants, awards, federal programs, and defence innovation vehicles. ` +
@@ -381,6 +400,9 @@ function populateFilters() {
     } else {
       statusSel.style.display = 'none';
     }
+  } else if (currentTab === 'newssources') {
+    geoSel.style.display = 'none'; typeSel.style.display = 'none'; statusSel.style.display = 'none';
+    jurisSel.style.display = 'none'; jurisLabel.style.display = 'none';
   } else {
     geoSel.style.display = 'none'; typeSel.style.display = 'none'; statusSel.style.display = 'none';
     if (currentTab === 'state') {
@@ -457,6 +479,7 @@ function colsForTab() {
   if (currentTab === 'awards') return awardCols;
   if (currentTab === 'state') return stateCols;
   if (currentTab === 'federal') return federalCols;
+  if (currentTab === 'newssources') return newsSourceCols;
   return defenceCols;
 }
 
@@ -465,6 +488,7 @@ function rowsForTab() {
   if (currentTab === 'awards') return [...DATA.awardsGrants];
   if (currentTab === 'state') return flattenStateRows(GOV_DATA);
   if (currentTab === 'federal') return [...GOV_DATA.federalPrograms];
+  if (currentTab === 'newssources') return [...NEWS_DATA.sources];
   return [...GOV_DATA.defenceProgramsFederalAndState];
 }
 
@@ -581,6 +605,22 @@ function render() {
       </tr>
       <tr><td colspan="${colspan}" style="padding:4px 12px;border-bottom:1px solid var(--border);">${ddCell(p.deepDive ? Object.assign({}, p.deepDive, {__sourceNotes: p.sourceNotes}) : null)}</td></tr>
     `).join('');
+  } else if (currentTab === 'newssources') {
+    body.innerHTML = rows.map(s => `
+      <tr>
+        <td class="name-cell"><a href="${(s.url||'#').split(' and ')[0]}" target="_blank">${s.name}</a></td>
+        <td>${s.country||''}</td>
+        <td class="wrap-cell">${s.type||''}</td>
+        <td class="wrap-cell">${s.focus||''}</td>
+        <td class="wrap-cell">${s.cadence||''}</td>
+        <td class="wrap-cell">${s.fundingCoverage||''}</td>
+        <td class="wrap-cell">${s.signalQuality||''}</td>
+        <td class="wrap-cell">${s.accessNotes||''}</td>
+      </tr>
+      <tr><td colspan="${colspan}" style="padding:4px 12px;border-bottom:1px solid var(--border);color:var(--muted);font-size:12px;">${s.sourceNotes||''}</td></tr>
+    `).join('') + (NEWS_DATA.candidatesNotYetVerified && NEWS_DATA.candidatesNotYetVerified.length ? `
+      <tr><td colspan="${colspan}" style="padding:10px 12px;border-top:2px solid var(--border);color:var(--muted);font-size:12px;"><strong>Flagged for next pass, not yet verified:</strong> ${NEWS_DATA.candidatesNotYetVerified.map(c=>`${c.name} — ${c.note}`).join(' &nbsp;|&nbsp; ')}</td></tr>
+    ` : '');
   } else {
     body.innerHTML = rows.map(p => `
       <tr>

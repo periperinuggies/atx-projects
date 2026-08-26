@@ -1,0 +1,112 @@
+{
+  "generated": "2026-08-27",
+  "coverageNote": "First-light pass — AU/NZ only. Purpose: identify recurring primary/secondary press sources that surface startup funding rounds, major customer wins, and milestone announcements — the raw material for a future daily/periodic scan feeding Scout. Not yet wired to any cron or Scout mechanism. Standalone Pipeline reference tab only.",
+  "sources": [
+    {
+      "name": "Startup Daily",
+      "url": "https://www.startupdaily.net/",
+      "country": "Australia / New Zealand",
+      "type": "Dedicated startup trade press",
+      "focus": "Sector-agnostic AU/NZ startup news — funding rounds, accelerator cohorts, M&A, policy",
+      "cadence": "Daily, multiple posts/day",
+      "fundingCoverage": "Strong — dedicated Funding tag/archive (startupdaily.net/topic/funding/), covers seed through Series C+ rounds with amounts, investors, and founder names",
+      "signalQuality": "High — long-running dedicated masthead (formerly StartupSmart-adjacent lineage), first-party interviews with founders/investors common, not just wire reposts",
+      "accessNotes": "Free, no paywall observed on funding posts",
+      "sourceNotes": "startupdaily.net official site, confirmed live and actively publishing (posts dated within past 2 weeks at check time, 27 Aug 2026)."
+    },
+    {
+      "name": "SmartCompany StartupSmart",
+      "url": "https://www.smartcompany.com.au/startupsmart/",
+      "country": "Australia",
+      "type": "Business trade press (startup vertical)",
+      "focus": "Sector-agnostic, strong on weekly funding round-ups",
+      "cadence": "Daily, with a recurring weekly 'X startups that raised $Y million this week' round-up format",
+      "fundingCoverage": "Very strong — the weekly round-up format is exactly the pattern-matchable structure a scan needs (explicit $ amounts, company names, sector tags per round, published weekly)",
+      "signalQuality": "High — long-running masthead, weekly round-up is low-noise and highly structured, good candidate for the first automated pass",
+      "accessNotes": "Some SmartCompany content is subscription-gated; startup-specific round-ups have historically been accessible",
+      "sourceNotes": "smartcompany.com.au/startupsmart confirmed live, weekly round-up format observed consistently across multiple 2026 posts (Mar, Apr, Jul editions checked)."
+    },
+    {
+      "name": "Australian Financial Review — Start-ups & Start-up Funding topics",
+      "url": "https://www.afr.com/topic/start-ups-629",
+      "country": "Australia",
+      "type": "Mainstream financial press (dedicated topic tag)",
+      "focus": "Sector-agnostic, skews toward larger/later-stage rounds and named-VC deal coverage",
+      "cadence": "Near-daily",
+      "fundingCoverage": "Strong on larger rounds (Series B+) and anything with investor-name signal value; less reliable for small pre-seed/seed rounds that don't clear the AFR newsworthiness bar",
+      "signalQuality": "High trust, lower volume — AFR is a primary-tier masthead so anything it reports is well-corroborated, but it won't catch the long tail of small raises",
+      "accessNotes": "Paywalled — AFR requires subscription for full articles; headlines/summaries visible without login",
+      "sourceNotes": "afr.com/topic/start-ups-629 and /topic/start-up-funding-1mqn confirmed live and actively updated."
+    },
+    {
+      "name": "InnovationAus",
+      "url": "https://www.innovationaus.com/",
+      "country": "Australia",
+      "type": "Policy-and-industry trade press",
+      "focus": "Deep tech, government funding programs, R&D policy, university spinouts — heavier policy/government angle than pure funding-round reporting",
+      "cadence": "Daily",
+      "fundingCoverage": "Moderate for private-round announcements; strong for government grant/program announcements (complements Pipeline's existing federal/state coverage rather than duplicating Scout's company-discovery need)",
+      "signalQuality": "High trust for policy and deep-tech-adjacent stories; less useful as a pure company-funding feed",
+      "accessNotes": "Free, some premium content gated",
+      "sourceNotes": "innovationaus.com — already used as a primary source in this Pipeline dataset (e.g. UNSW/USyd pre-seed fund entries). Cross-referenced here for completeness."
+    },
+    {
+      "name": "Business Desk NZ — Startups",
+      "url": "https://businessdesk.co.nz/startups",
+      "country": "New Zealand",
+      "type": "Business trade press (dedicated startup vertical)",
+      "focus": "Sector-agnostic NZ startup and early-stage tech news",
+      "cadence": "Regular, several posts/week",
+      "fundingCoverage": "Good — covers NZ funding rounds across agritech, fintech, gaming, open banking specifically per own site description",
+      "signalQuality": "Moderate-high — dedicated NZ business masthead, credible but smaller volume than AU equivalents given NZ's smaller startup ecosystem",
+      "accessNotes": "Partial paywall — BusinessDesk has a subscription model, some articles free",
+      "sourceNotes": "businessdesk.co.nz/startups confirmed live, explicit self-description as NZ startup/early-stage news vertical."
+    },
+    {
+      "name": "NZ Herald — Startup topic",
+      "url": "https://www.nzherald.co.nz/topic/startup/",
+      "country": "New Zealand",
+      "type": "Mainstream press (dedicated topic tag)",
+      "focus": "Sector-agnostic, mixes startup profiles with general small-business content",
+      "cadence": "Irregular — not a dedicated startup desk, topic tag aggregates from general newsroom",
+      "fundingCoverage": "Weak-moderate — funding rounds appear but are mixed in with general small business/human-interest startup profiles, lower signal-to-noise than BusinessDesk",
+      "signalQuality": "Moderate — mainstream masthead credibility, but not a specialist source so requires more filtering",
+      "accessNotes": "Partial paywall (NZ Herald Premium)",
+      "sourceNotes": "nzherald.co.nz/topic/startup/ confirmed live; content sampled skews toward founder profile pieces over hard funding announcements."
+    },
+    {
+      "name": "Fintech Australia / FinTech News Australia",
+      "url": "https://www.fintechaustralia.org.au/ and https://fintechnews.au/",
+      "country": "Australia",
+      "type": "Sector-specific trade body + affiliated trade press",
+      "focus": "Fintech-only — funding rounds, ecosystem maps, 'startups to watch' lists",
+      "cadence": "Regular, several posts/week (fintechnews.au); trade body site more static/directory-style",
+      "fundingCoverage": "Good within fintech vertical only — not useful for B2B pipe companies outside fintech, but high-precision within the vertical if Scout's lens includes payment-flow fintech",
+      "signalQuality": "Moderate-high within niche — sector specialists tend to catch fintech raises mainstream press misses, but zero coverage outside the vertical",
+      "accessNotes": "Free",
+      "sourceNotes": "fintechaustralia.org.au (trade body, ecosystem map + directory) and fintechnews.au (news arm, confirmed live with 2026-dated funding content) both checked."
+    },
+    {
+      "name": "Tracxn — Australia / New Zealand geography pages",
+      "url": "https://tracxn.com/d/geographies/australia and /new-zealand",
+      "country": "Australia / New Zealand",
+      "type": "Startup data platform (aggregator, not editorial press)",
+      "focus": "Sector-agnostic, structured funding-round database with dollar totals, deal counts, and company-level records",
+      "cadence": "Continuously updated database, not a publication cadence",
+      "fundingCoverage": "Very strong on structured data (deal counts, $ totals by period) but individual company profiles/deal detail often gated behind paid tiers",
+      "signalQuality": "High for aggregate market signal (e.g. '$1.77B raised in 82 rounds YTD June 2026'); lower for actionable per-company detail without a paid subscription",
+      "accessNotes": "Freemium — headline stats free, full company/deal database gated",
+      "sourceNotes": "tracxn.com confirmed live with current 2026 AU ($1.77B/82 rounds YTD June) and NZ ($10.5B all-time, 37.6K startups, 2 unicorns) aggregate figures. Useful as a market-sizing cross-check, not a primary discovery feed."
+    }
+  ],
+  "candidatesNotYetVerified": [
+    {
+      "name": "Startup Muster",
+      "note": "Referenced by FinTech Australia as Australia's national startup survey (annual, not a news feed) — worth checking as an annual milestone/data-release trigger rather than a recurring news source. Not deep-dived this pass."
+    },
+    {
+      "name": "Which-50",
+      "note": "AU digital economy trade press, mentioned in search results as adjacent to InnovationAus/Fintech Australia coverage set — not independently verified live this pass, flag for next iteration."
+    }
+  ]
+}
