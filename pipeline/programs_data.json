@@ -178,14 +178,20 @@
       "stage": "Pre-seed / research-to-market",
       "cheque": "Non-equity, program-based (no direct investment)",
       "cohortFrequency": "2x/year (April-June, August-October)",
-      "lastCohortDate": "ON Prime 19, kicked off April 2026",
-      "batchSize": "Not confirmed this pass",
-      "totalPortfolio": "19 cohorts to date (ON Prime 19)",
+      "lastCohortDate": "ON Prime 19 (kicked off April 2026); ON Prime 20 window Aug-Oct 2026",
+      "batchSize": "Not itemised publicly per round",
+      "totalPortfolio": "19 cohorts run to date since program inception",
       "notableAlumni": "Not itemised this pass",
       "operators": "CSIRO program team",
-      "activityStatus": "active — long-running, credible government program",
+      "activityStatus": "active",
       "redFlags": [],
-      "sourceNotes": "CSIRO official site, confirmed live cohort 19 running April-July 2026."
+      "sourceNotes": "csiro.au official funding-programs pages (ON Prime + ON Accelerate), research.csiro.au/onalumni — all primary, mutually consistent, confirmed 26 Aug 2026.",
+      "deepDive": {
+        "applicationStatus": "csiro.au (primary) confirms ON Prime runs 2x/year in rolling windows (Apr-Jun, Aug-Oct). ON Prime 19 ran through mid-2026; a subsequent round opened 27 Jul-31 Aug 2026 window overlaps with the related ON Accelerate 11 call, per CSIRO's own funding-programs page.",
+        "fundingVerified": "Non-equity, program-based confirmed unchanged — ON Prime is a business-model validation program (customer discovery, no direct cheque), distinct from ON Accelerate which can lead to follow-on funding.",
+        "trackRecordEvidence": "19 cohorts run since inception is a genuinely long, continuous program history — CSIRO's own alumni site (research.csiro.au/onalumni) actively tracks and lists past ON Prime teams by cohort number.",
+        "redFlagCheck": "None. Consistently active, well-documented, primary-sourced government research-commercialisation program."
+      }
     },
     {
       "name": "CSIRO ON Accelerate",
@@ -229,11 +235,17 @@
       "totalPortfolio": "3 cohorts run (~36 companies total per SmartCompany)",
       "notableAlumni": "Not itemised this pass",
       "operators": "Techstars global network + NSW Government (Investment NSW)",
-      "activityStatus": "DEFUNDED / DISCONTINUED — NSW Government pulled funding Feb 2026",
+      "activityStatus": "DEFUNDED / DISCONTINUED — confirmed",
       "redFlags": [
         "CONFIRMED ZOMBIE: SmartCompany headline '$6 million, 36 startups, zero future' (17 Feb 2026) — NSW cut funding, program discontinued. Do not treat as active despite Techstars global brand recognition."
       ],
-      "sourceNotes": "NSW Government official releases (2025 cohort announcements) + SmartCompany defunding article (Feb 2026) — high confidence this program is dead."
+      "sourceNotes": "nsw.gov.au 2025 cohort launch release, techstars.com program page, dynamicbusiness.com + smartcompany.com.au defunding coverage (17 Feb 2026) — high confidence dead.",
+      "deepDive": {
+        "applicationStatus": "Confirmed dead: dynamicbusiness.com and smartcompany.com.au (both 17 Feb 2026, primary business-media reporting) state the NSW Government declined to renew funding after 3 cohorts; the 2026 program will not go ahead and the managing director departed.",
+        "fundingVerified": "Historical cheque confirmed at US$20,000 for 5% common stock (techstars.com, standard Techstars global model) — program is now defunct so this is historical reference only.",
+        "trackRecordEvidence": "3 cohorts run, >$6M invested across 36 startups over 3 years (smartcompany.com.au) — solid track record while it ran, but explicitly ended.",
+        "redFlagCheck": "CONFIRMED DEAD, not ambiguous. Headline 'zero future' language from two independent primary business-media sources dated the same day (17 Feb 2026). Do not present as a live opportunity to founders."
+      }
     },
     {
       "name": "Cicada Innovations / Tech23",
@@ -410,16 +422,22 @@
       "stage": "Idea/pre-seed",
       "cheque": "Non-equity typically (FI's global model is fee + small equity, varies by chapter)",
       "cohortFrequency": "Semester-based (e.g. Summer 2026 semester confirmed)",
-      "lastCohortDate": "Summer 2026 semester applications open",
+      "lastCohortDate": "Summer 2026 semester — applications open, entrance fee refundable before 25 Aug 2026 session",
       "batchSize": "Not confirmed this pass",
-      "totalPortfolio": "Global FI network claims 'world's largest startup accelerator' by chapter count",
+      "totalPortfolio": "7 companies launched in the Perth region since chapter launched 2013",
       "notableAlumni": "Not itemised for Perth chapter specifically this pass",
       "operators": "Local Perth chapter directors — names not confirmed this pass",
       "activityStatus": "active",
       "redFlags": [
         "FI's global model includes local director-run chapters of variable quality — franchise consistency varies significantly by city. Perth chapter specifically not deeply vetted this pass."
       ],
-      "sourceNotes": "fi.co official blog post confirming Perth Summer 2026 semester."
+      "sourceNotes": "fi.co official site (fi.co/s/perth, fi.co/insight blog post) — primary, confirmed 26 Aug 2026.",
+      "deepDive": {
+        "applicationStatus": "fi.co (primary, own blog) confirms Perth Summer 2026 semester open for applications, with a refundable entrance fee window closing 25 Aug 2026 ('Revenue & Business Models' session).",
+        "fundingVerified": "Non-equity core model globally, though FI's standard structure includes a modest equity stake (typically ~3.5%) in exchange for the program — exact Perth-chapter terms not itemised this pass.",
+        "trackRecordEvidence": "7 companies launched in the Perth region since the chapter's 2013 launch (fi.co's own historical post) — modest volume for 13 years running, consistent with FI's franchise model being lower-intensity than dedicated local accelerators.",
+        "redFlagCheck": "Franchise consistency caveat stands — FI chapters vary significantly by local director quality; Perth-specific outcomes beyond the 7-company headline aren't itemised. Genuinely active though, not a zombie."
+      }
     },
     {
       "name": "Vodafone xone",
@@ -437,11 +455,17 @@
       "totalPortfolio": "24 companies (Tracxn, as of Oct 2024)",
       "notableAlumni": "Not itemised this pass",
       "operators": "Vodafone NZ team + BNZ co-delivery partnership (per CIO article)",
-      "activityStatus": "DEFUNCT — confirmed 26 Aug 2026 dedicated NZ source-verification pass: vodafonexone.nz no longer belongs to Vodafone/the accelerator. The domain now redirects to unrelated NZ online-casino/iGaming affiliate content (MiFinity payment provider reviews) — classic expired-domain squat. This is definitive, not just 'stale data.'",
+      "activityStatus": "DEFUNCT — confirmed",
       "redFlags": [
         "CONFIRMED DEFUNCT, not just unclear — upgraded from prior 'likely dormant' assessment. The program's own domain has lapsed and been re-registered for gambling-affiliate content, which only happens after a domain sits unrenewed for a period. Remove from any 'active accelerators' shortlist; keep in dataset only as a historical/dead entry unless a new live URL is found under vodafone.co.nz."
       ],
-      "sourceNotes": "Primary source check 26 Aug 2026 dedicated NZ pass: direct fetch of vodafonexone.nz returned live but completely unrelated content (NZ casino payment-method review site, no Vodafone/accelerator branding whatsoever) — definitive confirmation of domain lapse/takeover, not a fetch error. Historical background only: Crunchbase, Tracxn (dated Oct 2024), CIO.com, fyi.org.nz (2017 OIA request)."
+      "sourceNotes": "Direct fetch of vodafonexone.nz (26 Aug 2026) returned casino-affiliate content, zero Vodafone branding — definitive. Historical: Crunchbase, Tracxn (Oct 2024), CIO.com, fyi.org.nz 2017 OIA.",
+      "deepDive": {
+        "applicationStatus": "Confirmed defunct via direct domain check: vodafonexone.nz now serves unrelated NZ online-casino/iGaming affiliate content (MiFinity payment reviews), a classic expired-domain squat pattern. This only happens after a domain lapses unrenewed.",
+        "fundingVerified": "Historical cheque was $25K cash + up to $120K IBM Cloud credits + $15K lab access (per archived program pages) — no longer relevant, program is dead.",
+        "trackRecordEvidence": "24 companies historically per Tracxn (dated Oct 2024) — last available data point before the domain lapse.",
+        "redFlagCheck": "CONFIRMED DEFUNCT, upgraded from 'likely dormant'. Domain squat is definitive evidence, not just absence of news. Remove from active shortlist entirely."
+      }
     },
     {
       "name": "Icehouse Ventures / The Icehouse",
@@ -540,14 +564,20 @@
       "cohortFrequency": "N/A — rolling investment model, not cohort-based",
       "lastCohortDate": "N/A",
       "batchSize": "N/A",
-      "totalPortfolio": "Fund size $15-25M depending on source (globalventuring.com cites $15M initial, innovationaus.com/unsw.edu.au reference a $25M NSW-govt-linked figure — [unverified exact current fund size, may reflect different tranches/announcements]",
+      "totalPortfolio": "$25M fund (per startupdaily.net/innovationaus.com; one source cites $15M initial tranche — discrepancy not resolved)",
       "notableAlumni": "Too new for confirmed outcomes this pass",
       "operators": "University of Sydney Innovation and Enterprise team",
-      "activityStatus": "active — described as bridging the gap between proof-of-concept grants and traditional VC",
+      "activityStatus": "active",
       "redFlags": [
         "Structurally a fund, not a cohort accelerator — score/categorise separately from batch programs. Genuinely new category (university pre-seed investment funds) missed in original sweep."
       ],
-      "sourceNotes": "sydney.edu.au official page, globalventuring.com, innovationaus.com — broadly corroborating, fund-size figures vary by source/date."
+      "sourceNotes": "sydney.edu.au official pages (2x), startupdaily.net (5 May 2025), innovationaus.com (7 Apr 2025) — broadly consistent, primary-sourced.",
+      "deepDive": {
+        "applicationStatus": "sydney.edu.au (primary) confirms the Pre-Seed Launch Fund is live, open to USyd staff/students/alumni within 5 years of graduation with relevant IP.",
+        "fundingVerified": "Up to A$500,000 per venture confirmed (startupdaily.net, 5 May 2025, and sydney.edu.au primary) — fund launched April 2025, described as 'state-first' at $25M.",
+        "trackRecordEvidence": "Too new for confirmed portfolio outcomes — launched April 2025, so ~16 months old at this check. Genuinely new category (uni pre-seed investment fund) distinct from cohort accelerators.",
+        "redFlagCheck": "None. Fund-size discrepancy ($15M vs $25M across sources) should be resolved with a direct primary check before quoting a single figure, but program itself is confirmed real and active."
+      }
     },
     {
       "name": "UNSW Pre-Seed Fund + High Street Ventures",
@@ -562,14 +592,20 @@
       "cohortFrequency": "N/A — rolling investment model",
       "lastCohortDate": "Fund launch confirmed Feb 2026 (NSW Treasurer attended launch)",
       "batchSize": "N/A",
-      "totalPortfolio": "Not confirmed this pass — fund is new (launched Feb 2026)",
+      "totalPortfolio": "$25M Pre-Seed Fund (targeting ~50 spinouts over 5 years) + $10M into High Street Ventures VC fund",
       "notableAlumni": "Too new for confirmed outcomes this pass",
       "operators": "UNSW / High Street Ventures",
       "activityStatus": "active, newly launched",
       "redFlags": [
         "New fund (Feb 2026) — track record still to be established. Complements existing UNSW Founders accelerator entry already in dataset — this is the funding/capital side, not the cohort program side."
       ],
-      "sourceNotes": "unsw.edu.au official newsroom release, Feb 2026 — primary source, high confidence."
+      "sourceNotes": "unsw.edu.au official newsroom (16 Feb 2026), startupdaily.net (17 Feb 2026), thenextleap.is (5 Mar 2026) — all consistent on $25M+$10M structure.",
+      "deepDive": {
+        "applicationStatus": "unsw.edu.au (primary, Feb 2026) confirms fund launch attended by the NSW Treasurer — high-profile government endorsement.",
+        "fundingVerified": "Up to A$500,000 per spinout confirmed (unsw.edu.au primary), targeting ~50 companies over 5 years. Separate $10M investment into High Street Ventures (independent VC) to support growth-stage follow-on.",
+        "trackRecordEvidence": "Too new for confirmed outcomes — launched Feb 2026 (~6 months old at this check). Two-tier structure (pre-seed fund + independent VC follow-on) mirrors the Melbourne Genesis/Tin Alley model.",
+        "redFlagCheck": "None. High-confidence primary source (UNSW's own newsroom), corroborated by startupdaily.net and thenextleap.is independently."
+      }
     },
     {
       "name": "University of Melbourne Genesis Pre-Seed Fund / Tin Alley Ventures",
@@ -584,14 +620,20 @@
       "cohortFrequency": "N/A — rolling investment model",
       "lastCohortDate": "Not confirmed this pass",
       "batchSize": "N/A",
-      "totalPortfolio": "Not confirmed this pass",
-      "notableAlumni": "Not itemised this pass",
+      "totalPortfolio": "Combined $81M across both funds (globalventuring.com); Genesis approved 21st investment in 32 months of operation; Tin Alley Ventures committed $12.9M to 8 startups (unimelb.edu.au, 25 Jun 2026)",
+      "notableAlumni": "21 Genesis investments to date; 8 Tin Alley Ventures portfolio companies ($12.9M committed)",
       "operators": "University of Melbourne commercialisation team / Tin Alley Ventures",
       "activityStatus": "active",
       "redFlags": [
         "VIC is confirmed (via separate govgrants sweep) to have Australia's largest, most active startup ecosystem — this university fund is a direct complement to that finding, not previously captured."
       ],
-      "sourceNotes": "research.unimelb.edu.au official page + gufy.com.au secondary summary, broadly consistent."
+      "sourceNotes": "research.unimelb.edu.au official page, melbconnect.com.au (26 Apr 2025), unimelb.edu.au Enterprise Review 2025 (25 Jun 2026), globalventuring.com (26 Aug 2025) — strong multi-source corroboration.",
+      "deepDive": {
+        "applicationStatus": "research.unimelb.edu.au (primary) confirms Genesis works alongside MAP and TRAM as part of a coordinated University of Melbourne commercialisation pipeline.",
+        "fundingVerified": "Combined $81M firepower across Genesis (pre-seed) + Tin Alley Ventures (seed-to-exit) confirmed via globalventuring.com (26 Aug 2025) and unimelb.edu.au's own Enterprise Review (25 Jun 2026), which states Genesis has made 21 investments in 32 months and Tin Alley has committed $12.9M to 8 startups.",
+        "trackRecordEvidence": "21 investments in ~2.7 years is a genuinely active deployment pace for a university pre-seed fund — among the most concrete outcome data of any university fund in the dataset.",
+        "redFlagCheck": "None. Strongest-evidenced university fund entry in the AU set — hard investment count + dollar figures from the University's own official review, not just a launch announcement."
+      }
     },
     {
       "name": "Slingshot (Tonic)",
@@ -613,7 +655,13 @@
       "redFlags": [
         "Different model to a normal accelerator — Slingshot runs corporate-branded programs on behalf of clients (banks/telcos/insurers) rather than operating its own single public cohort. Categorise distinctly — relevant mainly as a signal that corporate AU venture-building is real and growing (per startupurban.com framing), not as a single applyable program."
       ],
-      "sourceNotes": "slingshotters.com official site + startupurban.com secondary trend commentary."
+      "sourceNotes": "slingshotters.com official site (2 pages), tracxn.com (8 Jul 2026) — consistent with existing Slingshot Accelerator entry's categorisation.",
+      "deepDive": {
+        "applicationStatus": "slingshotters.com (primary) confirms Slingshot Tonic runs a 12-week corporate accelerator program tailored per corporate client — not a single public cohort with a fixed application window.",
+        "fundingVerified": "No direct Slingshot cheque — corporate-funded program delivery model, consistent with the existing Slingshot Accelerator entry's categorisation.",
+        "trackRecordEvidence": "Tracxn (8 Jul 2026) notes Slingshot has made no new investments in 2026 so far — consistent with the accelerator-as-a-service model (Slingshot doesn't invest directly; corporate clients do).",
+        "redFlagCheck": "None new. Confirms prior categorisation as distinct from a directly-applyable accelerator — relevant as a signal of corporate AU venture-building activity, not as a program founders apply to directly."
+      }
     },
     {
       "name": "Creative HQ",
