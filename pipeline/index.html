@@ -618,7 +618,21 @@ function render() {
         <td class="wrap-cell">${s.accessNotes||''}</td>
       </tr>
       <tr><td colspan="${colspan}" style="padding:4px 12px;border-bottom:1px solid var(--border);color:var(--muted);font-size:12px;">${s.sourceNotes||''}</td></tr>
-    `).join('') + (NEWS_DATA.candidatesNotYetVerified && NEWS_DATA.candidatesNotYetVerified.length ? `
+    `).join('') + (NEWS_DATA.periodicLists && NEWS_DATA.periodicLists.length ? `
+      <tr><td colspan="${colspan}" style="padding:14px 12px 6px;border-top:2px solid var(--border);font-weight:600;font-size:13px;">Periodic Lists (annual, manual pull — AFR paywalled, Andrew/Neera to provide article text)</td></tr>
+    ` + NEWS_DATA.periodicLists.map(s => `
+      <tr>
+        <td class="name-cell"><a href="${s.url||'#'}" target="_blank">${s.name}</a></td>
+        <td>${s.country||''}</td>
+        <td class="wrap-cell">${s.type||''}</td>
+        <td class="wrap-cell">${s.focus||''}</td>
+        <td class="wrap-cell">${s.cadence||''}</td>
+        <td class="wrap-cell">${s.fundingCoverage||''}</td>
+        <td class="wrap-cell">${s.signalQuality||''}</td>
+        <td class="wrap-cell">${s.accessNotes||''}</td>
+      </tr>
+      <tr><td colspan="${colspan}" style="padding:4px 12px;border-bottom:1px solid var(--border);color:var(--muted);font-size:12px;"><strong>Pull method:</strong> ${s.pullMethod||''} — ${s.sourceNotes||''}</td></tr>
+    `).join('') : '') + (NEWS_DATA.candidatesNotYetVerified && NEWS_DATA.candidatesNotYetVerified.length ? `
       <tr><td colspan="${colspan}" style="padding:10px 12px;border-top:2px solid var(--border);color:var(--muted);font-size:12px;"><strong>Flagged for next pass, not yet verified:</strong> ${NEWS_DATA.candidatesNotYetVerified.map(c=>`${c.name} — ${c.note}`).join(' &nbsp;|&nbsp; ')}</td></tr>
     ` : '');
   } else {

@@ -99,6 +99,47 @@
       "sourceNotes": "tracxn.com confirmed live with current 2026 AU ($1.77B/82 rounds YTD June) and NZ ($10.5B all-time, 37.6K startups, 2 unicorns) aggregate figures. Useful as a market-sizing cross-check, not a primary discovery feed."
     }
   ],
+  "periodicLists": [
+    {
+      "name": "AFR BOSS Most Innovative Companies",
+      "url": "https://www.afr.com/lists-and-awards/most-innovative-companies",
+      "country": "Australia / New Zealand",
+      "type": "Curated annual list, third-party judged",
+      "focus": "Cross-sector — companies judged on genuine innovation, not just funding size or headcount",
+      "cadence": "Annual (15th year running as of 2026, published around Oct/Nov)",
+      "fundingCoverage": "N/A — not a funding-round source. Value is qualitative: identifies companies doing something real enough to pass third-party judging",
+      "signalQuality": "High — judged by Inventium (behavioural science consultancy) with Cognizant as methodology partner, genuine external judging panel rather than a press release or self-nomination list",
+      "accessNotes": "Paywalled (AFR subscription) — Andrew has premium login, will provide article/PDF text on request since no automated login is available",
+      "pullMethod": "Manual — Chappie flags when the annual list drops, Andrew or Neera pastes/forwards the article or PDF",
+      "sourceNotes": "afr.com/lists-and-awards/most-innovative-companies confirmed live, 2026 edition referenced as 15th year. Judging methodology confirmed via multiple sources (AFR own methodology piece, LinkedIn showcase page)."
+    },
+    {
+      "name": "AFR Young Rich List",
+      "url": "https://www.afr.com/young-rich",
+      "country": "Australia",
+      "type": "Curated annual wealth ranking",
+      "focus": "Wealthiest Australians under 40 — many entries are founders, useful for spotting who's building something big enough to generate personal wealth, even pre-major-funding-news",
+      "cadence": "Annual (published around Oct)",
+      "fundingCoverage": "Indirect — doesn't report rounds directly but flags founders worth searching individually for their company's funding history",
+      "signalQuality": "Moderate-high — AFR editorial rigour on wealth verification, but skews toward already-successful/later-stage founders rather than early discovery",
+      "accessNotes": "Paywalled — same access approach as Most Innovative Companies",
+      "pullMethod": "Manual — annual pull, cross-reference new names against existing Scout/Pipeline coverage",
+      "sourceNotes": "afr.com/young-rich confirmed live, 2025 edition referenced 22 new faces including AI-sector founders (per bosshunting.com.au coverage of the same list)."
+    },
+    {
+      "name": "AFR Fast Starters",
+      "url": "https://www.afr.com/lists-and-awards/fast-starters",
+      "country": "Australia",
+      "type": "Curated annual list, ranked by hard metric",
+      "focus": "Companies ranked explicitly by revenue CAGR — the cleanest, most quantifiable filter of the three AFR lists for \"is this company actually growing fast\"",
+      "cadence": "Annual",
+      "fundingCoverage": "Indirect — revenue growth signal rather than funding-round data, but arguably a stronger \"real traction\" signal than a funding announcement alone",
+      "signalQuality": "High for the specific thing it measures (revenue CAGR ranking) — least subjective of the three AFR lists since it's not judged/curated, it's ranked by a number",
+      "accessNotes": "Paywalled — same access approach as the other two AFR lists",
+      "pullMethod": "Manual — annual pull, high-priority cross-check against Scout's B2B pipe/seed-Series A lens given the clean growth-rate filter",
+      "sourceNotes": "afr.com/lists-and-awards/fast-starters confirmed live; example entry found (Kismet Healthcare, 4630% CAGR) demonstrates the ranking methodology is genuinely metric-driven, not editorial pick."
+    }
+  ],
   "candidatesNotYetVerified": [
     {
       "name": "Startup Muster",
