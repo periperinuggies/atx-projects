@@ -251,7 +251,8 @@
     {
         "id": "greenroom-robotics",
         "name": "Greenroom Robotics",
-        "status": "in-diligence",
+        "status": "invested",
+        "investedAmount": "AUD $2M",
         "country": "Australia",
         "flag": "🇦🇺",
         "accelerator": "Independent — 2025 WA Innovator of the Year",
@@ -261,7 +262,7 @@
         "region": "aunz",
         "ac": "#f59e0b",
         "founderFlag": null,
-        "fundingNote": "No external funding raised to date. Raising AUD $10M–$20M Seed round at $93.5M pre-money.",
+        "fundingNote": "Invested AUD $2M — Larsen Ventures. Round: AUD $10M–$20M Seed at $93.5M pre-money.",
         "comparable": "Saronic / Sea Machines — maritime autonomy. Hardware-agnostic software-only play vs Saronic's hardware+software approach. Closest AU-founded peer with no direct local competitor.",
         "founders": [
             {
