@@ -791,5 +791,186 @@
             "Pre-seed"
         ],
         "reason": "Insufficient information and too early. Only known detail: health-tech startup, PS60k BGV Tech for Good grant. No product description, no founder detail, no traction data publicly available. Pass until more information surfaces."
+    },
+    {
+        "name": "WealthAi",
+        "accelerator": "Founders Factory / Fuel Ventures",
+        "country": "UK",
+        "tags": [
+            "Information flow",
+            "WealthTech",
+            "UK",
+            "Pre-seed"
+        ],
+        "reason": "Wrong cohort — founded 2023, outside the 2025/2026 filter, despite raising its pre-seed only in Jan 2026. AI OS automating front/middle/back-office workflows for wealth managers and family offices is a genuine information-flow thesis, but the company itself predates our cohort window by two years.",
+        "profile": {
+            "url": "https://wealth.ai",
+            "stage": "Pre-seed — €837k raised (Jan 2026)",
+            "fundingNote": "€837k (~$1M) pre-seed (Jan 2026) — led by Fuel Ventures and Founders Factory",
+            "whatTheyDo": "AI-driven operating system automating front-, middle-, and back-office workflows for wealth managers, family offices, and private banks. Platform live since Spring 2025.",
+            "whyFlagged": "Information flow pipe between client data and wealth manager workflows — genuine thesis fit. Founders Factory backing is a real signal.",
+            "founderProfile": "Jason Nabi (Founder/CEO) — capital markets background (Street Context, GCEX, BOSONIC, ISSA). Co-founded with Paul de Gruchy. Solid fintech operator pedigree, not a serial-exit founder.",
+            "founders": [
+                {"name": "Jason Nabi — Founder & CEO", "li": "https://www.linkedin.com/in/jason-j-nabi-43716a27/"},
+                {"name": "Paul de Gruchy — Co-founder", "li": null}
+            ],
+            "revenueModel": "SaaS — platform subscription to wealth managers/family offices/private banks (inferred).",
+            "risks": "Company founded 2023 — pre-seed only closed 3 years later, raising questions about early traction/velocity. Crowded wealth-tech workflow category.",
+            "macroTailwind": "Wealth management back-office modernisation and AI adoption accelerating across UK/EU private banks and family offices."
+        }
+    },
+    {
+        "name": "Basalt",
+        "accelerator": "Hexa HX25",
+        "country": "France",
+        "tags": [
+            "AI infrastructure",
+            "Agent tooling",
+            "France",
+            "Seed"
+        ],
+        "reason": "Wrong model — dev-tooling/product for AI agent reliability and self-improvement, sitting inside one company's own AI stack rather than as a pipe between institutional counterparties. No payment or information flow between two parties; it's an internal observability/eval layer.",
+        "profile": {
+            "url": "https://getbasalt.ai",
+            "stage": "Seed — $5M raised (Dec 2025)",
+            "fundingNote": "$5M seed (Dec 2025) — Entourage, Peak, Alpha Star, Kima Ventures, Hexa",
+            "whatTheyDo": "Infrastructure for self-improving AI agents — captures customer/user interaction behaviour and feeds it back to improve agent performance and reliability.",
+            "whyFlagged": "Hexa (eFounders) backing is a strong studio signal; AI reliability is a real and growing pain point.",
+            "founderProfile": "Guillaume Marquis and Alexis d'Eudeville among the founding/launch team, built inside Hexa's studio model.",
+            "founders": [
+                {"name": "Guillaume Marquis", "li": "https://www.linkedin.com/in/marquis-guillaume/"}
+            ],
+            "revenueModel": "Usage-based / seat-based SaaS for AI agent observability and evaluation (inferred).",
+            "risks": "Crowded AI observability/eval tooling category globally (LangSmith, Braintrust, etc). Product sits within a single company's stack — no cross-party switching cost of the type the lens targets.",
+            "macroTailwind": "Enterprise AI agent adoption creating demand for reliability/eval tooling as agents move from pilot to production."
+        }
+    },
+    {
+        "name": "Piero Company",
+        "accelerator": "SparkLabs Seoul 2026",
+        "country": "South Korea",
+        "tags": [
+            "Hardware",
+            "Circular economy",
+            "Marketplace",
+            "South Korea"
+        ],
+        "reason": "Hardware/physical goods business — IT device subscription, collection, and redistribution (circular economy resale marketplace). Fails model on first criterion; not a payment or information pipe.",
+        "profile": {
+            "url": null,
+            "stage": "Seed — SparkLabs + CNT Tech investment (Jan 2026), pre-Series A (1B KRW) via TIPS",
+            "fundingNote": "SparkLabs + CNT Tech seed (Jan 2026); TIPS pre-Series A (1B KRW)",
+            "whatTheyDo": "IT device subscription and redistribution service — collects and recirculates IT hardware assets, expanding into cross-border Asian markets.",
+            "whyFlagged": "SparkLabs + CNT Tech backing; TIPS selection signals institutional validation in Korea.",
+            "founderProfile": "Not researched in depth — model fails at first filter.",
+            "founders": [],
+            "revenueModel": "Subscription + resale margin on IT device circulation (inferred).",
+            "risks": "Physical logistics and hardware asset business — out of scope regardless of traction.",
+            "macroTailwind": "Circular economy and IT asset lifecycle management growing in Korea/Asia."
+        }
+    },
+    {
+        "name": "TeamKai",
+        "accelerator": "SparkLabs Seoul 2026",
+        "country": "South Korea",
+        "tags": [
+            "AI agents",
+            "Customer service",
+            "South Korea"
+        ],
+        "reason": "Wrong model and crowded category. Customer service AI agent platform is a product companies buy, not an information/payment pipe between institutional counterparties — same pattern as the Enrola pass (AI outbound sales agents globally saturated: Kore.ai, Intercom Fin, Decagon, Sierra, etc). Founder domain depth (decade running CS ops at Myrealtrip) is genuinely strong, but model and category concerns dominate.",
+        "profile": {
+            "url": null,
+            "stage": "Seed — SparkLabs + Murex Partners (Jan 2026)",
+            "fundingNote": "Seed (Jan 2026) — SparkLabs, Murex Partners",
+            "whatTheyDo": "AI customer service agent platform — 60%+ task resolution rate reported, launched 2024.",
+            "whyFlagged": "Strong operator-founder: Doa Kim, ex-COO of Myrealtrip (Korea's top travel platform), decade running CS operations before founding.",
+            "founderProfile": "Doa Kim — Founder, ex-COO Myrealtrip. Deep domain operator credentials.",
+            "founders": [
+                {"name": "Doa Kim — Founder (ex-COO, Myrealtrip)", "li": "https://www.linkedin.com/in/doah-kim-062594b9/"}
+            ],
+            "revenueModel": "SaaS — per-seat or usage-based pricing for AI customer service agents (inferred).",
+            "risks": "Globally saturated category. Product, not infrastructure pipe — no structural cross-party switching cost of the type the lens targets.",
+            "macroTailwind": "Enterprise adoption of AI customer service agents accelerating across APAC."
+        }
+    },
+    {
+        "name": "Deconvolvr",
+        "accelerator": "Bethnal Green Ventures Spring 2026",
+        "country": "UK",
+        "tags": [
+            "BioTech",
+            "Diagnostics",
+            "UK"
+        ],
+        "reason": "Product, not a pipe. Bioinformatic software separating cancer/stromal/immune signals in prostate-cancer biopsy samples is a clinical decision-support tool for pathologists/clinicians — not infrastructure with payment/information flow between institutional counterparties. Same pattern as prior BGV cohort passes (Amytis, Cardiovolt.ai)."
+    },
+    {
+        "name": "HEURIS",
+        "accelerator": "Bethnal Green Ventures Spring 2026",
+        "country": "UK",
+        "tags": [
+            "HealthTech",
+            "Clinical decision support",
+            "UK"
+        ],
+        "reason": "Product, not a pipe. Clinical diagnostic-reasoning support tool for emergency departments — flags overlooked features and updates diagnostic probabilities. A decision-support tool sold to hospitals, not infrastructure between institutional parties with structural switching costs."
+    },
+    {
+        "name": "ND Lens",
+        "accelerator": "Bethnal Green Ventures Spring 2026",
+        "country": "UK",
+        "tags": [
+            "HealthTech",
+            "Workflow tool",
+            "UK"
+        ],
+        "reason": "Product, not a pipe. AI workflow software digitising ADHD/neurodivergent assessments against ICD-11/DSM-5 for clinicians. Cuts write-up time from 2 hours to 15 minutes — useful clinician productivity tool, but a point product, not information/payment infrastructure between counterparties."
+    },
+    {
+        "name": "VÖRNTEC",
+        "accelerator": "Bethnal Green Ventures Spring 2026",
+        "country": "UK",
+        "tags": [
+            "CleanTech",
+            "Energy analytics",
+            "UK"
+        ],
+        "reason": "Product, not a pipe. AI platform analysing existing SCADA data to predict failures and detect methane leaks for energy operators — an analytics tool sold into energy operators, not a payment or information pipe between institutional counterparties. Genuine climate tailwind but wrong model for the lens."
+    },
+    {
+        "name": "Soil Systems",
+        "accelerator": "Bethnal Green Ventures Spring 2026",
+        "country": "UK",
+        "tags": [
+            "CleanTech",
+            "Circular economy",
+            "Physical operations",
+            "UK"
+        ],
+        "reason": "Physical operations business — circular organic-fertiliser platform combining waste-collection logistics with traceability software for hospitality partners. Waste collection and physical logistics excluded from lens regardless of the software traceability layer."
+    },
+    {
+        "name": "Different Breed",
+        "accelerator": "Bethnal Green Ventures Spring 2026",
+        "country": "UK",
+        "tags": [
+            "Accessibility",
+            "EventTech",
+            "SaaS",
+            "UK"
+        ],
+        "reason": "Product, not a pipe. Venue accessibility SaaS providing personalised dynamic fan guides, compliance, and audience data for live-event venues. A compliance/accessibility tool sold to venues — no structural switching cost between institutional counterparties of the type the lens targets. No public traction data found."
+    },
+    {
+        "name": "Novi Innovations",
+        "accelerator": "Bethnal Green Ventures Spring 2026",
+        "country": "UK",
+        "tags": [
+            "EdTech",
+            "Device management",
+            "UK"
+        ],
+        "reason": "Product, not a pipe. School phone/device-access control restricting non-approved apps while keeping medical/emergency access live, with a teacher dashboard. Originated as a consumer/student self-control app (physical fobs at university libraries) before pivoting toward schools — a device-management product, not payment/information infrastructure between institutional parties. Piloted in Bristol schools with University of Bristol Runway Award backing."
     }
 ]
