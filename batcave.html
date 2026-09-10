@@ -457,6 +457,31 @@
   <div id="smoke-status" style="margin-top:10px;font-size:0.75rem;color:#888;text-align:center;"></div>
 </div>
 
+<!-- LASER BAR -->
+<div class="panel">
+  <div class="panel-title" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+    <span><span>//</span> DMX — LASER BAR (NewFeel F6-903)</span>
+    <span style="font-size:0.65rem;color:#f5a623;font-weight:normal;">raw channels — mapping unconfirmed</span>
+  </div>
+  <div style="font-size:0.72rem;color:#888;margin-bottom:12px;line-height:1.4;">
+    Channel functions (colour/pattern/speed) not yet mapped on-site. Sliders control raw DMX values on channels 1–16 (DMX addresses 2–17; channel 1 is reserved for the smoke machine). Laser must be set to <b>DMX mode</b> on its own control panel for these to have any effect.
+  </div>
+  <div id="laser-sliders" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:14px;"></div>
+  <div class="btn-grid">
+    <button class="btn" onclick="laserBlackout()" title="Zero all 16 channels">
+      <span class="btn-icon">⏹️</span>
+      <span class="btn-label">Blackout</span>
+      <span class="btn-sub">All channels → 0</span>
+    </button>
+    <button class="btn btn-blue" onclick="laserAllFull()" title="Send all 16 channels to 255 for 3s (diagnostic)">
+      <span class="btn-icon">✨</span>
+      <span class="btn-label">Test — All Full</span>
+      <span class="btn-sub">Diagnostic only</span>
+    </button>
+  </div>
+  <div id="laser-status" style="margin-top:10px;font-size:0.75rem;color:#888;text-align:center;"></div>
+</div>
+
 <!-- TAPO POWER -->
 <div class="panel">
   <div class="panel-title"><span>//</span> POWER — TAPO SMART PLUGS</div>
@@ -581,6 +606,115 @@ async function smoke(value, duration) {
   }
   setTimeout(() => { el.textContent = ''; }, 5000);
 }
+
+// ── Laser Bar (NewFeel F6-903) — raw 16-channel DMX control ─────────────────
+// Channel semantics unconfirmed as of 2026-09-11 — sliders are generic CH1-16,
+// no assumed colour/pattern/speed labels until on-site test confirms mapping.
+const LASER_CH_COUNT = 16;
+let laserValues = new Array(LASER_CH_COUNT).fill(0);
+let laserSendTimer = null;
+
+function buildLaserSliders() {
+  const wrap = document.getElementById('laser-sliders');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  for (let i = 1; i <= LASER_CH_COUNT; i++) {
+    const box = document.createElement('div');
+    box.style.cssText = 'background:#111;border:1px solid #262626;border-radius:6px;padding:8px;';
+    box.innerHTML = `
+      <div style="display:flex;justify-content:space-between;font-size:0.68rem;color:#888;margin-bottom:4px;">
+        <span>CH${i}</span><span id="laser-val-${i}">0</span>
+      </div>
+      <input type="range" min="0" max="255" value="0" id="laser-slider-${i}"
+        style="width:100%;"
+        oninput="laserSliderInput(${i}, this.value)"
+        onchange="laserSliderCommit(${i}, this.value)">
+    `;
+    wrap.appendChild(box);
+  }
+}
+
+function laserSliderInput(ch, value) {
+  document.getElementById(`laser-val-${ch}`).textContent = value;
+}
+
+function laserSliderCommit(ch, value) {
+  laserValues[ch - 1] = parseInt(value);
+  laserSendChannel(ch, parseInt(value));
+}
+
+async function laserSendChannel(ch, value) {
+  const el = document.getElementById('laser-status');
+  try {
+    const r = await fetch(`${DMX_API}/laser/channel?token=warehouse2026`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({channel: ch, value: value})
+    });
+    const d = await r.json();
+    if (el) {
+      el.style.color = d.ok ? '#4caf50' : '#f44336';
+      el.textContent = d.ok ? `CH${ch} = ${value}` : `Error: ${d.error}`;
+    }
+  } catch(e) {
+    if (el) { el.style.color = '#f44336'; el.textContent = `Error: ${e.message}`; }
+  }
+}
+
+async function laserBlackout() {
+  laserValues = new Array(LASER_CH_COUNT).fill(0);
+  for (let i = 1; i <= LASER_CH_COUNT; i++) {
+    const slider = document.getElementById(`laser-slider-${i}`);
+    const val = document.getElementById(`laser-val-${i}`);
+    if (slider) slider.value = 0;
+    if (val) val.textContent = '0';
+  }
+  const el = document.getElementById('laser-status');
+  el.style.color = '#00e5ff';
+  el.textContent = 'Blackout…';
+  try {
+    const r = await fetch(`${DMX_API}/laser/off?token=warehouse2026`);
+    const d = await r.json();
+    el.style.color = d.ok ? '#4caf50' : '#f44336';
+    el.textContent = d.ok ? 'All channels off' : `Error: ${d.error}`;
+  } catch(e) {
+    el.style.color = '#f44336';
+    el.textContent = `Error: ${e.message}`;
+  }
+  setTimeout(() => { el.textContent = ''; }, 4000);
+}
+
+async function laserAllFull() {
+  const el = document.getElementById('laser-status');
+  el.style.color = '#00e5ff';
+  el.textContent = 'Test — all channels full…';
+  const full = new Array(LASER_CH_COUNT).fill(255);
+  try {
+    const r = await fetch(`${DMX_API}/laser?token=warehouse2026`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({channels: full})
+    });
+    const d = await r.json();
+    el.style.color = d.ok ? '#4caf50' : '#f44336';
+    el.textContent = d.ok ? 'Sent — all channels 255' : `Error: ${d.error}`;
+    if (d.ok) {
+      for (let i = 1; i <= LASER_CH_COUNT; i++) {
+        const slider = document.getElementById(`laser-slider-${i}`);
+        const val = document.getElementById(`laser-val-${i}`);
+        if (slider) slider.value = 255;
+        if (val) val.textContent = '255';
+      }
+      laserValues = new Array(LASER_CH_COUNT).fill(255);
+    }
+  } catch(e) {
+    el.style.color = '#f44336';
+    el.textContent = `Error: ${e.message}`;
+  }
+  setTimeout(() => { el.textContent = ''; }, 5000);
+}
+
+document.addEventListener('DOMContentLoaded', buildLaserSliders);
 
 async function runEffect(mode, opts = {}) {
   const el = event.currentTarget;
