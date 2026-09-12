@@ -464,10 +464,21 @@
     <span style="font-size:0.65rem;color:#f5a623;font-weight:normal;">raw channels — mapping unconfirmed</span>
   </div>
   <div style="font-size:0.72rem;color:#888;margin-bottom:12px;line-height:1.4;">
-    Channel functions (colour/pattern/speed) not yet mapped on-site. Sliders control raw DMX values on channels 1–16 (DMX addresses 2–17; channel 1 is reserved for the smoke machine). Laser must be set to <b>DMX mode</b> on its own control panel for these to have any effect.
+    Unit's own address dial confirmed set to <b>001</b> — fixture listens starting at DMX channel 1 (fixed 2026-09-12; previously miswired to start at channel 2, which is why manual testing showed nothing). Sliders below control raw DMX channels 1–16 directly. Laser must be in <b>DMX mode</b> on its own panel (not Auto/Sound/Master-Slave) for any of this to do anything — check the unit's mode display if nothing responds even after this fix.
   </div>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+    <button class="scene-ctrl-btn" onclick="laserApplyPreset('rgb_test')" title="CH1=255 CH2=0 CH3=0 (pure red guess) then cycle">RGB Probe</button>
+    <button class="scene-ctrl-btn" onclick="laserApplyPreset('sweep_slow')">Slow Sweep Guess</button>
+    <button class="scene-ctrl-btn" onclick="laserApplyPreset('strobe_off')">Strobe Off Guess</button>
+    <button class="scene-ctrl-btn" onclick="laserRawSend()">Send Raw CSV →</button>
+    <input type="text" id="laser-raw-csv" placeholder="e.g. 255,0,0,128,0,0,0,0,0,0,0,0,0,0,0,0" style="flex:1;min-width:220px;background:#0d0d1a;border:1px solid var(--border);color:var(--accent);font-family:'Share Tech Mono',monospace;padding:6px 10px;font-size:0.7rem;">
+  </div>
+
   <div id="laser-sliders" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:14px;"></div>
-  <div class="btn-grid">
+
+  <div style="font-size:0.62rem;color:var(--dim);letter-spacing:0.1em;margin:14px 0 8px;">SWEEP / SCAN TOOLS</div>
+  <div class="btn-grid" style="margin-bottom:14px">
     <button class="btn" onclick="laserBlackout()" title="Zero all 16 channels">
       <span class="btn-icon">⏹️</span>
       <span class="btn-label">Blackout</span>
@@ -478,7 +489,18 @@
       <span class="btn-label">Test — All Full</span>
       <span class="btn-sub">Diagnostic only</span>
     </button>
+    <button class="btn btn-purple" onclick="laserSweepOne()" title="Sets CH1 full, all others 0. Click again to advance to next channel.">
+      <span class="btn-icon">▶️</span>
+      <span class="btn-label" id="laser-sweep-label">Isolate CH1</span>
+      <span class="btn-sub">Click to advance</span>
+    </button>
+    <button class="btn btn-amber" onclick="laserSweepAuto()" title="Auto-cycle isolating one channel at a time, 2s each">
+      <span class="btn-icon">⏯️</span>
+      <span class="btn-label" id="laser-autosweep-label">Auto Sweep</span>
+      <span class="btn-sub">2s per channel</span>
+    </button>
   </div>
+
   <div id="laser-status" style="margin-top:10px;font-size:0.75rem;color:#888;text-align:center;"></div>
 </div>
 
@@ -608,11 +630,13 @@ async function smoke(value, duration) {
 }
 
 // ── Laser Bar (NewFeel F6-903) — raw 16-channel DMX control ─────────────────
-// Channel semantics unconfirmed as of 2026-09-11 — sliders are generic CH1-16,
-// no assumed colour/pattern/speed labels until on-site test confirms mapping.
+// Confirmed 2026-09-12: unit's own address dial = 001, listens from DMX ch1.
+// Sliders map directly to DMX channels 1-16.
 const LASER_CH_COUNT = 16;
 let laserValues = new Array(LASER_CH_COUNT).fill(0);
 let laserSendTimer = null;
+let _laserSweepCh = 0;
+let _laserAutoTimer = null;
 
 function buildLaserSliders() {
   const wrap = document.getElementById('laser-sliders');
@@ -712,6 +736,79 @@ async function laserAllFull() {
     el.textContent = `Error: ${e.message}`;
   }
   setTimeout(() => { el.textContent = ''; }, 5000);
+}
+
+async function laserSendAll(values, label) {
+  const el = document.getElementById('laser-status');
+  if (el) { el.style.color = '#00e5ff'; el.textContent = `${label || 'Sending'}…`; }
+  try {
+    const r = await fetch(`${DMX_API}/laser?token=warehouse2026`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({channels: values})
+    });
+    const d = await r.json();
+    if (el) { el.style.color = d.ok ? '#4caf50' : '#f44336'; el.textContent = d.ok ? `${label || 'Sent'} — OK` : `Error: ${d.error}`; }
+    if (d.ok) {
+      laserValues = values.slice();
+      for (let i = 1; i <= LASER_CH_COUNT; i++) {
+        const slider = document.getElementById(`laser-slider-${i}`);
+        const val = document.getElementById(`laser-val-${i}`);
+        if (slider) slider.value = values[i-1];
+        if (val) val.textContent = values[i-1];
+      }
+    }
+  } catch(e) {
+    if (el) { el.style.color = '#f44336'; el.textContent = `Error: ${e.message}`; }
+  }
+}
+
+const LASER_PRESETS = {
+  rgb_test: [255,0,0, 255,255,255, 0,0,0, 0,0,0,0,0,0,0,0],
+  sweep_slow: [255,0,0, 128,0,0, 40,0,0, 0,0,0,0,0,0,0],
+  strobe_off: [255,255,255, 0,0,0, 0,0,0, 0,0,0,0,0,0,0],
+};
+
+function laserApplyPreset(name) {
+  const vals = LASER_PRESETS[name];
+  if (!vals) return;
+  const padded = vals.slice(0, LASER_CH_COUNT);
+  while (padded.length < LASER_CH_COUNT) padded.push(0);
+  laserSendAll(padded, `Preset: ${name}`);
+}
+
+function laserRawSend() {
+  const raw = document.getElementById('laser-raw-csv').value.trim();
+  if (!raw) return;
+  const vals = raw.split(',').map(v => {
+    const n = parseInt(v.trim());
+    return isNaN(n) ? 0 : Math.max(0, Math.min(255, n));
+  });
+  while (vals.length < LASER_CH_COUNT) vals.push(0);
+  laserSendAll(vals.slice(0, LASER_CH_COUNT), 'Raw CSV');
+}
+
+function laserSweepOne() {
+  _laserSweepCh = (_laserSweepCh % LASER_CH_COUNT) + 1;
+  const vals = new Array(LASER_CH_COUNT).fill(0);
+  vals[_laserSweepCh - 1] = 255;
+  laserSendAll(vals, `Isolate CH${_laserSweepCh}`);
+  const lbl = document.getElementById('laser-sweep-label');
+  if (lbl) lbl.textContent = `Isolate CH${_laserSweepCh}`;
+}
+
+function laserSweepAuto() {
+  const btnLbl = document.getElementById('laser-autosweep-label');
+  if (_laserAutoTimer) {
+    clearInterval(_laserAutoTimer);
+    _laserAutoTimer = null;
+    if (btnLbl) btnLbl.textContent = 'Auto Sweep';
+    laserBlackout();
+    return;
+  }
+  if (btnLbl) btnLbl.textContent = 'Stop Sweep';
+  laserSweepOne();
+  _laserAutoTimer = setInterval(laserSweepOne, 2000);
 }
 
 document.addEventListener('DOMContentLoaded', buildLaserSliders);
