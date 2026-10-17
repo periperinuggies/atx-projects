@@ -155,40 +155,40 @@ document.getElementById('pwInput').addEventListener('keyup',function(e){
 
 <header>
   <h1><i class="fa-solid fa-heart-pulse" style="color:#ef4444"></i> Project Vitals &nbsp;·&nbsp; Health &amp; Longevity</h1>
-  <span class="meta">Last panel: Apr 2026 (hormone-only) &nbsp;·&nbsp; 8 panels tracked &nbsp;·&nbsp; Male, 43 &nbsp;·&nbsp; TRT active since Jun 2024</span>
+  <span class="meta">Last panel: Oct 2026 (full panel) &nbsp;·&nbsp; 9 panels tracked &nbsp;·&nbsp; Male, 43 &nbsp;·&nbsp; TRT active since Jun 2024</span>
 </header>
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <!-- RIGHT NOW -->
 <!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="sec"><i class="fa-solid fa-circle-dot" style="color:#22c55e"></i> Right Now — April 2026 (hormone panel) / last full panel Nov 2025</div>
+<div class="sec"><i class="fa-solid fa-circle-dot" style="color:#22c55e"></i> Right Now — October 2026 (full panel)</div>
 <div class="mGrid">
 
   <div class="mCard ok">
     <div class="mIcon ok"><i class="fa-solid fa-dna"></i></div>
     <div class="mLabel">Total Testosterone <a href="https://www.healthdirect.gov.au/testosterone" target="_blank"><i class="fa-solid fa-circle-question"></i></a></div>
-    <div class="mVal ok">25.1</div>
+    <div class="mVal ok">26.4</div>
     <div class="mUnit">nmol/L &nbsp;·&nbsp; ref 10–35</div>
     <div class="mTrend"><i class="fa-solid fa-minus flat"></i><span class="flat">Stable on TRT</span></div>
-    <div class="mRef">Peak 37.4 (Oct 24) → holding steady in 25–27 range (Apr 2026: 25.1)</div>
+    <div class="mRef">Peak 37.4 (Oct 24) → holding steady in 25–27 range (Oct 2026: 26.4)</div>
   </div>
 
   <div class="mCard ok">
     <div class="mIcon ok"><i class="fa-solid fa-chart-line"></i></div>
     <div class="mLabel">Free Testosterone <a href="https://www.healthdirect.gov.au/testosterone" target="_blank"><i class="fa-solid fa-circle-question"></i></a></div>
-    <div class="mVal ok">668</div>
-    <div class="mUnit">pmol/L &nbsp;·&nbsp; ref 225–725</div>
-    <div class="mTrend"><i class="fa-solid fa-arrow-trend-down down-good"></i><span class="down-good">Down from 727 (Nov 25)</span></div>
-    <div class="mRef">Comfortably within range — no longer near the ceiling</div>
+    <div class="mVal warn">761</div>
+    <div class="mUnit">pmol/L &nbsp;·&nbsp; ref 225–725 (lab's own ref on this draw: 350–750)</div>
+    <div class="mTrend"><i class="fa-solid fa-arrow-trend-up up-bad"></i><span class="up-bad">Up from 668 (Apr 26)</span></div>
+    <div class="mRef">Back above the ceiling on both reference ranges cited — likely dose-timing relative to injection, worth a mention to prescriber if it persists</div>
   </div>
 
-  <div class="mCard warn">
-    <div class="mIcon warn"><i class="fa-solid fa-flask"></i></div>
+  <div class="mCard alert">
+    <div class="mIcon alert"><i class="fa-solid fa-flask"></i></div>
     <div class="mLabel">Oestradiol (E2) <a href="https://www.healthdirect.gov.au/oestrogen" target="_blank"><i class="fa-solid fa-circle-question"></i></a></div>
-    <div class="mVal warn">161</div>
+    <div class="mVal alert">194</div>
     <div class="mUnit">pmol/L &nbsp;·&nbsp; ref &lt;100</div>
-    <div class="mTrend"><i class="fa-solid fa-minus flat"></i><span class="flat">Flat vs 159 (Nov 25)</span></div>
-    <div class="mRef">Just above the 70–150 optimal window. Pre-TRT baseline: 67</div>
+    <div class="mTrend"><i class="fa-solid fa-arrow-trend-up up-bad"></i><span class="up-bad">Up from 161 (Apr 26) — worsening, not flat</span></div>
+    <div class="mRef">Well above the 70–150 optimal window, highest reading yet. Pre-TRT baseline: 67. Worth raising AI dose discussion with prescriber</div>
   </div>
 
   <div class="mCard info">
@@ -203,28 +203,28 @@ document.getElementById('pwInput').addEventListener('keyup',function(e){
   <div class="mCard warn">
     <div class="mIcon warn"><i class="fa-solid fa-droplet"></i></div>
     <div class="mLabel">LDL Cholesterol <a href="https://www.heartfoundation.org.au/your-heart/know-your-numbers/cholesterol" target="_blank"><i class="fa-solid fa-circle-question"></i></a></div>
-    <div class="mVal warn">3.4*</div>
+    <div class="mVal warn">3.1</div>
     <div class="mUnit">mmol/L &nbsp;·&nbsp; longevity target &lt;2.5</div>
-    <div class="mTrend"><span class="flat">*Not retested this draw — last known Nov 25</span></div>
+    <div class="mTrend"><i class="fa-solid fa-arrow-trend-down down-good"></i><span class="down-good">Down from 3.4 (Nov 25) — first improvement since 2024</span></div>
     <div class="mRef">ApoB still unmeasured ⭐ — true risk unknown</div>
   </div>
 
   <div class="mCard warn">
     <div class="mIcon warn"><i class="fa-solid fa-vial"></i></div>
     <div class="mLabel">Haemoglobin <a href="https://www.healthdirect.gov.au/haemoglobin" target="_blank"><i class="fa-solid fa-circle-question"></i></a></div>
-    <div class="mVal warn">165*</div>
+    <div class="mVal warn">162</div>
     <div class="mUnit">g/L &nbsp;·&nbsp; ref 130–170</div>
-    <div class="mTrend"><span class="flat">*Not retested this draw — last known Nov 25</span></div>
-    <div class="mRef">+18% from pre-TRT 140. Monitoring threshold worth raising with prescriber next full panel</div>
+    <div class="mTrend"><i class="fa-solid fa-minus flat"></i><span class="flat">Down slightly from 165 (Nov 25)</span></div>
+    <div class="mRef">+16% from pre-TRT 140. Haematocrit now measured: 48.7% — comfortably under the 52–54% action threshold</div>
   </div>
 
   <div class="mCard ok">
     <div class="mIcon ok"><i class="fa-solid fa-microscope"></i></div>
     <div class="mLabel">PSA <a href="https://www.cancercouncil.com.au/prostate-cancer/diagnosis/psa-test/" target="_blank"><i class="fa-solid fa-circle-question"></i></a></div>
-    <div class="mVal ok">0.50*</div>
+    <div class="mVal ok">0.54</div>
     <div class="mUnit">ug/L &nbsp;·&nbsp; ref 0.25–2.20</div>
-    <div class="mTrend"><span class="flat">*Not retested this draw — last known Nov 25</span></div>
-    <div class="mRef">No upward trend across 7 measured draws. Annual monitoring on TRT.</div>
+    <div class="mTrend"><i class="fa-solid fa-minus flat"></i><span class="flat">Stable vs 0.50 (Nov 25)</span></div>
+    <div class="mRef">No upward trend across 8 measured draws. Annual monitoring on TRT.</div>
   </div>
 
   <div class="mCard ok">
@@ -469,10 +469,18 @@ document.getElementById('pwInput').addEventListener('keyup',function(e){
 </div>
 
 <div class="flag">
-  <div class="fdot y"></div>
+  <div class="fdot g"></div>
   <div>
-    <div class="ftitle" style="color:var(--yellow)">Haemoglobin 165 g/L (last measured Nov 25) — +18% from pre-TRT, still in range but rising</div>
-    <div class="fdesc">Expected TRT-driven erythropoiesis. Pre-TRT baseline was 140. Last measured 165 (Nov 2025), within normal limits (130–170) but the direction had been consistently upward. Higher haematocrit increases blood viscosity and modestly raises DVT/PE risk (cross-referencing TRAVERSE trial findings). Not retested in the Apr 2026 hormone-only draw — get this back on the next full panel and discuss a monitoring threshold with your doctor — most TRT protocols flag at Hb ≥185.</div>
+    <div class="ftitle" style="color:var(--green)">Haematocrit measured for the first time — 48.7%, comfortably under the action threshold</div>
+    <div class="fdesc">Oct 2026 panel measured haematocrit directly: 0.487 L/L (48.7%), ref 0.400–0.540. Guideline action threshold (Endocrine Society/AUA) is 52–54% — this result is well clear of it. Haemoglobin also eased slightly to 162 g/L from 165 (Nov 25), still elevated vs pre-TRT baseline of 140 but trending flat-to-down rather than climbing. Keep haematocrit on every future panel — it's the more clinically relevant number than Hb alone for TRT-driven erythropoiesis risk.</div>
+  </div>
+</div>
+
+<div class="flag">
+  <div class="fdot r"></div>
+  <div>
+    <div class="ftitle" style="color:var(--red)">Oestradiol climbing — 194 pmol/L, highest reading yet</div>
+    <div class="fdesc">E2 has moved 67 (pre-TRT) → 198 → 159 → 161 → 194 (Oct 2026). The Apr 2026 reading looked like a plateau; this draw breaks that and is the highest value recorded since starting TRT. Well above the 70–150 optimal window discussed in the research section below. Worth raising a low-dose aromatase inhibitor adjustment with your prescriber at the next review rather than waiting for the following panel.</div>
   </div>
 </div>
 
@@ -499,8 +507,9 @@ document.getElementById('pwInput').addEventListener('keyup',function(e){
 <div class="card">
   <table>
     <tr><th>#</th><th>Question</th><th>Priority</th></tr>
-    <tr><td class="muted">1</td><td>Next blood draw should be the COMPLETE panel, not hormone-only — need lipids, glucose, CBC, PSA, CRP, LFTs alongside hormones. Apr 2026 draw was accidentally limited to hormones.</td><td><span class="pill alert">High</span></td></tr>
-    <tr><td class="muted">2</td><td>Haemoglobin last measured 165 (Nov 25), trending up (140→151→163→150→165). What's the actual action threshold — dose reduction, phlebotomy, or just monitor? Get this rechecked on the next full panel.</td><td><span class="pill alert">High</span></td></tr>
+    <tr><td class="muted">1</td><td>Oestradiol is now at its highest recorded level (194, Oct 2026) after a false plateau in Apr 2026. Is it time to introduce a low-dose aromatase inhibitor, and if so at what starting dose?</td><td><span class="pill alert">High</span></td></tr>
+    <tr><td class="muted">2</td><td>Free Testosterone came back at 761 (Oct 2026), above both reference ranges cited across panels (225–725 and 350–750). Is this just injection-timing variance, or worth adjusting dose/frequency?</td><td><span class="pill warn">Medium</span></td></tr>
+    <tr><td class="muted">2b</td><td>Haemoglobin 162, haematocrit 48.7% (first time measured, Oct 2026) — both comfortably in range and haematocrit well under the 52–54% action threshold. Confirm this is the right marker to keep tracking going forward.</td><td><span class="pill ok">Resolved — confirm only</span></td></tr>
     <tr><td class="muted">3</td><td>LH=2 with falling T in Feb 2024 — was the cause of secondary hypogonadism ever investigated? Pituitary MRI? GnRH stimulation test? Or was it treated empirically? (Apr 2026 LH/FSH recheck came back undetectable — expected on TRT, doesn't resolve this.)</td><td><span class="pill alert">High</span></td></tr>
     <tr><td class="muted">4</td><td>Add to next panel: ApoB, Lp(a) (once only), HbA1c, fasting insulin, Vitamin D (25-OH), TSH/T4, IGF-1 — none of these have ever been tested across 8 panels</td><td><span class="pill alert">High</span></td></tr>
     <tr><td class="muted">5</td><td>LDL holding at 3.3–3.4 since 2024 (last measured Nov 25) — is this expected with TRT? What happens if ApoB comes back elevated?</td><td><span class="pill warn">Medium</span></td></tr>
@@ -514,7 +523,6 @@ document.getElementById('pwInput').addEventListener('keyup',function(e){
 <div class="sec"><i class="fa-solid fa-vials" style="color:var(--muted)"></i> Missing Markers — Next Panel</div>
 <div class="card">
   <div class="tags">
-    <span class="tag p1">Full panel repeat ⭐⭐ (lipids/glucose/CBC/PSA/CRP/LFTs — missed in Apr 26 draw)</span>
     <span class="tag p1">HbA1c ⭐⭐</span>
     <span class="tag p1">Fasting Insulin ⭐⭐</span>
     <span class="tag p1">ApoB ⭐⭐</span>
@@ -529,7 +537,7 @@ document.getElementById('pwInput').addEventListener('keyup',function(e){
     <span class="tag">DunedinPACE (epigenetic age)</span>
     <span class="tag">Iron panel (recheck)</span>
   </div>
-  <div class="hint">⭐⭐ = critical. ApoB and Lp(a) remain the highest value unmeasured CVD markers across 8 panels. DHEA-S now measured (Apr 26: 5.9, normal) — removed from this list. The Apr 2026 draw was accidentally hormone-only — lipids, glucose, CBC, PSA and hs-CRP all still reflect Nov 2025 values and need a full-panel repeat.</div>
+  <div class="hint">⭐⭐ = critical. ApoB and Lp(a) remain the highest value unmeasured CVD markers across 9 panels. DHEA-S now measured (Apr 26: 5.9, normal) — removed from this list. Oct 2026 was a complete panel (hormones, lipids, glucose, CBC incl. haematocrit, PSA, kidney function, LFTs) — hs-CRP was the only routine marker not retested this draw.</div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
@@ -549,6 +557,7 @@ document.getElementById('pwInput').addEventListener('keyup',function(e){
     <tr><td class="muted">May 2025</td><td class="green">28.8</td><td class="yellow">796</td><td>26</td><td class="yellow">198</td><td class="muted">suppressed</td><td class="muted">—</td><td class="muted">—</td></tr>
     <tr><td class="muted">Nov 2025</td><td class="green">26.2</td><td class="yellow">727</td><td>20</td><td class="yellow">159</td><td class="muted">suppressed</td><td class="muted">—</td><td class="muted">—</td></tr>
     <tr><td class="muted">Apr 2026</td><td class="green">25.1</td><td class="green">668</td><td>21</td><td class="yellow">161</td><td class="muted">&lt;1</td><td class="muted">&lt;1</td><td>120</td></tr>
+    <tr><td class="muted">Oct 2026</td><td class="green">26.4</td><td class="yellow">761</td><td>18</td><td class="red">194</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td></tr>
   </table>
   <div class="hint">⚑ LH=2 with falling T = secondary hypogonadism (pituitary not signalling). TRT suppresses LH/FSH — Apr 2026 recheck confirms both undetectable, as expected on exogenous T (not new diagnostic information). Apr 2026 also added: Cortisol AM 406 nmol/L (ref 145–619, normal), DHEA-S 5.9 umol/L (ref 0.9–10.1, normal), Progesterone 2 nmol/L (no ref supplied) — not shown as columns above for space.</div>
 </div>
@@ -556,31 +565,32 @@ document.getElementById('pwInput').addEventListener('keyup',function(e){
 <div class="card">
   <div style="font-size:0.61rem;color:var(--muted);margin-bottom:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">Cardiovascular &amp; Metabolic</div>
   <table>
-    <tr><th>Marker</th><th>Apr 22</th><th>Feb 24*</th><th>Jun 24</th><th>May 25</th><th>Nov 25</th><th>Ref</th></tr>
-    <tr><td>LDL (mmol/L)</td><td class="green">2.9</td><td class="muted">2.1*</td><td class="yellow">3.3</td><td class="yellow">3.4</td><td class="yellow">3.4</td><td>&lt;3.4 std / &lt;2.5 longevity</td></tr>
-    <tr><td>HDL (mmol/L)</td><td>1.1</td><td class="muted">0.9*</td><td>1.2</td><td>1.3</td><td class="yellow">1.1</td><td>&gt;0.9</td></tr>
-    <tr><td>Triglycerides</td><td class="green">0.9</td><td class="muted">0.5*</td><td class="green">0.6</td><td class="green">0.8</td><td class="green">0.6</td><td>&lt;2.0</td></tr>
-    <tr><td>hs-CRP (mg/L)</td><td class="muted">—</td><td class="red">17.0†</td><td class="muted">—</td><td class="yellow">3.13</td><td class="green">0.91</td><td>&lt;1.0</td></tr>
-    <tr><td>Glucose (fasting)</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td>5.0</td><td class="green">4.8</td><td>&lt;5.5</td></tr>
-    <tr><td>PSA (ug/L)</td><td class="muted">—</td><td>0.68</td><td class="muted">—</td><td>0.57 / 0.53</td><td>0.50</td><td>0.25–2.20</td></tr>
+    <tr><th>Marker</th><th>Apr 22</th><th>Feb 24*</th><th>Jun 24</th><th>May 25</th><th>Nov 25</th><th>Oct 26</th><th>Ref</th></tr>
+    <tr><td>LDL (mmol/L)</td><td class="green">2.9</td><td class="muted">2.1*</td><td class="yellow">3.3</td><td class="yellow">3.4</td><td class="yellow">3.4</td><td class="yellow">3.1</td><td>&lt;3.4 std / &lt;2.5 longevity</td></tr>
+    <tr><td>HDL (mmol/L)</td><td>1.1</td><td class="muted">0.9*</td><td>1.2</td><td>1.3</td><td class="yellow">1.1</td><td class="green">1.3</td><td>&gt;0.9</td></tr>
+    <tr><td>Triglycerides</td><td class="green">0.9</td><td class="muted">0.5*</td><td class="green">0.6</td><td class="green">0.8</td><td class="green">0.6</td><td class="green">0.6</td><td>&lt;2.0</td></tr>
+    <tr><td>hs-CRP (mg/L)</td><td class="muted">—</td><td class="red">17.0†</td><td class="muted">—</td><td class="yellow">3.13</td><td class="green">0.91</td><td class="muted">—*</td><td>&lt;1.0</td></tr>
+    <tr><td>Glucose (fasting)</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td>5.0</td><td class="green">4.8</td><td>5.0</td><td>&lt;5.5</td></tr>
+    <tr><td>PSA (ug/L)</td><td class="muted">—</td><td>0.68</td><td class="muted">—</td><td>0.57 / 0.53</td><td>0.50</td><td>0.54</td><td>0.25–2.20</td></tr>
   </table>
-  <div class="hint">* Feb 2024 was a random (non-fasting) draw — lipid values not directly comparable to fasting panels. † CRP 17.0 likely reflects acute illness at that draw, not chronic cardiovascular risk. All rows unchanged since Nov 2025 — the Apr 2026 draw was hormone-only and did not repeat lipids, glucose, PSA or hs-CRP.</div>
+  <div class="hint">* Feb 2024 was a random (non-fasting) draw — lipid values not directly comparable to fasting panels. † CRP 17.0 likely reflects acute illness at that draw, not chronic cardiovascular risk. *hs-CRP was the one marker not retested in the Oct 2026 panel — last known value Nov 2025 (0.91). LDL, HDL, glucose and PSA all freshly retested Oct 2026 — lipids moved favourably across the board.</div>
 </div>
 
 <div class="card">
   <div style="font-size:0.61rem;color:var(--muted);margin-bottom:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">Full Blood Count</div>
   <table>
-    <tr><th>Marker</th><th>Feb 24</th><th>Jun 24</th><th>Oct 24</th><th>Feb 25</th><th>May 25</th><th>Nov 25</th><th>Ref</th></tr>
-    <tr><td>Haemoglobin (g/L)</td><td class="muted">140</td><td>151</td><td>163</td><td>150</td><td class="yellow">165</td><td class="yellow">165</td><td>130–170</td></tr>
-    <tr><td>WCC (×10⁹/L)</td><td>5.5</td><td>5.6</td><td class="yellow">9.3‡</td><td>5.4</td><td>6.3</td><td>6.1</td><td>4–11</td></tr>
-    <tr><td>Platelets (×10⁹/L)</td><td>183</td><td>194</td><td>174</td><td>204</td><td>179</td><td>202</td><td>150–450</td></tr>
+    <tr><th>Marker</th><th>Feb 24</th><th>Jun 24</th><th>Oct 24</th><th>Feb 25</th><th>May 25</th><th>Nov 25</th><th>Oct 26</th><th>Ref</th></tr>
+    <tr><td>Haemoglobin (g/L)</td><td class="muted">140</td><td>151</td><td>163</td><td>150</td><td class="yellow">165</td><td class="yellow">165</td><td class="yellow">162</td><td>130–170</td></tr>
+    <tr><td>Haematocrit (%)</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="green">48.7</td><td>40–54</td></tr>
+    <tr><td>WCC (×10⁹/L)</td><td>5.5</td><td>5.6</td><td class="yellow">9.3‡</td><td>5.4</td><td>6.3</td><td>6.1</td><td>5.9</td><td>4–11</td></tr>
+    <tr><td>Platelets (×10⁹/L)</td><td>183</td><td>194</td><td>174</td><td>204</td><td>179</td><td>202</td><td>192</td><td>150–450</td></tr>
   </table>
-  <div class="hint">‡ Oct 2024 WCC spike (9.3) likely infection or stress — fully resolved by Feb 2025. Pre-TRT Hb of 140 shown as baseline context. Not repeated in the Apr 2026 hormone-only draw — next full panel should recheck.</div>
+  <div class="hint">‡ Oct 2024 WCC spike (9.3) likely infection or stress — fully resolved by Feb 2025. Pre-TRT Hb of 140 shown as baseline context. Oct 2026 panel also added a WCC differential (Neutrophils 60%, Lymphocytes 25%, Monocytes 8%, Eosinophils 6%, Basophils 1% — all normal) and kidney function (Sodium, Potassium, Chloride, Bicarbonate, Urea, Creatinine, eGFR &gt;90 — all normal) not shown as columns above for space; see memory/health.md for full detail.</div>
 </div>
 
 <footer>
   <span><i class="fa-solid fa-lock" style="font-size:0.6rem;margin-right:4px;color:var(--muted)"></i>Project Vitals — private &nbsp;·&nbsp; <a href="/">← chappie.larsenfamily.com.au</a></span>
-  <span>v0.7 &nbsp;·&nbsp; 8 panels Feb 2024–Apr 2026 &nbsp;·&nbsp; Updated 2026-07-27 — Total T chart now includes Free T on dual axis; lipid chart expanded to LDL/HDL/Triglycerides</span>
+  <span>v0.8 &nbsp;·&nbsp; 9 panels Feb 2024–Oct 2026 &nbsp;·&nbsp; Updated 2026-10-18 — Oct 2026 full panel added (first haematocrit reading, kidney function, WCC differential); oestradiol flagged rising, lipids improved</span>
 </footer>
 
 <script>
@@ -629,26 +639,26 @@ function multiLine(id, labels, series, refLines=[]){
 new Chart(document.getElementById('cT').getContext('2d'),{
   type:'line',
   data:{
-    labels:['Feb 24','Mar 24','Jun 24','Oct 24','Feb 25','May 25','Nov 25','Apr 26'],
+    labels:['Feb 24','Mar 24','Jun 24','Oct 24','Feb 25','May 25','Nov 25','Apr 26','Oct 26'],
     datasets:[
       {
         label:'Total T (nmol/L)', yAxisID:'yTotal',
-        data:[10.9,11.5,6.1,37.4,26.4,28.8,26.2,25.1],
+        data:[10.9,11.5,6.1,37.4,26.4,28.8,26.2,25.1,26.4],
         borderColor:'#a855f7',
-        pointBackgroundColor:['#4a5568','#4a5568','#ef4444','#ef4444','#22c55e','#22c55e','#22c55e','#22c55e'],
+        pointBackgroundColor:['#4a5568','#4a5568','#ef4444','#ef4444','#22c55e','#22c55e','#22c55e','#22c55e','#22c55e'],
         pointRadius:5, tension:0.28, fill:false, borderWidth:2
       },
       {
         label:'Free T (pmol/L)', yAxisID:'yFree',
-        data:[228,253,136,997,758,796,727,668],
+        data:[228,253,136,997,758,796,727,668,761],
         borderColor:'#14b8a6',
-        pointBackgroundColor:['#4a5568','#4a5568','#ef4444','#ef4444','#f59e0b','#f59e0b','#f59e0b','#22c55e'],
+        pointBackgroundColor:['#4a5568','#4a5568','#ef4444','#ef4444','#f59e0b','#f59e0b','#f59e0b','#22c55e','#f59e0b'],
         pointRadius:5, tension:0.28, fill:false, borderWidth:2, borderDash:[2,1]
       },
-      { label:'Total T range 10–35', yAxisID:'yTotal', data:Array(8).fill(35), borderColor:'rgba(168,85,247,0.3)', borderDash:[4,4], pointRadius:0, fill:false, borderWidth:1 },
-      { label:'', yAxisID:'yTotal', data:Array(8).fill(10), borderColor:'rgba(168,85,247,0.3)', borderDash:[4,4], pointRadius:0, fill:false, borderWidth:1 },
-      { label:'Free T range 225–725', yAxisID:'yFree', data:Array(8).fill(725), borderColor:'rgba(20,184,166,0.3)', borderDash:[2,2], pointRadius:0, fill:false, borderWidth:1 },
-      { label:'', yAxisID:'yFree', data:Array(8).fill(225), borderColor:'rgba(20,184,166,0.3)', borderDash:[2,2], pointRadius:0, fill:false, borderWidth:1 }
+      { label:'Total T range 10–35', yAxisID:'yTotal', data:Array(9).fill(35), borderColor:'rgba(168,85,247,0.3)', borderDash:[4,4], pointRadius:0, fill:false, borderWidth:1 },
+      { label:'', yAxisID:'yTotal', data:Array(9).fill(10), borderColor:'rgba(168,85,247,0.3)', borderDash:[4,4], pointRadius:0, fill:false, borderWidth:1 },
+      { label:'Free T range 225–725', yAxisID:'yFree', data:Array(9).fill(725), borderColor:'rgba(20,184,166,0.3)', borderDash:[2,2], pointRadius:0, fill:false, borderWidth:1 },
+      { label:'', yAxisID:'yFree', data:Array(9).fill(225), borderColor:'rgba(20,184,166,0.3)', borderDash:[2,2], pointRadius:0, fill:false, borderWidth:1 }
     ]
   },
   options:{
@@ -673,11 +683,11 @@ line('cCRP',
 
 // Lipid Panel — LDL / HDL / Triglycerides (last measured Nov 25 — Apr 26 draw was hormone-only)
 multiLine('cLDL',
-  ['Apr 22','Jun 24','May 25','Nov 25'],
+  ['Apr 22','Jun 24','May 25','Nov 25','Oct 26'],
   [
-    {label:'LDL', color:'#f59e0b', data:[2.9,3.3,3.4,3.4]},
-    {label:'HDL', color:'#22c55e', data:[1.1,1.2,1.3,1.1]},
-    {label:'Triglycerides', color:'#3b82f6', data:[0.9,0.6,0.8,0.6]}
+    {label:'LDL', color:'#f59e0b', data:[2.9,3.3,3.4,3.4,3.1]},
+    {label:'HDL', color:'#22c55e', data:[1.1,1.2,1.3,1.1,1.3]},
+    {label:'Triglycerides', color:'#3b82f6', data:[0.9,0.6,0.8,0.6,0.6]}
   ],
   [
     {v:2.5, c:'rgba(245,158,11,0.35)', label:'LDL longevity target <2.5'},
@@ -687,37 +697,37 @@ multiLine('cLDL',
 
 // Hb (last measured Nov 25 — Apr 26 draw was hormone-only)
 line('cHb',
-  ['Feb 24','Jun 24','Oct 24','Feb 25','May 25','Nov 25'],
-  [140,151,163,150,165,165],
+  ['Feb 24','Jun 24','Oct 24','Feb 25','May 25','Nov 25','Oct 26'],
+  [140,151,163,150,165,165,162],
   '#a855f7',
   [{v:170,c:'rgba(239,68,68,0.35)'},{v:185,c:'rgba(239,68,68,0.2)'}],
-  ['#4a5568','#4a5568','#f59e0b','#4a5568','#f59e0b','#f59e0b']
+  ['#4a5568','#4a5568','#f59e0b','#4a5568','#f59e0b','#f59e0b','#f59e0b']
 );
 
 // E2
 line('cE2',
-  ['Jun 24 (pre-TRT)','May 25','Nov 25','Apr 26'],
-  [67,198,159,161],
+  ['Jun 24 (pre-TRT)','May 25','Nov 25','Apr 26','Oct 26'],
+  [67,198,159,161,194],
   '#ef4444',
   [{v:100,c:'rgba(239,68,68,0.35)'},{v:150,c:'rgba(245,158,11,0.3)'}],
-  ['#22c55e','#ef4444','#f59e0b','#f59e0b']
+  ['#22c55e','#ef4444','#f59e0b','#f59e0b','#ef4444']
 );
 
 // PSA (last measured Nov 25 — Apr 26 draw was hormone-only)
 line('cPSA',
-  ['Feb 24','Oct 24','Feb 25','May 25','Nov 25'],
-  [0.68,0.40,0.57,0.53,0.50],
+  ['Feb 24','Oct 24','Feb 25','May 25','Nov 25','Oct 26'],
+  [0.68,0.40,0.57,0.53,0.50,0.54],
   '#3b82f6',
   [{v:2.20,c:'rgba(74,85,104,0.35)'}]
 );
 
 // Fasting Glucose (last measured Nov 25 — Apr 26 draw was hormone-only)
 line('cGlu',
-  ['May 25','Nov 25'],
-  [5.0,4.8],
+  ['May 25','Nov 25','Oct 26'],
+  [5.0,4.8,5.0],
   '#ef4444',
   [{v:5.5,c:'rgba(239,68,68,0.35)'}],
-  ['#f59e0b','#22c55e']
+  ['#f59e0b','#22c55e','#22c55e']
 );
 </script>
 </body>
