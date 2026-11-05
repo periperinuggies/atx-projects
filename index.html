@@ -330,58 +330,7 @@
       40%            { background: #6366f1; transform: scale(1.4); }
     }
 
-    /* Ticker */
-    .ticker-outer {
-      margin-bottom: 48px;
-    }
-    .ticker-wrap {
-      overflow: hidden;
-      background: #0d1017;
-      border: 1px solid #1a2035;
-      border-radius: 12px;
-      padding: 12px 0;
-      position: relative;
-    }
-    .ticker-wrap::before,
-    .ticker-wrap::after {
-      content: '';
-      position: absolute;
-      top: 0; bottom: 0;
-      width: 60px;
-      z-index: 2;
-      pointer-events: none;
-    }
-    .ticker-wrap::before { left: 0;  background: linear-gradient(90deg, #0d1017, transparent); }
-    .ticker-wrap::after  { right: 0; background: linear-gradient(-90deg, #0d1017, transparent); }
 
-    .ticker-scroll {
-      display: flex;
-      white-space: nowrap;
-      animation: ticker-move 55s linear infinite;
-      will-change: transform;
-    }
-    .ticker-scroll:hover { animation-play-state: paused; }
-
-    @keyframes ticker-move {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
-    .tick-item {
-      display: inline-flex;
-      flex-direction: column;
-      padding: 2px 22px;
-      border-right: 1px solid #1a2035;
-      min-width: 110px;
-      flex-shrink: 0;
-    }
-    .tick-sym   { font-size: 13px; font-weight: 700; color: #f1f5f9; letter-spacing: 0.4px; }
-    .tick-price { font-size: 12px; color: #94a3b8; }
-    .tick-chg   { font-size: 11px; font-weight: 600; }
-    .tick-up    { color: #10b981; }
-    .tick-dn    { color: #ef4444; }
-    .tick-neu   { color: #64748b; }
-    .tick-loading { color: #374151; font-size: 13px; padding: 4px 20px; }
   </style>
 </head>
 <body>
@@ -396,14 +345,6 @@
         <span class="chm-label">Chappie</span>
         <div class="chm" id="chm-chappie"></div>
       </div>
-      <div class="chm-row">
-        <span class="chm-label">ARGUS</span>
-        <div class="chm" id="chm-argus"></div>
-      </div>
-      <div class="chm-row">
-        <span class="chm-label">PROMETHEUS</span>
-        <div class="chm" id="chm-prometheus"></div>
-      </div>
     </div>
   </div>
 
@@ -413,15 +354,6 @@
     <div class="warmup-sub">Waking up the VM — just a moment</div>
     <div class="warmup-bar-wrap"><div class="warmup-bar" id="warmup-bar"></div></div>
     <div class="warmup-dots"><span></span><span></span><span></span></div>
-  </div>
-
-  <!-- Live Ticker -->
-  <div class="ticker-outer">
-    <div class="ticker-wrap">
-      <div class="ticker-scroll" id="tickerScroll">
-        <span class="tick-loading">Loading live prices…</span>
-      </div>
-    </div>
   </div>
 
   <!-- Larsen Ventures -->
@@ -665,36 +597,6 @@
   </div>
 
   <!-- Old Projects -->
-  <p class="section-label">Old Projects</p>
-  <div class="grid">
-
-    <div class="card c9">
-      <div class="card-top">
-        <span class="emoji">📈</span>
-        <span class="badge">Paper Trial</span>
-      </div>
-      <div class="card-title">ARGUS — Equity Intelligence</div>
-      <p class="card-desc">AI-native US equity trading system. 54-module knowledge base, 44 live data sources, multilingual signal arbitrage (Korean/Chinese/Japanese), SEC 8-K edge monitoring, FRED macro regime gate, RAG memory layer. 19-ticker watchlist. Trial to 23 Apr 2026.</p>
-      <div class="card-footer">
-        <a class="btn btn-live" href="#" onclick="warmup('https://trading.larsenfamily.com.au','ARGUS Dashboard');return false;">🌐 ARGUS Dashboard</a>
-        <a class="btn btn-github" href="https://github.com/periperinuggies" target="_blank">⌥ GitHub</a>
-      </div>
-    </div>
-
-    <div class="card c10">
-      <div class="card-top">
-        <span class="emoji">🔥</span>
-        <span class="badge">Paper Trial</span>
-      </div>
-      <div class="card-title">PROMETHEUS — Prediction Markets</div>
-      <p class="card-desc">Quant sports betting engine for Betfair Exchange. Dixon-Coles probabilistic model, Club Elo + xPTS signal blending, CLV (closing line value) infrastructure, weather & fatigue adjustments, Kelly criterion sizing. EPL live — tennis engine built.</p>
-      <div class="card-footer">
-        <a class="btn btn-paper" href="#" onclick="warmup('https://predictions.larsenfamily.com.au','PROMETHEUS Dashboard');return false;">🔥 PROMETHEUS Dashboard</a>
-      </div>
-    </div>
-
-  </div>
-
   <footer>
     <p>Built & maintained by <a href="https://chappie.larsenfamily.com.au">Chappie</a> · <a href="https://github.com/periperinuggies" target="_blank">periperinuggies</a> · Perth, WA</p>
   </footer>
@@ -720,54 +622,6 @@
     }, 3000);
   }
 
-  const FINNHUB_KEY = "d6vbmq1r01qiiutb7gegd6vbmq1r01qiiutb7gf0";
-  const TICKERS = [
-    "NVDA","MSFT","AVGO","CRWD","META","GOOGL",
-    "AMD","PANW","AMAT","LRCX","ARM","AMZN",
-    "ZS","SNOW","LLY","NVO","KLAC","MDB","S"
-  ];
-
-  function buildItem(sym, price, chg) {
-    const sign  = chg > 0 ? "+" : "";
-    const cls   = chg > 0 ? "tick-up" : chg < 0 ? "tick-dn" : "tick-neu";
-    const arrow = chg > 0 ? "▲" : chg < 0 ? "▼" : "—";
-    return `<div class="tick-item">
-      <span class="tick-sym">${sym}</span>
-      <span class="tick-price">$${price.toFixed(2)}</span>
-      <span class="tick-chg ${cls}">${arrow} ${sign}${chg.toFixed(2)}%</span>
-    </div>`;
-  }
-
-  async function fetchQuote(sym) {
-    try {
-      const r = await fetch(
-        `https://finnhub.io/api/v1/quote?symbol=${sym}&token=${FINNHUB_KEY}`
-      );
-      const d = await r.json();
-      if (!d.c || d.c === 0) return null;
-      const chg = d.dp ?? (d.pc ? ((d.c - d.pc) / d.pc) * 100 : 0);
-      return { sym, price: d.c, chg };
-    } catch { return null; }
-  }
-
-  async function loadTicker() {
-    // Fetch sequentially to respect Finnhub free tier (60 calls/min)
-    const results = [];
-    for (const sym of TICKERS) {
-      const q = await fetchQuote(sym);
-      if (q) results.push(q);
-      await new Promise(r => setTimeout(r, 100)); // 100ms gap between calls
-    }
-    if (!results.length) return;
-
-    const items = results.map(q => buildItem(q.sym, q.price, q.chg)).join("");
-    const scroll = document.getElementById("tickerScroll");
-    scroll.innerHTML = items + items; // double for seamless loop
-    scroll.style.animationDuration = `${results.length * 3}s`;
-  }
-
-  loadTicker();
-  setInterval(loadTicker, 60000);
 
   // Chappie metrics strip — three rows
   async function loadMetrics() {
@@ -804,50 +658,11 @@
         c1.push(item(`↻ ${t}`, m > 40 ? 'chm-err' : ''));
       }
 
-      // ── Row 2: ARGUS ──────────────────────────────────────────────────────
-      const c2 = [];
-      if (d.portfolio_value != null) {
-        const pv = parseFloat(d.portfolio_value).toLocaleString('en-AU', {minimumFractionDigits:0, maximumFractionDigits:0});
-        c2.push(item(`$${pv}`, '', 'Portfolio value'));
-      }
-      if (d.trading_delta != null) {
-        const td = parseFloat(d.trading_delta);
-        const s = td >= 0 ? '+' : '';
-        const c = td > 0 ? 'chm-up' : td < 0 ? 'chm-dn' : '';
-        c2.push(item(`${s}${td.toFixed(2)}%`, c, 'Return'));
-      }
-      if (d.open_positions != null) c2.push(item(`${d.open_positions} pos`));
-      if (d.watchlist_count != null) c2.push(item(`${d.watchlist_count} tickers`));
-      if (d.kb_modules != null) c2.push(item(`${d.kb_modules} KB modules`));
-      if (d.argus_gate != null) {
-        const gc = d.argus_gate === 'PASS' ? 'chm-ok' : 'chm-err';
-        c2.push(item(`Gate: ${d.argus_gate}`, gc));
-      }
-      if (c2.length === 0) c2.push(item('—', 'chm-err'));
-
-      // ── Row 3: PROMETHEUS ─────────────────────────────────────────────────
-      const c3 = [];
-      if (d.prometheus_bets != null) c3.push(item(`${d.prometheus_bets} bets`));
-      if (d.prometheus_pnl != null) {
-        const pnl = parseFloat(d.prometheus_pnl);
-        const s = pnl >= 0 ? '+' : '';
-        c3.push(item(`P&L ${s}£${Math.abs(pnl).toFixed(2)}`, pnl > 0 ? 'chm-up' : pnl < 0 ? 'chm-dn' : ''));
-      }
-      if (d.prometheus_markets != null) c3.push(item(`${d.prometheus_markets} markets`));
-      if (d.prometheus_gate != null) {
-        const gc = d.prometheus_gate === 'PASS' ? 'chm-ok' : 'chm-err';
-        c3.push(item(`Gate: ${d.prometheus_gate}`, gc));
-      }
-      if (d.prometheus_next_event != null) c3.push(item(`Next: ${d.prometheus_next_event}`));
-      if (c3.length === 0) c3.push(item('Paper mode — first data Apr 10', ''));
-
       const set = (id, parts) => {
         const el = document.getElementById(id);
         if (el && parts.length) el.innerHTML = parts.join(sep);
       };
       set('chm-chappie',   c1);
-      set('chm-argus',     c2);
-      set('chm-prometheus', c3);
     } catch(e) {}
   }
   loadMetrics();
